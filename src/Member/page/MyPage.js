@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 
-function MyPage(props){
-    const [user, setUser] = useState();
+import UserInfo from "../components/UserInfo";
 
+function MyPage(props){
     useEffect(()=>{
         axios.get("user/1")
         .then((response)=>{
@@ -14,8 +14,7 @@ function MyPage(props){
     }, []);
 
     return (
-        <div>
-        </div>
+        <UserInfo props={response} />
     )
 }
 
