@@ -1,9 +1,10 @@
 import './App.css';
+import MyPage from './Member/page/MyPage';
 
 function App() {
   return (
     <div className="App">
-      울프 첫 페이지입니다.
+      <MyPage />
     </div>
   );
 }
