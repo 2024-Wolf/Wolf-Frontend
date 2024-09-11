@@ -1,5 +1,6 @@
+import React from "react";
+
 function UserInfo(props){
-    const [user, setUser] = useState();
 
     return(
         <div>
