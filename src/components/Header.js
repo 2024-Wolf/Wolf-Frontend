@@ -9,7 +9,7 @@ const HeaderContainer = styled.header`
   justify-content: space-between;
   align-items: center;
   padding: 30px 35px;
-  background: #FCFCFC;
+  background: var(--black000);
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
 `;
 
@@ -31,18 +31,18 @@ const Button = styled.button`
 `;
 
 const DarkBackgroundButton = styled(Button)`
-  background: #8578D8;
-  color: #FAF9FF;
+  background: var(--violet600);
+  color: var(--violet000);
 
   // Hover effect
   &:hover {
-    background-color: #685EA8;
+    background-color: var(--violet700);
     transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   // Active (마우스 클릭 또는 모바일 터치) effect
   &:active {
-    background-color: #685EA8;
+    background-color: var(--violet700);
     transition: background-color 0.1s ease, color 0.1s ease;
   }
 
@@ -52,20 +52,20 @@ const DarkBackgroundButton = styled(Button)`
 `;
 
 const LightBackgroundButton = styled(Button)`
-  background: #F2F0FF;
-  color: #838586;
+  background: var(--violet100);
+  color: var(--black500);
 
   // Hover effect
   &:hover {
-    color: #685EA8;
-    background-color: #E5E1FF;
+    color: var(--violet700);
+    background-color: var(--violet200);
     transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   // Active (마우스 클릭 또는 모바일 터치) effect
   &:active {
-    color: #685EA8;
-    background-color: #E5E1FF;
+    color: var(--violet700);
+    background-color: var(--violet200);
     transition: background-color 0.1s ease, color 0.1s ease;
   }
 
@@ -76,18 +76,18 @@ const LightBackgroundButton = styled(Button)`
 
 const NoBackgroundButton = styled(Button)`
   background: none;
-  color: #838586;
+  color: var(--black500);
 
   // Hover effect
   &:hover {
-    color: #555;
+    color: var(--black600);
     background-color: rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   // Active (마우스 클릭 또는 모바일 터치) effect
   &:active {
-    color: #333;
+    color: var(--black800);
     background-color: rgba(0, 0, 0, 0.2);
     transition: background-color 0.1s ease, color 0.1s ease;
   }
@@ -100,7 +100,7 @@ const NoBackgroundButton = styled(Button)`
 const LogoM = styled.div`
   font-family: "Kavoon";
   font-size: 32px;
-  color: #111111;
+  color: var(--black900);
   cursor: pointer;
 `;
 
