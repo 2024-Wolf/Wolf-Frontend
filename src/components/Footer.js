@@ -7,7 +7,7 @@ const FooterContainer = styled.footer`
   flex-direction: column;
   gap: 35px;
   padding: 30px 35px;
-  background: #F2F0FF;
+  background: var(--violet100);
 `;
 
 const FooterContent = styled.div`
@@ -23,7 +23,7 @@ const FooterContent = styled.div`
 
 const FooterText = styled.div`
   font-size: 14px;
-  color: #838586;
+  color: var(--black500);
   line-height: 150%;
   @media (max-width: 768px) {
     font-size: 130%;
@@ -35,12 +35,12 @@ const FooterLinks = styled.div`
   align-items: center;
   font-size: 16px;
   font-weight: 700;
-  color: #49494A;
+  color: var(--black700);
 `;
 
 const NoBackgroundButton = styled.button`
   background: none;
-  color: #838586;
+  color: var(--black500);
   border: none;
   cursor: pointer;
   font-weight: 700;
@@ -53,13 +53,13 @@ const NoBackgroundButton = styled.button`
   
   // Hover effect
   &:hover {
-    color: #555;
+    color: var(--black600);
     transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   // Active (마우스 클릭 또는 모바일 터치) effect
   &:active {
-    color: #333;
+    color: var(--black800);
     background-color: rgba(0, 0, 0, 0.2);
     transition: background-color 0.1s ease, color 0.1s ease;
   }
@@ -72,7 +72,7 @@ const NoBackgroundButton = styled.button`
 const LogoS = styled.div`
     font-family: "Kavoon";
     font-size: 24px;
-    color: #49494A;
+    color: var(--black700);
 
   @media (max-width: 768px) {
     font-size: 1.2rem;
