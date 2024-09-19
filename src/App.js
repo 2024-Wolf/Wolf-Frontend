@@ -1,10 +1,11 @@
 import './App.css';
-import MyPage from './pages/MyPage';
+import GroupChallenge from './pages/GroupChallenge';
+
 
 function App() {
   return (
     <div className="App">
-      <MyPage />
+      <GroupChallenge />
     </div>
   );
 }

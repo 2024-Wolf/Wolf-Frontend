@@ -9,7 +9,6 @@ const MainContents = styled.div`
   flex-direction: column;
   margin: 50px 0px;
   gap: 50px;
-  
 `;
 
 function MainContent(props) {
