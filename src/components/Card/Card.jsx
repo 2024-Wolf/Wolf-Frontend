@@ -13,7 +13,7 @@ const CardContainer = styled.div`
     width: 100%;
     max-width: 240px;
     height: 250px;
-    border: 1px solid #838586;
+    border: 0.5px solid var(--black300);
     border-radius: 30px;
     background-color: #ffffff;
     position: relative;
@@ -26,11 +26,14 @@ const CardContainer = styled.div`
 
     /* 반응형 미디어 쿼리 */
     @media (max-width: 768px) {
+        
         max-width: 200px; /* 태블릿 화면에서는 카드 크기를 줄임 */
         height: 220px;
     }
 
     @media (max-width: 480px) {
+        justify-items: center;
+        
         max-width: 160px; /* 모바일 화면에서는 카드 크기를 더 줄임 */
         height: 180px;
     }
@@ -91,7 +94,7 @@ const Tags = styled.div`
     }
 `;
 
-const StudyCard = ({ category, title, deadline, challenge, tags, icons, profile }) => {
+const Card = ({ category, title, deadline, challenge, tags, icons, profile }) => {
     return (
         <CardContainer>
             <Category category={category} />
@@ -115,4 +118,4 @@ const StudyCard = ({ category, title, deadline, challenge, tags, icons, profile 
     );
 };
 
-export default StudyCard;
+export default Card;

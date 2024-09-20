@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 const TagContainer = styled.span`
-    background-color: var(--violet500);
-    color: white;
+    background-color: var(--violet100);
+    color: var(--violet700);
     border-radius: 10px;
     padding: 4px 8px;
     font-size: 12px;

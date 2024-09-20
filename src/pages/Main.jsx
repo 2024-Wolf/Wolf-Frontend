@@ -4,6 +4,7 @@ import Footer from "../components/Footer";
 import BannerSlider from "../components/Banner/BannerSlider";
 import Category from "../components/Category/Category";
 import styled from "styled-components";
+import MainCardList from "../components/Main/MainCardList";
 
 
 const MainContents = styled.div`
@@ -15,13 +16,16 @@ const MainContents = styled.div`
     margin: 50px auto;
     max-width: 1300px; /* 최대 너비를 1300px로 설정 (변경 가능성 O)*/
     gap: 50px;
+    padding: 0 20px;
 
     @media (max-width: 768px) {
+        padding: 0 15px;
         margin: 50px auto;
         gap: 30px;
     }
 
     @media (max-width: 480px) {
+        padding: 0 10px;
         margin: 30px auto;
         gap: 20px;
     }
@@ -51,6 +55,9 @@ const Main = () => {
                     categories={categories}
                     activeCategory={activeCategory}
                     setActiveCategory={setActiveCategory}
+                />
+                <MainCardList
+                    category={activeCategory}
                 />
             </MainContents>
             <Footer/>
