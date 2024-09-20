@@ -35,7 +35,6 @@ const MainContents = styled.div`
 
 const SearchContainer = styled.div`
     width: 100%;
-    max-width: max-content;
     display: flex;
     justify-content: space-between;
 `;
