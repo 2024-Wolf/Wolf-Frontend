@@ -3,20 +3,31 @@ import styled from 'styled-components';
 
 // Styled Components 정의
 const CategoryWrapper = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid #eaeaea;
+    width:100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eaeaea;
 `;
 
 const CategoryItem = styled.div`
-  margin-right: 25px;
-  font-size: 22px;
-  font-weight: 700;
-  color: ${(props) => (props.$isActive ? 'var(--black700)' : 'var(--black400)')};
-  cursor: pointer;
-  transition: color 0.3s;
+    margin-right: 25px;
+    font-size: 22px;
+    font-weight: 700;
+    color: ${({$isActive}) => ($isActive ? 'var(--black700)' : 'var(--black400)')};
+    cursor: pointer;
+    transition: color 0.3s;
+    
+    @media (max-width: 768px) {
+        font-size: 14px;
+        margin-right: 20px;
+    }
+    
+    @media (max-width: 480px) {
+        font-size: 12px;
+        margin-right: 15px;
+    }
 `;
 
 
