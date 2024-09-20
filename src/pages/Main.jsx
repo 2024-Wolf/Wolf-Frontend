@@ -6,7 +6,7 @@ import Category from "../components/Category/Category";
 import styled from "styled-components";
 import MainCardList from "../components/Main/MainCardList";
 import SearchBar from "../components/SearchBar/SearchBar";
-import Button from "../components/SearchBar/Button";
+import ButtonContainer from "../components/SearchBar/ButtonContainer";
 
 
 const MainContents = styled.div`
@@ -66,7 +66,7 @@ const Main = () => {
                     setActiveCategory={setActiveCategory}
                 />
                 <SearchContainer>
-                    <Button/>
+                    <ButtonContainer/>
                     <SearchBar/>
                 </SearchContainer>
                 <MainCardList

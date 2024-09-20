@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from "styled-components";
+import DateButton from "../DateInputButton/DateButton";
 
 const OptionButton = styled.button`
     background-color: white;
@@ -24,12 +25,19 @@ const OptionButton = styled.button`
     }
 `;
 
+const Button = styled.div`
+    display: flex;
+    gap: 10px;
+`;
 
 
-const Button = () => {
+const ButtonContainer = () => {
     return (
-        <OptionButton> 모집중인 글만 보기 </OptionButton>
+        <Button>
+            <DateButton/>
+            <OptionButton> 모집중인 글만 보기 </OptionButton>
+        </Button>
     )
 }
 
-export default Button;
+export default ButtonContainer;

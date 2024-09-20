@@ -32,7 +32,7 @@ const CategoryTag = styled.span`
     position: absolute;
     top: 10px;
     left: 10px;
-    z-index: 1;
+    z-index: 0.5;
 `;
 
 
