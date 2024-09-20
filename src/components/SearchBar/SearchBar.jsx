@@ -11,7 +11,8 @@ const InputContainer = styled.div`
     background-color: var(--black200);
     padding: 10px;
     border-radius: 30px;
-    min-width: 240px;
+    
+    min-width: 300px;
     
     @media (max-width: 768px) {
         min-width: 180px;
@@ -26,7 +27,6 @@ const InputContainer = styled.div`
 
 const SearchInput = styled.input`
     width: 100%;
-    max-width: 360px;
     border: none;
     color: var(--black700);
     background-color: var(--black200);
