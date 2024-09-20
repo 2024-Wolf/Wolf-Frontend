@@ -7,7 +7,7 @@ function MyPage(props){
     const [user, setUser] = useState();
 
     useEffect(()=>{
-        axios.get("localhost:8080/api/v1/user/1")
+        axios.get("http://localhost:8080/api/v1/user/1")
         .then((response)=>{
             console.log(response);
         })
