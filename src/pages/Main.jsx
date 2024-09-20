@@ -5,6 +5,8 @@ import BannerSlider from "../components/Banner/BannerSlider";
 import Category from "../components/Category/Category";
 import styled from "styled-components";
 import MainCardList from "../components/Main/MainCardList";
+import SearchBar from "../components/SearchBar/SearchBar";
+import Button from "../components/SearchBar/Button";
 
 
 const MainContents = styled.div`
@@ -31,6 +33,14 @@ const MainContents = styled.div`
     }
 `;
 
+const SearchContainer = styled.div`
+    width: 100%;
+    max-width: max-content;
+    display: flex;
+    justify-content: space-between;
+`;
+
+
 
 const Main = () => {
     const banners = [
@@ -56,6 +66,10 @@ const Main = () => {
                     activeCategory={activeCategory}
                     setActiveCategory={setActiveCategory}
                 />
+                <SearchContainer>
+                    <Button/>
+                    <SearchBar/>
+                </SearchContainer>
                 <MainCardList
                     category={activeCategory}
                 />

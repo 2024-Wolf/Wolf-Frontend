@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import Tag from './Tag';
-import Icon from './Icon';
 import Profile from './Profile';
 import Category from './Category';
+import Icon from "../Icon/Icon";
 
 const CardContainer = styled.div`
     box-sizing: border-box;
