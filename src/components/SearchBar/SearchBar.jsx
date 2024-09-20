@@ -5,12 +5,23 @@ import Icon from "../Icon/Icon";
 const InputContainer = styled.div`
     display: flex;
     justify-content: flex-start;
+    align-items: center;
     gap: 10px;
     
     background-color: var(--black200);
     padding: 10px;
-    
     border-radius: 30px;
+    min-width: 240px;
+    
+    @media (max-width: 768px) {
+        min-width: 180px;
+        padding: 8px;
+    }
+
+    @media (max-width: 480px) {
+        min-width: 100px;
+        padding: 5px;
+    }
 `;
 
 const SearchInput = styled.input`
@@ -19,6 +30,8 @@ const SearchInput = styled.input`
     border: none;
     color: var(--black700);
     background-color: var(--black200);
+
+
 `;
 
 
