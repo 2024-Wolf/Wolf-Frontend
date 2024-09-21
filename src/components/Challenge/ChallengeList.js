@@ -16,11 +16,17 @@ const Category = styled.div`
 `;
 
 const Items = styled.div`
-    width: 100%;
     display: flex;
     flex-wrap: wrap;
-    gab: 15px;
     margin: 20px auto;
+    gap: 50px;
+    @media (max-width: 768px) {
+        gap: 30px;
+    }
+
+    @media (max-width: 480px) {
+        gap: 15px;
+    }
 `;
 
 function ChallengeList(props){
