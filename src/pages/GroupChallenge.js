@@ -1,6 +1,6 @@
 import React from "react";
 import styled from 'styled-components';
-import ChallengeList from '../components/ChallengeList';
+import ChallengeList from '../components/Challenge/ChallengeList';
 
 const Container = styled.div`
     width: 100%;
@@ -26,10 +26,18 @@ const StudyName = styled.div`
 
 const LeaderProfile = styled.div`
     width: 18%;
-    height: 40px;
     margin: 0px auto;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    @media (max-width: 768px) {
+        gap: 10px;
+    }
+
+    @media (max-width: 480px) {
+        gap: 5px;
+    }
 `;
 
 const StudyTab = styled.div`
@@ -63,7 +71,7 @@ function GroupChallenge(props){
                 파이널 스터디 - 지금2조
             </StudyName>
             <LeaderProfile>
-                <img style={{ borderRadius:"50%", height:"100%"}} src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" alt="profile"/>
+                <img style={{ borderRadius:"50%", width:"50px"}} src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" alt="profile"/>
                 <span style={{ fontWeight:"bold", lineHeight:"40px" }}>myeongju</span><span style={{ lineHeight:"40px" }}>평가점수지표</span>
             </LeaderProfile>
             <StudyTab>

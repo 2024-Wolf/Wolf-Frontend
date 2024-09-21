@@ -17,9 +17,9 @@ const Category = styled.div`
 
 const Items = styled.div`
     width: 100%;
-    height: 200px;
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    gab: 15px;
     margin: 20px auto;
 `;
 

@@ -5,6 +5,7 @@ import WebFont from "webfontloader";
 const Container = styled.div`
     width: 220px;
     height: 200px;
+    margin: 0px 15px;
     border: 1px solid #838586;
     border-radius: 30px;
     overflow: hidden;
