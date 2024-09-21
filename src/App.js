@@ -1,11 +1,11 @@
 import './App.css';
-import GroupChallenge from './pages/GroupChallenge';
+import Main from "./pages/Main";
 
 
 function App() {
   return (
     <div className="App">
-      <GroupChallenge />
+      <Main />
     </div>
   );
 }
