@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import WebFont from "webfontloader";
 
@@ -21,6 +21,7 @@ const Top = styled.div`
     font-size: 35px;
     color: #666869;
     line-height: 90px;
+    text-align: center;
 `;
 
 const Bottom = styled.div`
@@ -44,6 +45,7 @@ const Date = styled.div`
     color: #838586;
     font-size: 11px;
     margin-bottom: 5px;
+    text-align: center;
 `;
 
 const Button = styled.div`
@@ -56,6 +58,7 @@ const Button = styled.div`
     font-weight: bold;
     font-size: 14px;
     line-height: 25px;
+    text-align: center;
 
     &:hover{
         background: #B3A8FF;
@@ -64,19 +67,26 @@ const Button = styled.div`
 `;
 
 function ChallengeListItem(props){
+    let topBgColor = props.category == "완료" ? "#B3B4B4" : "#F2F0FF";
+    
 
-    let topBgColor = props.category === '완료' ? '#B3B4B4' : '#F2F0FF';
-
+    // Kavoon font 불러오기
     useEffect(() => {
         WebFont.load({
           google: {
             families: ['Kavoon']
           }
         });
+
       }, []);
 
+    const handleButton = (e) => {
+        e.stopPropagation();
+        props.clickFunc();
+    }
+
     return(
-        <Container onClick={()=>{alert("챌린지 아이템 클릭")}}>
+        <Container>
             <Top style={{background:topBgColor}}>
                 WOLF
             </Top>
@@ -86,7 +96,7 @@ function ChallengeListItem(props){
                     <span>등록일 | 2024.09.15</span>
                     <span style={{float: 'right', clear:'both'}}>마감일 | 2024.12.15</span>
                 </Date>
-                <Button onClick={(e)=>{e.stopPropagation(); alert(props.buttonText);}}>
+                <Button onClick={handleButton}>
                     {props.buttonText}
                 </Button>
             </Bottom>

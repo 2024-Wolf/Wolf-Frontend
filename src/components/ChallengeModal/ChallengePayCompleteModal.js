@@ -94,7 +94,7 @@ function ChallengePayCompleteModal(props){
                 </ModalBody>
                 <ModalFooter>
                     <Buttons>
-                        <CancelButton>닫기</CancelButton>
+                        <CancelButton onClick={()=>{props.clickFunc()}}>닫기</CancelButton>
                     </Buttons>
                 </ModalFooter>
             </Modal>
