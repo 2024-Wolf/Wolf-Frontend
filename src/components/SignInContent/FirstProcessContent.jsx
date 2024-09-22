@@ -69,6 +69,7 @@ const OptionButtonWrapper = styled.div`
     display: flex;
     align-items: center;
     margin-bottom: 10px;
+    margin-right: 5px;
     gap: 5px;
 `;
 
