@@ -1,5 +1,7 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+
 
 const HeaderContainer = styled.header`
   margin: auto;
@@ -104,13 +106,16 @@ const LogoM = styled.div`
   cursor: pointer;
 `;
 
+
 function Header(props) {
+  const navigate = useNavigate();
+  
   return (
     <HeaderContainer>
       <LogoM onClick={() => alert('메인화면 이동')}>WOLF</LogoM>
       <HeaderContent>
         <DarkBackgroundButton onClick={() => alert('팀원 모집하기')}>팀원 모집하기</DarkBackgroundButton>
-        <LightBackgroundButton onClick={() => alert('FAQ')}>FAQ</LightBackgroundButton>
+        <LightBackgroundButton onClick={() => navigate('/faq')}>FAQ</LightBackgroundButton>
         <NoBackgroundButton onClick={() => alert('로그인/회원가입')}>로그인/회원가입</NoBackgroundButton>
       </HeaderContent>
     </HeaderContainer>
