@@ -1,18 +1,10 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import styled,{ css } from "styled-components";
 import WhiteInputBox from "./Input/WhiteInputBox";
 import ActivityScoreBar from "./ActivityScore/ActivityScoreBar";
 import RegularIcon from "./Icon/RegularIcon";
 
-const Wrapper = styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding: 25px 35px;
-    background-color: var(--violet000);
-    border: 1px solid var(--violet400);
-
+const responsivePadding = css`
     @media (max-width: 768px) {
         padding: 15px;
     }
@@ -22,11 +14,30 @@ const Wrapper = styled.div`
     }
 `;
 
+const responsiveFontSize = css`
+    @media (max-width: 480px) {
+        font-size: 12px;
+    }
+`;
+
+const Wrapper = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 50px 35px;
+    background-color: var(--violet000);
+    border: 1px solid var(--violet400);
+    ${responsivePadding}
+`;
+
 const Row = styled.div`
     display: flex;
     justify-content: space-between;
     gap: 20px;
+`;
 
+const ContentsRow = styled(Row)`
     @media (max-width: 768px) {
         flex-direction: column;
     }
@@ -51,14 +62,7 @@ const ContentsWrapper = styled.div`
     gap: 20px;
     display: flex;
     flex-direction: column;
-
-    @media (max-width: 768px) {
-        padding: 15px;
-    }
-
-    @media (max-width: 480px) {
-        padding: 10px;
-    }
+    ${responsivePadding}
 `;
 
 const SubContentsWrapper = styled(ContentsWrapper)`
@@ -77,10 +81,7 @@ const SubTitle = styled.h2`
     font-size: 24px;
     font-weight: 500;
     color: var(--black800);
-
-    @media (max-width: 480px) {
-        font-size: 20px;
-    }
+    ${responsiveFontSize}
 `;
 
 const InputLabel = styled.label`
@@ -96,10 +97,7 @@ const InputLabel = styled.label`
 const Description = styled.div`
     font-size: 14px;
     color: var(--black800);
-
-    @media (max-width: 480px) {
-        font-size: 12px;
-    }
+    ${responsiveFontSize}
 `;
 
 const ToggleBox = styled.input.attrs({ type: "select" })`
@@ -127,99 +125,139 @@ const TextArea = styled.textarea`
         font-size: 14px;
     }
 
-    @media (max-width: 480px) {
-        font-size: 12px;
-    }
+    ${responsiveFontSize}
 `;
 
 const LinkRow = styled(Row)`
     align-items: center;
 `;
 
+const Button = styled.button`
+    border-radius: 10px;
+    padding: 15px 50px;
+    font-size: 16px;
+    font-weight: 700;
+
+    @media (max-width: 768px) {
+        padding: 12px 40px;
+        font-size: 14px;
+    }
+
+    ${responsiveFontSize}
+`;
+
+const UpdateButton = styled(Button)`
+    border: 1px solid var(--violet500);
+    background-color: var(--violet500);
+    color: white;
+`;
+
+const CancelButton = styled(Button)`
+    border: 1px solid var(--violet800);
+    background-color: var(--violet000);
+    color: var(--violet800);
+`;
+
+const ButtonContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+
+    @media (max-width: 768px) {
+        gap: 15px;
+    }
+
+    @media (max-width: 480px) {
+        flex-direction: column;
+        gap: 10px;
+    }
+`;
 const UserInfo = () => {
-    const [name, setName] = useState("홍길동");
-    const [nickname, setNickname] = useState("nickname");
-    const [account, setAccount] = useState("account");
-    const [job, setJob] = useState("job");
-    const [company, setCompany] = useState("company");
-    const [career, setCareer] = useState("career");
-    const [introduce, setIntroduce] = useState("안녕하세요 자기소개 입니다. 반갑습니다.");
+    const [userInfo, setUserInfo] = useState({
+        name: "홍길동",
+        nickname: "nickname",
+        account: "account",
+        job: "job",
+        company: "company",
+        career: "career",
+        introduce: "안녕하세요 자기소개 입니다. 반갑습니다.",
+        email: "test@gmail.com"
+    });
+
+    const handleInputChange = (field, value) => {
+        setUserInfo(prev => ({
+            ...prev,
+            [field]: value
+        }));
+    };
+
+    const InputField = ({ label, field, isActive = true }) => (
+        <>
+            <InputLabel>{label}</InputLabel>
+            <WhiteInputBox
+                isActive={isActive}
+                value={userInfo[field]}
+                onChange={(e) => handleInputChange(field, e.target.value)}
+            />
+        </>
+    );
 
     return (
         <Wrapper>
-            <Row>
+            <ContentsRow>
                 <SubContentsWrapper>
                     <SubTitle>기본 정보</SubTitle>
-                    <Row>
+                    <ContentsRow>
                         <Column>
-                            <InputLabel>이메일</InputLabel>
-                            <WhiteInputBox
-                                isActive={false}
-                                value={"test@gmail.com"}
-                            />
-                            <InputLabel>이름</InputLabel>
-                            <WhiteInputBox
-                                isActive={true}
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                            />
-                            <InputLabel>닉네임</InputLabel>
-                            <WhiteInputBox
-                                isActive={true}
-                                value={nickname}
-                                onChange={(e) => setNickname(e.target.value)}
-                            />
+                            <InputField label="이메일" field="email" isActive={false} />
+                            <InputField label="이름" field="name" />
+                            <InputField label="닉네임" field="nickname" />
                             <Description>사용 가능한 닉네임입니다.</Description>
                         </Column>
                         <Column>
                             <InputLabel>활동 점수</InputLabel>
                             <ActivityScoreBar />
                         </Column>
-                    </Row>
+                    </ContentsRow>
                     <InputLabel>환불 계좌</InputLabel>
-                    <Row>
+                    <ContentsRow>
                         <ToggleBox />
                         <WhiteInputBox
                             isActive={true}
-                            value={account}
-                            onChange={(e) => setAccount(e.target.value)}
+                            value={userInfo.account}
+                            onChange={(e) => handleInputChange("account", e.target.value)}
                         />
-                    </Row>
+                    </ContentsRow>
                 </SubContentsWrapper>
+
                 <SubContentsWrapper>
                     <SubTitle>기본 정보</SubTitle>
-                    <InputLabel> 직무 </InputLabel>
-                    <WhiteInputBox
-                        isActive={true}
-                        value={job}
-                        onChange={(e) => setJob(e.target.value)}
-                    />
-                    <InputLabel> 소속 </InputLabel>
-                    <WhiteInputBox
-                        isActive={true}
-                        value={company}
-                        onChange={(e) => setCompany(e.target.value)}
-                    />
-                    <InputLabel> 경력 </InputLabel>
-                    <WhiteInputBox
-                        isActive={true}
-                        value={career}
-                        onChange={(e) => setCareer(e.target.value)}
-                    />
+                    <InputField label="직무" field="job" />
+                    <InputField label="소속" field="company" />
+                    <InputField label="경력" field="career" />
                 </SubContentsWrapper>
-            </Row>
+            </ContentsRow>
+
             <EtcContentsWrapper>
                 <SubTitle>기타 정보</SubTitle>
                 <InputLabel>자기 소개</InputLabel>
                 <TextArea
-                    value={introduce}
-                    onChange={(e) => setIntroduce(e.target.value)}
+                    value={userInfo.introduce}
+                    onChange={(e) => handleInputChange("introduce", e.target.value)}
                 />
                 <LinkRow>
-                    <RegularIcon src={"https://cdn-icons-png.flaticon.com/512/25/25231.png"} alt={"github"} />
+                    <RegularIcon
+                        src={"https://cdn-icons-png.flaticon.com/512/25/25231.png"}
+                        alt={"github"}
+                    />
                     <WhiteInputBox />
                 </LinkRow>
             </EtcContentsWrapper>
+
+            <ButtonContainer>
+                <UpdateButton>업데이트</UpdateButton>
+                <CancelButton>탈퇴하기</CancelButton>
+            </ButtonContainer>
         </Wrapper>
     );
 };

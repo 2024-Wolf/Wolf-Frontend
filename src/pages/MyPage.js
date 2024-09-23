@@ -19,13 +19,11 @@ const MyPageContainer = styled.div`
     @media (max-width: 768px) {
         padding: 0 15px;
         margin: 50px auto;
-        gap: 30px;
     }
 
     @media (max-width: 480px) {
         padding: 0 10px;
         margin: 30px auto;
-        gap: 20px;
     }
 `;
 
