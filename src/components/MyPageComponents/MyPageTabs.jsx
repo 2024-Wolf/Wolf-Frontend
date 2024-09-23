@@ -15,7 +15,6 @@ const TabList = [
 
 const MyPageTabs = ({tab}) => {
 
-
     return(
         <TabContainer>
             {TabList.map((tabName) => (

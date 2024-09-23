@@ -23,7 +23,7 @@ const TabButton = ({ children, onClick, isActive }) => {
     console.log(typeof isActive)
     console.log(isActive)
     return (
-        {isActive} ? (
+        isActive ? (
             <ActiveTabButtonContainer onClick={onClick}>
                 {children}
             </ActiveTabButtonContainer>
