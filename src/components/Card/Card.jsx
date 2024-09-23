@@ -62,8 +62,8 @@ const CardInfo = styled.div`
 
 const CardTitle = styled.p`
     font-size: 18px;
+    font-weight: 500;
     color: #333;
-    font-weight: bold;
     text-align: left;
     margin-bottom: 10px;
 
