@@ -149,7 +149,9 @@ const ThirdProcessContent = () => {
 
                 )) || []}
             </ButtonGroup>
-            <NextButton/>
+            <NextButton>
+                다음
+            </NextButton>
         </ContentWrapper>
     )
 }

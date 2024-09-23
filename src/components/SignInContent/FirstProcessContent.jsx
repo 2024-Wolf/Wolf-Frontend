@@ -128,7 +128,9 @@ const FirstProcessContent = () => {
                 </Row>
                 <InputBox/>
             </InputWrapper>
-            <NextButton />
+            <NextButton>
+                다음
+            </NextButton>
         </ContentWrapper>
     )
 }

@@ -31,10 +31,12 @@ const Button = styled.button`
     }
 `;
 
-const NextButton = () => {
+const NextButton = ({children}) => {
     return (
-        <Button>다음</Button>
-    )
+        <Button>
+            {children}
+        </Button>
+    );
 }
 
 export default NextButton;
