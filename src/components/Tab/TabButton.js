@@ -14,7 +14,7 @@ const ActiveTabButtonContainer = styled.button`
     width: calc(100% / 3);
     font-weight: 500;
     padding: 15px;
-    background-color: var(--violet100);
+    background-color: var(--violet000);
     border: 1px solid var(--violet300);
 `;
 
