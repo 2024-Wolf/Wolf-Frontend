@@ -22,7 +22,7 @@ const ModalWrapper = styled.div`
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
+    max-width: 550px;
     width: 100%;
     text-align: center;
 `;

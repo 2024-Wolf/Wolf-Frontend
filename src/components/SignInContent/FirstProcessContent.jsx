@@ -3,24 +3,12 @@ import StatusButton from "./components/StatusButton";
 import styled from "styled-components";
 import InputBox from "./components/InputBox";
 import NextButton from "./components/NextButton";
+import SubTitle from "./components/SubTitle";
 
 const ContentWrapper = styled.div`
     display: flex;
     flex-direction: column;
     gap: 20px;
-`;
-
-const SubTitle = styled.div`
-    font-size: 20px;
-    color: var(--black800);
-    line-height: 1.5;
-    @media (max-width: 768px) {
-        font-size: 18px;
-    }
-
-    @media (max-width: 480px) {
-        font-size: 16px;
-    }
 `;
 
 const Row = styled.div`
@@ -65,7 +53,7 @@ const InputWrapper = styled.div`
     align-items: flex-start;
 `;
 
-const OptionButtonWrapper = styled.div`
+const ButtonWrapper = styled.div`
     display: flex;
     align-items: center;
     margin-bottom: 10px;
@@ -73,7 +61,7 @@ const OptionButtonWrapper = styled.div`
     gap: 5px;
 `;
 
-const OptionButtonLabel = styled.label`
+const RadioButtonLabel = styled.label`
     font-size: 16px;
     color: var(--black800);
 
@@ -86,7 +74,7 @@ const OptionButtonLabel = styled.label`
     }
 `;
 
-const OptionButton = styled.input.attrs({ type: "radio" })`
+const RadioButton = styled.input.attrs({ type: "radio" })`
     cursor: pointer;
     appearance: none;
     border: 2px solid var(--violet500);
@@ -115,8 +103,7 @@ const FirstProcessContent = () => {
     return (
         <ContentWrapper>
             <StatusButton nowIndex={0}/>
-            <SubTitle>업무 분야와 경력에 맞춰<br/>
-                딱 맞는 정보를 추천해드릴게요!</SubTitle>
+            <SubTitle title={"업무 분야와 경력에 맞춰 \n 딱 맞는 정보를 추천해드릴게요!"}/>
             <Row>
                 <InputWrapper>
                     <InputLabel>직무를 입력해주세요</InputLabel>
@@ -131,17 +118,17 @@ const FirstProcessContent = () => {
             <InputWrapper>
                 <Row>
                     <InputLabel>소속을 입력해주세요</InputLabel>
-                    <OptionButtonWrapper>
-                        <OptionButton id="public" name="visibility" />
-                        <OptionButtonLabel htmlFor="public">공개</OptionButtonLabel>
+                    <ButtonWrapper>
+                        <RadioButton id="public" name="visibility" />
+                        <RadioButtonLabel htmlFor="public">공개</RadioButtonLabel>
 
-                        <OptionButton id="private" name="visibility" />
-                        <OptionButtonLabel htmlFor="private">비공개</OptionButtonLabel>
-                    </OptionButtonWrapper>
+                        <RadioButton id="private" name="visibility" />
+                        <RadioButtonLabel htmlFor="private">비공개</RadioButtonLabel>
+                    </ButtonWrapper>
                 </Row>
                 <InputBox/>
             </InputWrapper>
-            <NextButton/>
+            <NextButton />
         </ContentWrapper>
     )
 }
