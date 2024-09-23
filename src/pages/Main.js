@@ -51,10 +51,6 @@ const Main = () => {
     const categories = ["전체", "프로젝트", "스터디"];
     const [activeCategory, setActiveCategory] = useState('전체');
 
-    useEffect(() => {
-        console.log('Active Category:', activeCategory);
-    }, [activeCategory]);
-
     return (
         <>
             <Header/>

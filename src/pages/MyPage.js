@@ -6,6 +6,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import MyPageTabs from "../components/MyPageComponents/MyPageTabs";
 import NotificationContent from "../components/MyPageComponents/NotificationContent";
+import ActivitiesContent from "../components/MyPageComponents/ActivitiesContent";
 
 const MyPageContainer = styled.div`
     display: flex;
@@ -46,7 +47,7 @@ const MyPage = () => {
             case "알림":
                 return <NotificationContent/>
             case "활동":
-                return <>활동 내역 페이지</>;
+                return <ActivitiesContent/>
             default:
                 return null;
         }

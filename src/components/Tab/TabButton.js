@@ -16,6 +16,10 @@ const ActiveTabButtonContainer = styled.button`
     padding: 15px;
     background-color: var(--violet000);
     border: 1px solid var(--violet300);
+    //border-bottom: 2px solid var(--violet300);
+    //border-top: 1px solid var(--black100);
+    //border-left: 1px solid var(--black100);
+    //border-right: 1px solid var(--black100);
 `;
 
 

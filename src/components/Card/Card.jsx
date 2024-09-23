@@ -94,7 +94,56 @@ const Tags = styled.div`
     }
 `;
 
-const Card = ({ category, title, deadline, challenge, tags, icons, profile }) => {
+const BottomInfo = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5px;
+
+    @media (max-width: 768px) {
+        margin-top: 3px;
+    }
+
+    @media (max-width: 480px) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+`;
+
+const Date = styled.div`
+    font-size: 12px;
+
+    @media (max-width: 768px) {
+        font-size: 11px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 10px;
+    }
+`;
+
+const Button = styled.button`
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: var(--violet000);
+    border: 1px solid var(--violet400);
+    color: var(--black700);
+    font-size: 12px;
+
+    @media (max-width: 768px) {
+        padding: 4px 8px;
+        font-size: 11px;
+    }
+
+    @media (max-width: 480px) {
+        width: 100%;
+        padding: 3px 6px;
+        font-size: 10px;
+    }
+`;
+
+const Card = ({ category, title, deadline, challenge, tags, icons, profile, applicationDate, joinDate, buttonText}) => {
     return (
         <CardContainer>
             <Category category={category} />
@@ -112,7 +161,18 @@ const Card = ({ category, title, deadline, challenge, tags, icons, profile }) =>
                         <Tag key={idx} tag ={tag}/>
                     ))}
                 </Tags>
-                <Profile imgSrc={profile.imgSrc} name={profile.name} />
+                {profile? (
+                        <Profile imgSrc={profile.imgSrc} name={profile.name} />
+                    ): null
+                }
+                <BottomInfo>
+                    {applicationDate ? (
+                        <Date>{`신청일: ${applicationDate}`}</Date>
+                    ) : joinDate ? (
+                        <Date>{`합류일: ${joinDate}`}</Date>
+                    ) : null}
+                    {buttonText && <Button>{buttonText}</Button>}
+                </BottomInfo>
             </CardBody>
         </CardContainer>
     );

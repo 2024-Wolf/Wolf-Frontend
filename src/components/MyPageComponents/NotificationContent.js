@@ -64,7 +64,7 @@ const NotificationEvent = styled.div`
     }
 
     @media (max-width: 480px) {
-        flex-direction: column; /* 작은 화면에서는 수직 정렬 */
+        flex-direction: column; 
         align-items: flex-start;
         padding: 5px;
     }
