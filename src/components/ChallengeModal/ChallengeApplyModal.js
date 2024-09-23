@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from 'styled-components';
+
+import ChallengePayModal from "./ChallengePayModal";
 
 const Container = styled.div`
     position: fixed;
@@ -65,13 +67,15 @@ const ChallengeFee = styled.div`
     padding: 20px 30px;
 `;
 
-const FeeInput = styled.div`
+const FeeInput = styled.input.attrs({
+    type: 'text'
+  })`
     width: 200px;
     height: 50px;
     line-height: 50px;
     text-align: center;
     font-size: 20px;
-    color: #e2e3e3;
+    color: #2E2E2E;
     border: 1px solid #9787FF;
     margin-left: 20px;
 `;
@@ -112,10 +116,19 @@ const ApplyButton = styled.div`
 `;
 
 function ChallengeApplyModal(props){
+    const [modalOn, setModalOn] = useState(false);
 
+    const handleCancel = (e) => {
+        props.clickFunc();
+    }
+
+    const handleApply = (e) => {
+        setModalOn(!modalOn);
+    }
 
     return(
         <Container>
+            {modalOn && <ChallengePayModal clickFunc={props.clickFunc} handlePay={()=>{setModalOn(!modalOn)}} />}
             <Modal>
                 <ModalHeader>
                     <Category>챌린지 신청하기</Category>
@@ -146,13 +159,11 @@ function ChallengeApplyModal(props){
                 <ModalFooter>
                     <ChallengeFee>
                         <span style={{fontSize:'25px'}}>인당 참가비 설정</span>
-                        <FeeInput>
-                            0 ~ 30,000원
-                        </FeeInput>
+                        <FeeInput placeholder="0 ~ 30, 000원" />
                     </ChallengeFee>
                     <Buttons>
-                        <CancelButton>취소하기</CancelButton>
-                        <ApplyButton>신청하기</ApplyButton>
+                        <CancelButton onClick={handleCancel}>취소하기</CancelButton>
+                        <ApplyButton onClick={handleApply}>신청하기</ApplyButton>
                     </Buttons>
                 </ModalFooter>
             </Modal>

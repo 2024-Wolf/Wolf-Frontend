@@ -116,6 +116,10 @@ const AuthButton = styled.div`
 `;
 
 function ChallengeAuthModal(props){
+    
+    const handleCancel = (e) => {
+        props.clickFunc();
+    }
 
     return(
         <Container>
@@ -153,8 +157,8 @@ function ChallengeAuthModal(props){
                 </ModalBody>
                 <ModalFooter>
                     <Buttons>
-                        <CancelButton>취소하기</CancelButton>
-                        <AuthButton>인증하기</AuthButton>
+                        <CancelButton onClick={handleCancel}>취소하기</CancelButton>
+                        <AuthButton onClick={handleCancel}>인증하기</AuthButton>
                     </Buttons>
                 </ModalFooter>
             </Modal>

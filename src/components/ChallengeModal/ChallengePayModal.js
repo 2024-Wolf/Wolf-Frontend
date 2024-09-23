@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+
+import ChallengePayCompleteModal from "./ChallengePayCompleteModal";
 
 const Container = styled.div`
     position: fixed;
@@ -59,6 +61,8 @@ const ModalFooter = styled.div`
 
 const Buttons = styled.div`
     width: 100%;
+    display: flex;
+    justify-content: center;
 `;
 
 const CancelButton = styled.div`
@@ -68,33 +72,46 @@ const CancelButton = styled.div`
     background: #FCFCFC;
     border: 1px solid #9787FF;
     text-align: center;
-    margin: 0px auto;
     &:hover{
         cursor: pointer;
         background: #F2F0FF;
     }
 `;
 
-function ChallengePayCompleteModal(props){
+const PayButton = styled.div`
+    width: 100px;
+    height: 30px;
+    line-height: 30px;
+    background: #FCFCFC;
+    border: 1px solid #9787FF;
+    text-align: center;
+    margin-left: 20px;
+    &:hover{
+        cursor: pointer;
+        background: #F2F0FF;
+    }
+`;
+
+function ChallengePayModal(props){
+
+    const [completeModalOn, setCompleteModalOn] = useState();
 
     return(
         <Container>
+            {completeModalOn && <ChallengePayCompleteModal clickFunc={props.clickFunc} />}
             <Modal>
                 <ModalHeader>
                     <Category>챌린지 결제하기</Category>
                 </ModalHeader>
                 <ModalBody>
                     <p style={{fontSize:'25px'}}>파이널 스터디 - 지금2조</p>
-                    <p style={{fontSize:'36px', marginTop:'60px', fontWeight:'bold'}}>결제 완료</p>
-                    <p style={{fontSize:'25px', marginTop:'60px'}}>
-                        결제가 완료되었습니다.<br /><br />
-                        이제부터 챌린지에 도전합니다.<br /><br />
-                        화이팅!
-                    </p>
+                    <p style={{fontSize:'36px', marginTop:'60px', fontWeight:'bold'}}>기사 자격증 취득 챌린지</p>
+                    <input type="text" style={{fontSize:'36px', marginTop:'60px', textAlign:'center'}} placeholder="0 ~ 30,000원" />
                 </ModalBody>
                 <ModalFooter>
                     <Buttons>
-                        <CancelButton>닫기</CancelButton>
+                        <CancelButton onClick={() => {props.handlePay()}}>취소하기</CancelButton>
+                        <PayButton onClick={()=>{setCompleteModalOn(!completeModalOn)}}>결제하기</PayButton>
                     </Buttons>
                 </ModalFooter>
             </Modal>
@@ -102,4 +119,4 @@ function ChallengePayCompleteModal(props){
     )
 }
 
-export default ChallengePayCompleteModal;
+export default ChallengePayModal;

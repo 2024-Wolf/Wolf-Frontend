@@ -59,8 +59,6 @@ const ModalFooter = styled.div`
 
 const Buttons = styled.div`
     width: 100%;
-    display: flex;
-    justify-content: center;
 `;
 
 const CancelButton = styled.div`
@@ -70,27 +68,14 @@ const CancelButton = styled.div`
     background: #FCFCFC;
     border: 1px solid #9787FF;
     text-align: center;
+    margin: 0px auto;
     &:hover{
         cursor: pointer;
         background: #F2F0FF;
     }
 `;
 
-const PayButton = styled.div`
-    width: 100px;
-    height: 30px;
-    line-height: 30px;
-    background: #FCFCFC;
-    border: 1px solid #9787FF;
-    text-align: center;
-    margin-left: 20px;
-    &:hover{
-        cursor: pointer;
-        background: #F2F0FF;
-    }
-`;
-
-function ChallengePayModal(props){
+function ChallengePayCompleteModal(props){
 
     return(
         <Container>
@@ -100,13 +85,16 @@ function ChallengePayModal(props){
                 </ModalHeader>
                 <ModalBody>
                     <p style={{fontSize:'25px'}}>파이널 스터디 - 지금2조</p>
-                    <p style={{fontSize:'36px', marginTop:'60px', fontWeight:'bold'}}>기사 자격증 취득 챌린지</p>
-                    <p style={{fontSize:'36px', marginTop:'60px'}}><span style={{fontWeight:'bold'}}>30,000</span> 원</p>
+                    <p style={{fontSize:'36px', marginTop:'60px', fontWeight:'bold'}}>결제 완료</p>
+                    <p style={{fontSize:'25px', marginTop:'60px'}}>
+                        결제가 완료되었습니다.<br /><br />
+                        이제부터 챌린지에 도전합니다.<br /><br />
+                        화이팅!
+                    </p>
                 </ModalBody>
                 <ModalFooter>
                     <Buttons>
-                        <CancelButton>취소하기</CancelButton>
-                        <PayButton>결제하기</PayButton>
+                        <CancelButton onClick={()=>{props.clickFunc()}}>닫기</CancelButton>
                     </Buttons>
                 </ModalFooter>
             </Modal>
@@ -114,4 +102,4 @@ function ChallengePayModal(props){
     )
 }
 
-export default ChallengePayModal;
+export default ChallengePayCompleteModal;

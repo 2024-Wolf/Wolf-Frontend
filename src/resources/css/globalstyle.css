@@ -73,14 +73,14 @@ section {
 }
 
 
-/* 기본 폰트 설정 */
+/* 공통 폰트 설정 _ (수정본) 기존 코드 반영이 안됨*/
 html * {
     font-family: "Pretendard", serif;
     font-weight: 400;
     font-style: normal;
 }
 
-/* 부트스트랩 컨테이너 패딩 삭제 */
-.container {
-    padding: 0;
-}
+@import url('https://webfontworld.github.io/pretendard/Pretendard.css');
+
+/* Header, Footer 폰트 _(수정본) 기존 코드 적용 안됨*/
+@import url('https://fonts.googleapis.com/css2?family=Kavoon&display=swap');

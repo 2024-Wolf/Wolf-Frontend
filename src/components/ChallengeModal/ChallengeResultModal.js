@@ -107,6 +107,10 @@ const CancelButton = styled.div`
 
 function ChallengeResultModal(props){
 
+    const handleCancel = (e) => {
+        props.clickFunc();
+    }
+
     return(
         <Container>
             <Modal>
@@ -142,7 +146,7 @@ function ChallengeResultModal(props){
                 </ModalBody>
                 <ModalFooter>
                     <Buttons>
-                        <CancelButton>닫기</CancelButton>
+                        <CancelButton onClick={handleCancel}>닫기</CancelButton>
                     </Buttons>
                 </ModalFooter>
             </Modal>
