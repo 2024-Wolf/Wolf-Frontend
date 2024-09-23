@@ -1,9 +1,9 @@
 import React from "react";
-import StatusButton from "./components/StatusButton";
+import StatusButton from "./Components/StatusButton";
 import styled from "styled-components";
-import InputBox from "./components/InputBox";
-import NextButton from "./components/NextButton";
-import SubTitle from "./components/SubTitle";
+import InputBox from "./Components/InputBox";
+import NextButton from "./Components/NextButton";
+import SubTitle from "./Components/SubTitle";
 
 const ContentWrapper = styled.div`
     display: flex;

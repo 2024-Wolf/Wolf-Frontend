@@ -1,11 +1,12 @@
 import React from "react";
+import MyPageTabs from "./MyPageComponents/MyPageTabs";
 
-function UserInfo(props){
+const UserInfo = () => {
 
     return(
-        <div>
-            
-        </div>
+        <>
+          <MyPageTabs/>
+        </>
     )
 }
 

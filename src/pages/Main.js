@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import BannerSlider from "../components/Banner/BannerSlider";
+import BannerSlider from "../components/MainPageComponents/Banner/BannerSlider";
 import Category from "../components/Category/Category";
 import styled from "styled-components";
-import MainCardList from "../components/Main/MainCardList";
-import SearchBar from "../components/SearchBar/SearchBar";
-import ButtonContainer from "../components/SearchBar/ButtonContainer";
+import MainCardList from "../components/MainPageComponents/MainCardList";
+import SearchBar from "../components/MainPageComponents/SearchBar/SearchBar";
+import ButtonContainer from "../components/MainPageComponents/SearchBar/ButtonContainer";
 
 
 const MainContents = styled.div`

@@ -133,7 +133,7 @@ export default AlramPreview;
 // 테스트
 
 /* import React from 'react';
-import AlramPreview from './components/AlramPreview';
+import AlramPreview from './Components/AlramPreview';
 
 const notifications = [
   { id: 1, date: '2024-09-18' }, 

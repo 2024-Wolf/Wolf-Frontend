@@ -164,7 +164,7 @@ export default Declaration;
 
 /* 
 import React, { useState } from 'react';
-import Declaration from './components/Declaration'; 
+import Declaration from './Components/Declaration';
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
