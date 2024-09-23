@@ -5,7 +5,7 @@ const Button = styled.button`
     min-width: calc(100% / ${({ buttonCount }) => buttonCount} - 15px);
     border: 1px solid var(--violet500);
     border-radius: 20px;
-    padding: 15px 15px;
+    padding: 15px 10px;
     background-color: ${({ selected }) => (selected ? "var(--black700)" : "#fff")};
     color: ${({ selected }) => (selected ? "#fff" : "var(--black500)")};
     cursor: pointer;
@@ -30,14 +30,9 @@ const Button = styled.button`
 `;
 
 const OptionButton = ({ label, count, selected, onClick }) => {
-    const [buttonCount, setButtonCount] = useState(2);
-
-    if(count !== 2) {
-        setButtonCount(3);
-    }
     return (
         <Button
-            buttonCount={buttonCount}
+            buttonCount={count}
             selected={selected}
             onClick={onClick}
         >
