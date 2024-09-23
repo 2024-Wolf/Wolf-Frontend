@@ -15,13 +15,11 @@ const ActiveTabButtonContainer = styled.button`
     font-weight: 500;
     padding: 15px;
     background-color: var(--violet100);
-    border: 1px solid var(--violet200);
+    border: 1px solid var(--violet300);
 `;
 
 
-const TabButton = ({ children, onClick, isActive }) => {
-    console.log(typeof isActive)
-    console.log(isActive)
+const TabButton = ({ children, isActive, onClick }) => {
     return (
         isActive ? (
             <ActiveTabButtonContainer onClick={onClick}>

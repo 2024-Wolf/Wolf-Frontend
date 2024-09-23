@@ -14,7 +14,6 @@ const MyPageContainer = styled.div`
     flex-direction: column;
     margin: 50px auto;
     max-width: 1300px; /* 최대 너비를 1300px로 설정 (변경 가능성 O)*/
-    gap: 50px;
     padding: 0 20px;
 
     @media (max-width: 768px) {
@@ -34,19 +33,33 @@ const Title = styled.h1`
   text-align: left;
   font-weight: bold;
   font-size: 2.5rem;
-  color: #333;
-  margin: 30px 0px;
+  color: var(--black800);
+  margin: 30px 0;
 `;
 
 const MyPage = () => {
-    const [user, setUser] = useState();
+    const [activeTab, setActiveTab] = useState("계정");
+
+    const renderTabContent = () => {
+        switch(activeTab) {
+            case "계정":
+                return <UserInfo/>;
+            case "알림":
+                return <>알림 설정 페이지</>;
+            case "활동":
+                return <>활동 내역 페이지</>;
+            default:
+                return null;
+        }
+    };
 
     return (
         <>
             <Header/>
             <MyPageContainer>
                 <Title>MyPage</Title>
-                <MyPageTabs tab={"계정"}/>
+                <MyPageTabs tab={activeTab} setActiveTab={setActiveTab}/>
+                {renderTabContent()}
             </MyPageContainer>
             <Footer/>
         </>

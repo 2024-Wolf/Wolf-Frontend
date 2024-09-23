@@ -13,12 +13,18 @@ const TabList = [
     "활동"
 ]
 
-const MyPageTabs = ({tab}) => {
-
+const MyPageTabs = ({tab, setActiveTab}) => {
+    const handleTabClick = (tabName) => {
+        setActiveTab(tabName);
+    }
     return(
         <TabContainer>
             {TabList.map((tabName) => (
-                <TabButton isActive={tabName === tab}>
+                <TabButton
+                    key={tabName}
+                    isActive={tabName === tab}
+                    onClick={()=> handleTabClick(tabName)}
+                >
                     {tabName}
                 </TabButton>
             ))}

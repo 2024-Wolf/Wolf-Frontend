@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Tag from './Tag';
 import Profile from './Profile';
 import Category from './Category';
-import Icon from "../Icon/Icon";
+import MiniIcon from "../Icon/MiniIcon";
 
 const CardContainer = styled.div`
     box-sizing: border-box;
@@ -106,7 +106,7 @@ const Card = ({ category, title, deadline, challenge, tags, icons, profile }) =>
                 <CardTitle>{title}</CardTitle>
                 <Tags>
                     {icons.map((icon, idx) => (
-                        <Icon key={idx} src={icon.src} alt={icon.alt} />
+                        <MiniIcon key={idx} src={icon.src} alt={icon.alt} />
                     ))}
                     {tags.map((tag, idx) => (
                         <Tag key={idx} tag ={tag}/>

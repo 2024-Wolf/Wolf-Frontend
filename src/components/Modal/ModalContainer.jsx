@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Icon from "../Icon/Icon";
+import MiniIcon from "../Icon/MiniIcon";
 
 const Overlay = styled.div`
     position: fixed;
@@ -44,7 +44,7 @@ const ModalContainer = ({ children, onClose }) => {
         <Overlay onClick={onClose}>
             <ModalWrapper onClick={(e) => e.stopPropagation()}>
                 <CloseButton onClick={onClose}>
-                    <Icon src="CloseIcon.png" alt="closeBtn"/>
+                    <MiniIcon src="CloseIcon.png" alt="closeBtn"/>
                 </CloseButton>
                 <ModalContent>{children}</ModalContent>
             </ModalWrapper>

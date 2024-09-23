@@ -1,7 +1,7 @@
 import React from "react";
 import StatusButton from "./Components/StatusButton";
 import styled from "styled-components";
-import InputBox from "./Components/InputBox";
+import WhiteInputBox from "../Input/WhiteInputBox";
 import NextButton from "./Components/NextButton";
 import SubTitle from "./Components/SubTitle";
 
@@ -51,7 +51,7 @@ const FourthProcessContent = () => {
             <StatusButton nowIndex={3}/>
             <SubTitle title={"닉네임을 입력해주세요."}/>
             <InputWrapper>
-                <InputBox/>
+                <WhiteInputBox isActive = {true}/>
                 <InputLabel>사용 가능한 닉네임입니다.</InputLabel>
             </InputWrapper>
             <NextButton>

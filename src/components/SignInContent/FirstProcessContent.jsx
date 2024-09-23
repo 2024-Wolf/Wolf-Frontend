@@ -1,7 +1,7 @@
 import React from "react";
 import StatusButton from "./Components/StatusButton";
 import styled from "styled-components";
-import InputBox from "./Components/InputBox";
+import WhiteInputBox from "../Input/WhiteInputBox";
 import NextButton from "./Components/NextButton";
 import SubTitle from "./Components/SubTitle";
 
@@ -107,11 +107,11 @@ const FirstProcessContent = () => {
             <Row>
                 <InputWrapper>
                     <InputLabel>직무를 입력해주세요</InputLabel>
-                    <InputBox/>
+                    <WhiteInputBox isActive = {true}/>
                 </InputWrapper>
                 <InputWrapper>
                     <InputLabel>경력을 입력해주세요</InputLabel>
-                    <InputBox/>
+                    <WhiteInputBox isActive = {true}/>
                 </InputWrapper>
             </Row>
 
@@ -126,7 +126,7 @@ const FirstProcessContent = () => {
                         <RadioButtonLabel htmlFor="private">비공개</RadioButtonLabel>
                     </ButtonWrapper>
                 </Row>
-                <InputBox/>
+                <WhiteInputBox isActive = {true}/>
             </InputWrapper>
             <NextButton>
                 다음
