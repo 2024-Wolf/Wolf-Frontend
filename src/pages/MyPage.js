@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 
-import UserInfo from "../components/UserInfo";
+import UserInfoContent from "../components/MyPageComponents/UserInfoContent";
 import styled from "styled-components";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import MyPageTabs from "../components/MyPageComponents/MyPageTabs";
+import NotificationContent from "../components/MyPageComponents/NotificationContent";
 
 const MyPageContainer = styled.div`
     display: flex;
@@ -41,9 +42,9 @@ const MyPage = () => {
     const renderTabContent = () => {
         switch(activeTab) {
             case "계정":
-                return <UserInfo/>;
+                return <UserInfoContent/>;
             case "알림":
-                return <>알림 설정 페이지</>;
+                return <NotificationContent/>
             case "활동":
                 return <>활동 내역 페이지</>;
             default:

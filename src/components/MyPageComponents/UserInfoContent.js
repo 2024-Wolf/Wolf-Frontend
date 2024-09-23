@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import styled,{ css } from "styled-components";
-import WhiteInputBox from "./Input/WhiteInputBox";
-import ActivityScoreBar from "./ActivityScore/ActivityScoreBar";
-import RegularIcon from "./Icon/RegularIcon";
+import WhiteInputBox from "../Input/WhiteInputBox";
+import ActivityScoreBar from "../ActivityScore/ActivityScoreBar";
+import RegularIcon from "../Icon/RegularIcon";
 
 const responsivePadding = css`
     @media (max-width: 768px) {
@@ -172,7 +172,7 @@ const ButtonContainer = styled.div`
         gap: 10px;
     }
 `;
-const UserInfo = () => {
+const UserInfoContent = () => {
     const [userInfo, setUserInfo] = useState({
         name: "홍길동",
         nickname: "nickname",
@@ -262,4 +262,4 @@ const UserInfo = () => {
     );
 };
 
-export default UserInfo;
+export default UserInfoContent;
