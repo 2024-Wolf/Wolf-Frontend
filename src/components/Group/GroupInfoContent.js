@@ -236,7 +236,6 @@ const GroupInfoContent = ({ mode }) => {
                     handleQuestionSubmit={handleQuestionSubmit}
                     showFileOptions={false}
                 />
-
                 {/* 질문 목록 */}
                 <QuestionList
                     questions={questions}

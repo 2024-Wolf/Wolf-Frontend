@@ -9,7 +9,7 @@ const QuestionList = ({
                       handleFileChange,
                       handleQuestionEdit,
                       handleQuestionDelete,
-                      showFileOptions
+                      showFileOptions = true
                   }) => {
     return (
         <>

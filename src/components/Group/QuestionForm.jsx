@@ -55,7 +55,7 @@ const FileInputButton = styled.label`
   }
 `;
 
-const QuestionForm = ({ newPost, setNewPost, newPostFile, setNewPostFile, handlePostSubmit, showFileOptions}) => {
+const QuestionForm = ({ newPost, setNewPost, newPostFile, setNewPostFile, handlePostSubmit, showFileOptions = true}) => {
     return (
         <QuestionFormContainer onSubmit={handlePostSubmit}>
             <TextArea

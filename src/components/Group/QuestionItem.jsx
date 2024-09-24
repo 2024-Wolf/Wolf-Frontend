@@ -2,26 +2,45 @@ import React from 'react';
 import styled from 'styled-components';
 
 const QuestionItemContainer = styled.div`
-      background-color: #ffffff;
+    background-color: white;
       padding: 15px;
       border-radius: 3px;
       margin-bottom: 20px;
 `;
 
 const ActionButtons = styled.div`
-    background-color: #ffffff;
-    
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-      margin-top: 10px;
+    background-color: white;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    button {
+        background-color: white;
+    }
 `;
 
-const CommentAuthor = styled.div`
-      font-weight: bold;
-      color: #333;
-      display: flex;
-      align-items: center;
+const QuestionContent = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 25px;
+    
+`;
+
+const QuestionText = styled.div`
+    font-size: 16px;
+`;
+
+const QuestionDate = styled.div`
+    font-size: 14px;
+    color: var(--black500);
+`;
+
+const QuestionAuthor = styled.div`
+    font-weight: bold;
+    color: #333;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
 `;
 
 const ProfileIcon = styled.img`
@@ -44,22 +63,25 @@ const QuestionItem = ({
 
     return (
         <QuestionItemContainer>
-            <CommentAuthor>
+            <QuestionAuthor>
                 <ProfileIcon
                     src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
                     alt="Profile"
                 />
                 {question.author}
-            </CommentAuthor>
-            <p>{question.text}</p>
-            {question.file && (
-                <img
-                    src={URL.createObjectURL(question.file)}
-                    alt="첨부 이미지"
-                    style={{ maxWidth: '100px' }}
-                />
-            )}
-            <div>{question.date}</div>
+            </QuestionAuthor>
+            <QuestionContent>
+                <QuestionText>{question.text}</QuestionText>
+                {question.file && (
+                    <img
+                        src={URL.createObjectURL(question.file)}
+                        alt="첨부 이미지"
+                        style={{ maxWidth: '100px' }}
+                    />
+                )}
+                <QuestionDate>{question.date}</QuestionDate>
+            </QuestionContent>
+
 
             <ActionButtons>
                 {showFileOptions && question.file && (
