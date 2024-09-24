@@ -9,11 +9,10 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Modal from 'react-modal';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import TabContentsWrapper from "./TabContentsWrapper";
 
-const TodoContainer = styled.div`
+const TodoContainer = styled(TabContentsWrapper)`
   padding: 20px;
-  background-color: #F2F0FF;
-  border-radius: 8px;
 `;
 
 const TodoHeader = styled.div`

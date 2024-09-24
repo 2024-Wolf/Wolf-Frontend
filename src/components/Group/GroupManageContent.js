@@ -1,19 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import ApplicantConfirmModal from "./GroupInfoModal/ApplicantConfirmModal";
+import TabContentsWrapper from "../TabContentsWrapper";
 
 //전체 div
-const Container = styled.div`
-    
-    width: 100%;
-    background-color: var(--violet200);
+const Container = styled(TabContentsWrapper)`
     padding: 20px;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 `;
 
 // 섹션
@@ -263,7 +257,6 @@ const Wrapper = styled.div`
 const Select = styled.select`
     padding: 10px;
     margin-bottom: 15px;
-    border: 1px solid #ccc;
     border-radius: 5px;
     border: 2px solid var(--violet500); /* 테두리 추가 */
 `;
@@ -321,251 +314,252 @@ const ApplicantSection = styled.section`
 `;
 
 const GroupManageContent = (props) => {
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
-  const [deadLineDate, setDeadLineDate] = useState();
-  const [introduce, setIntroduce] = useState('');
-  const [clickedButtons, setClickedButtons] = useState([true, true, true, false, false, false, true, false]);
-  const [isModalOpen, setModalOpen] = useState(false);
+    const [startDate, setStartDate] = useState();
+    const [endDate, setEndDate] = useState();
+    const [deadLineDate, setDeadLineDate] = useState();
+    const [introduce, setIntroduce] = useState('');
+    const [clickedButtons, setClickedButtons] = useState([true, true, true, false, false, false, true, false]);
+    const [isModalOpen, setModalOpen] = useState(false);
 
-  const memberData = [
-      { id: 1, name: "강민철", role: "프론트엔드개발자", position: "모집장" },
-      { id: 2, name: "김영희", role: "백엔드개발자", position: "모집원" },
-      { id: 3, name: "이철수", role: "기획자", position: "모집장" },
-      { id: 4, name: "박민지", role: "프론트엔드개발자", position: "모집원" },
-      // 다른 사용자 데이터 추가
-  ];
+    const memberData = [
+        { id: 1, name: "강민철", role: "프론트엔드개발자", position: "모집장" },
+        { id: 2, name: "김영희", role: "백엔드개발자", position: "모집원" },
+        { id: 3, name: "이철수", role: "기획자", position: "모집장" },
+        { id: 4, name: "박민지", role: "프론트엔드개발자", position: "모집원" },
+        // 다른 사용자 데이터 추가
+    ];
 
-  const applicantData = [
-      {id: 1, name: "박가현", role: "프론트엔드개발자", date: "2024.09.10"},
-      {id: 2, name: "강감찬", role: "기획자", date: "2024.09.11"},
-      {id: 3, name: "김가네", role: "백엔드개발자", date: "2024.09.12"},
-  ];
+    const applicantData = [
+        {id: 1, name: "박가현", role: "프론트엔드개발자", date: "2024.09.10"},
+        {id: 2, name: "강감찬", role: "기획자", date: "2024.09.11"},
+        {id: 3, name: "김가네", role: "백엔드개발자", date: "2024.09.12"},
+    ];
 
-  const handleStartDate = (e) => {
-      setStartDate(e.target.value);
-  }
+    const handleStartDate = (e) => {
+        setStartDate(e.target.value);
+    }
 
-  const handleEndDate = (e) => {
-      setEndDate(e.target.value);
-  }
+    const handleEndDate = (e) => {
+        setEndDate(e.target.value);
+    }
 
-  const handledeadLineDate = (e) => {
-      setDeadLineDate(e.target.value);
-  }
+    const handledeadLineDate = (e) => {
+        setDeadLineDate(e.target.value);
+    }
 
-  const handleIntroduce = (e) => {
-      setIntroduce(e.target.value);
-  } 
+    const handleIntroduce = (e) => {
+        setIntroduce(e.target.value);
+    }
 
-  // 버튼 클릭 시 상태를 토글하는 함수 (특정 버튼은 항상 true로 유지)
-  const toggleButtonClick = (index) => {
-      setClickedButtons((prevState) => {
-          const newState = [...prevState];
+    // 버튼 클릭 시 상태를 토글하는 함수 (특정 버튼은 항상 true로 유지)
+    const toggleButtonClick = (index) => {
+        setClickedButtons((prevState) => {
+        const newState = [...prevState];
 
-          // 첫 번째, 두 번째, 세 번째, 일곱 번째 버튼은 항상 true로 유지
-          if (index === 0 || index === 1 || index === 2 || index === 6) {
-              newState[index] = true;
-          } else {
-              newState[index] = !newState[index]; // 나머지 버튼은 토글 가능
-          }
+        // 첫 번째, 두 번째, 세 번째, 일곱 번째 버튼은 항상 true로 유지
+        if (index === 0 || index === 1 || index === 2 || index === 6) {
+            newState[index] = true;
+        } else {
+            newState[index] = !newState[index]; // 나머지 버튼은 토글 가능
+        }
 
-          return newState;
-      });
-  };
+        return newState;
+        });
+    };
 
-  const openModal = () => {
-      setModalOpen(true);
-  };
+    const openModal = () => {
+        setModalOpen(true);
+    };
 
-  const closeModal = () => {
-      setModalOpen(false);
-  };
+    const closeModal = () => {
+        setModalOpen(false);
+    };
 
-  return (
-      <>
-      <Container>
+    return (
+        <Container>
 
-          <Section>
-              <Title>모집 기본 정보</Title>
-              <RecruitDate>
-                      <div>
-                      <label>모임 구분</label>
-                          <Select>
-                          <option value="study">스터디</option>
-                          <option value="project">프로젝트</option>
-                          </Select>
-                      </div>
-                      <div>
-                      <label>모집기간</label>
-                      <input type="date" value={startDate} onChange={handleStartDate}/>~<input type="date" value={endDate} onChange={handleEndDate}/>
-                      </div>
-                      <div>
-                      <label>모집마감일</label>
-                      <input type="date" value={deadLineDate} onChange={handledeadLineDate}/>
-                      </div>
-                      
-              </RecruitDate>
+            <Section>
+                <Title>모집 기본 정보</Title>
+                <RecruitDate>
+                    <div>
+                        <label>모임 구분</label>
+                        <Select>
+                            <option value="study">스터디</option>
+                            <option value="project">프로젝트</option>
+                        </Select>
+                    </div>
+                    <div>
+                        <label>모집기간</label>
+                        <input type="date" value={startDate} onChange={handleStartDate}/>~<input type="date"
+                                                                                                 value={endDate}
+                                                                                                 onChange={handleEndDate}/>
+                    </div>
+                    <div>
+                        <label>모집마감일</label>
+                        <input type="date" value={deadLineDate} onChange={handledeadLineDate}/>
+                    </div>
 
-                  <IntroduceDiv>
-                      <label>모집한줄소개</label>
-                      <input type="text" value={introduce} onChange={handleIntroduce}/>
-                  </IntroduceDiv>
-              
-              
-              <SubTitle>이메일, 지원직군, 지원사유는 필수입니다. 정보를 많이 요청시, 지원율이 떨어집니다. 필수값만 지정해주세요!</SubTitle>
+                </RecruitDate>
 
-              <SupportInput>
-                  <label>지원시 입력사항</label>
-                  {/* 버튼 리스트: 클릭 상태에 따라 색상 변화 */}
-                  {["이메일", "지원직군", "지원사유", "다를 수 있는 언어", "참여가능 요일", "자기소개", "포트폴리오 링크", "자유기재"].map(
-                      (item, index) => (
-                          <button
-                              key={index}
-                              onClick={() => toggleButtonClick(index)}
-                              style={{
-                                  backgroundColor: clickedButtons[index] ? "black" : "white",
-                                  color: clickedButtons[index] ? "white" : "black",
-                              }}
-                          >
-                              {item}
-                          </button>
-                      )
-                  )}
-              </SupportInput>
-              
-              <TagDiv>
-                  <label>태그</label>
-                  <input type="text" />
-              </TagDiv>
+                <IntroduceDiv>
+                    <label>모집한줄소개</label>
+                    <input type="text" value={introduce} onChange={handleIntroduce}/>
+                </IntroduceDiv>
 
-              {/* 모집직군 : 프로젝트시에만 보여짐
-              스터디는 총 모집 인원만 수정 가능
-              이미 모집이 완료된 인원 수는 줄일 수 없음. */}
 
-              <Wrapper>
-                  <div>
-                      <label>모집직군</label>
-                      <Select defaultValue="">
-                              <option value="frontEnd">프론트엔드개발자</option>
-                              <option value="backEnd">백엔드개발자</option>
-                              <option value="planner">기획자</option>
-                              <option value="designer">디자이너</option>
-                          </Select>
-                  </div>
+                <SubTitle>이메일, 지원직군, 지원사유는 필수입니다. 정보를 많이 요청시, 지원율이 떨어집니다. 필수값만 지정해주세요!</SubTitle>
 
-                  <div>
-                      <label>직군 별 모집인원</label>
-                      <Select defaultValue="">
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                          <option value="4">4</option>
-                          <option value="5">5</option>
-                          <option value="6">6</option>
-                          <option value="7">7</option>
-                          <option value="8">8</option>
-                      </Select>
-                  </div>
-                  
-                  {/* <AddButton>
-                      <Button>추가</Button>
-                      <Button>삭제</Button>
-                  </AddButton> */}
+                <SupportInput>
+                    <label>지원시 입력사항</label>
+                    {/* 버튼 리스트: 클릭 상태에 따라 색상 변화 */}
+                    {["이메일", "지원직군", "지원사유", "다를 수 있는 언어", "참여가능 요일", "자기소개", "포트폴리오 링크", "자유기재"].map(
+                        (item, index) => (
+                            <button
+                                key={index}
+                                onClick={() => toggleButtonClick(index)}
+                                style={{
+                                    backgroundColor: clickedButtons[index] ? "black" : "white",
+                                    color: clickedButtons[index] ? "white" : "black",
+                                }}
+                            >
+                                {item}
+                            </button>
+                        )
+                    )}
+                </SupportInput>
 
-                  <div>
-                      <label>총 모집 인원</label>
-                      <Select defaultValue="">
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                          <option value="4">4</option>
-                          <option value="5">5</option>
-                          <option value="6">6</option>
-                          <option value="7">7</option>
-                          <option value="8">8</option>
-                      </Select>
-                  </div>
+                <TagDiv>
+                    <label>태그</label>
+                    <input type="text"/>
+                </TagDiv>
 
-                  <div>
-                      <label>썸네일</label>
-                      <input type = "file" accept = "image/*"/>
-                  </div>
-              </Wrapper>
-              
-          </Section>
+                {/* 모집직군 : 프로젝트시에만 보여짐
+          스터디는 총 모집 인원만 수정 가능
+          이미 모집이 완료된 인원 수는 줄일 수 없음. */}
 
-          <Section>
-              <IntroductionTitle>모임 소개</IntroductionTitle>
-              <SubjectTitle>
-                  <label>주제</label>
-                  <div>파이널 프로젝트 - 지금 2조</div>
-              </SubjectTitle>
-              <div>
-                  <TextArea rows="4" placeholder="모집에 대한 간단한 소개를 작성해주세요."  />
-                  
-                  <TextArea rows="4" placeholder="유의사항 적어주세요." />
-              </div>
-          </Section>
+                <Wrapper>
+                    <div>
+                        <label>모집직군</label>
+                        <Select defaultValue="">
+                            <option value="frontEnd">프론트엔드개발자</option>
+                            <option value="backEnd">백엔드개발자</option>
+                            <option value="planner">기획자</option>
+                            <option value="designer">디자이너</option>
+                        </Select>
+                    </div>
 
-          <Section>
-              <MemberTitle>모임원 관리</MemberTitle>
-                  {memberData.map((user, index) => (
-                  <UserInfo key={user.id}>
-                  <div className="UserDetails">
-                  <UserImg/>
-                  <UserName>{user.name}</UserName>
-                  </div>
-                  
-                  <div className="roleSelect">
-                      <label>모집직군</label>
-                          <Select defaultValue={user.role}>
-                              <option value="frontEnd">프론트엔드개발자</option>
-                              <option value="backEnd">백엔드개발자</option>
-                              <option value="planner">기획자</option>
-                              <option value="designer">디자이너</option>
-                          </Select>
-                  </div>
-                  
-                  <div className="roleSelect">
-                      <label>권한</label>
-                          <Select defaultValue={user.position}>
-                              <option value="master">모집장</option>
-                              <option value="member">모집원</option>
-                          </Select>
-                  </div>
-              </UserInfo>
-          ))}     
-                  <Buttons>
-                      <Button>취소</Button>
-                      <Button>수정완료</Button>
-                  </Buttons>
-          </Section>
-          </Container>
+                    <div>
+                        <label>직군 별 모집인원</label>
+                        <Select defaultValue="">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                        </Select>
+                    </div>
 
-          <ApplicantSection>   
-              <label>지원자 관리</label>
-              {applicantData.map((user, index) => (
-                  <ApplicantInfo key={user.id}>
-                  <div className="UserDetails">
-                  <UserImg/>
-                  <UserName>{user.name}</UserName>
-                  </div>
-                  
-                  <div className="roleSelect">
-                  <label>모집직군</label>
-                  <UserPosition>{user.role}</UserPosition>
-                  </div>
+                    {/* <AddButton>
+                  <Button>추가</Button>
+                  <Button>삭제</Button>
+              </AddButton> */}
 
-                  <div className="date">{user.date}</div>
-                  <Button onClick={openModal}>지원글 확인하기</Button>
-               </ApplicantInfo>
-              ))}
+                    <div>
+                        <label>총 모집 인원</label>
+                        <Select defaultValue="">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                        </Select>
+                    </div>
 
-              {isModalOpen && <ApplicantConfirmModal onClose={closeModal} />}
-          </ApplicantSection>
-      </>
-  );
+                    <div>
+                        <label>썸네일</label>
+                        <input type="file" accept="image/*"/>
+                    </div>
+                </Wrapper>
+
+            </Section>
+
+            <Section>
+                <IntroductionTitle>모임 소개</IntroductionTitle>
+                <SubjectTitle>
+                    <label>주제</label>
+                    <div>파이널 프로젝트 - 지금 2조</div>
+                </SubjectTitle>
+                <div>
+                    <TextArea rows="4" placeholder="모집에 대한 간단한 소개를 작성해주세요."/>
+
+                    <TextArea rows="4" placeholder="유의사항 적어주세요."/>
+                </div>
+            </Section>
+
+            <Section>
+                <MemberTitle>모임원 관리</MemberTitle>
+                {memberData.map((user, index) => (
+                    <UserInfo key={user.id}>
+                        <div className="UserDetails">
+                            <UserImg/>
+                            <UserName>{user.name}</UserName>
+                        </div>
+
+                        <div className="roleSelect">
+                            <label>모집직군</label>
+                            <Select defaultValue={user.role}>
+                                <option value="frontEnd">프론트엔드개발자</option>
+                                <option value="backEnd">백엔드개발자</option>
+                                <option value="planner">기획자</option>
+                                <option value="designer">디자이너</option>
+                            </Select>
+                        </div>
+
+                        <div className="roleSelect">
+                            <label>권한</label>
+                            <Select defaultValue={user.position}>
+                                <option value="master">모집장</option>
+                                <option value="member">모집원</option>
+                            </Select>
+                        </div>
+                    </UserInfo>
+                ))}
+                <Buttons>
+                    <Button>취소</Button>
+                    <Button>수정완료</Button>
+                </Buttons>
+            </Section>
+
+            <ApplicantSection>
+                <label>지원자 관리</label>
+                {applicantData.map((user, index) => (
+                    <ApplicantInfo key={user.id}>
+                        <div className="UserDetails">
+                            <UserImg/>
+                            <UserName>{user.name}</UserName>
+                        </div>
+
+                        <div className="roleSelect">
+                            <label>모집직군</label>
+                            <UserPosition>{user.role}</UserPosition>
+                        </div>
+
+                        <div className="date">{user.date}</div>
+                        <Button onClick={openModal}>지원글 확인하기</Button>
+                    </ApplicantInfo>
+                ))}
+
+                {isModalOpen && <ApplicantConfirmModal onClose={closeModal}/>}
+            </ApplicantSection>
+        </Container>
+    );
+
 };
   
   export default GroupManageContent;
