@@ -1,14 +1,10 @@
 import styled from 'styled-components';
+import TabContentsWrapper from "../TabContentsWrapper";
 
-const NotificationContainer = styled.div`
-    width: 100%;
-    padding: 20px;
-    background-color: var(--violet000);
-    border: 1px solid var(--violet400);
-    display: flex;
-    flex-direction: column;
+const NotificationContainer = styled(TabContentsWrapper)`
     gap: 15px;
     position: relative;
+    padding: 20px;
 
     @media (max-width: 768px) {
         padding: 15px;

@@ -20,14 +20,18 @@ const TAB = {
 
 // 공통 스타일들 분리
 const Container = styled.div`
-    max-width: 1300px; /* 최대 너비를 1300px로 설정 (변경 가능성 O)*/
-    margin: 80px auto;
     display: flex;
-    flex-direction: column;
     justify-content: center;
+    align-items: flex-start;
+    height: auto;
+    flex-direction: column;
+    margin: 80px auto;
+    max-width: 1340px; /* 최대 너비를 1340px  설정 (변경 가능성 O)*/
+    padding: 0 20px;
 `;
 
 const StudyInfoContent = styled.div`
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -116,14 +120,14 @@ const StudyPage = () => {
                     tab={activeTab}
                     setActiveTab={setActiveTab}
                 />
-                {/*이부분은 모르겠음 */}
-                <div className="study-content">
+                {/* */}
+                {/*<div className="study-content">*/}
                     {activeTab === TAB.MEETING ? (
                         <MeetingContent isMeetingStarted={isMeetingStarted} />
                     ) : (
                         <SelectedComponent />
                     )}
-                </div>
+                {/*</div>*/}
             </Container>
             <Footer/>
         </>

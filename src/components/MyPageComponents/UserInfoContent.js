@@ -21,6 +21,14 @@ const responsiveFontSize = css`
     }
 `;
 
+const Wrapper = styled(TabContentsWrapper)`
+    gap: 20px;
+    padding: 50px 35px;
+    //background-color: var(--violet000);
+    //border: 1px solid var(--violet200);
+    ${responsivePadding}
+`;
+
 const Row = styled.div`
     display: flex;
     justify-content: space-between;
@@ -193,7 +201,7 @@ const UserInfoContent = () => {
     );
 
     return (
-        <TabContentsWrapper>
+        <Wrapper>
             <ContentsRow>
                 <SubContentsWrapper>
                     <SubTitle>기본 정보</SubTitle>
@@ -248,7 +256,7 @@ const UserInfoContent = () => {
                 <UpdateButton>업데이트</UpdateButton>
                 <CancelButton>탈퇴하기</CancelButton>
             </ButtonContainer>
-        </TabContentsWrapper>
+        </Wrapper>
     );
 };
 
