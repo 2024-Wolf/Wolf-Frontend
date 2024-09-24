@@ -3,6 +3,7 @@ import styled,{ css } from "styled-components";
 import WhiteInputBox from "../Input/WhiteInputBox";
 import ActivityScoreBar from "../ActivityScore/ActivityScoreBar";
 import RegularIcon from "../Icon/RegularIcon";
+import TabContentsWrapper from "../TabContentsWrapper";
 
 const responsivePadding = css`
     @media (max-width: 768px) {
@@ -18,17 +19,6 @@ const responsiveFontSize = css`
     @media (max-width: 480px) {
         font-size: 12px;
     }
-`;
-
-const Wrapper = styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding: 50px 35px;
-    background-color: var(--violet000);
-    border: 1px solid var(--violet400);
-    ${responsivePadding}
 `;
 
 const Row = styled.div`
@@ -203,7 +193,7 @@ const UserInfoContent = () => {
     );
 
     return (
-        <Wrapper>
+        <TabContentsWrapper>
             <ContentsRow>
                 <SubContentsWrapper>
                     <SubTitle>기본 정보</SubTitle>
@@ -258,7 +248,7 @@ const UserInfoContent = () => {
                 <UpdateButton>업데이트</UpdateButton>
                 <CancelButton>탈퇴하기</CancelButton>
             </ButtonContainer>
-        </Wrapper>
+        </TabContentsWrapper>
     );
 };
 
