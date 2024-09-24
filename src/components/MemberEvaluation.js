@@ -167,7 +167,7 @@ export default MemberEvaluation;
 /* 
 
 import React from 'react';
-import MemberEvaluation from './components/MemberEvaluation';
+import MemberEvaluation from './Components/MemberEvaluation';
 
 function App() {
   const members = [

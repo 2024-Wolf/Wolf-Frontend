@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from "styled-components";
-import DateButton from "../DateInputButton/DateButton";
+import DateButton from "../../DateInputButton/DateButton";
 
 const OptionButton = styled.button`
     background-color: white;

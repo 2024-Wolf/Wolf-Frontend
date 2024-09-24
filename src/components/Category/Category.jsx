@@ -1,14 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
-// Styled Components 정의
 const CategoryWrapper = styled.div`
     width:100%;
     display: flex;
     justify-content: flex-start;
     align-items: center;
     padding: 10px 0;
-    border-bottom: 1px solid #eaeaea;
 `;
 
 const CategoryItem = styled.div`

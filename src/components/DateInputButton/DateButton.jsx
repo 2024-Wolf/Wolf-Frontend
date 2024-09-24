@@ -3,7 +3,7 @@ import { useState, useRef } from 'react';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import styled from "styled-components";
-import Icon from "../Icon/Icon";
+import MiniIcon from "../Icon/MiniIcon";
 
 /*
 * const DateButtonContainer = styled.div`

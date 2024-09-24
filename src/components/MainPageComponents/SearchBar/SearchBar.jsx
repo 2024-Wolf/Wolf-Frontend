@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from "styled-components";
-import Icon from "../Icon/Icon";
+import MiniIcon from "../../Icon/MiniIcon";
 
 const InputContainer = styled.div`
     display: flex;
@@ -38,7 +38,7 @@ const SearchInput = styled.input`
 const SearchBar = () => {
     return (
         <InputContainer>
-            <Icon src="SearchIcon.png" alt="search" />
+            <MiniIcon src="SearchIcon.png" alt="search" />
             <SearchInput type="text" placeholder="Search..." />
         </InputContainer>
     )
