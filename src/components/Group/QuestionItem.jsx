@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const QuestionItemContainer = styled.div`
     background-color: white;
-      padding: 15px;
+      padding: 10px;
       border-radius: 3px;
       margin-bottom: 20px;
 `;
@@ -23,7 +23,6 @@ const QuestionContent = styled.div`
     flex-direction: column;
     gap: 10px;
     margin: 25px;
-    
 `;
 
 const QuestionText = styled.div`

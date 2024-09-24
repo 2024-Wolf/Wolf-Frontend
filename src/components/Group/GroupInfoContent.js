@@ -81,7 +81,9 @@ const PostInfo = styled.div`
 
 // 최근 소식
 const UpdateInfo = styled.div`
+    background-color: white;
     margin: 30px 0 30px 0;
+    padding: 0 30px ;
     display: flex;
     justify-content: space-between;
     width: 100%;
