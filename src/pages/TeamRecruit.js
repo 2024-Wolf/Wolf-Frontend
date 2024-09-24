@@ -3,14 +3,11 @@ import styled from 'styled-components';
 
 //전체 div
 const Container = styled.div`
-    margin-top: -30px;
     width: 100%;
-    background-color: var(--violet200);
     padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 1px solid #ccc;
     border-radius: 8px;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 `;
@@ -21,8 +18,15 @@ const Section = styled.section`
     padding: 20px;
     width: 100%;
     border-radius: 8px;
-    background-color: var(--violet200);
-    border: 1px solid #e0e0e0;
+    border: 1px solid var(--violet500);
+`;
+
+//팀원 모집 타이틀
+const Titles = styled.h1`
+    margin: 20px;
+    font-size: 24px;
+    align-self: flex-start;  /* 왼쪽 정렬 */
+    font-weight: bold;
 `;
 
 // 모집 기본 정보 타이틀
@@ -50,7 +54,7 @@ const RecruitDate = styled.div`
     input, select {
         padding: 8px;
         border-radius: 5px;
-        border: 1px solid #ccc;
+        border: 1px solid var(--violet500);
         width: 150px;  /* 가로 길이 줄임 */
     }
 `;
@@ -70,7 +74,7 @@ const IntroduceDiv = styled.div`
         flex: 1; /* input이 남은 공간을 차지 */
         padding: 8px;
         border-radius: 5px;
-        border: 1px solid #ccc;
+        border: 1px solid var(--violet500);
     }
 `;
 
@@ -144,7 +148,7 @@ const TagDiv = styled.div`
         flex: 1; /* input이 남은 공간을 차지 */
         padding: 8px;
         border-radius: 5px;
-        border: 1px solid #ccc;
+        border: 1px solid var(--violet500);
     }
 `;
 
@@ -165,7 +169,7 @@ const Wrapper = styled.div`
         flex: 1; /* 항목들이 균등하게 배치되도록 설정 */
         padding: 8px;
         border-radius: 5px;
-        border: 1px solid #ccc;
+        border: 1px solid var(--violet500);
     }
 `;
 
@@ -184,7 +188,7 @@ const TextArea = styled.textarea`
     height: 200px;
     padding: 10px;
     margin-bottom: 15px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--violet500);
     border-radius: 5px;
     resize: none;
     width: 100%;
@@ -258,7 +262,7 @@ const TeamRecruit = () => {
 
     return (
         <Container>
-
+            <Titles><>팀원 모집 하기</></Titles>
             <Section>
                 <Title>모집 기본 정보</Title>
                 <RecruitDate>
