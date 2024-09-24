@@ -7,8 +7,8 @@ const CategoryContainer = styled.div`
     position: relative;
     background-image: ${(category) =>
             category === "스터디"
-                    ? `url('/ProjectThumbnail.png')`
-                    : `url('/StudyThumbnail.png')`};
+                    ? `url('/CardViewThumbnail/ProjectThumbnail.png')`
+                    : `url('/CardViewThumbnail/StudyThumbnail.png')`};
     background-size: cover;
     background-position: center;
     border-radius: 30px 30px 0 0;
