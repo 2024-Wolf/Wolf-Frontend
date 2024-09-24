@@ -18,8 +18,8 @@ const IconContainer = styled.img`
 `;
 
 
-const Icon = ({ src, alt }) => {
+const MiniIcon = ({ src, alt }) => {
     return <IconContainer src={src} alt={alt}/>
 };
 
-export default Icon;
+export default MiniIcon;

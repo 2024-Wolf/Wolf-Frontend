@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import ChallengeListItem from "./ChallengeListItem";
+
+import ChallengeApplyModal from"../ChallengeModal/ChallengeApplyModal";
+import ChallengeAuthModal from "../ChallengeModal/ChallengeAuthModal";
+import ChallengeResultModal from "../ChallengeModal/ChallengeResultModal";
 
 const Container = styled.div`
     width: 95%;
@@ -30,11 +34,20 @@ const Items = styled.div`
 `;
 
 function ChallengeList(props){
+    const [modalOn, setModalOn] = useState(false);
 
     let items = ['제목1입니다.', '제목2입니다.', '제목3입니다.', '제목4입니다.', '제목5입니다.'];
     let category;
     let background;
-    let buttonText;
+    let buttonText;    
+
+    const ModalMap = {
+        "진행중": ChallengeAuthModal,
+        "완료" : ChallengeResultModal,
+        "진행 가능" : ChallengeApplyModal
+    }
+
+    const Modal = ModalMap[props.category];
 
     switch(props.category){
         case "진행중":
@@ -45,7 +58,7 @@ function ChallengeList(props){
         case "완료":
             category = '완료된 챌린지';
             background = '#E2E3E3';
-            buttonText = '결과 확인'
+            buttonText = '결과 확인';
             break;
         default :
             category = '진행 가능한 챌린지✨';
@@ -54,12 +67,21 @@ function ChallengeList(props){
             break;
     }    
 
+    
+
+    const handleDetailOpen = (e) => {
+        props.clickFunc();
+    }
+
     return(
         <Container>
+            {modalOn && <Modal clickFunc={() => setModalOn(!modalOn)} />}
             <Category style={{background:background}}>{category}</Category>
             <Items>
                 {items.map((title, index) => (
-                    <ChallengeListItem title={title} category={props.category} buttonText={buttonText} key={index} />
+                    <div onClick={handleDetailOpen}>
+                        <ChallengeListItem title={title} clickFunc={() => setModalOn(!modalOn)} category={props.category} buttonText={buttonText} key={index} />
+                    </div>
                 ))}
             </Items>
         </Container>

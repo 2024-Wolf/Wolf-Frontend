@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+
+import ChallengePayCompleteModal from "./ChallengePayCompleteModal";
 
 const Container = styled.div`
     position: fixed;
@@ -92,8 +94,11 @@ const PayButton = styled.div`
 
 function ChallengePayModal(props){
 
+    const [completeModalOn, setCompleteModalOn] = useState();
+
     return(
         <Container>
+            {completeModalOn && <ChallengePayCompleteModal clickFunc={props.clickFunc} />}
             <Modal>
                 <ModalHeader>
                     <Category>챌린지 결제하기</Category>
@@ -101,12 +106,12 @@ function ChallengePayModal(props){
                 <ModalBody>
                     <p style={{fontSize:'25px'}}>파이널 스터디 - 지금2조</p>
                     <p style={{fontSize:'36px', marginTop:'60px', fontWeight:'bold'}}>기사 자격증 취득 챌린지</p>
-                    <p style={{fontSize:'36px', marginTop:'60px'}}><span style={{fontWeight:'bold'}}>30,000</span> 원</p>
+                    <input type="text" style={{fontSize:'36px', marginTop:'60px', textAlign:'center'}} placeholder="0 ~ 30,000원" />
                 </ModalBody>
                 <ModalFooter>
                     <Buttons>
-                        <CancelButton>취소하기</CancelButton>
-                        <PayButton>결제하기</PayButton>
+                        <CancelButton onClick={() => {props.handlePay()}}>취소하기</CancelButton>
+                        <PayButton onClick={()=>{setCompleteModalOn(!completeModalOn)}}>결제하기</PayButton>
                     </Buttons>
                 </ModalFooter>
             </Modal>
