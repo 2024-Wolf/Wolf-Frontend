@@ -19,6 +19,7 @@ const App = () => {
           <Route path="/meeting" element={<MeetingPage />} />  {/* 화상회의 화면 */}
           <Route path="/faq" element={<FAQ />} />     {/* FAQ 페이지 */}
           <Route path='/post' element={<TeamRecruit />} />
+          <Route path='/user' element={<MyPage />} /> {/* MyPage 페이지 */}
         </Routes>
       </div>
       <Footer />

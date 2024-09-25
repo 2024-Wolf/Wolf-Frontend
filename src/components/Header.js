@@ -180,7 +180,6 @@ function IsLoggedIn({ isLoggedIn, openModal }) {
             break;
           case 'dropdown':
             // 아래 화살표 클릭
-
             break;
           default:
             break;
