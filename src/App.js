@@ -6,7 +6,7 @@ import StudyPage from './pages/StudyPage';
 import MeetingPage from './components/MeetingTab';
 import Footer from './components/Footer';
 import TeamRecruit from './pages/TeamRecruit';
-
+import MyPage from './pages/MyPage';
 
 
 const App = () => {

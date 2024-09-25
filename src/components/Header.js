@@ -115,6 +115,21 @@ const StyledHeaderIcon = styled.svg`
   cursor: pointer;
 `;
 
+const UserWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0;
+  gap: 2px;
+  width: 48px;
+  height: 30px;
+
+  /* Inside auto layout */
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+`;
+
 function BellIcon({ hasNotifications, onClick, dataAction }) {
 
   return (
@@ -155,31 +170,30 @@ const LogginButton = styled(Button)`
 `;
 
 function IsLoggedIn({ isLoggedIn, openModal }) {
-  const [hasNotifications, setHasNotifications] = useState(true); // 벨 모양 아이콘의 알림 상태, 기본값은 알림 있음
+  const [hasNotifications, setHasNotifications] = useState(true); // 알림 상태
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false); // 드롭다운 표시 여부
   const navigate = useNavigate();
 
   const handleClick = (e) => {
     if (!isLoggedIn) {
-      // 로그인 전
-      openModal(); // 로그인/회원가입 버튼을 눌렀을 경우 모달 열기
+      openModal(); // 로그인/회원가입 모달 열기
     } else {
-      // 로그인 후
       const action = e.currentTarget.getAttribute('dataAction');
       if (action) {
         switch (action) {
           case 'bell':
-            // 벨모양 아이콘 클릭
-            if (hasNotifications) { // 새로운 알림 true라면 false로 변경
-              setHasNotifications(false);
+            // 벨모양 클릭
+            if (hasNotifications) {
+              setHasNotifications(false); // 알림 상태 변경
             }
-
+            alert('벨모양');
             break;
           case 'profile':
-            // 프로필 아이콘 클릭
-            navigate('/user'); // 유저 화면으로 이동
+            navigate('/user'); // 프로필 화면으로 이동
             break;
           case 'dropdown':
-            // 아래 화살표 클릭
+            setIsDropdownVisible((prev) => !prev); // 드롭다운 표시 토글
+            alert('드롭다운');
             break;
           default:
             break;
@@ -188,26 +202,70 @@ function IsLoggedIn({ isLoggedIn, openModal }) {
     }
   };
 
+  const Div = styled.div`
+  cursor: default;
+  width: 360px;
+  min-height: 480px;
+  max-height: 480px;
+  overflow-y: scroll;
+  padding: 0;
+  position: absolute;
+  z-index: 1000;
+  background: #fff;
+  border-radius: 15px;
+  border: 1px solid #d1d1d1;
+  margin-top: 16px;
+  right: 12px;
+  top: 100%;
+  color: #333;
+`
+
   return (
     <>
       {isLoggedIn ? (
-        // 로그인 후 true :  유저 프로필
         <UserProfileContainer>
-          <BellIcon dataAction="bell" onClick={handleClick} hasNotifications={hasNotifications} /> {/* 벨 모양 아이콘, 새로운 알림이 있다면 true, 새로운 알림이 없다면 false */}
-          <ProfileIcon dataAction="profile" onClick={handleClick} src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" alt="Profile" /> {/* 프로필 아이콘 */}
-          <StyledHeaderIcon dataAction="dropdown" onClick={handleClick} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16"> {/* 아래 화살표 아이콘 */}
-            <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
-          </StyledHeaderIcon>
+          <BellIcon
+            dataAction="bell"
+            onClick={handleClick}
+            hasNotifications={hasNotifications}
+          />
+          <UserWrapper>
+            <ProfileIcon
+              dataAction="profile"
+              onClick={handleClick}
+              src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
+              alt="Profile"
+            />
+            <StyledHeaderIcon
+              dataAction="dropdown"
+              onClick={handleClick}
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              className="bi bi-caret-down-fill"
+              viewBox="0 0 16 16"
+            >
+              <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+            </StyledHeaderIcon>
+          </UserWrapper>
+          {isDropdownVisible && (
+            <Div>
+              <ul>
+                <li onClick={() => navigate('/myinfo')}>내 정보</li>
+                <li onClick={() => navigate('/challenges')}>챌린지 보기</li>
+                <li onClick={() => navigate('/team-recruit')}>팀원 모집하기</li>
+                <li onClick={() => { /* 로그아웃 처리 */ }}>로그아웃</li>
+              </ul>
+            </Div>
+          )}
         </UserProfileContainer>
       ) : (
-        // 로그인 전 false : 로그인/회원가입 버튼
         <LogginButton onClick={handleClick}>로그인/회원가입</LogginButton>
       )}
     </>
   );
 }
-
-
 
 function Header(props) {
   const navigate = useNavigate();
@@ -224,7 +282,6 @@ function Header(props) {
         <LightBackgroundButton onClick={() => alert('FAQ')}>FAQ</LightBackgroundButton>
         <IsLoggedIn isLoggedIn={true} openModal={openModal} /> {/* 로그인 했다면 true, 로그인 하지 않았다면 false */}
       </HeaderContent>
-
       {
         isModalOpen && (
           <ModalContainer onClose={closeModal}>
