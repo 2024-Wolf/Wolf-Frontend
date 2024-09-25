@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import TodoTab from '../components/TodoTab';
+import TodoContent from '../components/Group/TodoContent';
 import ChallengeTab from '../components/ChallengeTab';
 import MeetingContent from '../components/Group/MeetingContent';
 import GroupInfoContent from "../components/Group/GroupInfoContent";
@@ -88,7 +88,7 @@ const StudyPage = () => {
 
     const componentsMap = {
         [TAB.INFO]: GroupInfoContent, // StudyInfo 컴포넌트 렌더링
-        [TAB.TODO]: TodoTab,
+        [TAB.TODO]: TodoContent,
         [TAB.CHALLENGE]: ChallengeTab,
         [TAB.MEETING]: MeetingContent,
         [TAB.MANAGE]: GroupManageContent,

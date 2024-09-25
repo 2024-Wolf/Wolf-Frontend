@@ -4,6 +4,7 @@ import WhiteInputBox from "../Input/WhiteInputBox";
 import ActivityScoreBar from "../ActivityScore/ActivityScoreBar";
 import RegularIcon from "../Icon/RegularIcon";
 import TabContentsWrapper from "../TabContentsWrapper";
+import LinkInput from "../Input/Link/LinkInput";
 
 const responsivePadding = css`
     @media (max-width: 768px) {
@@ -243,13 +244,19 @@ const UserInfoContent = () => {
                     value={userInfo.introduce}
                     onChange={(e) => handleInputChange("introduce", e.target.value)}
                 />
-                <LinkRow>
-                    <RegularIcon
-                        src={"https://cdn-icons-png.flaticon.com/512/25/25231.png"}
-                        alt={"github"}
-                    />
-                    <WhiteInputBox />
-                </LinkRow>
+                {/* LinkInput 컴포넌트 사용 */}
+                <LinkInput
+                    iconSrc={"https://cdn-icons-png.flaticon.com/512/25/25231.png"}
+                    iconAlt={"github"}
+                    inputValue={userInfo.github}
+                    onInputChange={(e) => handleInputChange("github", e.target.value)}
+                />
+                <LinkInput
+                    iconSrc={"https://cdn-icons-png.flaticon.com/512/25/25231.png"}
+                    iconAlt={"figma"}
+                    inputValue={userInfo.figma}
+                    onInputChange={(e) => handleInputChange("figma", e.target.value)}
+                />
             </EtcContentsWrapper>
 
             <ButtonContainer>

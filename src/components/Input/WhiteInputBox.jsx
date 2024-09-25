@@ -37,7 +37,7 @@ const TextInput = styled.input`
     }
 `;
 
-const WhiteInputBox = ({ isActive, value, onChange }) => {
+const WhiteInputBox = ({ value, onChange, isActive = true}) => {
     return (
         isActive ? (
             <ActiveTextInput value={value} onChange={onChange} />
