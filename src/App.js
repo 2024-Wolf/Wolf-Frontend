@@ -4,6 +4,7 @@ import FAQ from './pages/FAQ';
 import Main from './pages/Main';
 import StudyPage from './pages/StudyPage';
 import MyPage from "./pages/MyPage";
+import CreateGroupPage from "./pages/CreateGroupPage";
 
 const App = () => {
     return (
@@ -22,6 +23,10 @@ const App = () => {
                 <Link to="/mypage" style={{ margin: '10px' }}>
                     <button>My Page</button>
                 </Link>
+
+                <Link to="/write" style={{ margin: '10px' }}>
+                    <button>Write</button>
+                </Link>
             </div>
 
           <Routes>
@@ -29,6 +34,7 @@ const App = () => {
               <Route path="/study" element={<StudyPage />} /> {/* 스터디 페이지 */}
               <Route path="/faq" element={<FAQ />} /> {/* FAQ 페이지 */}
               <Route path="/mypage" element={<MyPage />} /> {/* 마이페이지 */}
+              <Route path="/write" element={<CreateGroupPage/>} /> {/* 글쓰기 페이지 */}
           </Routes>
         </Router>
     );

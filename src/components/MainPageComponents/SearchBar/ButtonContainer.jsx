@@ -5,15 +5,11 @@ import DateButton from "../../DateInputButton/DateButton";
 const OptionButton = styled.button`
     background-color: white;
     border: 1px solid var(--violet500);
-    border-radius: 10px;
+    border-radius: 7px;
     margin-right: 10px;
     padding: 5px 10px;
     font-size: 16px;
     
-    &:hover {
-        background-color: var(--violet200);
-        color: var(--violet800);
-    }
     @media (max-width: 768px) {
         font-size: 12px; 
         padding: 3px 8px;
@@ -31,10 +27,13 @@ const Button = styled.div`
 `;
 
 
-const ButtonContainer = () => {
+const ButtonContainer = ({date, onDateChange}) => {
     return (
         <Button>
-            <DateButton/>
+            <DateButton
+                value={date}
+                onChange={onDateChange}
+            />
             <OptionButton> 모집중인 글만 보기 </OptionButton>
         </Button>
     )

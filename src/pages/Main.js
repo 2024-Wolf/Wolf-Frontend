@@ -16,7 +16,7 @@ const MainContents = styled.div`
     height: auto;
     flex-direction: column;
     margin: 50px auto;
-    max-width: 1300px; /* 최대 너비를 1300px로 설정 (변경 가능성 O)*/
+    max-width: 1340px; /* 최대 너비를 1300px로 설정 (변경 가능성 O)*/
     gap: 50px;
     padding: 0 20px;
 
@@ -50,6 +50,11 @@ const Main = () => {
 
     const categories = ["전체", "프로젝트", "스터디"];
     const [activeCategory, setActiveCategory] = useState('전체');
+    const [searchDate, setSearchDate] = useState(new Date());
+
+    const handleSearchDate = (date) => {
+        setSearchDate(date);
+    }
 
     return (
         <>
@@ -62,7 +67,10 @@ const Main = () => {
                     setActiveCategory={setActiveCategory}
                 />
                 <SearchContainer>
-                    <ButtonContainer/>
+                    <ButtonContainer
+                        handleStartDate={searchDate}
+                        onDateChange={handleSearchDate}
+                    />
                     <SearchBar/>
                 </SearchContainer>
                 <MainCardList

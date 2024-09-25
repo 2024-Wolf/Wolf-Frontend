@@ -5,25 +5,34 @@ import TabContentsWrapper from "../TabContentsWrapper";
 
 //전체 div
 const Container = styled(TabContentsWrapper)`
-    padding: 20px;
+    padding: 0 80px;
     display: flex;
     align-items: center;
+    background-color: white;
 `;
-
+const GroupContent = styled.div`
+    display: flex;
+    flex-direction: column;
+    background-color: var(--violet200);
+    border-radius: 0 0 5px 5px;
+`;
 // 섹션
 const Section = styled.section`
-    margin-top: 20px;
     padding: 20px;
     width: 100%;
+    display: flex;
+    flex-direction: column;
     border-radius: 8px;
-    background-color: var(--violet200);
     border: 1px solid #e0e0e0;
 `;
 
 // 모집 기본 정보 타이틀
 const Title = styled.h1`
-    font-size: 24px;
-    color: #4b3fbb;
+    width: 100%;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 500;
+    
     margin-bottom: 30px;
 `;
 
@@ -377,9 +386,12 @@ const GroupManageContent = (props) => {
 
     return (
         <Container>
-
             <Section>
                 <Title>모집 기본 정보</Title>
+                <GroupContent>
+
+
+                </GroupContent>
                 <RecruitDate>
                     <div>
                         <label>모임 구분</label>
@@ -490,7 +502,7 @@ const GroupManageContent = (props) => {
             </Section>
 
             <Section>
-                <IntroductionTitle>모임 소개</IntroductionTitle>
+                <Title>모임 소개</Title>
                 <SubjectTitle>
                     <label>주제</label>
                     <div>파이널 프로젝트 - 지금 2조</div>
