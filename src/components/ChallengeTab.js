@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import ChallengeList from "./Challenge/ChallengeList";
 import ChallengeDetail from "./Challenge/ChallengeDetail";
+import ContentsWrapper from "./TabContentsWrapper";
 
-const ChallengeLists = styled.div`
+const ChallengeLists = styled(ContentsWrapper)`
     padding-top: 30px;
     padding-bottom: 30px;
-    border: 1px solid #9787FF;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
 `;
 
 

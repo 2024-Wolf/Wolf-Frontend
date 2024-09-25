@@ -23,10 +23,8 @@ const CardContainer = styled.div`
     &:hover {
         transform: scale(1.05);
     }
-
-    /* 반응형 미디어 쿼리 */
+    
     @media (max-width: 768px) {
-        
         max-width: 200px; /* 태블릿 화면에서는 카드 크기를 줄임 */
         height: 220px;
     }
