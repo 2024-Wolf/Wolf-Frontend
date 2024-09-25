@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import TabContentsWrapper from "../TabContentsWrapper";
-import CommentSection from "./CommentSection";
-import QuestionList from "./QuestionList";
-import QuestionForm from "./QuestionForm";
+import CommentSection from "./Question/CommentSection";
+import QuestionList from "./Question/QuestionList";
+import QuestionForm from "./Question/QuestionForm";
 
 const MeetingContainer = styled(TabContentsWrapper)`
     padding: 20px;
