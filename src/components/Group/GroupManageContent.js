@@ -133,7 +133,7 @@ const UserPosition = styled.div`
     }
 `;
 
-const Date = styled.div`
+const DateStyle = styled.div`
     margin: 0 40px;
     font-size: 16px;
     color: var(--black600);
@@ -279,7 +279,7 @@ const GroupManageContent = (props) => {
                             <UserPosition>{user.role}</UserPosition>
                         </div>
 
-                        <Date className="date">{user.date}</Date>
+                        <DateStyle className="date">{user.date}</DateStyle>
                         <Button onClick={openModal}>지원글 확인하기</Button>
                     </ApplyInfo>
                 ))}
