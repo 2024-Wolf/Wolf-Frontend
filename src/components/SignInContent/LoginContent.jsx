@@ -47,7 +47,6 @@ const GoogleLoginButton = styled.button`
 const LoginContent = ({ onNext }) => {
     const handleGoogleLogin = () => {
         // Google 로그인 처리 로직 추가
-        alert('Google 로그인 버튼 클릭됨');
         console.log(onNext);
         // 이후 다음 단계 진행
         onNext();

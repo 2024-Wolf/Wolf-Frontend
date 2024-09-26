@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Card from "../Card/Card";
+import { useNavigate } from 'react-router-dom';
 
 const CardContainer = styled.div`
     display: flex;
@@ -35,7 +36,7 @@ const cards = [
             imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
             name: 'myeongju'
         }
-    },    {
+    }, {
         id: 2,
         category: '스터디',
         title: 'React 기초 스터디',
@@ -50,7 +51,7 @@ const cards = [
             imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
             name: 'myeongju'
         }
-    },    {
+    }, {
         id: 3,
         category: '스터디',
         title: 'React 기초 스터디',
@@ -65,7 +66,7 @@ const cards = [
             imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
             name: 'myeongju'
         }
-    },    {
+    }, {
         id: 4,
         category: '스터디',
         title: 'React 기초 스터디',
@@ -80,7 +81,7 @@ const cards = [
             imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
             name: 'myeongju'
         }
-    },    {
+    }, {
         id: 5,
         category: '스터디',
         title: 'React 기초 스터디',
@@ -95,7 +96,7 @@ const cards = [
             imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
             name: 'myeongju'
         }
-    },    {
+    }, {
         id: 6,
         category: '스터디',
         title: 'React 기초 스터디',
@@ -114,24 +115,32 @@ const cards = [
 ];
 
 const MainCardList = ({ category }) => {
+    const navigate = useNavigate();
+
+    const handleCardClick = (id) => {
+        navigate(`/study/${id}`); // 카드 ID에 따라 그룹 페이지로 이동
+    };
+
     // Cards 데이터를 필터링하여 렌더링
     return (
         <CardContainer>
             {(category === '전체' ?
-                    cards
-                    :
-                    cards.filter(card => card.category === category)
+                cards
+                :
+                cards.filter(card => card.category === category)
             ).map(card => (
-                <Card
-                    key={card.id}
-                    category={card.category}
-                    title={card.title}
-                    deadline={card.deadline}
-                    challenge={card.challenge}
-                    tags={card.tags}
-                    icons={card.icons}
-                    profile={card.profile}
-                />
+                <div key={card.id} onClick={() => navigate('/study')}> {/* 추후변경 - handleCardClick(card.id) */}
+                    <Card
+                        key={card.id}
+                        category={card.category}
+                        title={card.title}
+                        deadline={card.deadline}
+                        challenge={card.challenge}
+                        tags={card.tags}
+                        icons={card.icons}
+                        profile={card.profile}
+                    />
+                </div>
             ))}
         </CardContainer>
     );

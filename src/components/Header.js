@@ -170,14 +170,15 @@ function Login({ isLoggedIn, openModal, offLogin, notifications }) {
       const action = e.currentTarget.getAttribute('dataAction');
       if (action === 'bell') {
         // 벨모양 아이콘
+        setIsDropdownOpen(false); // 드롭다운 목록이 열려 있으면 닫기
         setIsAlarmOpen(prev => !prev);
-
         if (hasNotifications) setHasNotifications(false);
       } else if (action === 'profile') {
         // 프로필 아이콘
         navigate('/mypage');
       } else if (action === 'dropdown') {
         // 드롭다운 아이콘
+        setIsAlarmOpen(false); // 알람 목록이 열려 있으면 닫기
         setIsDropdownOpen(prev => !prev);
       }
     }
