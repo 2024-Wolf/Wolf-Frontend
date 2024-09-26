@@ -5,6 +5,8 @@ import Main from './pages/Main';
 import StudyPage from './pages/StudyPage';
 import MyPage from "./pages/MyPage";
 import CreateGroupPage from "./pages/CreateGroupPage";
+import Header from './components/Header';
+import Footer from './components/Footer';
 
 const App = () => {
     return (
@@ -27,14 +29,17 @@ const App = () => {
                     <button>Write</button>
                 </Link>
             </div>
-          <Routes>
-              <Route path="/" element={<Main />} /> {/* 메인 페이지 */}
-              <Route path="/study" element={<StudyPage />} /> {/* 스터디 페이지 */}
-              <Route path="/faq" element={<FAQ />} /> {/* FAQ 페이지 */}
-              <Route path="/mypage" element={<MyPage />} /> {/* 마이페이지 */}
-              <Route path="/write" element={<CreateGroupPage/>} /> {/* 글쓰기 페이지 */}
-          </Routes>
+            <Header />
+            <Routes>
+                <Route path="/" element={<Main />} /> {/* 메인 페이지 */}
+                <Route path="/study" element={<StudyPage />} /> {/* 스터디 페이지 */}
+                <Route path="/faq" element={<FAQ />} /> {/* FAQ 페이지 */}
+                <Route path="/mypage" element={<MyPage />} /> {/* 마이페이지 */}
+                <Route path="/write" element={<CreateGroupPage />} /> {/* 글쓰기 페이지 */}
+            </Routes>
+            <Footer />
         </Router>
+
     );
 };
 

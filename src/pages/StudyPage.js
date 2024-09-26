@@ -100,7 +100,6 @@ const StudyPage = () => {
 
     return (
         <>
-            <Header/>
             <Container>
                 {/* 그룹 정보 영역 */}
                 <StudyInfoContent>
@@ -122,14 +121,13 @@ const StudyPage = () => {
                 />
                 {/* */}
                 {/*<div className="study-content">*/}
-                    {activeTab === TAB.MEETING ? (
-                        <MeetingContent isMeetingStarted={isMeetingStarted} />
-                    ) : (
-                        <SelectedComponent />
-                    )}
+                {activeTab === TAB.MEETING ? (
+                    <MeetingContent isMeetingStarted={isMeetingStarted} />
+                ) : (
+                    <SelectedComponent />
+                )}
                 {/*</div>*/}
             </Container>
-            <Footer/>
         </>
     );
 };

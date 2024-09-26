@@ -108,7 +108,7 @@ const FAQ = () => {
 
   return (
     <FAQContainer>
-      <Title>FAQ</Title>  
+      <Title>FAQ</Title>
       <Tabs>
         {['계정', '스터디', '프로젝트', '챌린지', 'Etc'].map((tab) => (
           <TabButton

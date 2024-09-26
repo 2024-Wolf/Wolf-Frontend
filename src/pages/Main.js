@@ -1,6 +1,4 @@
-import React, {useEffect, useState} from "react";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import React, { useEffect, useState } from "react";
 import BannerSlider from "../components/MainPageComponents/Banner/BannerSlider";
 import Category from "../components/Category/Category";
 import styled from "styled-components";
@@ -58,7 +56,6 @@ const Main = () => {
 
     return (
         <>
-            <Header/>
             <MainContents>
                 <BannerSlider images={banners} />
                 <Category
@@ -71,13 +68,12 @@ const Main = () => {
                         handleStartDate={searchDate}
                         onDateChange={handleSearchDate}
                     />
-                    <SearchBar/>
+                    <SearchBar />
                 </SearchContainer>
                 <MainCardList
                     category={activeCategory}
                 />
             </MainContents>
-            <Footer/>
         </>
     );
 }

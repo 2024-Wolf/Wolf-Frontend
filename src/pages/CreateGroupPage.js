@@ -48,16 +48,14 @@ const GroupInfoContainer = styled.div`
 
 const CreateGroupPage = () => {
 
-    return(
+    return (
         <>
-            <Header/>
             <MainContents>
                 <Title>팀원 모집하기</Title>
                 <GroupInfoContainer>
-                    <GroupInfoContent/>
+                    <GroupInfoContent />
                 </GroupInfoContainer>
             </MainContents>
-            <Footer/>
         </>
     )
 }
