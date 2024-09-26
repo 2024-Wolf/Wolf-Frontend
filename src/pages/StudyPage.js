@@ -6,8 +6,6 @@ import MeetingContent from '../components/Group/MeetingContent';
 import GroupInfoContent from "../components/Group/GroupInfoContent";
 import GroupTabs from "../components/Group/GroupTabs";
 import GroupManageContent from "../components/Group/GroupManageContent";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
 
 // 상수로 카테고리 선언
 const TAB = {

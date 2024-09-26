@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+
 import ModalContainer from "./Modal/ModalContainer";
 import LoginContent from "./SignInContent/LoginContent";
-import { useNavigate } from 'react-router-dom';
+import FirstProcessContent from "./SignInContent/FirstProcessContent"
+import SecondProcessContext from "./SignInContent/SecondProcessContext"
+import ThirdProcessContent from "./SignInContent/ThirdProcessContent"
+import FourthProcessContent from "./SignInContent/FourthProcessContent"
 
 const HeaderContainer = styled.header`
   margin: auto;
@@ -274,18 +279,32 @@ function Header(props) {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  const [currentStep, setCurrentStep] = useState(1);
+
+  const nextStep = () => {
+    setCurrentStep(prevStep => prevStep + 1);
+  };
+
+  const prevStep = () => {
+    setCurrentStep(prevStep => Math.max(prevStep - 1, 1)); // Prevent going below step 1
+  };
+
   return (
     <HeaderContainer>
       <MainLogo href="/" onClick={() => alert('메인화면 이동')}>WOLF</MainLogo>
       <HeaderContent>
         <DarkBackgroundButton onClick={() => navigate('/write')}>팀원 모집하기</DarkBackgroundButton>
         <LightBackgroundButton onClick={() => navigate('/faq')}>FAQ</LightBackgroundButton>
-        <IsLoggedIn isLoggedIn={true} openModal={openModal} /> {/* 로그인 했다면 true, 로그인 하지 않았다면 false */}
+        <IsLoggedIn isLoggedIn={false} openModal={openModal} /> {/* 로그인 했다면 true, 로그인 하지 않았다면 false */}
       </HeaderContent>
       {
         isModalOpen && (
           <ModalContainer onClose={closeModal}>
-            <LoginContent />
+            {currentStep === 1 && <LoginContent onNext={nextStep} />}
+            {currentStep === 2 && <FirstProcessContent onNext={nextStep} onPrev={prevStep} />}
+            {currentStep === 3 && <SecondProcessContext onNext={nextStep} onPrev={prevStep} />}
+            {currentStep === 4 && <ThirdProcessContent onNext={nextStep} onPrev={prevStep} />}
+            {currentStep === 5 && <FourthProcessContent onPrev={prevStep} />}
           </ModalContainer>
         )
       }

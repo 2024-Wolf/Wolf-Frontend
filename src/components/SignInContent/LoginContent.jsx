@@ -36,7 +36,7 @@ const LoginContent = () => {
         <>
             <LogoL>Wolf</LogoL>
             <SubTitle>WOLF에 오신것을 환영합니다.</SubTitle>
-            <Description>스터디와 사이드 프로젝트를 찾는 가장 쉬운 방법! <br/>
+            <Description>스터디와 사이드 프로젝트를 찾는 가장 쉬운 방법! <br />
                 WOLF에서 함께 할 팀원들을 찾으세요!</Description>
             <GoogleLoginButton>Google 로그인</GoogleLoginButton>
         </>

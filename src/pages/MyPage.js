@@ -2,8 +2,6 @@ import React, { useState } from "react";
 
 import UserInfoContent from "../components/MyPageComponents/UserInfoContent";
 import styled from "styled-components";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
 import MyPageTabs from "../components/MyPageComponents/MyPageTabs";
 import NotificationContent from "../components/MyPageComponents/NotificationContent";
 import ActivitiesContent from "../components/MyPageComponents/ActivitiesContent";
