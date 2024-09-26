@@ -17,33 +17,27 @@ const ActiveTextInput = styled.input`
         font-size: 12px;
         padding: 5px 10px;
     }
-`;
+    
+    &:disabled {
+        background-color: var(--black000);
+        border-radius: 5px;
 
-const TextInput = styled.input`
-    width: 100%;
-    background-color: var(--black200);
-    border-radius: 5px;
-    padding: 8px 15px;
-    font-size: 16px;
 
-    @media (max-width: 768px) {
-        font-size: 14px;
-        padding: 5px 10px;
-    }
+        @media (max-width: 768px) {
+            font-size: 14px;
+            padding: 5px 10px;
+        }
 
-    @media (max-width: 480px) {
-        font-size: 12px;
-        padding: 5px 10px;
+        @media (max-width: 480px) {
+            font-size: 12px;
+            padding: 5px 10px;
+        }
     }
 `;
 
-const WhiteInputBox = ({ value, onChange, isActive = true}) => {
+const WhiteInputBox = ({ value, onChange, disabled=false}) => {
     return (
-        isActive ? (
-            <ActiveTextInput value={value} onChange={onChange} />
-        ) : (
-            <TextInput value={value} readOnly/>
-        )
+        <ActiveTextInput value={value} onChange={onChange} disabled={disabled}/>
     );
 }
 
