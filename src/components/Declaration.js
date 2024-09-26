@@ -109,12 +109,12 @@ const Declaration = ({ onSubmit, onClose }) => {
   };
 
   const handleFocus = () => {
-    setIsFocused(true); 
+    setIsFocused(true);
   };
 
   const handleBlur = (e) => {
     if (e.target.value === '') {
-      setIsFocused(false); 
+      setIsFocused(false);
     }
   };
 
@@ -136,7 +136,7 @@ const Declaration = ({ onSubmit, onClose }) => {
           <option value="스팸">스팸</option>
         </Select>
 
-      {/* 신고 내용 */}
+        {/* 신고 내용 */}
         <TextArea
           value={description}
           onChange={(e) => setDescription(e.target.value)}

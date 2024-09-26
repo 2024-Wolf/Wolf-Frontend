@@ -2,16 +2,17 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 const ModalContainer = styled.div`
-  position: fixed;
-  top: 50%;
-  left: 50%;
+  display: ${props => (props.isAlarmOpen ? 'fixed' : 'none')};
+  position: absolute;
   transform: translate(-50%, -50%);
-  width: 350px;
+  min-width: 350px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  right: 0px;
+  top: calc(100% + 10px);
   background-color: #fff;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  z-index: 1000;
 `;
 
 const AlramTitle = styled.div`
@@ -75,26 +76,43 @@ const AlramFooter = styled.div`
 `;
 
 
-const AlramPreview = ({ notifications, userId }) => {
+const AlramPreview = ({ notifications, userId, isAlarmOpen }) => {
   const [unreadCount, setUnreadCount] = useState(0);
 
-// 읽지 않은 알림의 ()안에 숫자 카운트 , 모든 알림을 읽지 않은 것으로 가정
+  // 읽지 않은 알림의 ()안에 숫자 카운트 , 모든 알림을 읽지 않은 것으로 가정
   useEffect(() => {
-    const unread = notifications.length; 
+    const unread = notifications.length;
     setUnreadCount(unread);
   }, [notifications]);
 
   const calculateDaysAgo = (notificationDate) => {
     const currentDate = new Date();
-    const dateDiff = Math.floor((currentDate - new Date(notificationDate)) / (1000 * 60 * 60 * 24)); 
+    const dateDiff = Math.floor((currentDate - new Date(notificationDate)) / (1000 * 60 * 60 * 24));
     return dateDiff === 0 ? '오늘' : `${dateDiff}일 전`;
   };
 
+  if (notifications == null | !Array.isArray(notifications)) {
+    // notifications이 null이거나 배열이 아니라면
+    return (
+      <ModalContainer>
+        {/* Alram 제목 */}
+        <AlramTitle>알림</AlramTitle>
+
+        < div > 알림이 없습니다.</div >
+
+        {/* 전체 알림 상세 페이지 이동 */}
+        <AlramFooter onClick={() => alert('전체 알림 페이지로 이동합니다.')}>
+          전체 알림 보기
+        </AlramFooter>
+      </ModalContainer>
+    )
+  }
+
   return (
-    <ModalContainer>
+    <ModalContainer isAlarmOpen={isAlarmOpen}>
       {/* Alram 제목 */}
       <AlramTitle>알림</AlramTitle>
-      
+
       {/* Alram 상당 */}
       <AlramHeader>읽지 않은 알림 ({unreadCount})</AlramHeader>
       {notifications.map((notification, index) => (
