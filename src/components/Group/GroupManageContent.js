@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import ApplicantConfirmModal from "./GroupInfoModal/ApplicantConfirmModal";
 import TabContentsWrapper from "../TabContentsWrapper";
+import GroupInfoContent from "./GroupComponent/GroupInfoContent";
 
 //전체 div
 const Container = styled(TabContentsWrapper)`
@@ -22,8 +23,17 @@ const Section = styled.section`
     width: 100%;
     display: flex;
     flex-direction: column;
-    border-radius: 8px;
     border: 1px solid #e0e0e0;
+`;
+
+const InfoSection = styled.div`
+    padding: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 0 0 8px 8px;
+    border: 1px solid #e0e0e0;
+    background-color: var(--violet200);        
 `;
 
 // 모집 기본 정보 타이틀
@@ -386,69 +396,11 @@ const GroupManageContent = (props) => {
 
     return (
         <Container>
-            <Section>
-                <Title>모집 기본 정보</Title>
-                <GroupContent>
-
-
-                </GroupContent>
-                <RecruitDate>
-                    <div>
-                        <label>모임 구분</label>
-                        <Select>
-                            <option value="study">스터디</option>
-                            <option value="project">프로젝트</option>
-                        </Select>
-                    </div>
-                    <div>
-                        <label>모집기간</label>
-                        <input type="date" value={startDate} onChange={handleStartDate}/>~<input type="date"
-                                                                                                 value={endDate}
-                                                                                                 onChange={handleEndDate}/>
-                    </div>
-                    <div>
-                        <label>모집마감일</label>
-                        <input type="date" value={deadLineDate} onChange={handledeadLineDate}/>
-                    </div>
-
-                </RecruitDate>
-
-                <IntroduceDiv>
-                    <label>모집한줄소개</label>
-                    <input type="text" value={introduce} onChange={handleIntroduce}/>
-                </IntroduceDiv>
-
-
-                <SubTitle>이메일, 지원직군, 지원사유는 필수입니다. 정보를 많이 요청시, 지원율이 떨어집니다. 필수값만 지정해주세요!</SubTitle>
-
-                <SupportInput>
-                    <label>지원시 입력사항</label>
-                    {/* 버튼 리스트: 클릭 상태에 따라 색상 변화 */}
-                    {["이메일", "지원직군", "지원사유", "다를 수 있는 언어", "참여가능 요일", "자기소개", "포트폴리오 링크", "자유기재"].map(
-                        (item, index) => (
-                            <button
-                                key={index}
-                                onClick={() => toggleButtonClick(index)}
-                                style={{
-                                    backgroundColor: clickedButtons[index] ? "black" : "white",
-                                    color: clickedButtons[index] ? "white" : "black",
-                                }}
-                            >
-                                {item}
-                            </button>
-                        )
-                    )}
-                </SupportInput>
-
-                <TagDiv>
-                    <label>태그</label>
-                    <input type="text"/>
-                </TagDiv>
-
+            <InfoSection>
+                <GroupInfoContent/>
                 {/* 모집직군 : 프로젝트시에만 보여짐
           스터디는 총 모집 인원만 수정 가능
           이미 모집이 완료된 인원 수는 줄일 수 없음. */}
-
                 <Wrapper>
                     <div>
                         <label>모집직군</label>
@@ -498,21 +450,7 @@ const GroupManageContent = (props) => {
                         <input type="file" accept="image/*"/>
                     </div>
                 </Wrapper>
-
-            </Section>
-
-            <Section>
-                <Title>모임 소개</Title>
-                <SubjectTitle>
-                    <label>주제</label>
-                    <div>파이널 프로젝트 - 지금 2조</div>
-                </SubjectTitle>
-                <div>
-                    <TextArea rows="4" placeholder="모집에 대한 간단한 소개를 작성해주세요."/>
-
-                    <TextArea rows="4" placeholder="유의사항 적어주세요."/>
-                </div>
-            </Section>
+            </InfoSection>
 
             <Section>
                 <MemberTitle>모임원 관리</MemberTitle>
