@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import StatusButton from "./Components/StatusButton";
 import styled from "styled-components";
 import NextButton from "./Components/NextButton";
@@ -28,7 +28,7 @@ const options = [
     "초기 멤버를 찾고 있어요"
 ];
 
-const SecondProcessContent = () => {
+const SecondProcessContent = ({ onNext, onPrev }) => {
     const [selectedOptions, setSelectedOptions] = useState([]);
 
     const handleOptionClick = (option) => {
@@ -42,20 +42,21 @@ const SecondProcessContent = () => {
 
     return (
         <ContentWrapper>
-            <StatusButton nowIndex={1}/>
-            <SubTitle title={"현재 상태를 알려주세요"}/>
+            <button onClick={onPrev}>이전</button>
+            <StatusButton nowIndex={1} />
+            <SubTitle title={"현재 상태를 알려주세요"} />
             <ButtonGroup>
                 {options.map((option, index) => (
                     <OptionButton
                         key={index}
                         label={option}
-                        count = {2}
+                        count={2}
                         selected={selectedOptions.includes(option)}
                         onClick={() => handleOptionClick(option)}
                     />
                 ))}
             </ButtonGroup>
-            <NextButton>
+            <NextButton onClick={onNext}>
                 다음
             </NextButton>
         </ContentWrapper>

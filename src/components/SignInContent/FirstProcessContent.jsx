@@ -99,19 +99,21 @@ const RadioButton = styled.input.attrs({ type: "radio" })`
 `;
 
 
-const FirstProcessContent = () => {
+function FirstProcessContent({ onNext, onPrev }) {
+
     return (
         <ContentWrapper>
-            <StatusButton nowIndex={0}/>
-            <SubTitle title={"업무 분야와 경력에 맞춰 \n 딱 맞는 정보를 추천해드릴게요!"}/>
+            <button onClick={onPrev}>이전</button>
+            <StatusButton nowIndex={0} />
+            <SubTitle title={"업무 분야와 경력에 맞춰 \n 딱 맞는 정보를 추천해드릴게요!"} />
             <Row>
                 <InputWrapper>
                     <InputLabel>직무를 입력해주세요</InputLabel>
-                    <WhiteInputBox isActive = {true}/>
+                    <WhiteInputBox isActive={true} />
                 </InputWrapper>
                 <InputWrapper>
                     <InputLabel>경력을 입력해주세요</InputLabel>
-                    <WhiteInputBox isActive = {true}/>
+                    <WhiteInputBox isActive={true} />
                 </InputWrapper>
             </Row>
 
@@ -126,9 +128,9 @@ const FirstProcessContent = () => {
                         <RadioButtonLabel htmlFor="private">비공개</RadioButtonLabel>
                     </ButtonWrapper>
                 </Row>
-                <WhiteInputBox isActive = {true}/>
+                <WhiteInputBox isActive={true} />
             </InputWrapper>
-            <NextButton>
+            <NextButton onClick={onNext}>
                 다음
             </NextButton>
         </ContentWrapper>

@@ -45,16 +45,17 @@ const InputWrapper = styled.div`
 
 
 
-const FourthProcessContent = () => {
+const FourthProcessContent = ({ onPrev, onClose }) => {
     return (
         <ContentWrapper>
-            <StatusButton nowIndex={3}/>
-            <SubTitle title={"닉네임을 입력해주세요."}/>
+            <button onClick={onPrev}>이전</button>
+            <StatusButton nowIndex={3} />
+            <SubTitle title={"닉네임을 입력해주세요."} />
             <InputWrapper>
-                <WhiteInputBox isActive = {true}/>
+                <WhiteInputBox isActive={true} />
                 <InputLabel>사용 가능한 닉네임입니다.</InputLabel>
             </InputWrapper>
-            <NextButton>
+            <NextButton onClick={onClose}>
                 프로필 저장
             </NextButton>
         </ContentWrapper>

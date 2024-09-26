@@ -31,9 +31,9 @@ const Button = styled.button`
     }
 `;
 
-const NextButton = ({children}) => {
+const NextButton = ({ onClick, children }) => {
     return (
-        <Button>
+        <Button onClick={onClick}>
             {children}
         </Button>
     );

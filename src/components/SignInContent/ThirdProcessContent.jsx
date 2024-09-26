@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import StatusButton from "./Components/StatusButton";
 import styled from "styled-components";
 import NextButton from "./Components/NextButton";
@@ -104,7 +104,7 @@ const options = [
 
 
 
-const ThirdProcessContent = () => {
+const ThirdProcessContent = ({ onNext, onPrev }) => {
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(options[0].category);
 
@@ -123,8 +123,9 @@ const ThirdProcessContent = () => {
 
     return (
         <ContentWrapper>
-            <StatusButton nowIndex={2}/>
-            <SubTitle title={"관심이 있거나 보유하고 있는 스킬을 선택해주세요"}/>
+            <button onClick={onPrev}>이전</button>
+            <StatusButton nowIndex={2} />
+            <SubTitle title={"관심이 있거나 보유하고 있는 스킬을 선택해주세요"} />
             <CategoryWrapper>
                 {categories.map((category) => (
                     <CategoryButton
@@ -149,7 +150,7 @@ const ThirdProcessContent = () => {
 
                 )) || []}
             </ButtonGroup>
-            <NextButton>
+            <NextButton onClick={onNext}>
                 다음
             </NextButton>
         </ContentWrapper>

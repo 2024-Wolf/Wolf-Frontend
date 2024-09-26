@@ -277,8 +277,12 @@ function Header(props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const closeModal = () => {
+    setIsModalOpen(false); // 모달 닫기
+    setCurrentStep(1); // 현재 단계 초기화
+  };
 
+  // ModalContainer 페이지 이동
   const [currentStep, setCurrentStep] = useState(1);
 
   const nextStep = () => {
@@ -286,7 +290,7 @@ function Header(props) {
   };
 
   const prevStep = () => {
-    setCurrentStep(prevStep => Math.max(prevStep - 1, 1)); // Prevent going below step 1
+    setCurrentStep(prevStep => Math.max(prevStep - 1, 1));
   };
 
   return (
@@ -300,11 +304,11 @@ function Header(props) {
       {
         isModalOpen && (
           <ModalContainer onClose={closeModal}>
-            {currentStep === 1 && <LoginContent onNext={nextStep} />}
-            {currentStep === 2 && <FirstProcessContent onNext={nextStep} onPrev={prevStep} />}
-            {currentStep === 3 && <SecondProcessContext onNext={nextStep} onPrev={prevStep} />}
-            {currentStep === 4 && <ThirdProcessContent onNext={nextStep} onPrev={prevStep} />}
-            {currentStep === 5 && <FourthProcessContent onPrev={prevStep} />}
+            {currentStep === 1 && <LoginContent onNext={nextStep} key={LoginContent} />}
+            {currentStep === 2 && <FirstProcessContent onNext={nextStep} onPrev={prevStep} key={FirstProcessContent} />}
+            {currentStep === 3 && <SecondProcessContext onNext={nextStep} onPrev={prevStep} key={SecondProcessContext} />}
+            {currentStep === 4 && <ThirdProcessContent onNext={nextStep} onPrev={prevStep} key={ThirdProcessContent} />}
+            {currentStep === 5 && <FourthProcessContent onPrev={prevStep} key={FourthProcessContent} onClose={closeModal} />}
           </ModalContainer>
         )
       }
