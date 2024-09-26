@@ -10,6 +10,14 @@ const Container = styled(TabContentsWrapper)`
     display: flex;
     align-items: center;
     background-color: white;
+
+    @media (max-width: 768px) {
+        padding: 0 40px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 0 20px;
+    }
 `;
 
 // 섹션
@@ -21,12 +29,29 @@ const Section = styled.section`
     background-color: var(--violet100);
     border: 1px solid var(--black200);
     border-radius: 0 0 8px 8px;
+
+    @media (max-width: 768px) {
+        padding: 15px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 10px;
+    }
 `;
 
 const ApplyTitle = styled.h2`
     font-size: 24px;
     font-weight: 500;
     margin: 20px 0;
+    @media (max-width: 768px) {
+        font-size: 20px;
+        margin: 15px 0;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 18px;
+        margin: 10px 0;
+    }
 `;
 
 
@@ -38,6 +63,11 @@ const ApplyInfo = styled.div`
     padding: 10px 0;
     border-bottom: 1px solid #e0e0e0;
 
+    @media (max-width: 768px) {
+        align-items: center;
+        padding: 5px 0;
+    }
+
     .UserDetails {
         display: flex;
         align-items: center;
@@ -48,24 +78,59 @@ const ApplyInfo = styled.div`
         display: flex;
         align-items: center;
         flex: 0.35;
+
+        @media (max-width: 768px) {
+            flex-direction: column;
+            gap: 5px;
+            font-size: 14px;
+            align-items: center;
+            justify-content: center;
+            
+            label {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            font-size: 10px;
+            flex-direction: column;
+
+
+            label {
+                font-size: 14px;
+            }
+        }
     }
 `;
 
 const UserImg = styled.div`
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        background-color: #6c63ff;
-        margin-right: 10px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #6c63ff;
+    margin-right: 10px;
 `;
 
 const UserName = styled.div`
-        font-size: 18px;
+    font-size: 18px;
+    @media (max-width: 768px) {
+        font-size: 16px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 14px;
+    }
 `;
 
 const UserPosition = styled.div`
     margin-left: 50px;
     font-weight: 500;
+    line-height: 1.5;
+    @media (max-width: 768px) {
+        margin-left: 0;
+        font-size: 12px;
+        text-align: center;
+    }
 `;
 
 const Date = styled.div`
@@ -73,6 +138,16 @@ const Date = styled.div`
     font-size: 16px;
     color: var(--black600);
     text-align: center;
+
+    @media (max-width: 768px) {
+        margin: 0 20px;
+        font-size: 14px;
+    }
+
+    @media (max-width: 480px) {
+        margin: 0 10px;
+        font-size: 12px;
+    }
 `;
 
 //버튼 style
@@ -86,6 +161,16 @@ const Button = styled.button`
     &:hover {
         background-color: var(--violet700);
     }
+
+    @media (max-width: 768px) {
+        font-size: 14px;
+        padding: 10px 16px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
 `;
 
 //지원자 섹션   
@@ -94,9 +179,25 @@ const ApplySection = styled.div`
     padding: 20px;
     width: 100%;
     border-radius: 8px;
+    
+    @media (max-width: 768px) {
+        padding: 15px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 10px;
+    }
 
     label {
         font-size: 18px;
+
+        @media (max-width: 768px) {
+            font-size: 16px;
+        }
+
+        @media (max-width: 480px) {
+            font-size: 14px;
+        }
     }
 `;
 

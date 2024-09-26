@@ -9,46 +9,96 @@ const ContentsWrapper = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
+    padding: 20px;
+
+    @media (max-width: 768px) {
+        padding: 10px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 5px;
+    }
 `;
 
 const Title = styled.h1`
-    font-size: 20px;
+    font-size: 24px;
     font-weight: 500;
     margin: 30px 0;
-`;
 
+    @media (max-width: 768px) {
+        font-size: 18px;
+        margin: 20px 0;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 16px;
+        margin: 15px 0;
+    }
+`;
 const Row = styled.div`
     display: flex;
     width: 100%;
     justify-content: space-between;
     margin: 10px 0;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    @media (max-width: 480px) {
+        flex-direction: column;
+        gap: 8px;
+    }
 `;
 
 const Select = styled.select`
-    padding: 5px 15px;
+    padding: 10px 15px;
     border-radius: 5px;
     border: 2px solid var(--violet500);
+
+    @media (max-width: 768px) {
+        padding: 6px 10px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 5px 8px;
+    }
 `;
 
 const Label = styled.div`
-    width : 70px;    
-    display: flex;
-    align-items: center;
+    width: 70px;
     font-size: 16px;
-    line-height: 1.5;
+
+    @media (max-width: 768px) {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 13px;
+    }
 `;
 
 const LongLabel = styled(Label)`
-    width : 110px;
+    width: 110px;
     align-items: center;
+
+    @media (max-width: 768px) {
+        width: 100%;
+    }
 `;
 
 const ButtonGroup = styled.div`
     display: flex;
     width: 92%;
     justify-content: left;
-`;
 
+    @media (max-width: 768px) {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+`;
 const StyledButton = styled.button`
     background-color: ${({ clicked }) => (clicked ? "var(--black700)" : "white")};
     color: ${({ clicked }) => (clicked ? "white" : "black")};
@@ -58,6 +108,17 @@ const StyledButton = styled.button`
     border-radius: 30px;
     cursor: pointer;
 
+    @media (max-width: 768px) {
+        padding: 8px;
+        font-size: 12px;
+        flex: 1;
+    }
+    
+    @media (max-width: 480px) {
+        padding: 5px;
+        font-size: 10px;
+        flex: 1;
+    }
 `;
 
 const ThumbNail = styled.div`
@@ -65,13 +126,29 @@ const ThumbNail = styled.div`
     align-items: center;
     gap: 10px;
     margin-left: 10px;
+
+
     label {
         font-size: 16px;
         line-height: 1.5;
     }
-    
+
     input {
         width: 200px;
+
+        @media (max-width: 768px) {
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    @media (max-width: 480px) {
+        gap: 8px;
     }
 `;
 
@@ -94,6 +171,10 @@ const SubjectTitle = styled.div`
     label {
         margin-right: 20px;
         white-space: nowrap;
+
+        @media (max-width: 768px) {
+            margin-right: 10px;
+        }
     }
 
     input {
@@ -103,12 +184,17 @@ const SubjectTitle = styled.div`
         border: 1px solid var(--violet500);
         background-color: var(--violet300);
         border-radius: 5px;
+
+        @media (max-width: 768px) {
+            font-size: 14px;
+            padding: 8px;
+        }
     }
 `;
 
 const TextArea = styled.textarea`
     width: 100%;
-    height: 200px;
+    min-height: 200px;
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid var(--violet500);
@@ -116,9 +202,19 @@ const TextArea = styled.textarea`
     resize: none;
     font-size: 16px;
     line-height: 1.5;
-    
+
     &:disabled {
         background-color: var(--black000);
+    }
+
+    @media (max-width: 768px) {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 13px;
+        padding: 6px;
     }
 `;
 
@@ -127,6 +223,15 @@ const Buttons = styled.div`
     margin-top: 20px;
     justify-content: flex-end;
     gap: 20px;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    @media (max-width: 480px) {
+        gap: 5px;
+    }
 `;
 
 const Button = styled.button`
@@ -140,6 +245,17 @@ const Button = styled.button`
     &:hover {
         background-color: var(--violet700);
     }
+
+    @media (max-width: 768px) {
+        padding: 8px;
+        font-size: 14px;
+        width: 100%;
+    }
+    
+    @media (max-width: 480px) {
+        padding: 5px;
+        font-size: 12px;
+    }
 `;
 
 const DeleteCancelButton = styled(Button)`
@@ -148,6 +264,7 @@ const DeleteCancelButton = styled(Button)`
     &:hover {
         background-color: var(--black300);
     }
+    
 `;
 
 const MemberTitle = styled.div`
@@ -157,19 +274,27 @@ const MemberTitle = styled.div`
     margin-top: 30px;
     padding: 30px 0;
     text-align: center;
+
+    @media (max-width: 768px) {
+        font-size: 20px;
+        padding: 20px 0;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 18px;
+        padding: 15px 0;
+    }
 `;
 
 const UserInfo = styled.div`
-display: flex;
+    display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px 0;
-    border-bottom: 1px solid #e0e0e0;
-
+    gap: 10px;
+    margin-bottom: 10px;
     .UserDetails {
         display: flex; /* UserImg와 UserName을 한 줄로 정렬 */
         align-items: center; /* UserImg와 UserName의 수직 중앙 정렬 */
-        
     }
 
     .roleSelect {
@@ -186,6 +311,29 @@ display: flex;
         font-size: 12px;
         color: #999;
     }
+
+    @media (max-width: 768px) {
+        flex-wrap: wrap;
+        align-items: center;
+        font-size: 14px;
+        .UserDetails {
+            gap: 10px;
+        }
+
+        .roleSelect {
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .roleSelect label {
+            margin: 10px 0;
+        }
+        
+        .date {
+            width: 100%; /* 모바일에서 전체 너비 사용 */
+            text-align: center;
+        }
+    }
 `;
 
 const UserImg = styled.div`
@@ -197,7 +345,14 @@ const UserImg = styled.div`
 `;
 
 const UserName = styled.div`
-        font-size: 18px;
+    font-size: 18px;
+    @media (max-width: 768px) {
+        font-size: 16px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 14px;
+    }
 `;
 
 // 메인 컴포넌트
@@ -415,14 +570,14 @@ const GroupWritingContent = ({memberData}) => {
                     <MemberTitle>모임원 관리</MemberTitle>
                     {memberData?.map((user) => (
                         <UserInfo key={user.id}>
-                            <div className="UserDetails">
+                            <div className="UserDetails" >
                                 <UserImg/>
                                 <UserName>{user.name}</UserName>
                             </div>
 
                             <div className="roleSelect">
                                 <label>모집직군</label>
-                                <Select defaultValue={user.role}>
+                                <Select defaultValue={user.role} disabled={contentsType === 'viewing'}>
                                     <option value="frontEnd">프론트엔드개발자</option>
                                     <option value="backEnd">백엔드개발자</option>
                                     <option value="planner">기획자</option>
@@ -432,7 +587,7 @@ const GroupWritingContent = ({memberData}) => {
 
                             <div className="roleSelect">
                                 <label>권한</label>
-                                <Select defaultValue={user.position}>
+                                <Select defaultValue={user.position} disabled={contentsType === 'viewing'}>
                                     <option value="master">모집장</option>
                                     <option value="member">모집원</option>
                                 </Select>
