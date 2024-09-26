@@ -58,7 +58,7 @@ function ChallengeList(props){
         case "진행중":
             category = '진행 중인 챌린지🔥';
             background = 'var(--violet300)';
-            buttonText = '인증 완료';
+            buttonText = '인증하기';
             break;
         case "완료":
             category = '완료된 챌린지';
