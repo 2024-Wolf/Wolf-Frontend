@@ -2,14 +2,10 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Category from "../Category/Category";
 import ActivityCardList from "./ActivityCardList";
+import TabContentsWrapper from "../TabContentsWrapper";
 
-const PageContainer = styled.div`
-    width: 100%;
+const PageContainer = styled(TabContentsWrapper)`
     padding: 20px;
-    background-color: var(--violet000);
-    border: 1px solid var(--violet400);
-    display: flex;
-    flex-direction: column;
     gap: 15px;
     position: relative;
 

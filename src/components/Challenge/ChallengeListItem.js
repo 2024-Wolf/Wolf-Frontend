@@ -1,107 +1,172 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import WebFont from "webfontloader";
 
 const Container = styled.div`
-    width: 220px;
-    height: 200px;
-    border: 1px solid #838586;
+    width: 100%;
+    max-width: 240px;
+    height: 240px;
+
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    border: 0.5px solid var(--black300);
     border-radius: 30px;
     overflow: hidden;
-    &:hover{
-        cursor: pointer;
-        border: 3px solid #111111;
+    background-color: #ffffff;
+    transition: transform 0.3s ease;
+
+    &:hover {
+        transform: scale(1.05);
+    }
+
+    @media (max-width: 768px) {
+        max-width: 200px; 
+        height: 220px;
+    }
+
+    @media (max-width: 480px) {
+        max-width: 160px; 
+        height: 180px;
     }
 `;
 
 const Top = styled.div`
     width: 100%;
-    height: 50%;
+    height: 45%;
     font-family: 'Kavoon', cursive;
     font-size: 35px;
-    color: #666869;
-    line-height: 90px;
-    text-align: center;
+    color: var(--black600);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @media (max-width: 768px) {
+        font-size: 28px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 24px;
+    }
 `;
 
 const Bottom = styled.div`
     width: 100%;
-    height: 50%;
-    padding-top: 10px;
+    padding: 10px;
 `;
 
 const Title = styled.div`
-    width: 90%;
-    height: 35%;
-    color: #49494A;
     font-size: 18px;
-    margin: 0px auto;
-    text-align: center;
-`;
+    font-weight: 500;
+    color: var(--black800);
+    text-align: left;
+    margin-bottom: 15px;
 
-const Date = styled.div`
-    width: 90%;
-    height: 20%;
-    color: #838586;
-    font-size: 11px;
-    margin-bottom: 5px;
-    text-align: center;
-`;
+    min-height: 36px;
 
-const Button = styled.div`
-    width: 85%;
-    height: 30%;
-    margin: 0px auto;
-    background: #E5E1FF;
-    border: 1px solid #9787FF;
-    color: #49494A;
-    font-weight: bold;
-    font-size: 14px;
-    line-height: 25px;
-    text-align: center;
+    @media (max-width: 768px) {
+        font-size: 14px;
+        min-height: 30px;
+        margin-bottom: 10px;
+    }
 
-    &:hover{
-        background: #B3A8FF;
-        border: 1px solid #8578D8;
+    @media (max-width: 480px) {
+        font-size: 12px;
+        min-height: 24px;
+        margin-bottom: 8px;
     }
 `;
 
-function ChallengeListItem(props){
-    let topBgColor = props.category == "완료" ? "#B3B4B4" : "#F2F0FF";
+const Date = styled.div`
+    width: 100%;
+    color: var(--black600);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
     
+    font-size: 12px;
+
+    @media (max-width: 768px) {
+        font-size: 10px;
+        margin-bottom: 10px;
+        
+    }
+
+    @media (max-width: 480px) {
+        font-size: 8px;
+        margin-bottom: 8px;
+    }
+`;
+
+const Button = styled.div`
+    margin: 0 auto;
+    padding: 8px 10px;
+    background: var(--violet200);
+    border: 1px solid var(--violet400);
+    border-radius: 5px;
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: var(--black700);
+    font-weight: 500;
+    font-size: 14px;
+
+    &:hover {
+        background: var(--violet400);
+        border: 1px solid #8578D8;
+    }
+
+    @media (max-width: 768px) {
+        padding: 6px 8px;
+        font-size: 12px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 5px 6px;
+        font-size: 10px;
+    }
+`;
+
+function ChallengeListItem(props) {
+    let topBgColor = props.category === "완료" ? "#B3B4B4" : "#F2F0FF";
 
     // Kavoon font 불러오기
     useEffect(() => {
         WebFont.load({
-          google: {
-            families: ['Kavoon']
-          }
+            google: {
+                families: ['Kavoon']
+            }
         });
-
-      }, []);
+    }, []);
 
     const handleButton = (e) => {
         e.stopPropagation();
         props.clickFunc();
-    }
+    };
 
-    return(
+    return (
         <Container>
-            <Top style={{background:topBgColor}}>
+            <Top style={{ background: topBgColor }}>
                 WOLF
             </Top>
             <Bottom>
                 <Title>{props.title}</Title>
                 <Date>
-                    <span>등록일 | 2024.09.15</span>
-                    <span style={{float: 'right', clear:'both'}}>마감일 | 2024.12.15</span>
+                    <div>등록일 | 2024.09.15</div>
+                    <div>마감일 | 2024.12.15</div>
                 </Date>
                 <Button onClick={handleButton}>
                     {props.buttonText}
                 </Button>
             </Bottom>
         </Container>
-    )
+    );
 }
 
 export default ChallengeListItem;

@@ -6,7 +6,7 @@ const CardContainer = styled.div`
     display: flex;
     width: 100%;
     flex-wrap: wrap;
-    gap: 15px;
+    gap: 25px;
 
     @media (max-width: 768px) {
         justify-content: center;

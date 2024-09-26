@@ -11,7 +11,7 @@ const Title = styled.div`
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    margin: 0px auto;
+    margin: 0 auto;
     font-size: 25px;
 `;
 

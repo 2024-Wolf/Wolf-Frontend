@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import UserInfoContent from "../components/MyPageComponents/UserInfoContent";
 import styled from "styled-components";
@@ -15,7 +15,7 @@ const MyPageContainer = styled.div`
     height: auto;
     flex-direction: column;
     margin: 50px auto;
-    max-width: 1300px; /* 최대 너비를 1300px로 설정 (변경 가능성 O)*/
+    max-width: 1340px; /* 최대 너비를 1340px  설정 (변경 가능성 O)*/
     padding: 0 20px;
 
     @media (max-width: 768px) {

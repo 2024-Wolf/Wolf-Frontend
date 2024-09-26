@@ -3,6 +3,8 @@ import styled,{ css } from "styled-components";
 import WhiteInputBox from "../Input/WhiteInputBox";
 import ActivityScoreBar from "../ActivityScore/ActivityScoreBar";
 import RegularIcon from "../Icon/RegularIcon";
+import TabContentsWrapper from "../TabContentsWrapper";
+import LinkInput from "../Input/Link/LinkInput";
 
 const responsivePadding = css`
     @media (max-width: 768px) {
@@ -20,14 +22,11 @@ const responsiveFontSize = css`
     }
 `;
 
-const Wrapper = styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
+const Wrapper = styled(TabContentsWrapper)`
     gap: 20px;
     padding: 50px 35px;
-    background-color: var(--violet000);
-    border: 1px solid var(--violet400);
+    //background-color: var(--violet000);
+    //border: 1px solid var(--violet200);
     ${responsivePadding}
 `;
 
@@ -245,13 +244,19 @@ const UserInfoContent = () => {
                     value={userInfo.introduce}
                     onChange={(e) => handleInputChange("introduce", e.target.value)}
                 />
-                <LinkRow>
-                    <RegularIcon
-                        src={"https://cdn-icons-png.flaticon.com/512/25/25231.png"}
-                        alt={"github"}
-                    />
-                    <WhiteInputBox />
-                </LinkRow>
+                {/* LinkInput 컴포넌트 사용 */}
+                <LinkInput
+                    iconSrc={"https://cdn-icons-png.flaticon.com/512/25/25231.png"}
+                    iconAlt={"github"}
+                    inputValue={userInfo.github}
+                    onInputChange={(e) => handleInputChange("github", e.target.value)}
+                />
+                <LinkInput
+                    iconSrc={"https://cdn-icons-png.flaticon.com/512/25/25231.png"}
+                    iconAlt={"figma"}
+                    inputValue={userInfo.figma}
+                    onInputChange={(e) => handleInputChange("figma", e.target.value)}
+                />
             </EtcContentsWrapper>
 
             <ButtonContainer>

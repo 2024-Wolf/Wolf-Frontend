@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import MeetingPortal from '../components/MeetingPortal';
+import MeetingPortal from '../components/Group/MeetingComponent/MeetingPortal';
 
 const TabsContainer = styled.div`
   display: flex;
