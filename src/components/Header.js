@@ -186,10 +186,10 @@ function IsLoggedIn({ isLoggedIn, openModal }) {
             if (hasNotifications) {
               setHasNotifications(false); // 알림 상태 변경
             }
-            alert('벨모양');
+            alert('벨모양(비워진 벨로 변경됨)');
             break;
           case 'profile':
-            navigate('/user'); // 프로필 화면으로 이동
+            navigate('/mypage'); // 프로필 화면으로 이동
             break;
           case 'dropdown':
             setIsDropdownVisible((prev) => !prev); // 드롭다운 표시 토글
@@ -278,8 +278,8 @@ function Header(props) {
     <HeaderContainer>
       <MainLogo href="/" onClick={() => alert('메인화면 이동')}>WOLF</MainLogo>
       <HeaderContent>
-        <DarkBackgroundButton onClick={() => navigate('/post')}>팀원 모집하기</DarkBackgroundButton>
-        <LightBackgroundButton onClick={() => alert('FAQ')}>FAQ</LightBackgroundButton>
+        <DarkBackgroundButton onClick={() => navigate('/write')}>팀원 모집하기</DarkBackgroundButton>
+        <LightBackgroundButton onClick={() => navigate('/faq')}>FAQ</LightBackgroundButton>
         <IsLoggedIn isLoggedIn={true} openModal={openModal} /> {/* 로그인 했다면 true, 로그인 하지 않았다면 false */}
       </HeaderContent>
       {
