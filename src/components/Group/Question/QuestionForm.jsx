@@ -55,13 +55,13 @@ const FileInputButton = styled.label`
   }
 `;
 
-const QuestionForm = ({ newPost, setNewPost, newPostFile, setNewPostFile, handlePostSubmit, showFileOptions = true}) => {
+const QuestionForm = ({ newQuestion, setNewQuestion, newPostFile, newQuestionFile, handleQuestionSubmit, showFileOptions = true}) => {
     return (
-        <QuestionFormContainer onSubmit={handlePostSubmit}>
+        <QuestionFormContainer onSubmit={handleQuestionSubmit}>
             <TextArea
                 placeholder="응원이나 궁금한 내용을 입력해주세요!"
-                value={newPost}
-                onChange={(e) => setNewPost(e.target.value)}
+                value={newQuestion}
+                onChange={(e) => setNewQuestion(e.target.value)}
             />
             <ButtonRow>
                 {newPostFile && <span>{newPostFile.name}</span>}
@@ -69,7 +69,7 @@ const QuestionForm = ({ newPost, setNewPost, newPostFile, setNewPostFile, handle
                         파일 선택
                         <input
                             type="file"
-                            onChange={(e) => setNewPostFile(e.target.files[0])}
+                            onChange={(e) => newQuestionFile(e.target.files[0])}
                             style={{ display: 'none' }}
                         />
                     </FileInputButton>

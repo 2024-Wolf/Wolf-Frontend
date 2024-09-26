@@ -123,11 +123,11 @@ const MeetingContent = () => {
 
             {/* 게시글 작성 영역 */}
             <QuestionForm
-                newPost={newQuestion}
-                setNewPost={setNewQuestion}
-                newPostFile={newQuestionFile}
-                setNewPostFile={setNewQuestionFile}
-                handlePostSubmit={handlePostSubmit}
+                newQuestion={newQuestion}
+                setNewQuestion={setNewQuestion}
+                newQuestionFile={newQuestionFile}
+                setNewQuestionFile={setNewQuestionFile}
+                handleQuestionSubmit={handlePostSubmit}
             />
             <QuestionList
                 questions={posts}
