@@ -123,9 +123,24 @@ const StatusButton = styled.div`
     width: 100%;
 `;
 
-const ModalTitle = styled.h2`
-    font-size: 15px;
+const ModalBody = styled.div`
+    width: 60%;
+    height: 100%;
+    padding: 20px;
+`;
+
+const ModalTitle = styled.div`
+    font-size: 30px;
     font-weight: bold;
+    margin: 0px auto;
+    margin-bottom: 20px;
+`;
+
+const ModalSubTitle = styled.div`
+    font-size: 20px;
+    font-weight: bold;
+    color: #49494A;
+    margin: 0px auto;
     margin-bottom: 20px;
 `;
 
@@ -135,6 +150,46 @@ const CalendarIcon = styled.span`
     height: 20px;
     background-image: url('https://upload.wikimedia.org/wikipedia/commons/3/3a/Calendar_icon.svg');
     background-size: cover;
+`;
+
+const InputContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+`;
+
+const ButtonContainer = styled.div`
+    display: flex;
+    gap: 20px;
+    text-align: center;
+    line-height: 30px;
+`;
+
+const PositiveBtn = styled.div`
+    background: #E5E1FF;
+    border: 1px solid #9787FF;
+    width: 60px;
+    height: 30px;
+
+    &:hover{
+        cursor: pointer;
+        background: #B3A8FF;
+        border: 1px solid #8578D8;
+    }
+`;
+
+const NegativeBtn = styled.div`
+    background: #E5E1FF;
+    border: 1px solid #9787FF;
+    width: 60px;
+    height: 30px;
+    
+    &:hover{
+        cursor: pointer;
+        background: #B3A8FF;
+        border: 1px solid #8578D8;
+    }
 `;
 
 const TodoContent = () => {
@@ -203,15 +258,23 @@ const TodoContent = () => {
 
             {/* 일정 등록 모달 */}
             <Modal isOpen={modalIsOpen} onRequestClose={closeModal}>
-                <ModalTitle>일정 등록</ModalTitle>
-                <input
-                    type="text"
-                    value={newSchedule}
-                    onChange={(e) => setNewSchedule(e.target.value)}
-                    placeholder="일정을 입력하세요"
-                />
-                <button onClick={handleScheduleSubmit}>등록</button>
-                <button onClick={closeModal}>취소</button>
+                <ModalBody>
+                    <ModalTitle>일정 등록</ModalTitle>
+                    <ModalSubTitle>일정을 작성하고 등록버튼을 눌러주세요</ModalSubTitle>
+                    <InputContainer>
+                        <input
+                            type="text"
+                            value={newSchedule}
+                            style={{border:"1px solid #B3A8FF", width:"50%", height:"50px", fontSize:"20px", paddingLeft:"10px"}}
+                            onChange={(e) => setNewSchedule(e.target.value)}
+                            placeholder="일정을 입력하세요"
+                        />
+                        <ButtonContainer>
+                            <PositiveBtn onClick={handleScheduleSubmit}>등록</PositiveBtn>
+                            <NegativeBtn onClick={closeModal}>취소</NegativeBtn>
+                        </ButtonContainer>
+                    </InputContainer>
+                </ModalBody>
             </Modal>
 
             <ButtonGroupRight>
@@ -219,15 +282,23 @@ const TodoContent = () => {
             </ButtonGroupRight>
 
             <Modal isOpen={isTaskModalOpen} onRequestClose={closeTaskModal}>
-                <ModalTitle>새로운 할 일 등록</ModalTitle>
-                <input
-                    type="text"
-                    value={newTask}
-                    onChange={(e) => setNewTask(e.target.value)}
-                    placeholder="할 일을 입력하세요"
-                />
-                <button onClick={handleTaskSubmit}>등록</button>
-                <button onClick={closeTaskModal}>취소</button>
+                <ModalBody>
+                    <ModalTitle>새로운 할 일 등록</ModalTitle>
+                    <ModalSubTitle>할 일을 작성하고 등록버튼을 눌러주세요</ModalSubTitle>
+                    <InputContainer>
+                        <input
+                            type="text"
+                            value={newTask}
+                            style={{border:"1px solid #B3A8FF", width:"50%", height:"50px", fontSize:"20px", paddingLeft:"10px"}}
+                            onChange={(e) => setNewTask(e.target.value)}
+                            placeholder="할 일을 입력하세요"
+                        />
+                        <ButtonContainer>
+                            <PositiveBtn onClick={handleTaskSubmit}>등록</PositiveBtn>
+                            <NegativeBtn onClick={closeTaskModal}>취소</NegativeBtn>
+                        </ButtonContainer>
+                    </InputContainer>
+                </ModalBody>
             </Modal>
 
             <DragDropContext onDragEnd={onDragEnd}>

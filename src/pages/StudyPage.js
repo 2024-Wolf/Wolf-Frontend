@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import TodoContent from '../components/Group/TodoContent';
-import ChallengeTab from '../components/ChallengeTab';
+import ChallengeTab from '../components/Group/ChallengeTab';
 import MeetingContent from '../components/Group/MeetingContent';
 import GroupInfoContent from "../components/Group/GroupInfoContent";
 import GroupTabs from "../components/Group/GroupTabs";
