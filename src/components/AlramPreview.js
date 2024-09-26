@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 const ModalContainer = styled.div`
   display: ${props => (props.isAlarmOpen ? 'fixed' : 'none')};
   position: absolute;
-  transform: translate(-50%, -50%);
   min-width: 350px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
@@ -78,6 +78,7 @@ const AlramFooter = styled.div`
 
 const AlramPreview = ({ notifications, userId, isAlarmOpen }) => {
   const [unreadCount, setUnreadCount] = useState(0);
+  const navigate = useNavigate();
 
   // 읽지 않은 알림의 ()안에 숫자 카운트 , 모든 알림을 읽지 않은 것으로 가정
   useEffect(() => {
@@ -137,7 +138,7 @@ const AlramPreview = ({ notifications, userId, isAlarmOpen }) => {
       ))}
 
       {/* 전체 알림 상세 페이지 이동 */}
-      <AlramFooter onClick={() => alert('전체 알림 페이지로 이동합니다.')}>
+      <AlramFooter onClick={() => navigate('/mypage')}>
         전체 알림 보기
       </AlramFooter>
     </ModalContainer>

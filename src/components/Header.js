@@ -1,43 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import AlramPreview from './AlramPreview';
-
 import ModalContainer from "./Modal/ModalContainer";
 import LoginContent from "./SignInContent/LoginContent";
-import FirstProcessContent from "./SignInContent/FirstProcessContent"
-import SecondProcessContext from "./SignInContent/SecondProcessContext"
-import ThirdProcessContent from "./SignInContent/ThirdProcessContent"
-import FourthProcessContent from "./SignInContent/FourthProcessContent"
+import FirstProcessContent from "./SignInContent/FirstProcessContent";
+import SecondProcessContext from "./SignInContent/SecondProcessContext";
+import ThirdProcessContent from "./SignInContent/ThirdProcessContent";
+import FourthProcessContent from "./SignInContent/FourthProcessContent";
 
 const HeaderContainer = styled.header`
   margin: auto;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   padding: 30px 35px;
   background: var(--black000);
-  box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.07);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.07);
   max-width: 1500px;
   width: 100%;
-`;
-
-const HeaderContent = styled.header`
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
 `;
 
 const Button = styled.button`
   font-weight: 500;
   font-size: 14px;
   border-radius: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   cursor: pointer;
   padding: 10px 32px;
 `;
@@ -45,19 +32,14 @@ const Button = styled.button`
 const DarkBackgroundButton = styled(Button)`
   background: var(--violet600);
   color: var(--violet000);
-
-  // Hover effect
   &:hover {
     background-color: var(--violet700);
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.3s ease;
   }
-
-  // Active (마우스 클릭 또는 모바일 터치) effect
   &:active {
     background-color: var(--violet700);
-    transition: background-color 0.1s ease, color 0.1s ease;
+    transition: background-color 0.1s ease;
   }
-
   @media (max-width: 768px) {
     display: none;
   }
@@ -66,21 +48,14 @@ const DarkBackgroundButton = styled(Button)`
 const LightBackgroundButton = styled(Button)`
   background: var(--violet100);
   color: var(--black500);
-
-  // Hover effect
   &:hover {
-    color: var(--violet700);
     background-color: var(--violet200);
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.3s ease;
   }
-
-  // Active (마우스 클릭 또는 모바일 터치) effect
   &:active {
-    color: var(--violet700);
     background-color: var(--violet200);
-    transition: background-color 0.1s ease, color 0.1s ease;
+    transition: background-color 0.1s ease;
   }
-
   @media (max-width: 768px) {
     display: none;
   }
@@ -88,10 +63,7 @@ const LightBackgroundButton = styled(Button)`
 
 const MainLogo = styled.a`
   color: var(--black900);
-  text-align: center;
   font: 32px Kavoon, sans-serif;
-  font-weight: lighter;
-  cursor: pointer;
   text-decoration: none;
 `;
 
@@ -103,15 +75,13 @@ const ProfileIcon = styled.img`
 `;
 
 const UserProfileContainer = styled.div`
-  width: 153.55px;
-  height: auto;
   display: flex;
-  flex-direction: row;
   justify-content: flex-end;
   align-items: center;
   padding: 4px 15px;
   gap: 10px;
   border-radius: 20px;
+  width: 153.55px;
 `;
 
 const StyledHeaderIcon = styled.svg`
@@ -123,62 +93,40 @@ const StyledHeaderIcon = styled.svg`
 
 const DropdownContainer = styled.div`
   position: relative;
-  display: inline-block;
-
 `;
 
 const DropdownContent = styled.div`
   display: ${props => (props.isDropdownOpen ? 'flex' : 'none')};
   position: absolute;
-  transform: translate(-50%, -50%);
   min-width: 120px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   z-index: 1;
-  right: 0px;
+  right: 0;
   top: calc(100% + 10px);
   border-radius: 10px;
-  border: 1px solid var(--black500)
-  weight: 105px;
-  height: 120px;
-  box-sizing: border-box;
+  background: var(--black000);
+  padding: 10px;
   flex-direction: column;
   align-items: center;
-  padding: 10px;
-  background: var(--black000);
-  background-color: #f9f9f9;
 `;
 
 const DropdownItem = styled.a`
   width: 100%;
-  color: black;
+  color: var(--black600);
   padding: 5px;
   text-decoration: none;
-  display: block;
+  text-align: center;
   border-radius: 10px;
-  text-align: center;    
-  color: var(--black600);
-
   &:hover {
     background-color: var(--black100);
-    color: var(--black600);
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-    
-  &:active {
-    background-color: var(--black100);
-    color: var(--black600);
-    transition: background-color 0.1s ease, color 0.1s ease;
   }
 `;
 
 const UserWrapper = styled.div`
   display: flex;
-  flex-direction: row;
   align-items: center;
   padding: 0;
   gap: 2px;
-  width: 48px;
-  height: 30px;
 `;
 
 function BellIcon({ hasNotifications, onClick, dataAction }) {
@@ -202,65 +150,42 @@ function BellIcon({ hasNotifications, onClick, dataAction }) {
 }
 
 const LogginButton = styled(Button)`
-    background: none;
-    color: var(--black500);
-    
-    /* Hover effect */
-    &:hover {
-        color: var(--black600);
-        background-color: rgba(0, 0, 0, 0.1);
-        transition: background-color 0.3s ease, color 0.3s ease;
-    }
-    
-    /* Active (마우스 클릭 또는 모바일 터치) effect */
-    &:active {
-        color: var(--black800);
-        background-color: rgba(0, 0, 0, 0.2);
-        transition: background-color 0.1s ease, color 0.1s ease;
-    }
+  background: none;
+  color: var(--black500);
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
 `;
 
 function Login({ isLoggedIn, openModal, offLogin, notifications }) {
-  const [hasNotifications, setHasNotifications] = useState(notifications.length > 0); // 알림 상태
-  const [isAlarmOpen, setIsAlarmOpen] = useState(false); // 알림 목록 표시 여부
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // 드롭다운 표시 여부
-
+  const [hasNotifications, setHasNotifications] = useState(notifications.length > 0);
+  const [isAlarmOpen, setIsAlarmOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleClick = (e) => {
     if (!isLoggedIn) {
-      openModal(); // 로그인/회원가입 모달 열기
+      openModal();
     } else {
       const action = e.currentTarget.getAttribute('dataAction');
-      if (action) {
-        switch (action) {
-          case 'bell':
-            // 벨모양 클릭
-            setIsAlarmOpen(prev => !prev);
-            if (hasNotifications) {
-              setHasNotifications(false); // 알림 상태 변경
-            }
-            break;
-          case 'profile':
-            navigate('/mypage'); // 프로필 화면으로 이동
-            break;
-          case 'dropdown':
-            alert('드롭다운');
-            break;
-          default:
-            break;
-        }
+      if (action === 'bell') {
+        // 벨모양 아이콘
+        setIsAlarmOpen(prev => !prev);
+
+        if (hasNotifications) setHasNotifications(false);
+      } else if (action === 'profile') {
+        // 프로필 아이콘
+        navigate('/mypage');
+      } else if (action === 'dropdown') {
+        // 드롭다운 아이콘
+        setIsDropdownOpen(prev => !prev);
       }
     }
   };
 
-  const toggleDropdown = () => {
-    setIsDropdownOpen(prev => !prev);
-  };
-
   const handleItemClick = (item) => {
-    navigate(item); // 링크 이동
-    setIsDropdownOpen(false); // 드롭다운 닫기
+    navigate(item);
+    setIsDropdownOpen(false);
   };
 
   return (
@@ -268,11 +193,7 @@ function Login({ isLoggedIn, openModal, offLogin, notifications }) {
       {isLoggedIn ? (
         <UserProfileContainer>
           <DropdownContainer>
-            <BellIcon
-              dataAction="bell"
-              onClick={handleClick}
-              hasNotifications={hasNotifications}
-            />
+            <BellIcon dataAction="bell" onClick={handleClick} hasNotifications={hasNotifications} />
             <AlramPreview isAlarmOpen={isAlarmOpen} notifications={notifications} userId={"늑대"} />
           </DropdownContainer>
           <UserWrapper>
@@ -284,8 +205,8 @@ function Login({ isLoggedIn, openModal, offLogin, notifications }) {
             />
             <DropdownContainer>
               <StyledHeaderIcon
+                onClick={handleClick}
                 dataAction="dropdown"
-                onClick={toggleDropdown}
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
                 height="16"
@@ -296,10 +217,10 @@ function Login({ isLoggedIn, openModal, offLogin, notifications }) {
                 <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
               </StyledHeaderIcon>
               <DropdownContent isDropdownOpen={isDropdownOpen}>
-                <DropdownItem href="#" onClick={() => handleItemClick('/mypage')}>내 정보</DropdownItem>
-                <DropdownItem href="#" onClick={() => handleItemClick('링크 2')}>챌린지 보기</DropdownItem>
-                <DropdownItem href="#" onClick={() => handleItemClick('/write')}>팀원 모집하기</DropdownItem>
-                <DropdownItem href="#" onClick={offLogin}>로그아웃</DropdownItem>
+                <DropdownItem onClick={() => handleItemClick('/mypage')}>내 정보</DropdownItem>
+                <DropdownItem onClick={() => handleItemClick('링크 2')}>챌린지 보기</DropdownItem>
+                <DropdownItem onClick={() => handleItemClick('/write')}>팀원 모집하기</DropdownItem>
+                <DropdownItem onClick={offLogin}>로그아웃</DropdownItem>
               </DropdownContent>
             </DropdownContainer>
           </UserWrapper>
@@ -311,57 +232,28 @@ function Login({ isLoggedIn, openModal, offLogin, notifications }) {
   );
 }
 
-function Header(props) {
+function Header() {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1);
 
   const sampleData = [
-    //알림 샘플 데이터
-    {
-      id: 1, // 고유 ID
-      date: '2024-09-25T12:00:00Z', // 알림이 생성된 날짜 (ISO 8601 형식)
-      message: '사용자가 프로필을 업데이트했습니다.', // 알림 내용
-      type: 'update', // 알림 유형 (선택 사항)
-    },
-    {
-      id: 2,
-      date: '2024-09-26T08:30:00Z',
-      message: '새로운 메시지가 도착했습니다.',
-      type: 'message',
-    },
-    {
-      id: 3,
-      date: '2024-09-26T09:00:00Z',
-      message: '사용자가 친구 요청을 보냈습니다.',
-      type: 'request',
-    }
-  ]
+    { id: 1, date: '2024-09-25T12:00:00Z', message: '사용자가 프로필을 업데이트했습니다.', type: 'update' },
+    { id: 2, date: '2024-09-26T08:30:00Z', message: '새로운 메시지가 도착했습니다.', type: 'message' },
+    { id: 3, date: '2024-09-26T09:00:00Z', message: '사용자가 친구 요청을 보냈습니다.', type: 'request' }
+  ];
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => {
-    setIsModalOpen(false); // 모달 닫기
-    setCurrentStep(1); // 현재 단계 초기화
+    setIsModalOpen(false);
+    setCurrentStep(1);
   };
 
-  // ModalContainer 페이지 이동
-  const [currentStep, setCurrentStep] = useState(1);
-
-  const nextStep = () => {
-    setCurrentStep(prevStep => prevStep + 1);
-  };
-
-  const prevStep = () => {
-    setCurrentStep(prevStep => Math.max(prevStep - 1, 1));
-  };
-
-  const onLogin = () => {
-    setIsLoggedIn(true);
-  }
-
-  const offLogin = () => {
-    setIsLoggedIn(false);
-  }
+  const nextStep = () => setCurrentStep(prev => prev + 1);
+  const prevStep = () => setCurrentStep(prev => Math.max(prev - 1, 1));
+  const onLogin = () => setIsLoggedIn(true);
+  const offLogin = () => setIsLoggedIn(false);
 
   const steps = [
     <LoginContent onNext={nextStep} />,
@@ -373,16 +265,15 @@ function Header(props) {
 
   return (
     <HeaderContainer>
-      <MainLogo href="/" onClick={() => alert('메인화면 이동')}>WOLF</MainLogo>
-      <HeaderContent>
+      <MainLogo href="/">WOLF</MainLogo>
+      <div style={{ display: 'flex', gap: '10px' }}>
         <DarkBackgroundButton onClick={() => navigate('/write')}>팀원 모집하기</DarkBackgroundButton>
         <LightBackgroundButton onClick={() => navigate('/faq')}>FAQ</LightBackgroundButton>
-        <Login isLoggedIn={isLoggedIn} openModal={openModal} offLogin={offLogin} notifications={sampleData} /> {/* 로그인 했다면 true, 로그인 하지 않았다면 false */}
-      </HeaderContent>
+        <Login isLoggedIn={isLoggedIn} openModal={openModal} offLogin={offLogin} notifications={sampleData} />
+      </div>
       {isModalOpen && <ModalContainer onClose={closeModal}>{steps[currentStep - 1]}</ModalContainer>}
-    </HeaderContainer >
+    </HeaderContainer>
   );
 }
-
 
 export default Header;
