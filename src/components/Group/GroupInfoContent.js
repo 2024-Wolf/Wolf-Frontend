@@ -320,7 +320,12 @@ const GroupInfoContent = ({ mode }) => {
                     </SupportContainer>
                 </SupportRecruit2>
             </SupportRecruit>
-
+            {/*<HiddenFileInput*/}
+            {/*    id="thumbnail"*/}
+            {/*    type="file"*/}
+            {/*    accept="image/*"*/}
+            {/*    onChange={handleFileChange}*/}
+            {/*/>*/}
             {/* 주제 설명 */}
             <PostInfo>
                 <PostTitle>
@@ -333,6 +338,7 @@ const GroupInfoContent = ({ mode }) => {
                     - 관심있는 분들은 "지원하기"로 신청해주세요.
                 </PostContent>
             </PostInfo>
+
 
             {/* 최근 소식 */}
             <UpdateInfo>

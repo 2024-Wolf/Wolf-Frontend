@@ -109,11 +109,11 @@ function FirstProcessContent({ onNext, onPrev }) {
             <Row>
                 <InputWrapper>
                     <InputLabel>직무를 입력해주세요</InputLabel>
-                    <WhiteInputBox isActive={true} />
+                    <WhiteInputBox/>
                 </InputWrapper>
                 <InputWrapper>
                     <InputLabel>경력을 입력해주세요</InputLabel>
-                    <WhiteInputBox isActive={true} />
+                    <WhiteInputBox/>
                 </InputWrapper>
             </Row>
 
@@ -128,7 +128,7 @@ function FirstProcessContent({ onNext, onPrev }) {
                         <RadioButtonLabel htmlFor="private">비공개</RadioButtonLabel>
                     </ButtonWrapper>
                 </Row>
-                <WhiteInputBox isActive={true} />
+                <WhiteInputBox/>
             </InputWrapper>
             <NextButton onClick={onNext}>
                 다음

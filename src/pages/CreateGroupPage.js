@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import GroupInfoContent from "../components/Group/GroupComponent/GroupInfoContent";
+import GroupWritingContent from "../components/Group/GroupComponent/GroupWritingContent";
 
 
 const MainContents = styled.div`
@@ -51,7 +51,7 @@ const CreateGroupPage = () => {
             <MainContents>
                 <Title>팀원 모집하기</Title>
                 <GroupInfoContainer>
-                    <GroupInfoContent />
+                    <GroupWritingContent contentType={'writing'} />
                 </GroupInfoContainer>
             </MainContents>
         </>

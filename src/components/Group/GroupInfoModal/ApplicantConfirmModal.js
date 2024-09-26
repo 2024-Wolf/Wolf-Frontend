@@ -117,7 +117,7 @@ const NoticeDiv = styled.div`
 `;
 
 const MeetingApplicant = ({ onClose }) => {
-    const handlePortofolio = (e) => {
+    const handlePortfolio = (e) => {
         e.preventDefault();
     };
     return (
@@ -180,7 +180,7 @@ const MeetingApplicant = ({ onClose }) => {
                             required
                         />
                         <Button
-                            onClick={handlePortofolio}
+                            onClick={handlePortfolio}
                         >
                             등록
                         </Button>

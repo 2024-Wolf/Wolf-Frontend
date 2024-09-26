@@ -56,7 +56,7 @@ const FourthProcessContent = ({ onPrev, onClose, onLogin }) => {
             <StatusButton nowIndex={3} />
             <SubTitle title={"닉네임을 입력해주세요."} />
             <InputWrapper>
-                <WhiteInputBox isActive={true} />
+                <WhiteInputBox/>
                 <InputLabel>사용 가능한 닉네임입니다.</InputLabel>
             </InputWrapper>
             <NextButton onClick={handleNext}>

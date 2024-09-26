@@ -190,11 +190,10 @@ const UserInfoContent = () => {
         }));
     };
 
-    const InputField = ({ label, field, isActive = true }) => (
+    const InputField = ({ label, field}) => (
         <>
             <InputLabel>{label}</InputLabel>
             <WhiteInputBox
-                isActive={isActive}
                 value={userInfo[field]}
                 onChange={(e) => handleInputChange(field, e.target.value)}
             />
@@ -222,7 +221,6 @@ const UserInfoContent = () => {
                     <ContentsRow>
                         <ToggleBox />
                         <WhiteInputBox
-                            isActive={true}
                             value={userInfo.account}
                             onChange={(e) => handleInputChange("account", e.target.value)}
                         />
