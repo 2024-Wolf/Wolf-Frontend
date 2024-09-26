@@ -44,7 +44,7 @@ const ModalContainer = ({ children, onClose }) => {
         <Overlay onClick={onClose}>
             <ModalWrapper onClick={(e) => e.stopPropagation()}>
                 <CloseButton onClick={onClose}>
-                    <MiniIcon src="CloseIcon.png" alt="closeBtn"/>
+                    <MiniIcon src="CloseIcon.png" alt="closeBtn" />
                 </CloseButton>
                 <ModalContent>{children}</ModalContent>
             </ModalWrapper>

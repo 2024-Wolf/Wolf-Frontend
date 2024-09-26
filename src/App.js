@@ -23,12 +23,10 @@ const App = () => {
                 <Link to="/mypage" style={{ margin: '10px' }}>
                     <button>My Page</button>
                 </Link>
-
                 <Link to="/write" style={{ margin: '10px' }}>
                     <button>Write</button>
                 </Link>
             </div>
-
           <Routes>
               <Route path="/" element={<Main />} /> {/* 메인 페이지 */}
               <Route path="/study" element={<StudyPage />} /> {/* 스터디 페이지 */}

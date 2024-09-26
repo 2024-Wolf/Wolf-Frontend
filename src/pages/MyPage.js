@@ -41,13 +41,13 @@ const MyPage = () => {
     const [activeTab, setActiveTab] = useState("계정");
 
     const renderTabContent = () => {
-        switch(activeTab) {
+        switch (activeTab) {
             case "계정":
-                return <UserInfoContent/>;
+                return <UserInfoContent />;
             case "알림":
-                return <NotificationContent/>
+                return <NotificationContent />
             case "활동":
-                return <ActivitiesContent/>
+                return <ActivitiesContent />
             default:
                 return null;
         }
@@ -55,13 +55,11 @@ const MyPage = () => {
 
     return (
         <>
-            <Header/>
             <MyPageContainer>
                 <Title>MyPage</Title>
-                <MyPageTabs tab={activeTab} setActiveTab={setActiveTab}/>
+                <MyPageTabs tab={activeTab} setActiveTab={setActiveTab} />
                 {renderTabContent()}
             </MyPageContainer>
-            <Footer/>
         </>
     );
 }
