@@ -356,21 +356,16 @@ const UserName = styled.div`
 `;
 
 // 메인 컴포넌트
-const GroupWritingContent = ({memberData}) => {
-    const [groupInfo, setGroupInfo] = useState({
-        groupType: 'study',
+const GroupWritingContent = ({contentType, memberData, groupData}) => {
+    const [contentsType, setContentsType] = useState(contentType); // 상태 추가 ('writing', 'editing', 'viewing' 중 하나)
+
+    const GroupData = groupData || {
+        groupType: "study",
         startDate: new Date(),
         endDate: new Date(),
         deadLineDate: new Date(),
-        title: '제목입니다.',
-        techStack: '#스프링부트 #리액트',
-        subject: '인스타그램 클론 코딩 해보기',
-        introduction: '인스타그램 클론 코딩해볼 사람을 구합니다. \n' +
-            '기간은 2021년 8월 1일부터 2021년 9월 1일까지입니다. \n' +
-            '총 8주 과정으로 진행하고 참가비 무료입니다. \n' +
-            '많은 참여 부탁드립니다.',
-        guidelines: '',
-        fileName: '',
+        title: "",
+        techStack: "",
         buttons: [
             { label: "이메일", clicked: true },
             { label: "지원직군", clicked: true },
@@ -381,23 +376,23 @@ const GroupWritingContent = ({memberData}) => {
             { label: "포트폴리오 링크", clicked: true },
             { label: "자유기재", clicked: false }
         ],
-        totalMemberCount: 0
-    });
-
-
-
-    const [contentsType, setContentsType] = useState('viewing'); // 상태 추가 ('writing', 'editing', 'viewing' 중 하나)
-
+        totalMemberCount: 0,
+        subject: "",
+        introduction: "",
+        guidelines: "",
+        fileName: ""
+    };
+    const [newGroupData, setNewGroupData] = useState( groupData? {...groupData} : GroupData);
     // 상태를 변경하는 핸들러
     const handleInputChange = (field, value) => {
-        setGroupInfo(prevState => ({
+        setNewGroupData(prevState => ({
             ...prevState,
             [field]: value
         }));
     };
 
     const toggleButtonClick = (index) => {
-        setGroupInfo((prevState) => {
+        setNewGroupData((prevState) => {
             const newButtons = [...prevState.buttons];
             newButtons[index].clicked = !newButtons[index].clicked;
             return {
@@ -423,7 +418,7 @@ const GroupWritingContent = ({memberData}) => {
             <Row>
                 <FormField label={"모임 구분"}>
                     <Select
-                        value={groupInfo.groupType}
+                        value={newGroupData.groupType}
                         onChange={(e) => handleInputChange('groupType', e.target.value)}
                         disabled={contentsType === 'viewing'}
                     >
@@ -433,20 +428,20 @@ const GroupWritingContent = ({memberData}) => {
                 </FormField>
                 <FormField label={"모집 기간"}>
                     <DateButton
-                        value={groupInfo.startDate}
+                        value={newGroupData.startDate}
                         onChange={(date) => handleInputChange('startDate', date)}
                         disabled={contentsType === 'viewing'}
                     />
                     ~
                     <DateButton
-                        value={groupInfo.endDate}
+                        value={newGroupData.endDate}
                         onChange={(date) => handleInputChange('endDate', date)}
                         disabled={contentsType === 'viewing'}
                     />
                 </FormField>
                 <FormField label={"모집 마감일"}>
                     <DateButton
-                        value={groupInfo.deadLineDate}
+                        value={newGroupData.deadLineDate}
                         onChange={(date) => handleInputChange('deadLineDate', date)}
                         disabled={contentsType === 'viewing'}
                     />
@@ -456,7 +451,7 @@ const GroupWritingContent = ({memberData}) => {
             <Row>
                 <Label>제목</Label>
                 <WhiteInputBox
-                    value={groupInfo.title}
+                    value={newGroupData.title}
                     onChange={(e) => handleInputChange('title', e.target.value)}
                     disabled={contentsType === 'viewing'}
                 />
@@ -465,7 +460,7 @@ const GroupWritingContent = ({memberData}) => {
             <Row>
                 <Label>기술 스택</Label>
                 <WhiteInputBox
-                    value={groupInfo.techStack}
+                    value={newGroupData.techStack}
                     onChange={(e) => handleInputChange('techStack', e.target.value)}
                     disabled={contentsType === 'viewing'}
                 />
@@ -473,7 +468,7 @@ const GroupWritingContent = ({memberData}) => {
             <Row>
                 <LongLabel>지원시 <br/> 필수/선택사항</LongLabel>
                 <ButtonGroup>
-                    {groupInfo.buttons.map((button, index) => (
+                    {newGroupData.buttons.map((button, index) => (
                         <StyledButton
                             key={index}
                             clicked={button.clicked}
@@ -486,7 +481,7 @@ const GroupWritingContent = ({memberData}) => {
                 </ButtonGroup>
             </Row>
             <Row>
-                {groupInfo.groupType === 'project'? (
+                {newGroupData.groupType === 'project'? (
                         <>
                             <FormField label={"모집 직군"}>
                                 <Select defaultValue="frontEnd"  disabled={contentsType === 'viewing'}>
@@ -509,12 +504,12 @@ const GroupWritingContent = ({memberData}) => {
                                 </Select>
                             </FormField>
                             <FormField label={"총 모집 인원"}>
-                                <WhiteInputBox value={groupInfo.totalMemberCount} disabled={contentsType === 'viewing'}/>
+                                <WhiteInputBox value={newGroupData.totalMemberCount} disabled={contentsType === 'viewing'}/>
                             </FormField>
                         </>
                     ) :
                     <FormField label={"총 모집 인원"}>
-                        <Select defaultValue={groupInfo.totalMemberCount}  disabled={contentsType === 'viewing'}>
+                        <Select defaultValue={newGroupData.totalMemberCount}  disabled={contentsType === 'viewing'}>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -535,7 +530,7 @@ const GroupWritingContent = ({memberData}) => {
                         onChange={(e) => handleInputChange('fileName', e.target.files[0].name)}
                         disabled={contentsType === 'viewing'}
                     />
-                    {/*{groupInfo.fileName && <FileName>선택된 파일: {groupInfo.fileName}</FileName>}*/}
+                    {/*{newGroupData.fileName && <FileName>선택된 파일: {newGroupData.fileName}</FileName>}*/}
                 </ThumbNail>
             </Row>
 
@@ -544,7 +539,7 @@ const GroupWritingContent = ({memberData}) => {
                 <SubjectTitle>
                     <label>주제</label>
                     <input
-                        value={groupInfo.subject}
+                        value={newGroupData.subject}
                         onChange={(e) => handleInputChange('subject', e.target.value)}
                         disabled={contentsType === 'viewing'}
                     />
@@ -552,14 +547,14 @@ const GroupWritingContent = ({memberData}) => {
                 <TextArea
                     rows="4"
                     placeholder="모집에 대한 간단한 소개를 작성해주세요."
-                    value={groupInfo.introduction}
+                    value={newGroupData.introduction}
                     onChange={(e) => handleInputChange('introduction', e.target.value)}
                     disabled={contentsType === 'viewing'}
                 />
                 <TextArea
                     rows="4"
                     placeholder="유의사항 적어주세요."
-                    value={groupInfo.guidelines}
+                    value={newGroupData.guidelines}
                     onChange={(e) => handleInputChange('guidelines', e.target.value)}
                     disabled={contentsType === 'viewing'}
                 />
@@ -599,9 +594,14 @@ const GroupWritingContent = ({memberData}) => {
             }
 
             <Buttons>
-                {contentsType === 'writing' || contentsType === 'editing' ? (
+                {contentsType === 'editing' ? (
                     <>
                         <Button onClick={handleSaveClick}>저장</Button>
+                        <DeleteCancelButton onClick={() => setContentsType('viewing')}>취소</DeleteCancelButton>
+                    </>
+                ) : contentsType === 'writing' ? (
+                    <>
+                        <Button onClick={handleSaveClick}>작성 완료</Button>
                         <DeleteCancelButton onClick={() => setContentsType('viewing')}>취소</DeleteCancelButton>
                     </>
                 ) : (

@@ -51,7 +51,7 @@ const CreateGroupPage = () => {
             <MainContents>
                 <Title>팀원 모집하기</Title>
                 <GroupInfoContainer>
-                    <GroupWritingContent contentsType={"writing"}/>
+                    <GroupWritingContent contentType={'writing'} />
                 </GroupInfoContainer>
             </MainContents>
         </>
