@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import MeetingWindow from './MeetingWindow';
 
-const MeetingPortal = () => {
+const MeetingPortal = ({ onClose }) => {
   const meetingWindowRef = useRef(null);
 
   useEffect(() => {
@@ -32,10 +32,20 @@ const MeetingPortal = () => {
 
     ReactDOM.render(<MeetingWindow />, rootElement);
 
+    // 창 닫힘 이벤트 처리
+    const handleWindowClose = () => {
+      if (onClose) {
+        onClose(); // 부모 컴포넌트의 onClose 콜백 호출
+      }
+    };
+
+    meetingWindow.addEventListener('beforeunload', handleWindowClose);
+
     return () => {
+      meetingWindow.removeEventListener('beforeunload', handleWindowClose);
       meetingWindow.close();
     };
-  }, []);
+  }, [onClose]);
 
   return null; 
 };

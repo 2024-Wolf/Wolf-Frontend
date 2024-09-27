@@ -4,6 +4,7 @@ import TabContentsWrapper from "../TabContentsWrapper";
 import CommentSection from "./Question/CommentSection";
 import QuestionList from "./Question/QuestionList";
 import QuestionForm from "./Question/QuestionForm";
+import MeetingPortal from "./MeetingComponent/MeetingPortal";
 
 const MeetingContainer = styled(TabContentsWrapper)`
     padding: 20px;
@@ -18,7 +19,27 @@ const MeetingHeader = styled.h3`
     text-align: left;
 `;
 
-const MeetingContent = () => {
+const StartMeetingButton = styled.button`
+  padding: 10px 20px;
+  background-color: #6c63ff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: #574dff;
+  }
+`;
+const MeetingDiv = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    `;
+
+const MeetingContent = ({isMeetingStarted}) => {
     const [posts, setPosts] = useState([
         {
             id: 1,
@@ -44,6 +65,14 @@ const MeetingContent = () => {
     const [newQuestionFile, setNewQuestionFile] = useState(null);
     const [newComment, setNewComment] = useState('');
     const [selectedPostId, setSelectedPostId] = useState(null);
+    const [isMeetingOpen, setIsMeetingOpen] = useState(isMeetingStarted);
+    const openMeetingWindow = () => {
+        setIsMeetingOpen(true);
+    };
+
+    const closeMeetingWindow = () => {
+        setIsMeetingOpen(false);
+    };
 
     // 게시글 추가
     const handlePostSubmit = (e) => {
@@ -118,6 +147,12 @@ const MeetingContent = () => {
     return (
         <MeetingContainer>
             {/*미팅 버튼 */}
+            <MeetingDiv>
+                <StartMeetingButton onClick={openMeetingWindow}>
+                    화상회의 하기
+                </StartMeetingButton>
+                {isMeetingOpen && <MeetingPortal onClose={closeMeetingWindow} />}
+            </MeetingDiv>
 
             <MeetingHeader>팀원들과 궁금한 내용을 나눠보세요!</MeetingHeader>
 
@@ -134,11 +169,14 @@ const MeetingContent = () => {
                 selectedQuestionId={selectedPostId}
                 toggleComments={toggleComments}
                 renderComments={renderComments}
-                handleFileChange={(id, file) => {}}
-                handleQuestionEdit={(id, text) => {}}
-                handleQuestionDelete={(id) => {}}
+                handleFileChange={(id, file) => {
+                }}
+                handleQuestionEdit={(id, text) => {
+                }}
+                handleQuestionDelete={(id) => {
+                }}
             />
-          </MeetingContainer>
+        </MeetingContainer>
     );
 };
 
