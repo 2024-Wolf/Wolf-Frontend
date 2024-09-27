@@ -11,7 +11,7 @@ import Footer from './components/Footer';
 const App = () => {
     return (
         <Router>
-            <div style={{ padding: '20px', textAlign: 'center' }}>
+            <div style={{ padding: '20px', textAlign: 'center', display: 'none' }}>
                 {/* 버튼으로 페이지 이동 */}
                 <Link to="/" style={{ margin: '10px' }}>
                     <button>Home</button>
