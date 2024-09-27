@@ -9,6 +9,14 @@ const SliderContainer = styled.div`
     margin: 0 auto;
     overflow: hidden;
     position: relative;
+    
+    @media (max-width: 768px) {
+        height: 180px;
+    }
+    
+    @media (max-width: 480px) {
+        height: 100px;
+    }
 `;
 
 const SliderInner = styled.div`
@@ -23,6 +31,9 @@ const Slide = styled.img`
     width: 100%;
     height: 100%;
     object-fit: cover;
+    @media (max-width: 768px) {
+        object-fit: contain;
+    }
 `;
 
 const BannerSlider = ({ images }) => {

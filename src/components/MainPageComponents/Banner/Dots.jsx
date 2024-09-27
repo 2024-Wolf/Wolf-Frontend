@@ -25,7 +25,7 @@ const Dot = styled.div`
     width: 10px;
     height: 10px;
     background-color: ${(props) => 
-            props.active ? "var(--black000)" : "var(--black400)"};
+            props.active ? "var(--black100)" : "var(--black400)"};
     border-radius: 50%;
     cursor: pointer;
 

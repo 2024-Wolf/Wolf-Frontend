@@ -41,9 +41,9 @@ const SearchContainer = styled.div`
 
 const Main = () => {
     const banners = [
-        { id: 1, imgUrl: "https://via.placeholder.com/1300x300?text=1" },
-        { id: 2, imgUrl: "https://via.placeholder.com/1300x300?text=2" },
-        { id: 3, imgUrl: "https://via.placeholder.com/1300x300?text=3" },
+        { id: 1, imgUrl: "/banner/banner1.png" },
+        { id: 2, imgUrl: "/banner/banner2.png" },
+        { id: 3, imgUrl: "/banner/banner3.png" },
     ];
 
     const categories = ["전체", "프로젝트", "스터디"];
