@@ -129,6 +129,13 @@ const UserWrapper = styled.div`
   gap: 2px;
 `;
 
+const DisplayNoneDropdownItem = styled(DropdownItem)`
+  display: none;
+  @media (max-width: 768px) {
+    display: inline;
+  }
+`;
+
 function BellIcon({ hasNotifications, onClick, dataAction }) {
 
   return (
@@ -219,8 +226,9 @@ function Login({ isLoggedIn, openModal, offLogin, notifications }) {
               </StyledHeaderIcon>
               <DropdownContent isDropdownOpen={isDropdownOpen}>
                 <DropdownItem onClick={() => handleItemClick('/mypage')}>내 정보</DropdownItem>
-                <DropdownItem onClick={() => handleItemClick('링크 2')}>챌린지 보기</DropdownItem>
-                <DropdownItem onClick={() => handleItemClick('/write')}>팀원 모집하기</DropdownItem>
+                <DropdownItem onClick={() => handleItemClick('/study')}>챌린지 보기</DropdownItem>
+                <DisplayNoneDropdownItem onClick={() => handleItemClick('/write')}>팀원 모집하기</DisplayNoneDropdownItem>
+                <DisplayNoneDropdownItem onClick={() => handleItemClick('/faq')}>FAQ</DisplayNoneDropdownItem>
                 <DropdownItem onClick={offLogin}>로그아웃</DropdownItem>
               </DropdownContent>
             </DropdownContainer>
