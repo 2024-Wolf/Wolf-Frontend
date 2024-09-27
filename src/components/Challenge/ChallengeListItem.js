@@ -151,7 +151,7 @@ function ChallengeListItem(props) {
     };
 
     return (
-        <Container>
+        <Container onClick={() => props.modalFunc()}>
             <Top style={{ background: topBgColor }}>
                 WOLF
             </Top>

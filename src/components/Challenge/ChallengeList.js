@@ -90,7 +90,7 @@ function ChallengeList(props){
                         category={props.category}
                         buttonText={buttonText}
                         key={index}
-                        onClick={handleDetailOpen}
+                        modalFunc={handleDetailOpen}
                     />
                 ))}
             </Items>
