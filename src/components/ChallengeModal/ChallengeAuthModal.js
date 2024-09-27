@@ -146,9 +146,7 @@ function ChallengeAuthModal(props){
                     </AuthOrganization>
                     <AuthCode>
                         자격증 번호
-                        <div style={{border:'1px solid #9787FF', width:'420px', height:'30px', float:'right'}}>
-
-                        </div>
+                        <input style={{border:'1px solid #9787FF', width:'420px', height:'30px', float:'right'}} />
                         <div style={{clear:'both'}}></div>
                     </AuthCode>
                     <AuthWarning>
