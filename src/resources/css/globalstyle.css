@@ -1,3 +1,8 @@
+/* 프리텐다드 폰트 */
+@import url('https://webfontworld.github.io/pretendard/Pretendard.css');
+/* 카본 폰트 */
+@import url('https://fonts.googleapis.com/css2?family=Kavoon&display=swap');
+
 /* CSS 초기화 코드 시작 */
 *,
 *::before,
@@ -52,7 +57,7 @@ section {
     --violet000: #FAF9FF;
     --violet100: #F2F0FF;
     --violet200: #E5E1FF;
-    --violet300: #CEC6FF; 
+    --violet300: #CEC6FF;
     --violet400: #B3A8FF;
     --violet500: #9787FF;
     --violet600: #8578D8;
@@ -79,8 +84,3 @@ html * {
     font-weight: 400;
     font-style: normal;
 }
-
-@import url('https://webfontworld.github.io/pretendard/Pretendard.css');
-
-/* Header, Footer 폰트 _(수정본) 기존 코드 적용 안됨*/
-@import url('https://fonts.googleapis.com/css2?family=Kavoon&display=swap');

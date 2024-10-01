@@ -1,24 +1,9 @@
-import React from "react";
 import styled from "styled-components";
+import { CardContainer2 } from "../GlobalStyledComponents";
+
+import React from "react";
 import Card from "../Card/Card";
 import { useNavigate } from 'react-router-dom';
-
-const CardContainer = styled.div`
-    display: flex;
-    width: 100%;
-    flex-wrap: wrap;
-    gap: 25px;
-
-    @media (max-width: 768px) {
-        justify-content: center;
-        margin: 0 auto;
-        gap: 10px;
-    }
-
-    @media (max-width: 480px) {
-        gap: 5px;
-    }
-`;
 
 const cards = [
     {
@@ -123,7 +108,7 @@ const MainCardList = ({ category }) => {
 
     // Cards 데이터를 필터링하여 렌더링
     return (
-        <CardContainer>
+        <CardContainer2>
             {(category === '전체' ?
                 cards
                 :
@@ -142,7 +127,7 @@ const MainCardList = ({ category }) => {
                     />
                 </div>
             ))}
-        </CardContainer>
+        </CardContainer2>
     );
 }
 

@@ -1,35 +1,9 @@
-import React, { useState } from "react";
 import styled from "styled-components";
+import { PageContainer, SectionContent, SectionTitle } from "../GlobalStyledComponents";
+
+import React, { useState } from "react";
 import Category from "../Category/Category";
 import ActivityCardList from "./ActivityCardList";
-import TabContentsWrapper from "../TabContentsWrapper";
-
-const PageContainer = styled(TabContentsWrapper)`
-    padding: 20px;
-    gap: 15px;
-    position: relative;
-
-    @media (max-width: 768px) {
-        padding: 15px;
-    }
-
-    @media (max-width: 480px) {
-        padding: 10px;
-    }
-`;
-
-const SectionContent = styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-`;
-
-const SectionTitle = styled.h2`
-    font-size: 24px;
-    font-weight: 600;
-    color: var(--black800);
-    margin: 15px 0;
-`;
 
 const activitiesData = {
     applyCards: [{
@@ -86,12 +60,12 @@ const ActivitiesContent = () => {
 
             <SectionContent>
                 <SectionTitle>모임 지원 현황</SectionTitle>
-                <ActivityCardList cards={applyCards} buttonText={"신청 취소"}/>
+                <ActivityCardList cards={applyCards} buttonText={"신청 취소"} />
             </SectionContent>
 
             <SectionContent>
                 <SectionTitle>진행중인 모임</SectionTitle>
-                <ActivityCardList cards={ongoingCards} buttonText={"탈퇴하기"}/>
+                <ActivityCardList cards={ongoingCards} buttonText={"탈퇴하기"} />
             </SectionContent>
 
             <SectionContent>

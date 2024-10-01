@@ -1,81 +1,11 @@
+import styled from "styled-components";
+import { ContentWrapper, ButtonGroup3, CategoryWrapper2, CategoryButton2 } from "../GlobalStyledComponents";
+
 import React, { useState } from "react";
 import StatusButton from "./Components/StatusButton";
-import styled from "styled-components";
 import NextButton from "./Components/NextButton";
 import SubTitle from "./Components/SubTitle";
 import OptionButton from "./Components/OptionButton";
-
-const ContentWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-`;
-
-const ButtonGroup = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    gap: 5px;
-    max-width: 100%;
-`;
-
-const CategoryWrapper = styled.div`
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    margin-top: 20px;
-`;
-
-const CategoryButton = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    
-    padding: 10px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-
-    img {
-        width: 50px;
-        height: 50px;
-        margin-bottom: 5px;
-        background-color: ${({ selected }) => (selected ? "var(--violet200)" : "var(--violet000)")};
-        border: ${({ selected }) => (selected ? "2px solid var(--violet500)" : "none")};
-        border-radius: 50%;
-        padding: 5px;
-
-        &:hover {
-            background-color: var(--violet500);
-        }
-    }
-
-    span {
-        font-size: 14px;
-        color: var(--black700);
-    }
-
-    @media (max-width: 768px) {
-        img {
-            width: 40px;
-            height: 40px;
-        }
-
-        span {
-            font-size: 12px;
-        }
-    }
-
-    @media (max-width: 480px) {
-        img {
-            width: 30px;
-            height: 30px;
-        }
-
-        span {
-            font-size: 10px;
-        }
-    }
-`;
 
 const categories = [
     { label: "개발", imgSrc: "/skillCategory/dev.png" },
@@ -126,19 +56,19 @@ const ThirdProcessContent = ({ onNext, onPrev }) => {
             <button onClick={onPrev}>이전</button>
             <StatusButton nowIndex={2} />
             <SubTitle title={"관심이 있거나 보유하고 있는 스킬을 선택해주세요"} />
-            <CategoryWrapper>
+            <CategoryWrapper2>
                 {categories.map((category) => (
-                    <CategoryButton
+                    <CategoryButton2
                         key={category.label}
                         selected={selectedCategory === category.label}
                         onClick={() => handleCategoryClick(category.label)}
                     >
                         <img src={category.imgSrc} alt={category.label} />
                         <span>{category.label}</span>
-                    </CategoryButton>
+                    </CategoryButton2>
                 ))}
-            </CategoryWrapper>
-            <ButtonGroup>
+            </CategoryWrapper2>
+            <ButtonGroup3>
                 {options.find((option) => option.category === selectedCategory)?.skills.map((skill, index) => (
                     <OptionButton
                         key={index}
@@ -149,7 +79,7 @@ const ThirdProcessContent = ({ onNext, onPrev }) => {
                     />
 
                 )) || []}
-            </ButtonGroup>
+            </ButtonGroup3>
             <NextButton onClick={onNext}>
                 다음
             </NextButton>

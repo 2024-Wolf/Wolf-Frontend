@@ -1,21 +1,10 @@
-import React from 'react';
 import styled from 'styled-components';
+import { SubTitleWrapper } from "../../GlobalStyledComponents";
 
-const SubTitleWrapper = styled.div`
-    white-space: pre-line;
-    font-size: 20px;
-    color: var(--black800);
-    line-height: 1.5;
-    @media (max-width: 768px) {
-        font-size: 18px;
-    }
+import React from 'react';
 
-    @media (max-width: 480px) {
-        font-size: 16px;
-    }
-`;
 
-const SubTitle = ({title}) => {
+const SubTitle = ({ title }) => {
     return (
         <SubTitleWrapper>
             {title}

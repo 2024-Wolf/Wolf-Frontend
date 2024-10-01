@@ -1,6 +1,24 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import DatePicker from "react-datepicker";
+
+// components/MyPageComponents/UserInfoContent.js
+export const responsivePadding = css`
+    @media (max-width: 768px) {
+        padding: 15px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 10px;
+    }
+`;
+
+// components/MyPageComponents/UserInfoContent.js
+export const responsiveFontSize = css`
+    @media (max-width: 480px) {
+        font-size: 12px;
+    }
+`;
 
 // components/TabContentsWrapper.jsx
 export const ContentsWrapper = styled.div`
@@ -27,6 +45,20 @@ export const ContentsWrapper2 = styled.div`
         padding: 5px;
     }
 `;
+
+// components/MyPageComponents/UserInfoContent.js
+export const ContentsWrapper3 = styled.div`
+    background-color: white;
+    border-radius: 10px;
+    border: 1px solid var(--black300);
+    padding: 20px;
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    ${responsivePadding}
+`;
+
+
 
 // pages/CreateGroupPage.js, pages/Main.js
 export const MainContents = styled.div`
@@ -396,6 +428,59 @@ export const CategoryButton = styled.div`
   position: relative;
 `;
 
+
+// components/SignInContent/ThirdProcessContent.jsx
+export const CategoryButton2 = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    img {
+        width: 50px;
+        height: 50px;
+        margin-bottom: 5px;
+        background-color: ${({ selected }) => (selected ? "var(--violet200)" : "var(--violet000)")};
+        border: ${({ selected }) => (selected ? "2px solid var(--violet500)" : "none")};
+        border-radius: 50%;
+        padding: 5px;
+
+        &:hover {
+            background-color: var(--violet500);
+        }
+    }
+
+    span {
+        font-size: 14px;
+        color: var(--black700);
+    }
+
+    @media (max-width: 768px) {
+        img {
+            width: 40px;
+            height: 40px;
+        }
+
+        span {
+            font-size: 12px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        img {
+            width: 30px;
+            height: 30px;
+        }
+
+        span {
+            font-size: 10px;
+        }
+    }
+`;
+
 // pages/StudyPage.js
 export const StudyTitle = styled.h2`
   font-size: 18px;
@@ -575,6 +660,149 @@ export const Button8 = styled.button`
 
     &:hover {
         background-color: var(--violet300);
+    }
+`;
+
+// components/Input/Link/LinkInput.jsx
+export const Button9 = styled.button`
+    cursor: pointer;
+    background-color: white;
+    color: var(--black800);
+    border-radius: 5px;
+    border: 1px solid var(--violet500);
+
+    font-size: 14px;
+    padding: 10px 15px;
+    width: 6%;
+    height: 100%;
+
+    &:hover {
+        background-color: var(--violet400);
+        color: white;
+    }
+
+    @media (max-width: 768px) {
+        font-size: 12px;
+        padding: 5px 15px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 10px;
+        padding: 5px 10px;
+    }
+`;
+
+// components/MainPageComponents/SearchBar/ButtonContainer.jsx
+export const Button10 = styled.div`
+    display: flex;
+    gap: 10px;
+`;
+
+// components/MyPageComponents/NotificationContent.js
+export const Button11 = styled.button`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    border-radius: 5px;
+    padding: 10px 15px;
+    border: 1px solid var(--violet400);
+    background-color: transparent;
+    color: var(--black700);
+
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+
+    &:hover {
+        background-color: var(--violet400);
+        color: white;
+    }
+
+    @media (max-width: 768px) {
+        padding: 8px 12px;
+        font-size: 11px;
+    }
+
+    @media (max-width: 480px) {
+        width: 100%; /* 작은 화면에서는 버튼이 가득 차도록 */
+        font-size: 10px;
+    }
+`;
+
+// components/MyPageComponents/UserInfoContent.js
+export const Button12 = styled.button`
+    border-radius: 10px;
+    padding: 15px 50px;
+    font-size: 16px;
+    font-weight: 700;
+
+    @media (max-width: 768px) {
+        padding: 12px 40px;
+        font-size: 14px;
+    }
+
+    ${responsiveFontSize}
+`;
+
+// components/SignInContent/Components/NextButton.jsx
+export const Button13 = styled.button`
+    width: 100%;
+    background: var(--violet500);
+    color: var(--black000);
+    font-weight: 600;
+    font-size: 16px;
+    text-align: center;
+    border-radius: 5px;
+    padding: 13px 0;
+    margin-top: 5px;
+
+    &:hover {
+        background-color: var(--violet600);
+    }
+
+    &:active {
+        background-color: var(--violet700);
+    }
+
+    @media (max-width: 768px) {
+        padding: 10px 0;
+        font-size: 14px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 8px 0;
+        font-size: 12px;
+    }
+`;
+
+// components/SignInContent/Components/OptionButton.jsx
+export const Button14 = styled.button`
+    min-width: calc(100% / ${({ buttonCount }) => buttonCount} - 15px);
+    border: 1px solid var(--violet500);
+    border-radius: 20px;
+    padding: 15px 10px;
+    background-color: ${({ selected }) => (selected ? "var(--black700)" : "#fff")};
+    color: ${({ selected }) => (selected ? "#fff" : "var(--black500)")};
+    cursor: pointer;
+    font-size: 14px;
+    margin: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+
+    &:hover {
+        background-color: var(--violet500);
+        color: #fff;
+    }
+
+    @media (max-width: 768px) {
+        padding: 10px 10px;
+        font-size: 12px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 8px 8px;
+        font-size: 10px;
     }
 `;
 
@@ -1011,6 +1239,21 @@ export const Description = styled.p`
   text-align: center;
 `;
 
+// components/MyPageComponents/UserInfoContent.js
+export const Description2 = styled.div`
+    font-size: 14px;
+    color: var(--black800);
+    ${responsiveFontSize}
+`;
+
+// components/SignInContent/LoginContent.jsx
+export const Description3 = styled.div`
+    margin: 10px 0;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--black800);
+`;
+
 // components/Declaration.js
 export const Form = styled.form`
   display: flex;
@@ -1118,6 +1361,22 @@ export const TextArea5 = styled.textarea`
     line-height: 1.3;
 `;
 
+// components/MyPageComponents/UserInfoContent.js
+export const TextArea6 = styled.textarea`
+    width: 100%;
+    min-height: 80px;
+    padding: 15px 15px;
+    border: 1px solid var(--violet500);
+    border-radius: 5px;
+    font-size: 16px;
+
+    @media (max-width: 768px) {
+        font-size: 14px;
+    }
+
+    ${responsiveFontSize}
+`;
+
 // components/Declaration.js, components/MemberEvaluation.js
 export const ButtonGroup = styled.div`
   display: flex;
@@ -1137,6 +1396,16 @@ export const ButtonGroup2 = styled.div`
         flex-wrap: wrap;
         gap: 10px;
     }
+`;
+
+
+// components/SignInContent/SecondProcessContent.jsx, components/SignInContent/ThirdProcessContent.jsx
+export const ButtonGroup3 = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 10px;
+    max-width: 100%;
 `;
 
 
@@ -1172,6 +1441,13 @@ export const CancelButton2 = styled.div`
     &:hover{
         background: #F2F0FF;
     }
+`;
+
+// components/MyPageComponents/UserInfoContent.js
+export const CancelButton3 = styled(Button)`
+    border: 1px solid var(--violet800);
+    background-color: var(--violet000);
+    color: var(--violet800);
 `;
 
 // components/AlramPreview.js
@@ -1308,6 +1584,23 @@ export const CardContainer = styled.div`
         justify-items: center;
         max-width: 160px;
         height: 180px;
+    }
+`;
+
+export const CardContainer2 = styled.div`
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 25px;
+
+    @media (max-width: 768px) {
+        justify-content: center;
+        margin: 0 auto;
+        gap: 10px;
+    }
+
+    @media (max-width: 480px) {
+        gap: 5px;
     }
 `;
 
@@ -1480,6 +1773,14 @@ export const CategoryWrapper = styled.div`
     justify-content: flex-start;
     align-items: center;
     padding: 10px 0;
+`;
+
+// components/SignInContent/ThirdProcessContent.jsx
+export const CategoryWrapper2 = styled.div`
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
 `;
 
 // components/Category/Category.jsx
@@ -1989,6 +2290,13 @@ export const Wrapper2 = styled.div`
     }
 `;
 
+// components/MyPageComponents/UserInfoContent.js
+export const Wrapper3 = styled(ContentsWrapper)`
+    gap: 20px;
+    padding: 50px 35px;
+    ${responsivePadding}
+`;
+
 // components/DateInputButton/DateButton.jsx
 export const DatePickerCustom = styled(DatePicker)`
     font-size: 16px;
@@ -2421,12 +2729,11 @@ export const ApplySection = styled.div`
     }
 `;
 
-// components/Group/GroupTabs.jsx
+// components/Group/GroupTabs.jsx, components/MyPageComponents/MyPageTabs.jsx
 export const TabContainer = styled.div`
     display: flex;
     width: 100%;
 `;
-
 
 
 // components/Group/MeetingContent.js
@@ -2509,6 +2816,18 @@ export const Column = styled.div`
   margin: 0 10px;
   border-radius: 8px;
   min-height: 200px;
+`;
+
+// components/MyPageComponents/UserInfoContent.js
+export const Column2 = styled.div`
+    width: 48%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    @media (max-width: 768px) {
+        width: 100%;
+    }
 `;
 
 // components/Group/TodoContent.js
@@ -2635,12 +2954,13 @@ export const CalendarIcon = styled.span`
 
 
 
-// components/Group/GroupComponent/GroupWritingContent.jsx
+// components/Group/GroupComponent/GroupWritingContent.jsx, components/SignInContent/FirstProcessContent.jsx
 export const Row = styled.div`
     display: flex;
     width: 100%;
     justify-content: space-between;
     margin: 10px 0;
+    gap: 20px;
 
     @media (max-width: 768px) {
         flex-direction: column;
@@ -2653,7 +2973,8 @@ export const Row = styled.div`
     }
 `;
 
-// components/Group/GroupInfoModal/ApplicantConfirmModal.js, components/Group/GroupInfoModal/ApplicantModal.js
+// components/Group/GroupInfoModal/ApplicantConfirmModal.js, components/Group/GroupInfoModal/ApplicantModal.js, 
+// components/MyPageComponents/UserInfoContent.js
 export const Row2 = styled.div`
     display: flex;
     justify-content: space-between;
@@ -2785,12 +3106,6 @@ export const SubjectTitle = styled.div`
     }
 `;
 
-
-
-
-
-
-
 // components/Group/GroupComponent/GroupWritingContent.jsx
 export const DeleteCancelButton = styled(Button)`
     background-color: var(--black000);
@@ -2900,11 +3215,20 @@ export const InputField = styled.input`
     border-radius: 4px;
 `;
 
-// components/Group/GroupInfoModal/ApplicantConfirmModal.js, components/Group/GroupInfoModal/ApplicantModal.js
+// components/Group/GroupInfoModal/ApplicantConfirmModal.js, components/Group/GroupInfoModal/ApplicantModal.js, components/MyPageComponents/UserInfoContent.js
 export const ButtonContainer = styled.div`
     display: flex;
     justify-content: center; /* 버튼들을 가로 가운데 정렬 */
     gap: 10px;
+
+        @media (max-width: 768px) {
+        gap: 15px;
+    }
+
+    @media (max-width: 480px) {
+        flex-direction: column;
+        gap: 10px;
+    }
 `;
 
 // components/Group/GroupInfoModal/ApplicantConfirmModal.js, components/Group/GroupInfoModal/ApplicantModal.js
@@ -2919,18 +3243,25 @@ export const NoticeDiv = styled.div`
     color: white;
 `;
 
-
-
-
-
-
-
-
-
 // components/Group/GroupInfoModal/ApplicantModal.js
 export const SubTitle = styled.div`
   font-size: 14px;
   margin-bottom: 20px;
+`;
+
+// components/MyPageComponents/UserInfoContent.js
+export const SubTitle2 = styled.h2`
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--black800);
+    ${responsiveFontSize}
+`;
+
+// components/SignInContent/LoginContent.jsx
+export const SubTitle3 = styled.div`
+    margin: 20px 0;
+    font-size: 20px;
+    color: var(--black800);
 `;
 
 // components/Group/GroupInfoModal/ApplicantModal.js, components/Group/GroupInfoModal/ApplicantConfirmModal.js
@@ -3118,6 +3449,712 @@ export const QuestionAuthor = styled.div`
     align-items: center;
     margin-bottom: 10px;
 `;
+
+// components/Icon/MiniIcon.jsx
+export const IconContainer = styled.img`
+    width: 16px;
+    height: 16px;
+
+    /* 반응형 미디어 쿼리 */
+    @media (max-width: 768px) {
+        width: 14px;
+        height: 14px; /* 태블릿에서 아이콘 크기 줄이기 */
+    }
+
+    @media (max-width: 480px) {
+        width: 12px;
+        height: 12px; /* 모바일에서 아이콘 크기 더 줄이기 */
+    }
+`;
+
+// components/Icon/RegularIcon.jsx
+export const IconContainer2 = styled.img`
+    width: 28px;
+    height: 28px;
+
+    @media (max-width: 768px) {
+        width: 22px;
+        height: 22px;
+    }
+
+    @media (max-width: 480px) {
+        width: 18px;
+        height: 18px; 
+    }
+`;
+
+// components/Input/WhiteInputBox.jsx
+export const ActiveTextInput = styled.input`
+    width: 100%;
+    border: 1px solid var(--violet500);
+    border-radius: 5px;
+    padding: 8px 15px;
+    font-size: 16px;
+
+    @media (max-width: 768px) {
+        font-size: 14px;
+        padding: 5px 10px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 12px;
+        padding: 5px 10px;
+    }
+    
+    &:disabled {
+        background-color: var(--black000);
+        border-radius: 5px;
+
+        @media (max-width: 768px) {
+            font-size: 14px;
+            padding: 5px 10px;
+        }
+
+        @media (max-width: 480px) {
+            font-size: 12px;
+            padding: 5px 10px;
+        }
+    }
+`;
+
+// components/Input/Link/LinkInput.jsx
+export const LinkRowContainer = styled.div`
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    gap: 15px;
+`;
+
+// components/MainPageComponents/Banner/BannerSlider.jsx
+export const SliderContainer = styled.div`
+    width: 100%;
+    max-width: 1300px; /* 최대 너비를 1300px로 설정 (변경 가능성 O) */
+    height: 300px;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+    
+    @media (max-width: 768px) {
+        height: 180px;
+    }
+    
+    @media (max-width: 480px) {
+        height: 100px;
+    }
+`;
+
+// components/MainPageComponents/Banner/BannerSlider.jsx
+export const SliderInner = styled.div`
+    display: flex;
+    transition: transform 0.5s ease;
+    transform: ${({ position }) => `translateX(-${position}00%)`};
+    width: 100%;
+    height: 100%;
+`;
+
+// components/MainPageComponents/Banner/BannerSlider.jsx
+export const Slide = styled.img`
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    @media (max-width: 1300px) {
+        object-fit: contain;
+    }
+`;
+
+// components/MainPageComponents/Banner/Dots.jsx
+export const DotsContainer = styled.div`
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    display: flex;
+    gap: 10px;
+
+    @media (max-width: 768px) {
+        bottom: 10px;
+        right: 10px;
+        gap: 8px;
+    }
+
+    @media (max-width: 480px) {
+        bottom: 5px;
+        right: 5px;
+        gap: 5px;
+    }
+`;
+
+// components/MainPageComponents/Banner/Dots.jsx
+export const Dot = styled.div`
+    width: 10px;
+    height: 10px;
+    background-color: ${(props) =>
+    props.active ? "var(--black100)" : "var(--black400)"};
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.20);
+
+    @media (max-width: 768px) {
+        width: 8px;
+        height: 8px;
+    }
+
+    @media (max-width: 480px) {
+        width: 6px;
+        height: 6px;
+    }
+`;
+
+// components/MainPageComponents/SearchBar/ButtonContainer.jsx
+export const OptionButton = styled.button`
+    background-color: white;
+    border: 1px solid var(--violet500);
+    border-radius: 7px;
+    margin-right: 10px;
+    padding: 5px 10px;
+    font-size: 16px;
+    
+    @media (max-width: 768px) {
+        font-size: 12px; 
+        padding: 3px 8px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 10px;
+        padding: 2px 6px;
+    }
+`;
+
+// components/MainPageComponents/SearchBar/SearchBar.jsx
+export const InputContainer = styled.div`
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    
+    background-color: var(--black200);
+    padding: 10px;
+    border-radius: 30px;
+    
+    min-width: 300px;
+    
+    @media (max-width: 768px) {
+        min-width: 180px;
+        padding: 8px;
+    }
+
+    @media (max-width: 480px) {
+        min-width: 100px;
+        padding: 5px;
+    }
+`;
+
+// components/MainPageComponents/SearchBar/SearchBar.jsx
+export const SearchInput = styled.input`
+    width: 100%;
+    border: none;
+    color: var(--black700);
+    background-color: var(--black200);
+`;
+
+// components/Modal/ModalContainer.jsx
+export const Overlay = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); /* 배경 투명도 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* 모달이 다른 요소 위에 나타나도록 */
+`;
+
+// components/Modal/ModalContainer.jsx
+export const ModalWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    background-color: var(--violet100);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 550px;
+    width: 100%;
+    text-align: center;
+`;
+
+// components/Modal/ModalContainer.jsx
+export const ModalContent = styled.div`
+    display: flex;
+    flex-direction: column; 
+`;
+
+// components/Modal/ModalContainer.jsx
+export const CloseButton = styled.button`
+    display: flex;
+    justify-content: flex-end;
+    color: var(--black800);
+    background-color: var(--violet100);
+`;
+
+// components/MyPageComponents/ActivitiesContent.js
+export const PageContainer = styled(ContentsWrapper)`
+    padding: 20px;
+    gap: 15px;
+    position: relative;
+
+    @media (max-width: 768px) {
+        padding: 15px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 10px;
+    }
+`;
+
+// components/MyPageComponents/ActivitiesContent.js
+export const SectionContent = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+`;
+
+// components/MyPageComponents/ActivitiesContent.js
+export const SectionTitle = styled.h2`
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--black800);
+    margin: 15px 0;
+`;
+
+// components/MyPageComponents/ActivityCardList.jsx
+export const ActivityCardListContainer = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+`;
+
+
+// components/MyPageComponents/NotificationContent.js
+export const NotificationContainer = styled(ContentsWrapper)`
+    gap: 15px;
+    position: relative;
+    padding: 20px;
+
+    @media (max-width: 768px) {
+        padding: 15px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 10px;
+    }
+`;
+
+// components/MyPageComponents/NotificationContent.js
+export const Timeline = styled.div`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin-left: 25px;
+
+    @media (max-width: 768px) {
+        gap: 30px;
+    }
+
+    @media (max-width: 480px) {
+        margin-left: 15px;
+        gap: 20px;
+    }
+`;
+
+// components/MyPageComponents/NotificationContent.js
+export const Line = styled.div`
+    position: absolute;
+    left: 58px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    border-left: 1px dotted var(--black500);
+
+    @media (max-width: 768px) {
+        left: 45px;
+    }
+
+    @media (max-width: 480px) {
+        left: 35px;
+    }
+`;
+
+// components/SignInContent/Components/StatusButton.jsx
+export const Line2 = styled.div`
+    width: 25px;
+    height: 2px;
+    background-color: var(--black500);
+    margin: 0 10px;
+
+    @media (max-width: 768px) {
+        width: 20px;
+        margin: 0 8px;
+    }
+
+    @media (max-width: 480px) {
+        width: 15px;
+        margin: 0 6px;
+    }
+`;
+
+// components/MyPageComponents/NotificationContent.js
+export const NotificationEvent = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
+
+    @media (max-width: 768px) {
+        gap: 10px;
+    }
+
+    @media (max-width: 480px) {
+        flex-direction: column; 
+        align-items: flex-start;
+        padding: 5px;
+    }
+`;
+
+// components/MyPageComponents/NotificationContent.js
+export const EventMarker = styled.div`
+    width: 8px;
+    height: 8px;
+    background-color: var(--black800);
+    border-radius: 50%;
+
+    @media (max-width: 480px) {
+        width: 6px;
+        height: 6px;
+    }
+`;
+
+// components/MyPageComponents/NotificationContent.js
+export const EventContent = styled.div`
+    border: 1px solid var(--violet400);
+    border-radius: 5px;
+    background-color: white;
+    width: 100%;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    @media (max-width: 768px) {
+        padding: 10px;
+    }
+
+    @media (max-width: 480px) {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px;
+    }
+
+    .title {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-bottom: 10px;
+
+        @media (max-width: 480px) {
+            margin-bottom: 5px;
+        }
+    }
+    .date {
+        font-size: 12px;
+        color: var(--black500);
+    }
+    strong {
+        font-size: 16px;
+        color: var(--black800);
+        font-weight: 600;
+
+        @media (max-width: 480px) {
+            font-size: 14px;
+        }
+    }
+    p {
+        font-size: 14px;
+        color: var(--black800);
+        margin: 5px 0;
+
+        @media (max-width: 480px) {
+            font-size: 12px;
+        }
+    }
+`;
+
+
+
+// components/MyPageComponents/UserInfoContent.js
+export const ContentsRow = styled(Row2)`
+    @media (max-width: 768px) {
+        flex-direction: column;
+    }
+`;
+
+
+
+// components/MyPageComponents/UserInfoContent.js
+export const SubContentsWrapper = styled(ContentsWrapper3)`
+    width: 50%;
+
+    @media (max-width: 768px) {
+        width: 100%;
+    }
+`;
+
+// components/MyPageComponents/UserInfoContent.js
+export const EtcContentsWrapper = styled(ContentsWrapper3)`
+    width: 100%;
+`;
+
+// components/MyPageComponents/UserInfoContent.js
+export const InputLabel = styled.label`
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--black800);
+
+    @media (max-width: 480px) {
+        font-size: 16px;
+    }
+`;
+
+// components/SignInContent/FirstProcessContent.jsx, components/SignInContent/FourthProcessContent.jsx
+export const InputLabel2 = styled.div`
+    text-align: left;
+    font-size: 16px;
+    color: var(--black800);
+    margin-bottom: 10px;
+
+    @media (max-width: 768px) {
+        font-size: 14px;
+        margin-bottom: 8px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 12px;
+        margin-bottom: 5px;
+    }
+`;
+
+// components/MyPageComponents/UserInfoContent.js
+export const ToggleBox = styled.input.attrs({ type: "select" })`
+    background-color: var(--violet000);
+    border: 1px solid var(--violet400);
+    border-radius: 15px;
+    width: 150px;
+    font-size: 16px;
+    color: var(--black800);
+
+    @media (max-width: 768px) {
+        width: 100%;
+    }
+`;
+
+// components/MyPageComponents/UserInfoContent.js
+export const LinkRow = styled(Row2)`
+    align-items: center;
+`;
+
+
+
+// components/MyPageComponents/UserInfoContent.js
+export const UpdateButton = styled(Button)`
+    border: 1px solid var(--violet500);
+    background-color: var(--violet500);
+    color: white;
+`;
+
+// components/SignInContent/Components/StatusButton.jsx
+export const CircleButton = styled.div`
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: ${({ active }) => (active ? 'var(--violet400)' : 'var(--black200)')};
+    color: ${({ active }) => (active ? '#fff' : 'var(--black000)')};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
+
+    @media (max-width: 768px) {
+        width: 30px;
+        height: 30px;
+        font-size: 16px;
+    }
+
+    @media (max-width: 480px) {
+        width: 25px;
+        height: 25px;
+        font-size: 12px;
+    }
+`;
+
+// components/SignInContent/Components/StatusButton.jsx
+export const StatusContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @media (max-width: 768px) {
+        gap: 8px;
+    }
+
+    @media (max-width: 480px) {
+        gap: 5px;
+    }
+`;
+
+// components/SignInContent/Components/SubTitle.jsx
+export const SubTitleWrapper = styled.div`
+    white-space: pre-line;
+    font-size: 20px;
+    color: var(--black800);
+    line-height: 1.5;
+
+    @media (max-width: 768px) {
+        font-size: 18px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 16px;
+    }
+`;
+
+
+
+// components/SignInContent/FirstProcessContent.jsx, components/SignInContent/FourthProcessContent.jsx
+export const InputWrapper = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+`;
+
+// components/SignInContent/FirstProcessContent.jsx
+export const ButtonWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    margin-right: 5px;
+    gap: 5px;
+`;
+
+// components/SignInContent/FirstProcessContent.jsx
+export const RadioButtonLabel = styled.label`
+    font-size: 16px;
+    color: var(--black800);
+
+    @media (max-width: 768px) {
+        font-size: 14px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 12px;
+    }
+`;
+
+// components/SignInContent/FirstProcessContent.jsx
+export const RadioButton = styled.input.attrs({ type: "radio" })`
+    cursor: pointer;
+    appearance: none;
+    border: 2px solid var(--violet500);
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    background-color: var(--black000);
+
+    &:checked {
+        background-color: var(--violet500);
+    }
+
+    @media (max-width: 768px) {
+        width: 14px;
+        height: 14px;
+    }
+
+    @media (max-width: 480px) {
+        width: 12px;
+        height: 12px;
+    }
+`;
+
+// components/SignInContent/FourthProcessContent.jsx, components/SignInContent/FirstProcessContent.jsx
+// components/SignInContent/SecondProcessContent.jsx, components/SignInContent/ThirdProcessContent.jsx
+export const ContentWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+`;
+
+// components/SignInContent/LoginContent.jsx
+export const LogoL = styled.div`
+    font-family: "Kavoon";
+    font-size: 96px;
+    font-weight: 700;
+    background-size: 100%;
+    margin: 0 auto;
+`;
+
+// components/SignInContent/LoginContent.jsx
+export const GoogleLoginButton = styled.button`
+    width: 100%;
+    height: 50px;
+    margin-top: 20px;
+    background: var(--black000);
+    border: 2px solid var(--black200);
+    border-radius: 10px;
+
+    &:hover {
+        background: var(--black200);
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    
+    &:active {
+        background: var(--black200);
+        transition: background-color 0.1s ease, color 0.1s ease;
+    }
+`;
+
+// components/Tab/TabButton.js
+export const TabButtonContainer = styled.button`
+    width: calc(100% / 3);
+    //background-color: white;
+    background-color: var(--black000);
+    border: 1px solid var(--black100);
+    font-weight: 500;
+    padding: 15px;
+`;
+
+// components/Tab/TabButton.js
+export const ActiveTabButtonContainer = styled.button`
+    width: calc(100% / 3);
+    font-weight: 500;
+    padding: 15px;
+    background-color: var(--violet000);
+    border: 1px solid var(--black100);
+    
+    border-bottom: 2px solid var(--violet700);
+    //border-top: 1px solid var(--violet300);
+    //border-left: 1px solid var(--violet300);
+    //border-right: 1px solid var(--violet300);
+`;
+
+
+
+
+
+
+
+
 
 
 

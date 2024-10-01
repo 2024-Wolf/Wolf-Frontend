@@ -1,48 +1,7 @@
-import React from "react";
 import styled from "styled-components";
+import { LogoL, SubTitle3, Description3, GoogleLoginButton } from "../GlobalStyledComponents";
 
-
-const LogoL = styled.div`
-    font-family: "Kavoon";
-    font-size: 96px;
-    font-weight: 700;
-    background-size: 100%;
-    margin: 0 auto;
-`;
-
-
-const SubTitle = styled.div`
-    margin: 20px 0;
-    font-size: 20px;
-    color: var(--black800);
-`;
-
-const Description = styled.div`
-    margin: 10px 0;
-    font-size: 15px;
-    line-height: 1.5;
-    color: var(--black800);
-`;
-
-const GoogleLoginButton = styled.button`
-    width: 100%;
-    height: 50px;
-    margin-top: 20px;
-    background: var(--black000);
-    border: 2px solid var(--black200);
-    border-radius: 10px;
-
-    &:hover {
-        background: var(--black200);
-        transition: background-color 0.3s ease, color 0.3s ease;
-    }
-    
-    &:active {
-        background: var(--black200);
-        transition: background-color 0.1s ease, color 0.1s ease;
-    }
-`;
-
+import React from "react";
 
 const LoginContent = ({ onNext }) => {
     const handleGoogleLogin = () => {
@@ -55,11 +14,11 @@ const LoginContent = ({ onNext }) => {
     return (
         <>
             <LogoL>Wolf</LogoL>
-            <SubTitle>WOLF에 오신것을 환영합니다.</SubTitle>
-            <Description>
+            <SubTitle3>WOLF에 오신것을 환영합니다.</SubTitle3>
+            <Description3>
                 스터디와 사이드 프로젝트를 찾는 가장 쉬운 방법! <br />
                 WOLF에서 함께 할 팀원들을 찾으세요!
-            </Description>
+            </Description3>
             <GoogleLoginButton onClick={handleGoogleLogin}>Google 로그인</GoogleLoginButton>
         </>
     );

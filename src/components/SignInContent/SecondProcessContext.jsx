@@ -1,23 +1,11 @@
+import styled from "styled-components";
+import { ContentWrapper, ButtonGroup3 } from "../GlobalStyledComponents";
+
 import React, { useState } from "react";
 import StatusButton from "./Components/StatusButton";
-import styled from "styled-components";
 import NextButton from "./Components/NextButton";
 import SubTitle from "./Components/SubTitle";
 import OptionButton from "./Components/OptionButton";
-
-const ContentWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-`;
-
-const ButtonGroup = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    gap: 10px;
-    max-width: 100%;
-`;
 
 const options = [
     "사이드 프로젝트 팀빌딩 중이에요",
@@ -45,7 +33,7 @@ const SecondProcessContent = ({ onNext, onPrev }) => {
             <button onClick={onPrev}>이전</button>
             <StatusButton nowIndex={1} />
             <SubTitle title={"현재 상태를 알려주세요"} />
-            <ButtonGroup>
+            <ButtonGroup3>
                 {options.map((option, index) => (
                     <OptionButton
                         key={index}
@@ -55,7 +43,7 @@ const SecondProcessContent = ({ onNext, onPrev }) => {
                         onClick={() => handleOptionClick(option)}
                     />
                 ))}
-            </ButtonGroup>
+            </ButtonGroup3>
             <NextButton onClick={onNext}>
                 다음
             </NextButton>
