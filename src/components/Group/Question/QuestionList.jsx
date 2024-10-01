@@ -2,18 +2,18 @@ import React from 'react';
 import QuestionItem from './QuestionItem';
 
 const QuestionList = ({
-                      questions,
-                      selectedQuestionId,
-                      toggleComments,
-                      renderComments,
-                      handleFileChange,
-                      handleQuestionEdit,
-                      handleQuestionDelete,
-                      showFileOptions = true
-                  }) => {
+    questions,
+    selectedQuestionId,
+    toggleComments,
+    renderComments,
+    handleFileChange,
+    handleQuestionEdit,
+    handleQuestionDelete,
+    showFileOptions = true
+}) => {
     return (
         <>
-            {questions? questions.map((question) => (
+            {questions ? questions.map((question) => (
                 <QuestionItem
                     key={question.id}
                     question={question}

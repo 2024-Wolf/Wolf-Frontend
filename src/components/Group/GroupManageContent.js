@@ -1,205 +1,11 @@
-import React, { useState } from "react";
 import styled from "styled-components";
+import { Container5, Section, ApplyTitle, ApplyInfo, UserImg, UserName, UserPosition, DateStyle, Button6, ApplySection } from "../GlobalStyledComponents";
+
+import React, { useState } from "react";
 import ApplicantConfirmModal from "./GroupInfoModal/ApplicantConfirmModal";
 import TabContentsWrapper from "../TabContentsWrapper";
 import GroupWritingContent from "./GroupComponent/GroupWritingContent";
 
-//전체 div
-const Container = styled(TabContentsWrapper)`
-    padding: 0 80px;
-    display: flex;
-    align-items: center;
-    background-color: white;
-
-    @media (max-width: 768px) {
-        padding: 0 40px;
-    }
-
-    @media (max-width: 480px) {
-        padding: 0 20px;
-    }
-`;
-
-// 섹션
-const Section = styled.section`
-    padding: 20px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    background-color: var(--violet100);
-    border: 1px solid var(--black200);
-    border-radius: 0 0 8px 8px;
-
-    @media (max-width: 768px) {
-        padding: 15px;
-    }
-
-    @media (max-width: 480px) {
-        padding: 10px;
-    }
-`;
-
-const ApplyTitle = styled.h2`
-    font-size: 24px;
-    font-weight: 500;
-    margin: 20px 0;
-    @media (max-width: 768px) {
-        font-size: 20px;
-        margin: 15px 0;
-    }
-
-    @media (max-width: 480px) {
-        font-size: 18px;
-        margin: 10px 0;
-    }
-`;
-
-
-//지원자 관리 div
-const ApplyInfo = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid #e0e0e0;
-
-    @media (max-width: 768px) {
-        align-items: center;
-        padding: 5px 0;
-    }
-
-    .UserDetails {
-        display: flex;
-        align-items: center;
-    }
-
-    .roleSelect {
-        width: fit-content;
-        display: flex;
-        align-items: center;
-        flex: 0.35;
-
-        @media (max-width: 768px) {
-            flex-direction: column;
-            gap: 5px;
-            font-size: 14px;
-            align-items: center;
-            justify-content: center;
-            
-            label {
-                font-size: 16px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            font-size: 10px;
-            flex-direction: column;
-
-
-            label {
-                font-size: 14px;
-            }
-        }
-    }
-`;
-
-const UserImg = styled.div`
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background-color: #6c63ff;
-    margin-right: 10px;
-`;
-
-const UserName = styled.div`
-    font-size: 18px;
-    @media (max-width: 768px) {
-        font-size: 16px;
-    }
-
-    @media (max-width: 480px) {
-        font-size: 14px;
-    }
-`;
-
-const UserPosition = styled.div`
-    margin-left: 50px;
-    font-weight: 500;
-    line-height: 1.5;
-    @media (max-width: 768px) {
-        margin-left: 0;
-        font-size: 12px;
-        text-align: center;
-    }
-`;
-
-const DateStyle = styled.div`
-    margin: 0 40px;
-    font-size: 16px;
-    color: var(--black600);
-    text-align: center;
-
-    @media (max-width: 768px) {
-        margin: 0 20px;
-        font-size: 14px;
-    }
-
-    @media (max-width: 480px) {
-        margin: 0 10px;
-        font-size: 12px;
-    }
-`;
-
-//버튼 style
-const Button = styled.button`
-    padding: 12px 20px;
-    background-color: var(--violet600);
-    color: var(--black000);
-    border-radius: 5px;
-    cursor: pointer;
-
-    &:hover {
-        background-color: var(--violet700);
-    }
-
-    @media (max-width: 768px) {
-        font-size: 14px;
-        padding: 10px 16px;
-    }
-
-    @media (max-width: 480px) {
-        font-size: 12px;
-        padding: 8px 12px;
-    }
-`;
-
-//지원자 섹션   
-const ApplySection = styled.div`
-    margin-top: 20px;
-    padding: 20px;
-    width: 100%;
-    border-radius: 8px;
-    
-    @media (max-width: 768px) {
-        padding: 15px;
-    }
-
-    @media (max-width: 480px) {
-        padding: 10px;
-    }
-
-    label {
-        font-size: 18px;
-
-        @media (max-width: 768px) {
-            font-size: 16px;
-        }
-
-        @media (max-width: 480px) {
-            font-size: 14px;
-        }
-    }
-`;
 
 const GroupManageContent = (props) => {
     const [isModalOpen, setModalOpen] = useState(false);
@@ -239,9 +45,9 @@ const GroupManageContent = (props) => {
     ];
 
     const applicantData = [
-        {id: 1, name: "박가현", role: "프론트엔드개발자", date: "2024.09.10"},
-        {id: 2, name: "강감찬", role: "기획자", date: "2024.09.11"},
-        {id: 3, name: "김가네", role: "백엔드개발자", date: "2024.09.12"},
+        { id: 1, name: "박가현", role: "프론트엔드개발자", date: "2024.09.10" },
+        { id: 2, name: "강감찬", role: "기획자", date: "2024.09.11" },
+        { id: 3, name: "김가네", role: "백엔드개발자", date: "2024.09.12" },
     ];
 
     const openModal = () => {
@@ -253,7 +59,7 @@ const GroupManageContent = (props) => {
     };
 
     return (
-        <Container>
+        <Container5>
             <Section>
                 <GroupWritingContent
                     contentsType={"viewing"}
@@ -270,7 +76,7 @@ const GroupManageContent = (props) => {
                 {applicantData.map((user, index) => (
                     <ApplyInfo key={user.id}>
                         <div className="UserDetails">
-                            <UserImg/>
+                            <UserImg />
                             <UserName>{user.name}</UserName>
                         </div>
 
@@ -280,15 +86,15 @@ const GroupManageContent = (props) => {
                         </div>
 
                         <DateStyle className="date">{user.date}</DateStyle>
-                        <Button onClick={openModal}>지원글 확인하기</Button>
+                        <Button6 onClick={openModal}>지원글 확인하기</Button6>
                     </ApplyInfo>
                 ))}
 
-                {isModalOpen && <ApplicantConfirmModal onClose={closeModal}/>}
+                {isModalOpen && <ApplicantConfirmModal onClose={closeModal} />}
             </ApplySection>
-        </Container>
+        </Container5>
     );
 
 };
-  
-  export default GroupManageContent;
+
+export default GroupManageContent;

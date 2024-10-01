@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+import DatePicker from "react-datepicker";
+
 // components/TabContentsWrapper.jsx
 export const ContentsWrapper = styled.div`
     width: 100%;
@@ -8,6 +10,22 @@ export const ContentsWrapper = styled.div`
     gap: 20px;
     background-color: var(--violet000);
     border: 1px solid var(--violet300);
+`;
+
+// components/Group/GroupComponent/GroupWritingContent.jsx
+export const ContentsWrapper2 = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+
+    @media (max-width: 768px) {
+        padding: 10px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 5px;
+    }
 `;
 
 // pages/CreateGroupPage.js, pages/Main.js
@@ -99,6 +117,37 @@ export const Title5 = styled.div`
         min-height: 24px;
         margin-bottom: 8px;
     }
+`;
+
+// components/Group/GroupComponent/GroupWritingContent.jsx
+export const Title6 = styled.h1`
+    font-size: 24px;
+    font-weight: 500;
+    margin: 30px 0;
+
+    @media (max-width: 768px) {
+        font-size: 18px;
+        margin: 20px 0;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 16px;
+        margin: 15px 0;
+    }
+`;
+
+// components/Group/GroupInfoModal/ApplicantConfirmModal.js, components/Group/GroupInfoModal/ApplicantModal.js
+export const Title7 = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--violet500);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    width: 140px;
+    margin-bottom: 20px;
+    align-self: center; /* ModalContainer 안에서 세로 가운데 정렬 */
 `;
 
 
@@ -307,6 +356,23 @@ export const Container4 = styled.div`
     background: rgba(226, 227, 227, 0.8);
 `;
 
+// 전체 div
+// components/Group/GroupManageContent.js
+export const Container5 = styled(ContentsWrapper)`
+    padding: 0 80px;
+    display: flex;
+    align-items: center;
+    background-color: white;
+
+    @media (max-width: 768px) {
+        padding: 0 40px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 0 20px;
+    }
+`;
+
 // pages/StudyPage.js
 export const StudyInfoContent = styled.div`
   width: 100%;
@@ -448,6 +514,70 @@ export const Button5 = styled.div`
     }
 `;
 
+// 버튼 스타일
+// components/Group/GroupManageContent.js
+export const Button6 = styled.button`
+    padding: 12px 20px;
+    background-color: var(--violet600);
+    color: var(--black000);
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--violet700);
+    }
+
+    @media (max-width: 768px) {
+        font-size: 14px;
+        padding: 10px 16px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+`;
+
+// components/Group/GroupComponent/GroupWritingContent.jsx
+export const Button7 = styled.button`
+    padding: 10px 15px;
+    background-color: var(--violet400);
+    color: white;
+    border: 1px solid var(--violet500);
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--violet700);
+    }
+
+    @media (max-width: 768px) {
+        padding: 8px;
+        font-size: 14px;
+        width: 100%;
+    }
+    
+    @media (max-width: 480px) {
+        padding: 5px;
+        font-size: 12px;
+    }
+`;
+
+// components/Group/GroupInfoModal/ApplicantConfirmModal.js, components/Group/GroupInfoModal/ApplicantModal.js
+export const Button8 = styled.button`
+    padding: 10px 20px;
+    white-space: nowrap;
+    background-color: var(--violet500);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--violet300);
+    }
+`;
+
 // pages/StudyPage.js
 export const StudyDetails = styled.div`
   display: flex;
@@ -489,7 +619,21 @@ export const MeetingContainer = styled.div`
   height: 300px;
 `;
 
-// pages/Tabs.js
+// components/Group/MeetingContent.js
+export const MeetingContainer2 = styled(ContentsWrapper)`
+    padding: 20px;
+    border-radius: 0 0 3px 3px;
+`;
+
+// components/Group/MeetingComponent/MeetingWindow.js
+export const MeetingContainer3 = styled.div`
+    display: flex;
+    height: 100vh;
+    flex-direction: row;
+    justify-content: space-between;
+`;
+
+// pages/Tabs.js, components/Group/MeetingContent.js
 export const StartMeetingButton = styled.button`
   padding: 10px 20px;
   background-color: #6c63ff;
@@ -504,10 +648,6 @@ export const StartMeetingButton = styled.button`
     background-color: #574dff;
   }
 `;
-
-
-
-
 
 // components/MemberEvaluation.js
 export const ProjectName = styled.h2`
@@ -532,7 +672,7 @@ export const MemberName = styled.div`
   font-size: 16px;
 `;
 
-// components/Header.js, components/MemberEvaluation.js, pages/StudyPage.js
+// components/Header.js, components/MemberEvaluation.js, pages/StudyPage.js, components/Group/Question/QuestionItem.jsx
 export const ProfileIcon = styled.img`
   width: 30px;
   height: 30px;
@@ -542,7 +682,6 @@ export const ProfileIcon = styled.img`
   /* margin: auto 30px; */ /* components/MemberEvaluation.js */
   /* margin-right: 10px; */ /* pages/StudyPage.js */
 `;
-
 
 // components/MemberEvaluation.js
 export const SubmitContainer = styled.div`
@@ -564,6 +703,33 @@ export const SubmitButton = styled.button`
   &:hover {
     background-color: #8578D8;
     color: white;
+  }
+`;
+
+// components/Group/Question/CommentSection.jsx
+export const SubmitButton2 = styled.button`
+  background-color: #6c63ff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  &:hover {
+    background-color: #574dc2;
+  }
+`;
+
+// components/Group/Question/QuestionForm.jsx
+export const SubmitButton3 = styled.button`
+  background-color: #fff;
+  color: #000000;
+  border: 1px solid #968AFF;
+  padding: 8px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 13px;
+  &:hover {
+    background-color: #CEC6FF;
   }
 `;
 
@@ -795,7 +961,7 @@ export const ModalContainer = styled.div`
   margin: 0 auto;
 `;
 
-// components/Declaration.js
+// components/Declaration.js, components/Group/TodoContent.js
 export const ModalContainer2 = styled.div`
   position: fixed;
   top: 50%;
@@ -820,6 +986,21 @@ export const ModalContainer3 = styled.div`
   background-color: #fff;
   border-radius: 12px;
   padding: 20px;
+`;
+
+// components/Group/GroupInfoModal/ApplicantConfirmModal.js, components/Group/GroupInfoModal/ApplicantModal.js
+export const ModalContainer4 = styled.div`
+    z-index: 1000;
+    width: 90%; /* 화면에 삐져나가는 문제 해결을 위해 너비를 %로 설정 */
+    max-width: 650px;
+    height: 664px;
+    background-color: #fcfcfc;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-y: scroll;
 `;
 
 // components/Declaration.js
@@ -848,6 +1029,21 @@ export const Select = styled.select`
   color: #666;
 `;
 
+// components/Group/GroupComponent/GroupWritingContent.jsx
+export const Select2 = styled.select`
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: 2px solid var(--violet500);
+
+    @media (max-width: 768px) {
+        padding: 6px 10px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 5px 8px;
+    }
+`;
+
 // components/Declaration.js
 export const TextArea = styled.textarea`
   width: 100%;
@@ -861,6 +1057,67 @@ export const TextArea = styled.textarea`
   color: #666;
 `;
 
+// components/Group/GroupComponent/GroupWritingContent.jsx
+export const TextArea2 = styled.textarea`
+    width: 100%;
+    min-height: 200px;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid var(--violet500);
+    border-radius: 5px;
+    resize: none;
+    font-size: 16px;
+    line-height: 1.5;
+
+    &:disabled {
+        background-color: var(--black000);
+    }
+
+    @media (max-width: 768px) {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 13px;
+        padding: 6px;
+    }
+`;
+
+// components/Group/GroupInfoModal/ApplicantConfirmModal.js, components/Group/GroupInfoModal/ApplicantModal.js
+export const TextArea3 = styled.textarea`
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: none;
+`;
+
+// components/Group/Question/CommentSection.jsx
+export const TextArea4 = styled.textarea`
+  width: 100%;
+  min-height: 80px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-top: 10px;
+`;
+
+// components/Group/Question/QuestionForm.jsx
+export const TextArea5 = styled.textarea`
+    background-color: #ffffff;
+    border-radius: 10px;
+    border: 1px solid var(--black400);
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    resize: none;
+    margin-top: 15px;
+    line-height: 1.3;
+`;
+
 // components/Declaration.js, components/MemberEvaluation.js
 export const ButtonGroup = styled.div`
   display: flex;
@@ -868,6 +1125,18 @@ export const ButtonGroup = styled.div`
 
   /* gap: 0; */ /* components/MemberEvaluation.js */
   /* justify-content: center; */ /* components/Declaration.js */
+`;
+
+// components/Group/GroupComponent/GroupWritingContent.jsx
+export const ButtonGroup2 = styled.div`
+    display: flex;
+    width: 92%;
+    justify-content: left;
+
+    @media (max-width: 768px) {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
 `;
 
 
@@ -1345,6 +1614,13 @@ export const Category2 = styled.div`
     color: #FFF;
 `;
 
+// components/Group/GroupInfoModal/ApplicantConfirmModal.js, components/Group/GroupInfoModal/ApplicantModal.js
+export const Category3 = styled.div`
+    font-size: 24px;
+    margin-bottom: 20px;
+    align-self: center; /* ModalContainer 안에서 세로 가운데 정렬 */
+`;
+
 // components/Challenge/ChallengeList.js
 export const Items = styled.div`
     width: 100%;
@@ -1522,6 +1798,23 @@ export const Buttons = styled.div`
     justify-content: center;
 `;
 
+// components/Group/GroupComponent/GroupWritingContent.jsx
+export const Buttons2 = styled.div`
+    display: flex;
+    margin-top: 20px;
+    justify-content: flex-end;
+    gap: 20px;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    @media (max-width: 480px) {
+        gap: 5px;
+    }
+`;
+
 // components/ChallengeModal/ChallengeApplyModal.js
 export const ApplyButton = styled.div`
     width: 100px;
@@ -1648,6 +1941,983 @@ export const Fail = styled.div`
     height: 100%;
 `;
 
+// components/DateInputButton/DateButton.jsx
+export const Wrapper = styled.div`
+    background-color: white;
+    border: 1px solid var(--violet500);
+    display: flex;
+    align-items: center;
+    padding: 5px 15px;
+    border-radius: 7px;
+    @media (max-width: 768px) {
+        padding: 6px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 3px;
+    }
+`;
+
+// components/Group/GroupComponent/FormField.jsx
+export const Wrapper2 = styled.div`
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+
+    label {
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+    @media (max-width: 768px) {
+        gap: 5px;
+
+        label {
+            font-size: 14px;
+        }
+    }
+    
+    @media (max-width: 530px) {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        label {
+            font-size: 12px;
+        }
+    }
+`;
+
+// components/DateInputButton/DateButton.jsx
+export const DatePickerCustom = styled(DatePicker)`
+    font-size: 16px;
+    width: 100%;
+    max-width: 95px;
+    
+    @media (max-width: 768px) {
+        font-size: 12px;
+        max-width: 70px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 10px;
+        max-width: 60px;
+    }
+`;
+
+// components/Group/ChallengeTab.js
+export const ChallengeLists = styled(ContentsWrapper)`
+    padding-top: 30px;
+    padding-bottom: 30px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+`;
+
+// 전체 div 묶음
+// components/Group/GroupInfoContent.js
+export const InfoContainer = styled(ContentsWrapper)` 
+    position: relative;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px;
+    background: var(--violet100);
+
+    @media (max-width: 768px) {
+        padding: 20px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 10px;
+    }
+`;
+
+// 지원하기 버튼
+// components/Group/GroupInfoContent.js
+export const SupportButton = styled.button` 
+    padding: 10px 15px;
+    background-color: var(--violet500);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+        background-color: var(--violet300);
+    }
+
+    @media (max-width: 768px) {
+        padding: 8px 12px;
+    }
+    
+    @media (max-width: 480px) {
+        font-size: 12px;
+        padding: 5px 10px;
+    }
+`;
+
+// 정보 묶음
+// components/Group/GroupInfoContent.js
+export const SupportRecruit = styled.div` 
+    width: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    font-size: 18px;
+    padding: 30px;
+    border: 1px solid var(--violet500);
+    border-radius: 10px;
+    gap: 25px;
+
+    @media (max-width: 768px) {
+        font-size: 16px;
+        padding: 20px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 14px;
+        padding: 15px;
+    }
+`;
+
+// 모임 기간 및 지원하기 묶음
+// components/Group/GroupInfoContent.js
+export const SupportRecruit1 = styled.div` 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    @media (max-width: 768px) {
+        justify-content: space-between;
+    }
+`;
+
+// 모집 현황 및 지원 가능 묶음
+// components/Group/GroupInfoContent.js
+export const SupportRecruit2 = styled.div` 
+    display: flex;
+    justify-content: space-between;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        gap: 15px;
+    }
+`;
+
+// 모집 현황 묶음
+// components/Group/GroupInfoContent.js
+export const RecruitContainer = styled.div` 
+    display: flex;
+`;
+
+// 지원 가능 묶음
+// components/Group/GroupInfoContent.js
+export const SupportContainer = styled.div` 
+    display: flex;
+`;
+
+// 주제 설명
+// components/Group/GroupInfoContent.js
+export const PostInfo = styled.div` 
+    margin-top: 30px;
+    background-color: white;
+    border: 1px solid var(--violet500);
+    border-radius: 10px;
+    width: 100%;
+    min-height: 300px;
+    padding: 30px;
+    line-height: 2;
+
+    @media (max-width: 768px) {
+        padding: 20px;
+        font-size: 16px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 15px;
+        font-size: 14px;
+    }
+`;
+
+// 포스트 제목
+// components/Group/GroupInfoContent.js
+export const PostTitle = styled.h3` 
+    font-size: 18px;
+    margin-bottom: 10px;
+
+    @media (max-width: 768px) {
+        font-size: 16px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 14px;
+    }
+`;
+
+// 포스트 내용
+// components/Group/GroupInfoContent.js
+export const PostContent = styled.div` 
+    font-size: 16px;
+
+    @media (max-width: 768px) {
+        font-size: 14px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 12px;
+    }
+`;
+
+// 최근 소식
+// components/Group/GroupInfoContent.js
+export const UpdateInfo = styled.div` 
+    background-color: white;
+    margin: 30px 0;
+    padding: 40px 30px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+    
+    div, label {
+        margin: 0 10px;
+    }
+
+    @media (max-width: 768px) {
+        font-size: 14px;
+        padding: 20px;
+        
+        div, label {
+            margin: 0 10px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        font-size: 12px;
+        padding: 10px;
+        
+        div, label {
+            margin: 0 10px;
+        }
+    }
+`;
+
+// 질문 컨테이너
+// components/Group/GroupInfoContent.js
+export const QuestionContainer = styled.div` 
+    width: 100%;
+    background-color: white;
+    padding: 30px;
+    border: 1px solid var(--violet500);
+    border-radius: 10px;
+
+    @media (max-width: 768px) {
+        padding: 20px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 15px;
+    }
+`;
+
+// 질문 헤더
+// components/Group/GroupInfoContent.js
+export const QuestionHeader = styled.div` 
+    display: flex;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--black800);
+    text-align: left;
+    margin-left: 5px;
+
+    @media (max-width: 768px) {
+        font-size: 14px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 12px;
+    }
+`;
+
+
+
+
+// 섹션
+// components/Group/GroupManageContent.js
+export const Section = styled.section`
+    padding: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--violet100);
+    border: 1px solid var(--black200);
+    border-radius: 0 0 8px 8px;
+
+    @media (max-width: 768px) {
+        padding: 15px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 10px;
+    }
+`;
+
+// 지원 제목
+// components/Group/GroupManageContent.js
+export const ApplyTitle = styled.h2`
+    font-size: 24px;
+    font-weight: 500;
+    margin: 20px 0;
+
+    @media (max-width: 768px) {
+        font-size: 20px;
+        margin: 15px 0;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 18px;
+        margin: 10px 0;
+    }
+`;
+
+// 지원자 관리 div
+// components/Group/GroupManageContent.js
+export const ApplyInfo = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #e0e0e0;
+
+    @media (max-width: 768px) {
+        align-items: center;
+        padding: 5px 0;
+    }
+
+    .UserDetails {
+        display: flex;
+        align-items: center;
+    }
+
+    .roleSelect {
+        width: fit-content;
+        display: flex;
+        align-items: center;
+        flex: 0.35;
+
+        @media (max-width: 768px) {
+            flex-direction: column;
+            gap: 5px;
+            font-size: 14px;
+            align-items: center;
+            justify-content: center;
+            
+            label {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            font-size: 10px;
+            flex-direction: column;
+
+            label {
+                font-size: 14px;
+            }
+        }
+    }
+`;
+
+// 사용자 이미지
+// components/Group/GroupManageContent.js, components/Group/GroupComponent/GroupWritingContent.jsx
+export const UserImg = styled.div`
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #6c63ff;
+    margin-right: 10px;
+`;
+
+// 사용자 이름
+// components/Group/GroupManageContent.js, components/Group/GroupComponent/GroupWritingContent.jsx
+export const UserName = styled.div`
+    font-size: 18px;
+
+    @media (max-width: 768px) {
+        font-size: 16px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 14px;
+    }
+`;
+
+// 사용자 직위
+// components/Group/GroupManageContent.js
+export const UserPosition = styled.div`
+    margin-left: 50px;
+    font-weight: 500;
+    line-height: 1.5;
+
+    @media (max-width: 768px) {
+        margin-left: 0;
+        font-size: 12px;
+        text-align: center;
+    }
+`;
+
+// 날짜 스타일
+// components/Group/GroupManageContent.js
+export const DateStyle = styled.div`
+    margin: 0 40px;
+    font-size: 16px;
+    color: var(--black600);
+    text-align: center;
+
+    @media (max-width: 768px) {
+        margin: 0 20px;
+        font-size: 14px;
+    }
+
+    @media (max-width: 480px) {
+        margin: 0 10px;
+        font-size: 12px;
+    }
+`;
+
+
+
+// 지원자 섹션   
+// components/Group/GroupManageContent.js
+export const ApplySection = styled.div`
+    margin-top: 20px;
+    padding: 20px;
+    width: 100%;
+    border-radius: 8px;
+    
+    @media (max-width: 768px) {
+        padding: 15px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 10px;
+    }
+
+    label {
+        font-size: 18px;
+
+        @media (max-width: 768px) {
+            font-size: 16px;
+        }
+
+        @media (max-width: 480px) {
+            font-size: 14px;
+        }
+    }
+`;
+
+// components/Group/GroupTabs.jsx
+export const TabContainer = styled.div`
+    display: flex;
+    width: 100%;
+`;
+
+
+
+// components/Group/MeetingContent.js
+export const MeetingHeader = styled.h3`
+    display: flex;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--black800);
+    text-align: left;
+`;
+
+
+
+// components/Group/MeetingContent.js
+export const MeetingDiv = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+`;
+
+// components/Group/TodoContent.js
+export const TodoContainer = styled.div`
+  width: 100%;
+  padding: 20px;
+  background-color: #F2F0FF;
+  border-radius: 8px;
+`;
+
+// components/Group/TodoContent.js
+export const TodoHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+`;
+
+// components/Group/TodoContent.js
+export const TodoTitle = styled.h3`
+  font-size: 24px;
+  font-weight: bold;
+  color: #000000;
+`;
+
+// components/Group/TodoContent.js
+export const TodoButton = styled.button`
+  background-color: #FFFFFF;
+  color: #000;
+  border: 1px solid #9787FF;
+  padding: 8px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #8578d8;
+    color: white;
+  }
+`;
+
+// components/Group/TodoContent.js
+export const ButtonGroupRight = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+`;
+
+// components/Group/TodoContent.js
+export const ColumnContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  background-color: #ffffff;
+`;
+
+// components/Group/TodoContent.js
+export const Column = styled.div`
+  flex: 1;
+  background-color: #ffffff;
+  padding: 20px;
+  margin: 0 10px;
+  border-radius: 8px;
+  min-height: 200px;
+`;
+
+// components/Group/TodoContent.js
+export const TodoItem = styled.div`
+  background-color: #ffffff;
+  border: 1px solid #968AFF;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+`;
+
+
+
+// components/Group/TodoContent.js
+export const ModalTitle = styled.h2`
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+`;
+
+// components/Group/TodoContent.js
+export const Modaldescription = styled.h4`
+  font-size: 10px;
+  color: #ccc;
+  margin-bottom: 30px;
+`;
+
+// components/Group/TodoContent.js
+export const ModalInput = styled.div`
+  width: 75%; 
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #9787FF;
+  border-radius: 5px;
+  margin-right: 10px;
+
+  @media (max-width: 768px) {
+    width: 100%; 
+  }
+`;
+
+// components/Group/TodoContent.js
+export const ModalInputDate = styled.div`
+  width: 25%; 
+  display: flex;
+  border: 1px solid #9787FF;
+  border-radius: 5px;
+  align-items: center;
+  margin-left: 10px;
+  padding: 10px;
+
+  @media (max-width: 768px) {
+    width: 100%; 
+  }
+`;
+
+// components/Group/TodoContent.js
+export const TodoPlus = styled.div`
+  font-size: 30px;
+  color: #9787FF;
+  cursor: pointer;
+  text-align: center;
+`;
+
+// components/Group/TodoContent.js
+export const ModalTaskInput = styled.div`
+  width: 100%; 
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #9787FF;
+  border-radius: 5px;
+  margin-right: 10px;
+
+  @media (max-width: 768px) {
+    width: 100%; 
+  }
+`;
+
+// components/Group/TodoContent.js
+export const LinkInputTitle = styled.h3`
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 50px;
+  color: #000000;
+`;
+
+// components/Group/TodoContent.js
+export const LinkInputContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  font-size: 14px;
+`;
+
+// components/Group/TodoContent.js
+export const Input = styled.input`
+  width: 90%;
+  padding: 10px;
+  margin-right: 10px;
+`;
+
+// components/Group/TodoContent.js
+export const StatusButton = styled.div`
+  background-color: #9787FF;
+  color: white;
+  padding: 15px 20px;
+  border-radius: 10px;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 18px;
+  width: 100%;
+`;
+
+// components/Group/TodoContent.js
+export const CalendarIcon = styled.span`
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/3/3a/Calendar_icon.svg');
+  background-size: cover;
+`;
+
+
+
+
+
+// components/Group/GroupComponent/GroupWritingContent.jsx
+export const Row = styled.div`
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin: 10px 0;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    @media (max-width: 480px) {
+        flex-direction: column;
+        gap: 8px;
+    }
+`;
+
+// components/Group/GroupInfoModal/ApplicantConfirmModal.js, components/Group/GroupInfoModal/ApplicantModal.js
+export const Row2 = styled.div`
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* 이메일과 지원직군 사이에 여백 추가 */
+`;
+
+
+// components/Group/GroupComponent/GroupWritingContent.jsx
+export const Label = styled.div`
+    width: 70px;
+    font-size: 16px;
+
+    @media (max-width: 768px) {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 13px;
+    }
+`;
+
+// components/Group/GroupComponent/GroupWritingContent.jsx
+export const LongLabel = styled(Label)`
+    width: 110px;
+    align-items: center;
+
+    @media (max-width: 768px) {
+        width: 100%;
+    }
+`;
+
+
+
+// components/Group/GroupComponent/GroupWritingContent.jsx
+export const StyledButton = styled.button`
+    background-color: ${({ clicked }) => (clicked ? "var(--black700)" : "white")};
+    color: ${({ clicked }) => (clicked ? "white" : "black")};
+    border: 1px solid var(--violet500);
+    padding: 13px 15px;
+    margin: 5px;
+    border-radius: 30px;
+    cursor: pointer;
+
+    @media (max-width: 768px) {
+        padding: 8px;
+        font-size: 12px;
+        flex: 1;
+    }
+    
+    @media (max-width: 480px) {
+        padding: 5px;
+        font-size: 10px;
+        flex: 1;
+    }
+`;
+
+// components/Group/GroupComponent/GroupWritingContent.jsx
+export const ThumbNail = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 10px;
+
+    label {
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+    input {
+        width: 200px;
+
+        @media (max-width: 768px) {
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    @media (max-width: 480px) {
+        gap: 8px;
+    }
+`;
+
+// components/Group/GroupComponent/GroupWritingContent.jsx
+export const HiddenFileInput = styled.input`
+    display: none;
+`;
+
+// components/Group/GroupComponent/GroupWritingContent.jsx
+export const FileName = styled.div`
+    margin-top: 10px;
+    font-size: 14px;
+    color: var(--black800);
+`;
+
+// components/Group/GroupComponent/GroupWritingContent.jsx
+export const SubjectTitle = styled.div`
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+
+    label {
+        margin-right: 20px;
+        white-space: nowrap;
+
+        @media (max-width: 768px) {
+            margin-right: 10px;
+        }
+    }
+
+    input {
+        font-size: 16px;
+        padding: 10px;
+        width: 100%;
+        border: 1px solid var(--violet500);
+        background-color: var(--violet300);
+        border-radius: 5px;
+
+        @media (max-width: 768px) {
+            font-size: 14px;
+            padding: 8px;
+        }
+    }
+`;
+
+
+
+
+
+
+
+// components/Group/GroupComponent/GroupWritingContent.jsx
+export const DeleteCancelButton = styled(Button)`
+    background-color: var(--black000);
+    color: var(--black800);
+    &:hover {
+        background-color: var(--black300);
+    }
+`;
+
+// components/Group/GroupComponent/GroupWritingContent.jsx
+export const MemberTitle = styled.div`
+    border-top: 1px solid var(--black200);
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 30px;
+    padding: 30px 0;
+    text-align: center;
+
+    @media (max-width: 768px) {
+        font-size: 20px;
+        padding: 20px 0;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 18px;
+        padding: 15px 0;
+    }
+`;
+
+// components/Group/GroupComponent/GroupWritingContent.jsx
+export const UserInfo = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+
+    .UserDetails {
+        display: flex; /* UserImg와 UserName을 한 줄로 정렬 */
+        align-items: center; /* UserImg와 UserName의 수직 중앙 정렬 */
+    }
+
+    .roleSelect {
+        display: flex;
+        align-items: center;
+    }
+
+    .roleSelect label {
+        margin: 25px;
+    }
+
+    .date {
+        width: 20%;
+        font-size: 12px;
+        color: #999;
+    }
+
+    @media (max-width: 768px) {
+        flex-wrap: wrap;
+        align-items: center;
+        font-size: 14px;
+
+        .UserDetails {
+            gap: 10px;
+        }
+
+        .roleSelect {
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .roleSelect label {
+            margin: 10px 0;
+        }
+        
+        .date {
+            width: 100%; /* 모바일에서 전체 너비 사용 */
+            text-align: center;
+        }
+    }
+`;
+
+// components/Group/GroupInfoModal/ApplicantConfirmModal.js, components/Group/GroupInfoModal/ApplicantModal.js
+export const ModalBackground = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+`;
+
+
+
+
+
+// components/Group/GroupInfoModal/ApplicantConfirmModal.js, components/Group/GroupInfoModal/ApplicantModal.js
+export const InputField = styled.input`
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+`;
+
+// components/Group/GroupInfoModal/ApplicantConfirmModal.js, components/Group/GroupInfoModal/ApplicantModal.js
+export const ButtonContainer = styled.div`
+    display: flex;
+    justify-content: center; /* 버튼들을 가로 가운데 정렬 */
+    gap: 10px;
+`;
+
+// components/Group/GroupInfoModal/ApplicantConfirmModal.js, components/Group/GroupInfoModal/ApplicantModal.js
+export const NoticeDiv = styled.div`
+    margin: 30px 0 30px 0;
+    background-color: var(--violet500);
+    width: 100%;
+    height: 500px;
+    padding: 20px;
+    line-height: 2;
+    border-radius: 5px;
+    color: white;
+`;
 
 
 
@@ -1657,6 +2927,197 @@ export const Fail = styled.div`
 
 
 
+// components/Group/GroupInfoModal/ApplicantModal.js
+export const SubTitle = styled.div`
+  font-size: 14px;
+  margin-bottom: 20px;
+`;
+
+// components/Group/GroupInfoModal/ApplicantModal.js, components/Group/GroupInfoModal/ApplicantConfirmModal.js
+export const PortfolioRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px; /* 입력 칸과 버튼 사이의 간격 조절 */
+
+  .PortfolioButton {
+    padding: 10px 20px;
+    background-color: var(--violet500);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    white-space: nowrap;
+
+    &:hover {
+      background-color: var(--violet300);
+    }
+  }
+`;
+
+
+
+// components/Group/GroupInfoModal/ApplicantModal.js, components/Group/GroupInfoModal/ApplicantConfirmModal.js
+export const SelectField = styled.select`
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+`;
+
+// components/Group/MeetingComponent/MeetingWindow.js
+export const VideoContainer = styled.div`
+  flex: 3;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px;
+  background-color: #f0f0f0;
+  justify-content: center;
+  align-items: center;
+`;
+
+// components/Group/MeetingComponent/MeetingWindow.js
+export const VideoWrapper = styled.div`
+  width: 100%;
+  height: 200px;
+  background-color: #333;
+  position: relative;
+`;
+
+// components/Group/MeetingComponent/MeetingWindow.js
+export const ParticipantList = styled.div`
+  flex: 1;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-left: 2px solid #ddd;
+`;
+
+// components/Group/MeetingComponent/MeetingWindow.js
+export const ParticipantItem = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+`;
+
+// components/Group/MeetingComponent/MeetingWindow.js
+export const ControlBar = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px;
+  background-color: #fff;
+`;
+
+// components/Group/MeetingComponent/MeetingWindow.js
+export const ControlButton = styled.button`
+  padding: 10px 20px;
+  background-color: ${(props) => (props.active ? '#6c63ff' : '#ccc')};
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #574dff;
+  }
+`;
+
+// components/Group/Question/CommentSection.jsx
+export const CommentItem = styled.div`
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 3px;
+    margin-bottom: 15px;
+`;
+
+// components/Group/Question/CommentSection.jsx
+export const CommentBody = styled.div`
+    margin-top: 10px;
+`;
+
+
+
+// components/Group/Question/CommentSection.jsx, components/Group/Question/QuestionForm.jsx
+export const ButtonRow = styled.div`
+  display: flex;
+  justify-content: flex-end;
+    align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+`;
+
+// components/Group/Question/QuestionForm.jsx
+export const QuestionFormContainer = styled.form`
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 10px;
+`;
+
+// components/Group/Question/QuestionForm.jsx
+export const FileInputButton = styled.label`
+  background-color: #fff;
+  color: #000000;
+  border: 1px solid #968AFF;
+  padding: 8px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 13px;
+  display: inline-block;
+  &:hover {
+    background-color: #CEC6FF;
+  }
+`;
+
+// components/Group/Question/QuestionItem.jsx
+export const QuestionItemContainer = styled.div`
+    background-color: white;
+    padding: 10px;
+    border-radius: 3px;
+    margin-bottom: 20px;
+`;
+
+// components/Group/Question/QuestionItem.jsx
+export const ActionButtons = styled.div`
+    background-color: white;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    button {
+        background-color: white;
+    }
+`;
+
+// components/Group/Question/QuestionItem.jsx
+export const QuestionContent = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 25px;
+`;
+
+// components/Group/Question/QuestionItem.jsx
+export const QuestionText = styled.div`
+    font-size: 16px;
+`;
+
+// components/Group/Question/QuestionItem.jsx
+export const QuestionDate = styled.div`
+    font-size: 14px;
+    color: var(--black500);
+`;
+
+// components/Group/Question/QuestionItem.jsx
+export const QuestionAuthor = styled.div`
+    font-weight: bold;
+    color: #333;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+`;
 
 
 

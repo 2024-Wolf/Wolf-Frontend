@@ -1,11 +1,10 @@
-import React from "react";
 import styled from "styled-components";
+import { TabContainer } from "../GlobalStyledComponents";
+
+import React from "react";
 import TabButton from "../Tab/TabButton";
 
-const TabContainer = styled.div`
-    display: flex;
-    width: 100%;
-`;
+
 
 const TabList = [
     "정보",
@@ -15,17 +14,17 @@ const TabList = [
     "관리"
 ]
 
-const GroupTabs = ({tab, setActiveTab}) => {
+const GroupTabs = ({ tab, setActiveTab }) => {
     const handleTabClick = (tabName) => {
         setActiveTab(tabName);
     }
-    return(
+    return (
         <TabContainer>
             {TabList.map((tabName) => (
                 <TabButton
                     key={tabName}
                     isActive={tabName === tab}
-                    onClick={()=> handleTabClick(tabName)}
+                    onClick={() => handleTabClick(tabName)}
                 >
                     {tabName}
                 </TabButton>

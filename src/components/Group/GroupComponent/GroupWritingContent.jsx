@@ -1,362 +1,16 @@
-import React, { useState } from "react";
 import styled from "styled-components";
+import {
+    ContentsWrapper2, Title6, Row, Select2, Label, LongLabel, ButtonGroup2, StyledButton, ThumbNail, HiddenFileInput, FileName, SubjectTitle,
+    TextArea2, Buttons2, Button7, DeleteCancelButton, MemberTitle, UserInfo, UserImg, UserName
+} from "../../GlobalStyledComponents";
+
+import React, { useState } from "react";
 import FormField from "./FormField";
 import DateButton from "../../DateInputButton/DateButton";
 import WhiteInputBox from "../../Input/WhiteInputBox";
 
-// 스타일 정의
-const ContentsWrapper = styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-
-    @media (max-width: 768px) {
-        padding: 10px;
-    }
-
-    @media (max-width: 480px) {
-        padding: 5px;
-    }
-`;
-
-const Title = styled.h1`
-    font-size: 24px;
-    font-weight: 500;
-    margin: 30px 0;
-
-    @media (max-width: 768px) {
-        font-size: 18px;
-        margin: 20px 0;
-    }
-
-    @media (max-width: 480px) {
-        font-size: 16px;
-        margin: 15px 0;
-    }
-`;
-const Row = styled.div`
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    margin: 10px 0;
-
-    @media (max-width: 768px) {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    @media (max-width: 480px) {
-        flex-direction: column;
-        gap: 8px;
-    }
-`;
-
-const Select = styled.select`
-    padding: 10px 15px;
-    border-radius: 5px;
-    border: 2px solid var(--violet500);
-
-    @media (max-width: 768px) {
-        padding: 6px 10px;
-    }
-
-    @media (max-width: 480px) {
-        padding: 5px 8px;
-    }
-`;
-
-const Label = styled.div`
-    width: 70px;
-    font-size: 16px;
-
-    @media (max-width: 768px) {
-        width: 100%;
-        font-size: 14px;
-    }
-
-    @media (max-width: 480px) {
-        font-size: 13px;
-    }
-`;
-
-const LongLabel = styled(Label)`
-    width: 110px;
-    align-items: center;
-
-    @media (max-width: 768px) {
-        width: 100%;
-    }
-`;
-
-const ButtonGroup = styled.div`
-    display: flex;
-    width: 92%;
-    justify-content: left;
-
-    @media (max-width: 768px) {
-        flex-wrap: wrap;
-        gap: 10px;
-    }
-`;
-const StyledButton = styled.button`
-    background-color: ${({ clicked }) => (clicked ? "var(--black700)" : "white")};
-    color: ${({ clicked }) => (clicked ? "white" : "black")};
-    border: 1px solid var(--violet500);
-    padding: 13px 15px;
-    margin: 5px;
-    border-radius: 30px;
-    cursor: pointer;
-
-    @media (max-width: 768px) {
-        padding: 8px;
-        font-size: 12px;
-        flex: 1;
-    }
-    
-    @media (max-width: 480px) {
-        padding: 5px;
-        font-size: 10px;
-        flex: 1;
-    }
-`;
-
-const ThumbNail = styled.div`
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-left: 10px;
-
-
-    label {
-        font-size: 16px;
-        line-height: 1.5;
-    }
-
-    input {
-        width: 200px;
-
-        @media (max-width: 768px) {
-            width: 100%;
-        }
-    }
-
-    @media (max-width: 768px) {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-    }
-
-    @media (max-width: 480px) {
-        gap: 8px;
-    }
-`;
-
-const HiddenFileInput = styled.input`
-    display: none;
-`;
-
-const FileName = styled.div`
-    margin-top: 10px;
-    font-size: 14px;
-    color: var(--black800);
-`;
-
-const SubjectTitle = styled.div`
-    width: 100%;
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-
-    label {
-        margin-right: 20px;
-        white-space: nowrap;
-
-        @media (max-width: 768px) {
-            margin-right: 10px;
-        }
-    }
-
-    input {
-        font-size: 16px;
-        padding: 10px;
-        width: 100%;
-        border: 1px solid var(--violet500);
-        background-color: var(--violet300);
-        border-radius: 5px;
-
-        @media (max-width: 768px) {
-            font-size: 14px;
-            padding: 8px;
-        }
-    }
-`;
-
-const TextArea = styled.textarea`
-    width: 100%;
-    min-height: 200px;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid var(--violet500);
-    border-radius: 5px;
-    resize: none;
-    font-size: 16px;
-    line-height: 1.5;
-
-    &:disabled {
-        background-color: var(--black000);
-    }
-
-    @media (max-width: 768px) {
-        font-size: 14px;
-        padding: 8px;
-    }
-
-    @media (max-width: 480px) {
-        font-size: 13px;
-        padding: 6px;
-    }
-`;
-
-const Buttons = styled.div`
-    display: flex;
-    margin-top: 20px;
-    justify-content: flex-end;
-    gap: 20px;
-
-    @media (max-width: 768px) {
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    @media (max-width: 480px) {
-        gap: 5px;
-    }
-`;
-
-const Button = styled.button`
-    padding: 10px 15px;
-    background-color: var(--violet400);
-    color: white;
-    border: 1px solid var(--violet500);
-    border-radius: 5px;
-    cursor: pointer;
-
-    &:hover {
-        background-color: var(--violet700);
-    }
-
-    @media (max-width: 768px) {
-        padding: 8px;
-        font-size: 14px;
-        width: 100%;
-    }
-    
-    @media (max-width: 480px) {
-        padding: 5px;
-        font-size: 12px;
-    }
-`;
-
-const DeleteCancelButton = styled(Button)`
-    background-color: var(--black000);
-    color: var(--black800);
-    &:hover {
-        background-color: var(--black300);
-    }
-    
-`;
-
-const MemberTitle = styled.div`
-    border-top: 1px solid var(--black200);
-    font-size: 24px;
-    font-weight: bold;
-    margin-top: 30px;
-    padding: 30px 0;
-    text-align: center;
-
-    @media (max-width: 768px) {
-        font-size: 20px;
-        padding: 20px 0;
-    }
-
-    @media (max-width: 480px) {
-        font-size: 18px;
-        padding: 15px 0;
-    }
-`;
-
-const UserInfo = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 10px;
-    .UserDetails {
-        display: flex; /* UserImg와 UserName을 한 줄로 정렬 */
-        align-items: center; /* UserImg와 UserName의 수직 중앙 정렬 */
-    }
-
-    .roleSelect {
-        display: flex;
-        align-items: center;
-    }
-
-    .roleSelect label {
-        margin: 25px;
-    }
-
-    .date {
-        width: 20%;
-        font-size: 12px;
-        color: #999;
-    }
-
-    @media (max-width: 768px) {
-        flex-wrap: wrap;
-        align-items: center;
-        font-size: 14px;
-        .UserDetails {
-            gap: 10px;
-        }
-
-        .roleSelect {
-            align-items: flex-start;
-            gap: 10px;
-        }
-
-        .roleSelect label {
-            margin: 10px 0;
-        }
-        
-        .date {
-            width: 100%; /* 모바일에서 전체 너비 사용 */
-            text-align: center;
-        }
-    }
-`;
-
-const UserImg = styled.div`
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        background-color: #6c63ff;
-        margin-right: 10px;
-`;
-
-const UserName = styled.div`
-    font-size: 18px;
-    @media (max-width: 768px) {
-        font-size: 16px;
-    }
-
-    @media (max-width: 480px) {
-        font-size: 14px;
-    }
-`;
-
 // 메인 컴포넌트
-const GroupWritingContent = ({contentType, memberData, groupData}) => {
+const GroupWritingContent = ({ contentType, memberData, groupData }) => {
     const [contentsType, setContentsType] = useState(contentType); // 상태 추가 ('writing', 'editing', 'viewing' 중 하나)
 
     const GroupData = groupData || {
@@ -382,7 +36,7 @@ const GroupWritingContent = ({contentType, memberData, groupData}) => {
         guidelines: "",
         fileName: ""
     };
-    const [newGroupData, setNewGroupData] = useState( groupData? {...groupData} : GroupData);
+    const [newGroupData, setNewGroupData] = useState(groupData ? { ...groupData } : GroupData);
     // 상태를 변경하는 핸들러
     const handleInputChange = (field, value) => {
         setNewGroupData(prevState => ({
@@ -413,18 +67,18 @@ const GroupWritingContent = ({contentType, memberData, groupData}) => {
     };
 
     return (
-        <ContentsWrapper>
-            <Title>모집 기본 정보</Title>
+        <ContentsWrapper2>
+            <Title6>모집 기본 정보</Title6>
             <Row>
                 <FormField label={"모임 구분"}>
-                    <Select
+                    <Select2
                         value={newGroupData.groupType}
                         onChange={(e) => handleInputChange('groupType', e.target.value)}
                         disabled={contentsType === 'viewing'}
                     >
                         <option value="study">스터디</option>
                         <option value="project">프로젝트</option>
-                    </Select>
+                    </Select2>
                 </FormField>
                 <FormField label={"모집 기간"}>
                     <DateButton
@@ -466,8 +120,8 @@ const GroupWritingContent = ({contentType, memberData, groupData}) => {
                 />
             </Row>
             <Row>
-                <LongLabel>지원시 <br/> 필수/선택사항</LongLabel>
-                <ButtonGroup>
+                <LongLabel>지원시 <br /> 필수/선택사항</LongLabel>
+                <ButtonGroup2>
                     {newGroupData.buttons.map((button, index) => (
                         <StyledButton
                             key={index}
@@ -478,38 +132,38 @@ const GroupWritingContent = ({contentType, memberData, groupData}) => {
                             {button.label}
                         </StyledButton>
                     ))}
-                </ButtonGroup>
+                </ButtonGroup2>
             </Row>
             <Row>
-                {newGroupData.groupType === 'project'? (
-                        <>
-                            <FormField label={"모집 직군"}>
-                                <Select defaultValue="frontEnd"  disabled={contentsType === 'viewing'}>
-                                    <option value="frontEnd">프론트엔드개발자</option>
-                                    <option value="backEnd">백엔드개발자</option>
-                                    <option value="planner">기획자</option>
-                                    <option value="designer">디자이너</option>
-                                </Select>
-                            </FormField>
-                            <FormField label={"직군별 모집 인원"}>
-                                <Select defaultValue=""  disabled={contentsType === 'viewing'}>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
-                                </Select>
-                            </FormField>
-                            <FormField label={"총 모집 인원"}>
-                                <WhiteInputBox value={newGroupData.totalMemberCount} disabled={contentsType === 'viewing'}/>
-                            </FormField>
-                        </>
-                    ) :
+                {newGroupData.groupType === 'project' ? (
+                    <>
+                        <FormField label={"모집 직군"}>
+                            <Select2 defaultValue="frontEnd" disabled={contentsType === 'viewing'}>
+                                <option value="frontEnd">프론트엔드개발자</option>
+                                <option value="backEnd">백엔드개발자</option>
+                                <option value="planner">기획자</option>
+                                <option value="designer">디자이너</option>
+                            </Select2>
+                        </FormField>
+                        <FormField label={"직군별 모집 인원"}>
+                            <Select2 defaultValue="" disabled={contentsType === 'viewing'}>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                            </Select2>
+                        </FormField>
+                        <FormField label={"총 모집 인원"}>
+                            <WhiteInputBox value={newGroupData.totalMemberCount} disabled={contentsType === 'viewing'} />
+                        </FormField>
+                    </>
+                ) :
                     <FormField label={"총 모집 인원"}>
-                        <Select defaultValue={newGroupData.totalMemberCount}  disabled={contentsType === 'viewing'}>
+                        <Select2 defaultValue={newGroupData.totalMemberCount} disabled={contentsType === 'viewing'}>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -518,7 +172,7 @@ const GroupWritingContent = ({contentType, memberData, groupData}) => {
                             <option value="6">6</option>
                             <option value="7">7</option>
                             <option value="8">8</option>
-                        </Select>
+                        </Select2>
                     </FormField>
                 }
                 <ThumbNail>
@@ -534,7 +188,7 @@ const GroupWritingContent = ({contentType, memberData, groupData}) => {
                 </ThumbNail>
             </Row>
 
-            <Title>모임 소개</Title>
+            <Title6>모임 소개</Title6>
             <div>
                 <SubjectTitle>
                     <label>주제</label>
@@ -544,14 +198,14 @@ const GroupWritingContent = ({contentType, memberData, groupData}) => {
                         disabled={contentsType === 'viewing'}
                     />
                 </SubjectTitle>
-                <TextArea
+                <TextArea2
                     rows="4"
                     placeholder="모집에 대한 간단한 소개를 작성해주세요."
                     value={newGroupData.introduction}
                     onChange={(e) => handleInputChange('introduction', e.target.value)}
                     disabled={contentsType === 'viewing'}
                 />
-                <TextArea
+                <TextArea2
                     rows="4"
                     placeholder="유의사항 적어주세요."
                     value={newGroupData.guidelines}
@@ -566,26 +220,26 @@ const GroupWritingContent = ({contentType, memberData, groupData}) => {
                     {memberData?.map((user) => (
                         <UserInfo key={user.id}>
                             <div className="UserDetails" >
-                                <UserImg/>
+                                <UserImg />
                                 <UserName>{user.name}</UserName>
                             </div>
 
                             <div className="roleSelect">
                                 <label>모집직군</label>
-                                <Select defaultValue={user.role} disabled={contentsType === 'viewing'}>
+                                <Select2 defaultValue={user.role} disabled={contentsType === 'viewing'}>
                                     <option value="frontEnd">프론트엔드개발자</option>
                                     <option value="backEnd">백엔드개발자</option>
                                     <option value="planner">기획자</option>
                                     <option value="designer">디자이너</option>
-                                </Select>
+                                </Select2>
                             </div>
 
                             <div className="roleSelect">
                                 <label>권한</label>
-                                <Select defaultValue={user.position} disabled={contentsType === 'viewing'}>
+                                <Select2 defaultValue={user.position} disabled={contentsType === 'viewing'}>
                                     <option value="master">모집장</option>
                                     <option value="member">모집원</option>
-                                </Select>
+                                </Select2>
                             </div>
                         </UserInfo>
                     ))}
@@ -593,25 +247,25 @@ const GroupWritingContent = ({contentType, memberData, groupData}) => {
             )
             }
 
-            <Buttons>
+            <Buttons2>
                 {contentsType === 'editing' ? (
                     <>
-                        <Button onClick={handleSaveClick}>저장</Button>
+                        <Button7 onClick={handleSaveClick}>저장</Button7>
                         <DeleteCancelButton onClick={() => setContentsType('viewing')}>취소</DeleteCancelButton>
                     </>
                 ) : contentsType === 'writing' ? (
                     <>
-                        <Button onClick={handleSaveClick}>작성 완료</Button>
+                        <Button7 onClick={handleSaveClick}>작성 완료</Button7>
                         <DeleteCancelButton onClick={() => setContentsType('viewing')}>취소</DeleteCancelButton>
                     </>
                 ) : (
                     <>
-                        <Button onClick={handleEditClick}>수정</Button>
+                        <Button7 onClick={handleEditClick}>수정</Button7>
                         <DeleteCancelButton>삭제</DeleteCancelButton>
                     </>
                 )}
-            </Buttons>
-        </ContentsWrapper>
+            </Buttons2>
+        </ContentsWrapper2>
     );
 };
 

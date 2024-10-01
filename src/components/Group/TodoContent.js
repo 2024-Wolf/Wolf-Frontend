@@ -4,198 +4,24 @@
 리액트 모달창: npm i react-modal
 호환 오류 해결: index.js에서 strict모드(<React.StrictMode>)를 삭제
 */
-import React, { useState } from 'react';
 import styled from 'styled-components';
+import { TodoContainer, TodoHeader, ButtonGroup, TodoTitle, TodoButton, ButtonGroupRight, ColumnContainer, Column, TodoItem, ModalContainer2, ModalTitle, Modaldescription, ModalInput, ModalInputDate, TodoPlus, ModalTaskInput, LinkInputTitle, LinkInputContainer, Input, StatusButton, CalendarIcon } from "../GlobalStyledComponents";
+
+import React, { useState } from 'react';
 import Modal from 'react-modal';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const TodoContainer = styled.div`
-  width: 100%;
-  padding: 20px;
-  background-color: #F2F0FF;
-  border-radius: 8px;
-`;
-
-const TodoHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-`;
-
-const ButtonGroup = styled.div`
-  display: flex;
-  gap: 10px;
-`;
-
-const TodoTitle = styled.h3`
-  font-size: 24px;
-  font-weight: bold;
-  color: #000000;
-`;
-
-const TodoButton = styled.button`
-  background-color: #FFFFFF;
-  color: #000;
-  border: 1px solid #9787FF;
-  padding: 8px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #8578d8;
-    color: white;
-  }
-`;
-
-const ButtonGroupRight = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 20px;
-`;
-
-const ColumnContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-  background-color: #ffffff;
-`;
-
-const Column = styled.div`
-  flex: 1;
-  background-color: #ffffff;
-  padding: 20px;
-  margin: 0 10px;
-  border-radius: 8px;
-  min-height: 200px;
-`;
-
-const TodoItem = styled.div`
-  background-color: #ffffff;
-  border: 1px solid #968AFF;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-`;
-
-const ModalContainer = styled.div`
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 60%;
-  background-color: #fff;
-  padding: 30px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-`;
-
-const ModalTitle = styled.h2`
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 20px;
-`;
-
-const Modaldescription = styled.h4`
-  font-size: 10px;
-  color: #ccc;
-  margin-bottom: 30px;
-`;
-
-const ModalInput = styled.div`
-  width: 75%; 
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #9787FF;
-  border-radius: 5px;
-  margin-right: 10px;
-  @media (max-width: 768px) {
-    width: 100%; 
-  }
-`;
-
-const ModalInputDate = styled.div`
-  width: 25%; 
-  display: flex;
-  border: 1px solid #9787FF;
-  border-radius: 5px;
-  align-items: center;
-  margin-left: 10px;
-  padding: 10px;
-  @media (max-width: 768px) {
-    width: 100%; 
-  }
-`;
-
-const TodoPlus = styled.div`
-  font-size: 30px;
-  color: #9787FF;
-  cursor: pointer;
-  text-align: center;
-`;
-
-const ModalTaskInput = styled.div`
-  width: 100%; 
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #9787FF;
-  border-radius: 5px;
-  margin-right: 10px;
-  @media (max-width: 768px) {
-    width: 100%; 
-  }
-`;
-
-const LinkInputTitle = styled.h3`
-  font-size: 24px;
-  font-weight: bold;
-  margin-top: 50px;
-  color: #000000;
-`;
-
-const LinkInputContainer = styled.div`
-  display: flex;
-  align-items: center;
-  margin-top: 20px;
-  font-size: 14px;
-`;
-
-const Input = styled.input`
-  width: 90%;
-  padding: 10px;
-  margin-right: 10px;
-`;
-
-const StatusButton = styled.div`
-  background-color: #9787FF;
-  color: white;
-  padding: 15px 20px;
-  border-radius: 10px;
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 18px;
-  width: 100%;
-`;
-
-const CalendarIcon = styled.span`
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  background-image: url('https://upload.wikimedia.org/wikipedia/commons/3/3a/Calendar_icon.svg');
-  background-size: cover;
-`;
-
 const TodoContent = () => {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState('');
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [newSchedule, setNewSchedule] = useState([{ date: null, task: '' }]); 
+  const [newSchedule, setNewSchedule] = useState([{ date: null, task: '' }]);
   const [scheduleList, setScheduleList] = useState([]);
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
   const [isEditingTask, setIsEditingTask] = useState(false);
-  const [editingTaskIndex, setEditingTaskIndex] = useState(null); 
+  const [editingTaskIndex, setEditingTaskIndex] = useState(null);
   const [githubLink, setGithubLink] = useState('');
   const [figmaLink, setFigmaLink] = useState('');
 
@@ -205,9 +31,9 @@ const TodoContent = () => {
   const openTaskModal = () => setIsTaskModalOpen(true);
   const closeTaskModal = () => {
     setIsTaskModalOpen(false);
-    setIsEditingTask(false); 
-    setEditingTaskIndex(null); 
-    setNewTask(''); 
+    setIsEditingTask(false);
+    setEditingTaskIndex(null);
+    setNewTask('');
   };
 
   // 일정 부분
@@ -249,8 +75,8 @@ const TodoContent = () => {
       const updatedTasks = [...tasks];
       updatedTasks[editingTaskIndex].content = newTask;
       setTasks(updatedTasks);
-      setIsEditingTask(false); 
-      setEditingTaskIndex(null); 
+      setIsEditingTask(false);
+      setEditingTaskIndex(null);
     } else {
       if (newTask.trim()) {
         setTasks([{ id: tasks.length + 1, content: newTask, status: '기획 중' }, ...tasks]);
@@ -279,8 +105,8 @@ const TodoContent = () => {
   const handleEditTask = (index) => {
     const taskToEdit = tasks[index];
     setNewTask(taskToEdit.content);
-    setIsEditingTask(true);  
-    setEditingTaskIndex(index);  
+    setIsEditingTask(true);
+    setEditingTaskIndex(index);
     openTaskModal();
   };
 
@@ -297,7 +123,7 @@ const TodoContent = () => {
       {/* 일정 등록 모달 */}
       <TodoContainer>
         <Modal isOpen={modalIsOpen} onRequestClose={closeModal}>
-          <ModalContainer>
+          <ModalContainer2>
             <ModalTitle>일정 등록</ModalTitle>
             <Modaldescription>일정을 작성하고 등록버튼을 눌러주세요.</Modaldescription>
 
@@ -335,7 +161,7 @@ const TodoContent = () => {
               <TodoButton onClick={handleScheduleSubmit}>등록</TodoButton>
               <TodoButton onClick={closeModal}>취소</TodoButton>
             </ButtonGroupRight>
-          </ModalContainer>
+          </ModalContainer2>
         </Modal>
       </TodoContainer>
 
@@ -358,7 +184,7 @@ const TodoContent = () => {
 
       {/* 할 일 등록 모달 */}
       <Modal isOpen={isTaskModalOpen} onRequestClose={closeTaskModal}>
-        <ModalContainer>
+        <ModalContainer2>
           <ModalTitle>{isEditingTask ? '할 일 수정' : '새로운 할 일 등록'}</ModalTitle>
           <Modaldescription>할 일을 작성하고 {isEditingTask ? '수정 완료' : '등록'} 버튼을 눌러주세요.</Modaldescription>
           <ModalTaskInput>
@@ -375,7 +201,7 @@ const TodoContent = () => {
             <TodoButton onClick={handleTaskSubmit}>{isEditingTask ? '수정 완료' : '등록'}</TodoButton>
             <TodoButton onClick={closeTaskModal}>취소</TodoButton>
           </ButtonGroupRight>
-        </ModalContainer>
+        </ModalContainer2>
       </Modal>
 
       {/* 드래그 앤 드롭 */}

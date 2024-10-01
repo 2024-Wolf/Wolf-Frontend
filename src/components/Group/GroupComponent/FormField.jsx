@@ -1,42 +1,14 @@
-import React from 'react';
 import styled from 'styled-components';
+import { Wrapper2 } from "../../GlobalStyledComponents";
 
-const Wrapper = styled.div`
-    display: flex;
-    justify-content: flex-start;
-    gap: 10px;
-    align-items: center;
-    margin-bottom: 10px;
-
-    label {
-        font-size: 16px;
-        line-height: 1.5;
-    }
-
-    @media (max-width: 768px) {
-        gap: 5px;
-
-        label {
-            font-size: 14px;
-        }
-    }
-    
-    @media (max-width: 530px) {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        label {
-            font-size: 12px;
-        }
-    }
-`;
+import React from 'react';
 
 const FormField = ({ label, children }) => {
     return (
-        <Wrapper>
+        <Wrapper2>
             <label>{label}</label>
             {children}
-        </Wrapper>
+        </Wrapper2>
     );
 };
 

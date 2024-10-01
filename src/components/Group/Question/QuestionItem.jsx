@@ -1,64 +1,18 @@
-import React from 'react';
 import styled from 'styled-components';
+import { QuestionItemContainer, ActionButtons, QuestionContent, QuestionText, QuestionDate, QuestionAuthor, ProfileIcon } from "../../GlobalStyledComponents";
 
-const QuestionItemContainer = styled.div`
-    background-color: white;
-      padding: 10px;
-      border-radius: 3px;
-      margin-bottom: 20px;
-`;
-
-const ActionButtons = styled.div`
-    background-color: white;
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    button {
-        background-color: white;
-    }
-`;
-
-const QuestionContent = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin: 25px;
-`;
-
-const QuestionText = styled.div`
-    font-size: 16px;
-`;
-
-const QuestionDate = styled.div`
-    font-size: 14px;
-    color: var(--black500);
-`;
-
-const QuestionAuthor = styled.div`
-    font-weight: bold;
-    color: #333;
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-`;
-
-const ProfileIcon = styled.img`
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      margin-right: 10px;
-`;
+import React from 'react';
 
 const QuestionItem = ({
-                      question,
-                      handleFileChange,
-                      handleQuestionEdit,
-                      handleQuestionDelete,
-                      toggleComments,
-                      selectedQuestionId,
-                      renderComments,
-                      showFileOptions = true,
-                  }) => {
+    question,
+    handleFileChange,
+    handleQuestionEdit,
+    handleQuestionDelete,
+    toggleComments,
+    selectedQuestionId,
+    renderComments,
+    showFileOptions = true,
+}) => {
 
     return (
         <QuestionItemContainer>

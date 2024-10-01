@@ -1,189 +1,62 @@
-import React from 'react';
 import styled from 'styled-components';
+import {
+  ModalBackground, ModalContainer4, Title7, Category3, SubTitle, PortfolioRow, InputField, SelectField, TextArea3,
+  ButtonContainer, Button8, Row2, NoticeDiv
+} from "../../GlobalStyledComponents";
 
-const ModalBackground = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 10000;
-`;
-
-const ModalContainer = styled.div`
-  z-index: 1000;
-  width: 90%; /* 화면에 삐져나가는 문제 해결을 위해 너비를 %로 설정 */
-  max-width: 650px;
-  height: 664px;
-  background-color: #FCFCFC;
-  padding: 20px;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-`;
-
-const Title = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: var(--violet500);
-  color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  width: 140px;
-  margin-bottom: 20px;
-  align-self: center; /* ModalContainer 안에서 세로 가운데 정렬 */
-`;
-
-const Category = styled.div`
-  font-size: 24px;
-  margin-bottom: 20px;
-  align-self: center; /* ModalContainer 안에서 세로 가운데 정렬 */
-`;
-
-const SubTitle = styled.div`
-  font-size: 14px;
-  margin-bottom: 20px;
-`;
-
-const PortfolioRow = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px; /* 입력 칸과 버튼 사이의 간격 조절 */
-
-  .PortfolioButton {
-    padding: 10px 20px;
-    background-color: var(--violet500);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    white-space: nowrap;
-    
-    &:hover {
-    background-color: var(--violet300);
-    }
-  }
-`;
-
-const InputField = styled.input`
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-`;
-
-const SelectField = styled.select`
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-`;
-
-const TextArea = styled.textarea`
-  width: 100%;
-  height: 100px;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  resize: none;
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: center; /* 버튼들을 가로 가운데 정렬 */
-  gap: 10px;
-`;
-
-const Button = styled.button`
-  padding: 10px 20px;
-  white-space: nowrap;
-  background-color: var(--violet500);
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  &:hover {
-    background-color: var(--violet300);
-  }
-`;
-
-const Row = styled.div`
-  display: flex;
-  justify-content: space-between;
-  gap: 20px; /* 이메일과 지원직군 사이에 여백 추가 */
-`;
-
-const NoticeDiv = styled.div`
-    margin: 30px 0 30px 0;
-    background-color : var(--violet500);
-    width: 100%;
-    height: 500px;
-    padding: 20px;
-    line-height: 2;
-    border-radius: 5px;
-    color: white;
-`;
+import React from 'react';
 
 const ApplicantModal = ({ onClose }) => {
 
   const handlePortofolio = (e) => {
-      e.preventDefault();
+    e.preventDefault();
   }
   return (
     <ModalBackground>
       <form method='post'>
-      <ModalContainer>
-        <Title>프로젝트</Title>
-        <Category>파이널 프로젝트 - 지금 2조</Category>
-        <SubTitle>이메일, 지원직군, 지원사유는 필수 입력 값입니다! 성실하게 작성 할수록 참여 승인이 잘 됩니다.</SubTitle>
-        
-        <Row>
-          <div style={{ width: "48%" }}>
-            <label>이메일</label>
-            <InputField type="email" placeholder="이메일을 입력하세요" required/>
-          </div>
-          
-          <div style={{ width: "48%" }}>
-            <label>지원직군</label>
-            <SelectField defaultValue="" required>
-              <option value="frontEnd">프론트엔드개발자</option>
-              <option value="backEnd">백엔드개발자</option>
-              <option value="planner">기획자</option>
-              <option value="designer">디자이너</option>
-            </SelectField>
-          </div>
-        </Row>
-        
-        <div>
-          <label>지원 사유</label>
-          <TextArea rows="5" cols="30" placeholder="지원사유를 입력하세요" required/>
-        </div>
-        
-        <PortfolioRow>
-          <label>포트폴리오 링크</label>
-          <InputField type="url" placeholder="링크를 등록하세요" required/>
-          <Button onClick={handlePortofolio}>등록</Button>
-        </PortfolioRow>
+        <ModalContainer4>
+          <Title7>프로젝트</Title7>
+          <Category3>파이널 프로젝트 - 지금 2조</Category3>
+          <SubTitle>이메일, 지원직군, 지원사유는 필수 입력 값입니다! 성실하게 작성 할수록 참여 승인이 잘 됩니다.</SubTitle>
 
-        <NoticeDiv>
-          프로젝트 유의사항 <br/>
-          - 도중 이탈 시 평가지표의 불이익을 줄 수 있음. <br/>
-        </NoticeDiv>
+          <Row2>
+            <div style={{ width: "48%" }}>
+              <label>이메일</label>
+              <InputField type="email" placeholder="이메일을 입력하세요" required />
+            </div>
 
-        <ButtonContainer>
-          <Button type='submit'>지원하기</Button>
-          <Button onClick={onClose}>취소</Button>
-        </ButtonContainer>
-      </ModalContainer>
+            <div style={{ width: "48%" }}>
+              <label>지원직군</label>
+              <SelectField defaultValue="" required>
+                <option value="frontEnd">프론트엔드개발자</option>
+                <option value="backEnd">백엔드개발자</option>
+                <option value="planner">기획자</option>
+                <option value="designer">디자이너</option>
+              </SelectField>
+            </div>
+          </Row2>
+
+          <div>
+            <label>지원 사유</label>
+            <TextArea3 rows="5" cols="30" placeholder="지원사유를 입력하세요" required />
+          </div>
+
+          <PortfolioRow>
+            <label>포트폴리오 링크</label>
+            <InputField type="url" placeholder="링크를 등록하세요" required />
+            <Button8 onClick={handlePortofolio}>등록</Button8>
+          </PortfolioRow>
+
+          <NoticeDiv>
+            프로젝트 유의사항 <br />
+            - 도중 이탈 시 평가지표의 불이익을 줄 수 있음. <br />
+          </NoticeDiv>
+
+          <ButtonContainer>
+            <Button8 type='submit'>지원하기</Button8>
+            <Button8 onClick={onClose}>취소</Button8>
+          </ButtonContainer>
+        </ModalContainer4>
       </form>
     </ModalBackground>
   );

@@ -6,7 +6,7 @@ const MeetingPortal = ({ onClose }) => {
   const meetingWindowRef = useRef(null);
 
   useEffect(() => {
-    
+
     const meetingWindow = window.open(
       '',
       '_blank',
@@ -47,7 +47,7 @@ const MeetingPortal = ({ onClose }) => {
     };
   }, [onClose]);
 
-  return null; 
+  return null;
 };
 
 export default MeetingPortal;

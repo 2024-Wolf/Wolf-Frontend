@@ -1,43 +1,7 @@
-import React, { useState } from 'react';
 import styled from 'styled-components';
+import { CommentItem, CommentBody, TextArea4, ButtonRow, SubmitButton2 } from "../../GlobalStyledComponents";
 
-const CommentItem = styled.div`
-    background-color: #ffffff;
-    padding: 15px;
-    border-radius: 3px;
-    margin-bottom: 15px;
-`;
-
-const CommentBody = styled.div`
-    margin-top: 10px;
-`;
-
-const TextArea = styled.textarea`
-  width: 100%;
-  min-height: 80px;
-  padding: 15px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  margin-top: 10px;
-`;
-
-const ButtonRow = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 10px;
-`;
-
-const SubmitButton = styled.button`
-  background-color: #6c63ff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  &:hover {
-    background-color: #574dc2;
-  }
-`;
+import React, { useState } from 'react';
 
 const CommentSection = ({ comments = [], onSubmit }) => {
     const [newComment, setNewComment] = useState('');
@@ -62,13 +26,13 @@ const CommentSection = ({ comments = [], onSubmit }) => {
             ) : (<></>)}
             {/* 댓글 작성 영역 */}
             <form onSubmit={handleCommentSubmit}>
-                <TextArea
+                <TextArea4
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}
                     placeholder="댓글을 적어주세요"
                 />
                 <ButtonRow>
-                    <SubmitButton type="submit">등록</SubmitButton>
+                    <SubmitButton2 type="submit">등록</SubmitButton2>
                 </ButtonRow>
             </form>
         </>
