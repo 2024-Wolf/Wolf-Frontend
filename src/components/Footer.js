@@ -1,8 +1,21 @@
 import styled from 'styled-components';
-import { FooterContainer, FooterContent, FooterText, FooterLinks, NoBackgroundButton, LogoS } from "./GlobalStyledComponents";
+import { FooterContent, FooterText, FooterLinks, NoBackgroundButton, LogoS } from "./GlobalStyledComponents";
 
 import React from 'react';
 
+// components/Footer.js
+export const FooterContainer = styled.footer`
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 35px;
+  background: var(--violet100);
+  width: 100%;
+  gap: 10px;
+`;
 
 function Footer(props) {
   return (

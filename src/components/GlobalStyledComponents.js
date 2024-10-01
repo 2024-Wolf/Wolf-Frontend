@@ -2,6 +2,31 @@ import styled, { css } from "styled-components";
 
 import DatePicker from "react-datepicker";
 
+export const MainContents = styled.div`
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    height: auto;
+    width: 100%;
+    max-width: 1500px;
+    flex-direction: column;
+    margin: 30px auto;
+    min-height: 700px;
+    gap: 50px;
+    padding: 0px 70px;
+
+    @media (max-width: 1200px) {
+    }
+
+    @media (max-width: 768px) {
+    }
+
+    @media (max-width: 576px) {
+    }
+`;
+
+// --------------------위는 확정--------------------
+
 // components/MyPageComponents/UserInfoContent.js
 export const responsivePadding = css`
     @media (max-width: 768px) {
@@ -56,32 +81,6 @@ export const ContentsWrapper3 = styled.div`
     display: flex;
     flex-direction: column;
     ${responsivePadding}
-`;
-
-
-
-// pages/CreateGroupPage.js, pages/Main.js
-export const MainContents = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    flex-direction: column;
-    margin: 50px auto;
-    max-width: 1340px; /* 최대 너비를 1300px로 설정 (변경 가능성 O)*/
-    gap: 50px;
-    padding: 0 20px;
-
-    @media (max-width: 768px) {
-        padding: 0 15px;
-        gap: 30px;
-        /*margin: 50px auto;*/ /* pages/Main.js */
-    }
-
-    @media (max-width: 480px) {
-        padding: 0 10px;
-        gap: 20px;
-        /* margin: 30px auto;*/ /* pages/Main.js */
-    }
 `;
 
 // pages/CreateGroupPage.js, pages/FAQ.js, pages/MyPage.js
@@ -962,16 +961,6 @@ export const SubmitButton3 = styled.button`
 `;
 
 // components/Footer.js
-export const FooterContainer = styled.footer`
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 35px;
-  padding: 30px 35px;
-  background: var(--violet100);
-`;
-
-// components/Footer.js
 export const FooterContent = styled.div`
   display: flex;
   justify-content: space-between;
@@ -1043,21 +1032,6 @@ export const LogoS = styled.div`
     font-size: 1.2rem;
   }
 `;
-
-// components/Header.js
-export const HeaderContainer = styled.header`
-  margin: auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 30px 35px;
-  background: var(--black000);
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.07);
-  max-width: 1500px;
-  width: 100%;
-`;
-
-
 
 // components/Header.js
 export const DarkBackgroundButton = styled(Button)`
@@ -1689,9 +1663,9 @@ export const CategoryContainer = styled.div`
     height: 110px;
     position: relative;
     background-image: ${(props) =>
-    props.category === "스터디"
-      ? `url('/CardViewThumbnail/ProjectThumbnail.png')`
-      : `url('/CardViewThumbnail/StudyThumbnail.png')`};
+        props.category === "스터디"
+            ? `url('/CardViewThumbnail/ProjectThumbnail.png')`
+            : `url('/CardViewThumbnail/StudyThumbnail.png')`};
     background-size: cover;
     background-position: center;
     border-radius: 30px 30px 0 0;
@@ -2078,7 +2052,7 @@ export const ChallengeFee2 = styled.div`
 
 // components/ChallengeModal/ChallengeApplyModal.js
 export const FeeInput = styled.input.attrs({
-  type: 'text'
+    type: 'text'
 })`
     width: 200px;
     height: 50px;
@@ -3588,7 +3562,7 @@ export const Dot = styled.div`
     width: 10px;
     height: 10px;
     background-color: ${(props) =>
-    props.active ? "var(--black100)" : "var(--black400)"};
+        props.active ? "var(--black100)" : "var(--black400)"};
     border-radius: 50%;
     cursor: pointer;
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.20);

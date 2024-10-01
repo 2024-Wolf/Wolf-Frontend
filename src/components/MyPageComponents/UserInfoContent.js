@@ -1,8 +1,5 @@
 import styled, { css } from "styled-components";
-import {
-    Wrapper3, Row, ContentsRow, Column2, ContentsWrapper3, SubContentsWrapper, EtcContentsWrapper, SubTitle2, InputLabel,
-    Description2, ToggleBox, TextArea6, LinkRow, Button12, UpdateButton, CancelButton3, ButtonContainer
-} from "../GlobalStyledComponents";
+import { Wrapper3, Row, ContentsRow, Column2, ContentsWrapper3, SubContentsWrapper, EtcContentsWrapper, SubTitle2, InputLabel, Description2, ToggleBox, TextArea6, LinkRow, Button12, UpdateButton, CancelButton3, ButtonContainer } from "../GlobalStyledComponents";
 
 import React, { useState } from "react";
 import WhiteInputBox from "../Input/WhiteInputBox";

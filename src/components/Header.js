@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { HeaderContainer, Button, DarkBackgroundButton, LightBackgroundButton, MainLogo, ProfileIcon, UserProfileContainer, StyledHeaderIcon, DropdownContainer, DropdownContent, DropdownItem, UserWrapper, DisplayNoneDropdownItem, LogginButton } from "./GlobalStyledComponents";
+import { Button, DarkBackgroundButton, LightBackgroundButton, MainLogo, ProfileIcon, UserProfileContainer, StyledHeaderIcon, DropdownContainer, DropdownContent, DropdownItem, UserWrapper, DisplayNoneDropdownItem, LogginButton } from "./GlobalStyledComponents";
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +10,21 @@ import FirstProcessContent from "./SignInContent/FirstProcessContent";
 import SecondProcessContext from "./SignInContent/SecondProcessContext";
 import ThirdProcessContent from "./SignInContent/ThirdProcessContent";
 import FourthProcessContent from "./SignInContent/FourthProcessContent";
+
+// components/Header.js
+export const HeaderContainer = styled.header`
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 35px;
+  background: var(--black000);
+  box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.07);
+  max-width: 1500px;
+  width: 100%;
+`;
 
 function BellIcon({ hasNotifications, onClick, dataAction }) {
 

@@ -1,8 +1,5 @@
 import styled from 'styled-components';
-import {
-  ModalBackground, ModalContainer4, Title7, Category3, SubTitle, PortfolioRow, InputField, SelectField, TextArea3,
-  ButtonContainer, Button8, Row2, NoticeDiv
-} from "../../GlobalStyledComponents";
+import { ModalBackground, ModalContainer4, Title7, Category3, SubTitle, PortfolioRow, InputField, SelectField, TextArea3, ButtonContainer, Button8, Row2, NoticeDiv } from "../../GlobalStyledComponents";
 
 import React from 'react';
 

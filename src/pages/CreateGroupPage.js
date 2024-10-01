@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { MainContents, Title, GroupInfoContainer } from "../components/GlobalStyledComponents";
+import { MainContents2, Title, GroupInfoContainer } from "../components/GlobalStyledComponents";
 
 import React from "react";
 
@@ -10,12 +10,10 @@ const CreateGroupPage = () => {
 
     return (
         <>
-            <MainContents>
-                <Title>팀원 모집하기</Title>
-                <GroupInfoContainer>
-                    <GroupWritingContent contentType={'writing'} />
-                </GroupInfoContainer>
-            </MainContents>
+            <Title>팀원 모집하기</Title>
+            <GroupInfoContainer>
+                <GroupWritingContent contentType={'writing'} />
+            </GroupInfoContainer>
         </>
     )
 }

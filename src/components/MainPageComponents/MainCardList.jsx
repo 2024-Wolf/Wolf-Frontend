@@ -103,7 +103,7 @@ const MainCardList = ({ category }) => {
     const navigate = useNavigate();
 
     const handleCardClick = (id) => {
-        navigate(`/study/${id}`); // 카드 ID에 따라 그룹 페이지로 이동
+        navigate(`/post/${id}`); // 카드 ID에 따라 그룹 페이지로 이동
     };
 
     // Cards 데이터를 필터링하여 렌더링
@@ -114,7 +114,7 @@ const MainCardList = ({ category }) => {
                 :
                 cards.filter(card => card.category === category)
             ).map(card => (
-                <div key={card.id} onClick={() => navigate('/study')}> {/* 추후변경 - handleCardClick(card.id) */}
+                <div key={card.id} onClick={() => navigate('/post')}> {/* 추후변경 - handleCardClick(card.id) */}
                     <Card
                         key={card.id}
                         category={card.category}

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { MainContents, SearchContainer } from "../components/GlobalStyledComponents";
+import { MainContents2, SearchContainer } from "../components/GlobalStyledComponents";
 
 import React, { useEffect, useState } from "react";
 import BannerSlider from "../components/MainPageComponents/Banner/BannerSlider";
@@ -26,24 +26,22 @@ const Main = () => {
 
     return (
         <>
-            <MainContents>
-                <BannerSlider images={banners} />
-                <Category
-                    categories={categories}
-                    activeCategory={activeCategory}
-                    setActiveCategory={setActiveCategory}
+            <BannerSlider images={banners} />
+            <Category
+                categories={categories}
+                activeCategory={activeCategory}
+                setActiveCategory={setActiveCategory}
+            />
+            <SearchContainer>
+                <ButtonContainer
+                    handleStartDate={searchDate}
+                    onDateChange={handleSearchDate}
                 />
-                <SearchContainer>
-                    <ButtonContainer
-                        handleStartDate={searchDate}
-                        onDateChange={handleSearchDate}
-                    />
-                    <SearchBar />
-                </SearchContainer>
-                <MainCardList
-                    category={activeCategory}
-                />
-            </MainContents>
+                <SearchBar />
+            </SearchContainer>
+            <MainCardList
+                category={activeCategory}
+            />
         </>
     );
 }
