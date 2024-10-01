@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
 import styled from 'styled-components';
+import { HeaderContainer, Button, DarkBackgroundButton, LightBackgroundButton, MainLogo, ProfileIcon, UserProfileContainer, StyledHeaderIcon, DropdownContainer, DropdownContent, DropdownItem, UserWrapper, DisplayNoneDropdownItem, LogginButton } from "./GlobalStyledComponents";
+
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AlramPreview from './AlramPreview';
 import ModalContainer from "./Modal/ModalContainer";
@@ -8,133 +10,6 @@ import FirstProcessContent from "./SignInContent/FirstProcessContent";
 import SecondProcessContext from "./SignInContent/SecondProcessContext";
 import ThirdProcessContent from "./SignInContent/ThirdProcessContent";
 import FourthProcessContent from "./SignInContent/FourthProcessContent";
-
-const HeaderContainer = styled.header`
-  margin: auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 30px 35px;
-  background: var(--black000);
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.07);
-  max-width: 1500px;
-  width: 100%;
-`;
-
-const Button = styled.button`
-  font-weight: 500;
-  font-size: 14px;
-  border-radius: 5px;
-  cursor: pointer;
-  padding: 10px 32px;
-`;
-
-const DarkBackgroundButton = styled(Button)`
-  background: var(--violet600);
-  color: var(--violet000);
-  &:hover {
-    background-color: var(--violet700);
-    transition: background-color 0.3s ease;
-  }
-  &:active {
-    background-color: var(--violet700);
-    transition: background-color 0.1s ease;
-  }
-  @media (max-width: 768px) {
-    display: none;
-  }
-`;
-
-const LightBackgroundButton = styled(Button)`
-  background: var(--violet100);
-  color: var(--black500);
-  &:hover {
-    background-color: var(--violet200);
-    transition: background-color 0.3s ease;
-  }
-  &:active {
-    background-color: var(--violet200);
-    transition: background-color 0.1s ease;
-  }
-  @media (max-width: 768px) {
-    display: none;
-  }
-`;
-
-const MainLogo = styled.a`
-  color: var(--black900);
-  font: 32px Kavoon, sans-serif;
-  text-decoration: none;
-`;
-
-const ProfileIcon = styled.img`
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  cursor: pointer;
-`;
-
-const UserProfileContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 4px 15px;
-  gap: 10px;
-  border-radius: 20px;
-  width: 153.55px;
-`;
-
-const StyledHeaderIcon = styled.svg`
-  width: 20px;
-  height: 20px;
-  color: var(--violet600);
-  cursor: pointer;
-`;
-
-const DropdownContainer = styled.div`
-  position: relative;
-`;
-
-const DropdownContent = styled.div`
-  display: ${props => (props.isDropdownOpen ? 'flex' : 'none')};
-  position: absolute;
-  min-width: 120px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-  right: 0;
-  top: calc(100% + 10px);
-  border-radius: 10px;
-  background: var(--black000);
-  padding: 10px;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const DropdownItem = styled.a`
-  width: 100%;
-  color: var(--black600);
-  padding: 5px;
-  text-decoration: none;
-  text-align: center;
-  border-radius: 10px;
-  &:hover {
-    background-color: var(--black100);
-  }
-`;
-
-const UserWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 0;
-  gap: 2px;
-`;
-
-const DisplayNoneDropdownItem = styled(DropdownItem)`
-  display: none;
-  @media (max-width: 768px) {
-    display: inline;
-  }
-`;
 
 function BellIcon({ hasNotifications, onClick, dataAction }) {
 
@@ -155,14 +30,6 @@ function BellIcon({ hasNotifications, onClick, dataAction }) {
     </>
   );
 }
-
-const LogginButton = styled(Button)`
-  background: none;
-  color: var(--black500);
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-  }
-`;
 
 function Login({ isLoggedIn, openModal, offLogin, notifications }) {
   const [hasNotifications, setHasNotifications] = useState(notifications.length > 0);

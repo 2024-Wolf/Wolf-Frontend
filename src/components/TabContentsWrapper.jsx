@@ -1,12 +1,4 @@
-import styled  from "styled-components";
-
-const ContentsWrapper = styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    background-color: var(--violet000);
-    border: 1px solid var(--violet300);
-`;
+import styled from "styled-components";
+import { ContentsWrapper } from "./GlobalStyledComponents";
 
 export default ContentsWrapper;

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Container, StudyInfoContent, CategoryButton, StudyTitle, Button, StudyDetails, ProfileIcon, LeaderInfo, LeaderText } from "../components/GlobalStyledComponents";
+import { Container, StudyInfoContent, CategoryButton, StudyTitle, Button3, StudyDetails, ProfileIcon, LeaderInfo, LeaderText } from "../components/GlobalStyledComponents";
 
 import React, { useState } from "react";
 import TodoContent from "../components/Group/TodoContent";
@@ -50,7 +50,7 @@ const StudyPage = () => {
         {/* 그룹 정보 영역 */}
         <StudyInfoContent>
           <CategoryButton>스터디</CategoryButton>
-          <Button onClick={openModal}>신고하기</Button>
+          <Button3 onClick={openModal}>신고하기</Button3>
           {isModalOpen && <Declaration onClose={closeModal} />}
           <StudyTitle>파이널 스터디 - 지금2조</StudyTitle>
           <StudyDetails>

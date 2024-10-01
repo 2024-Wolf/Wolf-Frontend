@@ -1,111 +1,7 @@
-import React, { useState } from 'react';
 import styled from 'styled-components';
+import { ModalContainer, Title2, ProjectName, MemberRow, MemberName, ProfileIcon, ButtonGroup, Button2, SubmitContainer, SubmitButton, CancelButton } from "./GlobalStyledComponents";
 
-const ModalContainer = styled.div`
-  width: 600px;
-  background-color: #fff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin: 0 auto;
-`;
-
-const Title = styled.div`
-  background-color: #9f87ff;
-  padding: 10px;
-  border-radius: 8px;
-  color: #fff;
-  text-align: center;
-  font-weight: bold;
-  font-size: 12px;
-  width: 150px;
-  margin: 30px auto 20px auto;
-`;
-
-const ProjectName = styled.h2`
-  text-align: center;
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 30px;
-`;
-
-const MemberRow = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-  justify-content: space-between;
-`;
-
-const MemberName = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: 16px;
-`;
-
-const ProfileIcon = styled.img`
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  margin: auto 30px;
-`;
-
-const ButtonGroup = styled.div`
-  display: flex;
-  gap: 0;
-`;
-
-const Button = styled.button`
-  background-color: ${(props) => (props.isSelected ? '#8578D8' : 'white')};
-  color: ${(props) => (props.isSelected ? 'white' : '#8578D8')};
-  border: 1px solid #8578D8;
-  padding: 8px 0;
-  cursor: pointer;
-  font-size: 10px;
-  width: 130px; 
-  transition: all 0.3s;
-  border-radius: 5px;
-
-  &:hover {
-    background-color: #8578D8;
-    color: white;
-  }
-
-`;
-
-const SubmitContainer = styled.div`
-  text-align: center;
-  margin-top: 30px;
-`;
-
-const SubmitButton = styled.button`
-  background-color: #CEC6FF; 
-  color: #000000; 
-  border: 1px solid #8578D8; 
-  border-radius: 5px;
-  padding: 8px 20px;
-  cursor: pointer;
-  font-size: 12px;
-  margin-right: 10px;
-
-  &:hover {
-    background-color: #8578D8;
-    color: white;
-  }
-`;
-
-const CancelButton = styled.button`
-  background-color: white; 
-  color: #8578D8; 
-  border: 1px solid #8578D8; 
-  border-radius: 5px;
-  padding: 8px 20px;
-  cursor: pointer;
-  font-size: 12px;
-
-  &:hover {
-    background-color: #CEC6FF;
-    color: white;
-  }
-`;
+import React, { useState } from 'react';
 
 const MemberEvaluation = ({ members, onSubmit }) => {
   const [evaluations, setEvaluations] = useState({});
@@ -120,7 +16,7 @@ const MemberEvaluation = ({ members, onSubmit }) => {
 
   return (
     <ModalContainer>
-      <Title>프로젝트</Title>
+      <Title2>프로젝트</Title2>
       <ProjectName>파이널 프로젝트 - 지금2조</ProjectName>
       {members.map((member) => (
         <MemberRow key={member.id}>
@@ -129,24 +25,24 @@ const MemberEvaluation = ({ members, onSubmit }) => {
             {member.name}
           </MemberName>
           <ButtonGroup>
-            <Button
+            <Button2
               isSelected={evaluations[member.id] === '좋았어요'}
               onClick={() => handleEvaluation(member.id, '좋았어요')}
             >
               좋았어요
-            </Button>
-            <Button
+            </Button2>
+            <Button2
               isSelected={evaluations[member.id] === '그저 그랬어요'}
               onClick={() => handleEvaluation(member.id, '그저 그랬어요')}
             >
               그저 그랬어요
-            </Button>
-            <Button
+            </Button2>
+            <Button2
               isSelected={evaluations[member.id] === '별로에요'}
               onClick={() => handleEvaluation(member.id, '별로에요')}
             >
               별로에요
-            </Button>
+            </Button2>
           </ButtonGroup>
         </MemberRow>
       ))}

@@ -1,100 +1,7 @@
-import React, { useState } from 'react';
 import styled from 'styled-components';
+import { ModalContainer2, Title3, Description, Form, Select, TextArea, ButtonGroup, SubmitButton, CancelButton } from "./GlobalStyledComponents";
 
-const ModalContainer = styled.div`
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 500px;
-  background-color: #fff;
-  padding: 30px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-`;
-
-const Title = styled.h2`
-  text-align: center;
-  background-color: #8578D8;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 8px;
-  margin: 30px auto;
-  width: 140px;
-  font-size: 12px;
-`;
-
-const Description = styled.p`
-  font-size: 10px;
-  color: #666;
-  margin-bottom: 30px;
-  text-align: center;
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const Select = styled.select`
-  width: 100%;
-  padding: 5px;
-  margin-bottom: 20px;
-  border-radius: 3px;
-  border: 1px solid #8578D8;
-  font-size: 12px;
-  color: #666;
-`;
-
-const TextArea = styled.textarea`
-  width: 100%;
-  height: 300px;
-  padding: 5px;
-  border-radius: 3px;
-  border: 1px solid #8578D8;
-  margin-bottom: 20px;
-  resize: none;
-  font-size: 12px;
-  color: #666;
-`;
-
-
-const ButtonGroup = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-`;
-
-const SubmitButton = styled.button`
-  background-color: #CEC6FF;
-  color: #000000;
-  border: 1px solid #8578D8;
-  border-radius: 5px;
-  padding: 8px 20px;
-  cursor: pointer;
-  font-size: 12px;
-
-  &:hover {
-    background-color: #8578D8;
-    color: white;
-  }
-`;
-
-const CancelButton = styled.button`
-  background-color: white;
-  color: #8578D8;
-  border: 1px solid #8578D8;
-  border-radius: 5px;
-  padding: 8px 20px;
-  cursor: pointer;
-  font-size: 12px;
-
-  &:hover {
-    background-color: #CEC6FF;
-    color: white;
-  }
-`;
+import React, { useState } from 'react';
 
 const Declaration = ({ onSubmit, onClose }) => {
   const [reason, setReason] = useState('');
@@ -119,9 +26,9 @@ const Declaration = ({ onSubmit, onClose }) => {
   };
 
   return (
-    <ModalContainer>
+    <ModalContainer2>
 
-      <Title>신고하기</Title>
+      <Title3>신고하기</Title3>
 
       <Description>
         악의적이고 반복적인 신고는 회원정지 등의 제재 사유가 될 수 있습니다. 신중하게 작성해주세요!
@@ -151,7 +58,7 @@ const Declaration = ({ onSubmit, onClose }) => {
           <CancelButton type="button" onClick={onClose}>취소</CancelButton>
         </ButtonGroup>
       </Form>
-    </ModalContainer>
+    </ModalContainer2>
   );
 };
 
