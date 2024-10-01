@@ -52,7 +52,7 @@ export const OptionButton = styled.button`
     font-size: 16px;
     color: var(--black500);
 
-    width: 140px;
+    width: 150px;
     height: 40px;
     
     @media (max-width: 768px) {
@@ -592,27 +592,6 @@ export const Button3 = styled.button`
     font-size: 12px;
     padding: 5px 10px;
   }
-`;
-
-// components/Card/Card.jsx
-export const Button4 = styled.button`
-    padding: 5px 10px;
-    border-radius: 5px;
-    background-color: var(--violet000);
-    border: 1px solid var(--violet400);
-    color: var(--black700);
-    font-size: 12px;
-
-    @media (max-width: 768px) {
-        padding: 4px 8px;
-        font-size: 11px;
-    }
-
-    @media (max-width: 480px) {
-        width: 100%;
-        padding: 3px 6px;
-        font-size: 10px;
-    }
 `;
 
 // components/Challenge/ChallengeListItem.js
@@ -1537,169 +1516,16 @@ export const BarLabel = styled.span`
     color: var(--black800);
 `;
 
-// components/Card/Card.jsx
-export const CardContainer = styled.div`
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 240px;
-    height: 250px;
-    border: 0.5px solid var(--black300);
-    border-radius: 30px;
-    background-color: #ffffff;
-    position: relative;
-    transition: transform 0.3s ease;
-    overflow: hidden;
-
-    &:hover {
-        transform: scale(1.05);
-    }
-    
-    @media (max-width: 768px) {
-        max-width: 200px;
-        height: 220px;
-    }
-
-    @media (max-width: 480px) {
-        justify-items: center;
-        max-width: 160px;
-        height: 180px;
-    }
-`;
-
-export const CardContainer2 = styled.div`
-    display: flex;
-    width: 100%;
-    flex-wrap: wrap;
-    gap: 25px;
-
-    @media (max-width: 768px) {
-        justify-content: center;
-        margin: 0 auto;
-        gap: 10px;
-    }
-
-    @media (max-width: 480px) {
-        gap: 5px;
-    }
-`;
-
-// components/Card/Card.jsx
-export const CardBody = styled.div`
-    width: 100%;
-    padding: 10px;
-`;
-
-// components/Card/Card.jsx
-export const CardInfo = styled.div`
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    font-size: 12px;
-    color: #838586;
-    margin-bottom: 10px;
-    
-    @media (max-width: 768px) {
-        font-size: 10px;
-    }
-
-    @media (max-width: 480px) {
-        font-size: 9px;
-    }
-`;
-
-// components/Card/Card.jsx
-export const CardTitle = styled.p`
-    font-size: 18px;
-    font-weight: 500;
-    color: #333;
-    text-align: left;
-    margin-bottom: 10px;
-
-    @media (max-width: 768px) {
-        font-size: 14px;
-    }
-
-    @media (max-width: 480px) {
-        font-size: 12px;
-    }
-`;
-
-// components/Card/Card.jsx
-export const Tags = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    gap: 5px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #838586;
-
-    @media (max-width: 768px) {
-        gap: 3px;
-    }
-
-    @media (max-width: 480px) {
-        gap: 2px;
-    }
-`;
-
-// components/Card/Card.jsx
-export const BottomInfo = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 5px;
-
-    @media (max-width: 768px) {
-        margin-top: 3px;
-    }
-
-    @media (max-width: 480px) {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 5px;
-    }
-`;
 
 
 
-// components/Card/Category.jsx
-export const CategoryContainer = styled.div`
-    width: 100%;
-    height: 110px;
-    position: relative;
-    background-image: ${(props) =>
-        props.category === "스터디"
-            ? `url('/CardViewThumbnail/ProjectThumbnail.png')`
-            : `url('/CardViewThumbnail/StudyThumbnail.png')`};
-    background-size: cover;
-    background-position: center;
-    border-radius: 30px 30px 0 0;
-    
-    /* 반응형 미디어 쿼리 */
-    @media (max-width: 768px) {
-        height: 90px; /* 태블릿 크기 이하일 때 높이 조정 */
-    }
 
-    @media (max-width: 480px) {
-        height: 70px; /* 모바일 크기 이하일 때 높이 조정 */
-    }
-`;
 
-// components/Card/Category.jsx
-export const CategoryTag = styled.span`
-    background-color: var(--violet500); /* color system 500 */
-    color: white;
-    border-radius: 10px;
-    padding: 4px 8px;
-    font-size: 12px;
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    z-index: 0.5;
-`;
+
+
+
+
+
 
 // components/Card/Profile.jsx
 export const ProfileContainer = styled.div`
@@ -1942,19 +1768,6 @@ export const Date = styled.div`
     @media (max-width: 480px) {
         font-size: 8px;
         margin-bottom: 8px;
-    }
-`;
-
-// components/Card/Card.jsx
-export const Date2 = styled.div`
-    font-size: 12px;
-
-    @media (max-width: 768px) {
-        font-size: 11px;
-    }
-
-    @media (max-width: 480px) {
-        font-size: 10px;
     }
 `;
 

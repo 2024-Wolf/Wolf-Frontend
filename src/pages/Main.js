@@ -8,6 +8,7 @@ import MainCardList from "../components/MainPageComponents/MainCardList";
 import SearchBar from "../components/MainPageComponents/SearchBar/SearchBar";
 import DateButton from "../components/Button/DateButton";
 
+
 // pages/Main.js
 export const SearchContainer = styled.div`
     width: 100%;
@@ -63,109 +64,109 @@ const cards = [
     {
         id: 3,
         category: '스터디',
-        title: 'Node.js 심화 과정',
-        deadline: '2024-11-20',
+        title: 'Node.js 심화 스터디',
+        deadline: '2024-11-05',
         challenge: true,
-        tags: ['#백엔드', '#NodeJS'],
+        tags: ['#백엔드', '#Node.js'],
         icons: [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'GitHub' },
-            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Slack' }
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Discord' }
         ],
         profile: {
             imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
-            name: 'sara'
+            name: 'sunwoo'
         }
     },
     {
         id: 4,
-        category: '스터디',
-        title: 'CSS Flexbox 마스터하기',
+        category: '프로젝트',
+        title: 'Vue.js 웹 앱',
         deadline: '2024-12-01',
         challenge: false,
-        tags: ['#디자인', '#CSS'],
+        tags: ['#프론트엔드', '#Vue.js'],
         icons: [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'GitHub' },
-            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Slack' }
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Trello' }
         ],
         profile: {
             imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
-            name: 'kim'
+            name: 'minji'
         }
     },
     {
         id: 5,
-        category: '프로젝트',
-        title: 'React + Redux 애플리케이션',
-        deadline: '2024-10-30',
-        challenge: true,
-        tags: ['#프론트엔드', '#리액트', '#Redux'],
-        icons: [
-            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'GitHub' },
-            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Slack' }
-        ],
-        profile: {
-            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
-            name: 'lee'
-        }
-    },
-    {
-        id: 6,
         category: '스터디',
-        title: 'Git과 GitHub 배우기',
-        deadline: '2024-11-15',
-        challenge: false,
-        tags: ['#버전관리', '#Git'],
-        icons: [
-            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'GitHub' },
-            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Slack' }
-        ],
-        profile: {
-            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
-            name: 'park'
-        }
-    },
-    {
-        id: 7,
-        category: '프로젝트',
-        title: '풀스택 웹 개발',
-        deadline: '2024-12-15',
-        challenge: true,
-        tags: ['#풀스택', '#웹개발'],
-        icons: [
-            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'GitHub' },
-            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Slack' }
-        ],
-        profile: {
-            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
-            name: 'choi'
-        }
-    },
-    {
-        id: 8,
-        category: '스터디',
-        title: 'React Hooks 심화',
-        deadline: '2024-11-30',
-        challenge: false,
-        tags: ['#프론트엔드', '#리액트', '#Hooks'],
-        icons: [
-            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'GitHub' },
-            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Slack' }
-        ],
-        profile: {
-            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
-            name: 'jiyoung'
-        }
-    },
-    {
-        id: 9,
-        category: '프로젝트',
-        title: 'HTML/CSS 기초',
-        deadline: '2024-10-10',
+        title: 'HTML & CSS 기초',
+        deadline: '2024-09-28',
         challenge: true,
         tags: ['#프론트엔드', '#HTML', '#CSS'],
         icons: [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'GitHub' },
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Zoom' }
+        ],
+        profile: {
+            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            name: 'soyeon'
+        }
+    },
+    {
+        id: 6,
+        category: '프로젝트',
+        title: 'React와 Firebase 연동',
+        deadline: '2024-10-25',
+        challenge: false,
+        tags: ['#프론트엔드', '#React', '#Firebase'],
+        icons: [
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'GitHub' },
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Slack' }
+        ],
+        profile: {
+            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            name: 'hyunwoo'
+        }
+    },
+    {
+        id: 7,
+        category: '스터디',
+        title: 'Python 기초 스터디',
+        deadline: '2024-10-10',
+        challenge: true,
+        tags: ['#백엔드', '#Python'],
+        icons: [
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'GitHub' },
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Google Meet' }
+        ],
+        profile: {
+            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            name: 'sujin'
+        }
+    },
+    {
+        id: 8,
+        category: '프로젝트',
+        title: '풀스택 웹 애플리케이션',
+        deadline: '2024-11-15',
+        challenge: false,
+        tags: ['#풀스택', '#React', '#Node.js'],
+        icons: [
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'GitHub' },
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Trello' }
+        ],
+        profile: {
+            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            name: 'jiho'
+        }
+    },
+    {
+        id: 9,
+        category: '스터디',
+        title: 'React 고급 스터디',
+        deadline: '2024-11-20',
+        challenge: true,
+        tags: ['#프론트엔드', '#리액트', '#고급'],
+        icons: [
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'GitHub' },
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Discord' }
         ],
         profile: {
             imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
@@ -174,57 +175,121 @@ const cards = [
     },
     {
         id: 10,
-        category: '스터디',
-        title: 'TypeScript 기초',
-        deadline: '2024-12-05',
+        category: '프로젝트',
+        title: 'Spring Boot REST API',
+        deadline: '2024-12-10',
         challenge: false,
-        tags: ['#프론트엔드', '#TypeScript'],
+        tags: ['#백엔드', '#Java', '#Spring'],
         icons: [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'GitHub' },
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Slack' }
         ],
         profile: {
             imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
-            name: 'hannah'
+            name: 'hwan'
         }
     },
     {
         id: 11,
         category: '스터디',
-        title: '프론트엔드 개발자 준비',
-        deadline: '2024-10-20',
+        title: 'Django 기초 스터디',
+        deadline: '2024-10-30',
         challenge: true,
-        tags: ['#프론트엔드', '#취업준비'],
+        tags: ['#백엔드', '#Django'],
         icons: [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'GitHub' },
-            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Slack' }
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Discord' }
         ],
         profile: {
             imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
-            name: 'sooyoung'
+            name: 'daeyoung'
         }
     },
     {
         id: 12,
         category: '프로젝트',
-        title: '모바일 앱 개발',
-        deadline: '2024-11-25',
+        title: 'TypeScript와 React 연동',
+        deadline: '2024-11-05',
         challenge: false,
-        tags: ['#모바일', '#앱개발'],
+        tags: ['#프론트엔드', '#TypeScript'],
+        icons: [
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'GitHub' },
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Trello' }
+        ],
+        profile: {
+            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            name: 'sangwoo'
+        }
+    },
+    {
+        id: 13,
+        category: '스터디',
+        title: 'CSS 고급 스터디',
+        deadline: '2024-10-05',
+        challenge: true,
+        tags: ['#프론트엔드', '#CSS'],
         icons: [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'GitHub' },
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Slack' }
         ],
         profile: {
             imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
-            name: 'minji'
+            name: 'minseok'
         }
     },
     {
-        id: 13,
+        id: 14,
+        category: '프로젝트',
+        title: 'GraphQL API 개발',
+        deadline: '2024-12-20',
+        challenge: false,
+        tags: ['#백엔드', '#GraphQL'],
+        icons: [
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'GitHub' },
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Discord' }
+        ],
+        profile: {
+            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            name: 'haeyoon'
+        }
+    },
+    {
+        id: 15,
         category: '스터디',
-        title: 'AWS 기초',
-        deadline: '2024-12-10',
+        title: 'Java 기초 스터디',
+        deadline: '2024-10-20',
+        challenge: true,
+        tags: ['#백엔드', '#Java'],
+        icons: [
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'GitHub' },
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Slack' }
+        ],
+        profile: {
+            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            name: 'kyungsoo'
+        }
+    },
+    {
+        id: 16,
+        category: '프로젝트',
+        title: 'Mobile App Development',
+        deadline: '2024-12-30',
+        challenge: false,
+        tags: ['#모바일', '#앱개발'],
+        icons: [
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'GitHub' },
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Zoom' }
+        ],
+        profile: {
+            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            name: 'seojin'
+        }
+    },
+    {
+        id: 17,
+        category: '스터디',
+        title: 'AWS 기초 스터디',
+        deadline: '2024-10-22',
         challenge: true,
         tags: ['#클라우드', '#AWS'],
         icons: [
@@ -233,39 +298,215 @@ const cards = [
         ],
         profile: {
             imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            name: 'nara'
+        }
+    },
+    {
+        id: 18,
+        category: '프로젝트',
+        title: 'Chatbot 개발',
+        deadline: '2024-11-30',
+        challenge: false,
+        tags: ['#인공지능', '#챗봇'],
+        icons: [
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'GitHub' },
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Discord' }
+        ],
+        profile: {
+            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            name: 'minju'
+        }
+    },
+    {
+        id: 19,
+        category: '스터디',
+        title: 'SEO 기초 스터디',
+        deadline: '2024-10-18',
+        challenge: true,
+        tags: ['#마케팅', '#SEO'],
+        icons: [
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'GitHub' },
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Zoom' }
+        ],
+        profile: {
+            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
             name: 'sumin'
         }
     },
     {
-        id: 14,
+        id: 20,
         category: '프로젝트',
-        title: '데이터베이스 기초',
-        deadline: '2024-11-05',
+        title: 'E-commerce 웹사이트',
+        deadline: '2024-12-05',
         challenge: false,
-        tags: ['#데이터베이스', '#MySQL'],
+        tags: ['#프론트엔드', '#E-commerce'],
         icons: [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'GitHub' },
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Slack' }
         ],
         profile: {
             imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
-            name: 'david'
+            name: 'jiyoon'
         }
     },
     {
-        id: 15,
+        id: 21,
         category: '스터디',
-        title: '머신러닝 기초',
-        deadline: '2024-12-20',
+        title: 'React Native 기초',
+        deadline: '2024-10-25',
         challenge: true,
-        tags: ['#인공지능', '#머신러닝'],
+        tags: ['#모바일', '#React Native'],
+        icons: [
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'GitHub' },
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Trello' }
+        ],
+        profile: {
+            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            name: 'kyeong'
+        }
+    },
+    {
+        id: 22,
+        category: '프로젝트',
+        title: 'Web Security Best Practices',
+        deadline: '2024-11-15',
+        challenge: false,
+        tags: ['#보안', '#웹개발'],
+        icons: [
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'GitHub' },
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Discord' }
+        ],
+        profile: {
+            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            name: 'jeong'
+        }
+    },
+    {
+        id: 23,
+        category: '스터디',
+        title: '데이터베이스 기초',
+        deadline: '2024-10-12',
+        challenge: true,
+        tags: ['#데이터베이스', '#SQL'],
         icons: [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'GitHub' },
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Slack' }
         ],
         profile: {
             imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
-            name: 'clara'
+            name: 'sangmin'
+        }
+    },
+    {
+        id: 24,
+        category: '프로젝트',
+        title: 'Data Visualization Tool',
+        deadline: '2024-12-20',
+        challenge: false,
+        tags: ['#데이터', '#시각화'],
+        icons: [
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'GitHub' },
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Zoom' }
+        ],
+        profile: {
+            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            name: 'wooju'
+        }
+    },
+    {
+        id: 25,
+        category: '스터디',
+        title: '블록체인 기초',
+        deadline: '2024-11-01',
+        challenge: true,
+        tags: ['#블록체인', '#개발'],
+        icons: [
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'GitHub' },
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Discord' }
+        ],
+        profile: {
+            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            name: 'yang'
+        }
+    },
+    {
+        id: 26,
+        category: '프로젝트',
+        title: 'IoT 솔루션 개발',
+        deadline: '2024-12-15',
+        challenge: false,
+        tags: ['#IoT', '#개발'],
+        icons: [
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'GitHub' },
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Zoom' }
+        ],
+        profile: {
+            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            name: 'sora'
+        }
+    },
+    {
+        id: 27,
+        category: '스터디',
+        title: 'UX/UI 디자인 기초',
+        deadline: '2024-10-28',
+        challenge: true,
+        tags: ['#디자인', '#UX/UI'],
+        icons: [
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'GitHub' },
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Discord' }
+        ],
+        profile: {
+            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            name: 'dana'
+        }
+    },
+    {
+        id: 28,
+        category: '프로젝트',
+        title: 'Smart Home Application',
+        deadline: '2024-12-01',
+        challenge: false,
+        tags: ['#IoT', '#모바일'],
+        icons: [
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'GitHub' },
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Slack' }
+        ],
+        profile: {
+            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            name: 'kyungmi'
+        }
+    },
+    {
+        id: 29,
+        category: '스터디',
+        title: 'Agile Methodology',
+        deadline: '2024-11-10',
+        challenge: true,
+        tags: ['#프로젝트관리', '#Agile'],
+        icons: [
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'GitHub' },
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Zoom' }
+        ],
+        profile: {
+            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            name: 'bora'
+        }
+    },
+    {
+        id: 30,
+        category: '프로젝트',
+        title: 'Social Media Application',
+        deadline: '2024-12-10',
+        challenge: false,
+        tags: ['#소셜미디어', '#개발'],
+        icons: [
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'GitHub' },
+            { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Discord' }
+        ],
+        profile: {
+            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            name: 'jaeyoon'
         }
     }
 ];
