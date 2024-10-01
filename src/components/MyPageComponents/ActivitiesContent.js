@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { PageContainer, SectionContent, SectionTitle } from "../GlobalStyledComponents";
 
 import React, { useState } from "react";
-import Category from "../Category/Category";
+import MainCategory from "../Category/MainCategory";
 import ActivityCardList from "./ActivityCardList";
 
 const activitiesData = {
@@ -52,7 +52,7 @@ const ActivitiesContent = () => {
 
     return (
         <PageContainer>
-            <Category
+            <MainCategory
                 categories={categories}
                 activeCategory={activeCategory}
                 setActiveCategory={setActiveCategory}

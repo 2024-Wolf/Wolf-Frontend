@@ -19,13 +19,75 @@ export const MainContents = styled.div`
     }
 
     @media (max-width: 768px) {
+        padding: 0px 30px;
     }
 
     @media (max-width: 576px) {
+        padding: 0px 20px;
     }
 `;
 
-// --------------------위는 확정--------------------
+// components/Group/GroupInfoModal/ApplicantConfirmModal.js, components/Group/GroupInfoModal/ApplicantModal.js, 
+// components/MyPageComponents/UserInfoContent.js, components/Group/GroupInfoModal/ApplicantConfirmModal.js, 
+// components/Group/GroupInfoModal/ApplicantModal.js, components/MainPageComponents/SearchBar/ButtonContainer.jsx
+export const ButtonContainer = styled.div`
+    display: flex;
+    gap: 10px;
+    justify-content: center; /* 버튼들을 가로 가운데 정렬 */
+
+    @media (max-width: 768px) {
+    }
+
+    @media (max-width: 480px) {
+    }
+`;
+
+// components/MainPageComponents/SearchBar/ButtonContainer.jsx
+export const OptionButton = styled.button`
+    background-color: var(--violet000);
+    border: 1px solid var(--violet500);
+    border-radius: 7px;
+    margin-right: 10px;
+    padding: 5px 10px;
+    font-size: 16px;
+    color: var(--black500);
+
+    width: 140px;
+    height: 40px;
+    
+    @media (max-width: 768px) {
+        font-size: 15px; 
+    }
+
+    @media (max-width: 480px) {
+        font-size: 14px;
+    }
+
+    @media (max-width: 350px) {
+        display: none;
+    }
+
+    &:hover {
+        background-color: var(--violet500);
+        color: var(--violet100);
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    
+    &:active {
+        background-color: var(--violet500);
+        color: var(--violet100);
+        transition: background-color 0.1s ease, color 0.1s ease;
+    }
+
+    ${({ isOptionActive }) => isOptionActive && `
+        background-color: var(--violet500);
+        color: var(--violet100);
+    `}
+
+`;
+
+
+// --------------------------------------------------------------------위는 확정--------------------------------------------------------------
 
 // components/MyPageComponents/UserInfoContent.js
 export const responsivePadding = css`
@@ -210,7 +272,6 @@ export const Tabs = styled.div`
 
 // pages/FAQ.js
 export const TabButton = styled.button`
-  cursor: pointer;
   border: none;
   text-align: center;
 
@@ -231,7 +292,6 @@ export const TabButton = styled.button`
 
 // pages/Tabs.js FAQ에서 쓰는 탭으로 확인됨
 export const TabButton2 = styled.button`
-  cursor: pointer;
   border: none;
   text-align: center;
 
@@ -288,13 +348,6 @@ export const Arrow = styled.span`
   border-right: 6px solid transparent;
   border-top: ${(props) => (props.isOpen ? 'none' : '6px solid #333')};
   border-bottom: ${(props) => (props.isOpen ? '6px solid #333' : 'none')};
-`;
-
-// pages/Main.js
-export const SearchContainer = styled.div`
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
 `;
 
 // pages/MyPage.js
@@ -492,7 +545,6 @@ export const Button = styled.button`
   font-weight: 500;
   font-size: 14px;
   border-radius: 5px;
-  cursor: pointer;
   padding: 10px 32px;
 `;
 
@@ -504,7 +556,6 @@ export const Button2 = styled.button`
 
   border: 1px solid #8578D8;
   padding: 8px 0;
-  cursor: pointer;
   font-size: 10px;
   width: 130px; 
   transition: all 0.3s;
@@ -518,7 +569,6 @@ export const Button2 = styled.button`
 
 // pages/StudyPage.js
 export const Button3 = styled.button`
-  cursor: pointer;
   color: white;
 
   padding: 10px 15px;
@@ -605,7 +655,6 @@ export const Button6 = styled.button`
     background-color: var(--violet600);
     color: var(--black000);
     border-radius: 5px;
-    cursor: pointer;
 
     &:hover {
         background-color: var(--violet700);
@@ -629,7 +678,6 @@ export const Button7 = styled.button`
     color: white;
     border: 1px solid var(--violet500);
     border-radius: 5px;
-    cursor: pointer;
 
     &:hover {
         background-color: var(--violet700);
@@ -647,24 +695,8 @@ export const Button7 = styled.button`
     }
 `;
 
-// components/Group/GroupInfoModal/ApplicantConfirmModal.js, components/Group/GroupInfoModal/ApplicantModal.js
-export const Button8 = styled.button`
-    padding: 10px 20px;
-    white-space: nowrap;
-    background-color: var(--violet500);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-
-    &:hover {
-        background-color: var(--violet300);
-    }
-`;
-
 // components/Input/Link/LinkInput.jsx
 export const Button9 = styled.button`
-    cursor: pointer;
     background-color: white;
     color: var(--black800);
     border-radius: 5px;
@@ -691,12 +723,6 @@ export const Button9 = styled.button`
     }
 `;
 
-// components/MainPageComponents/SearchBar/ButtonContainer.jsx
-export const Button10 = styled.div`
-    display: flex;
-    gap: 10px;
-`;
-
 // components/MyPageComponents/NotificationContent.js
 export const Button11 = styled.button`
     display: flex;
@@ -710,7 +736,6 @@ export const Button11 = styled.button`
     background-color: transparent;
     color: var(--black700);
 
-    cursor: pointer;
     font-size: 12px;
     font-weight: 500;
 
@@ -784,7 +809,6 @@ export const Button14 = styled.button`
     padding: 15px 10px;
     background-color: ${({ selected }) => (selected ? "var(--black700)" : "#fff")};
     color: ${({ selected }) => (selected ? "#fff" : "var(--black500)")};
-    cursor: pointer;
     font-size: 14px;
     margin: 5px;
     transition: background-color 0.3s ease, color 0.3s ease;
@@ -867,7 +891,6 @@ export const StartMeetingButton = styled.button`
   color: white;
   border: none;
   border-radius: 5px;
-  cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s;
 
@@ -923,7 +946,6 @@ export const SubmitButton = styled.button`
   border: 1px solid #8578D8; 
   border-radius: 5px;
   padding: 8px 20px;
-  cursor: pointer;
   font-size: 12px;
   /* margin-right: 10px; */ /* components/MemberEvaluation.js */
 
@@ -940,7 +962,6 @@ export const SubmitButton2 = styled.button`
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
-  cursor: pointer;
   &:hover {
     background-color: #574dc2;
   }
@@ -953,7 +974,6 @@ export const SubmitButton3 = styled.button`
   border: 1px solid #968AFF;
   padding: 8px 20px;
   border-radius: 5px;
-  cursor: pointer;
   font-size: 13px;
   &:hover {
     background-color: #CEC6FF;
@@ -996,7 +1016,6 @@ export const NoBackgroundButton = styled.button`
   background: none;
   color: var(--black500);
   border: none;
-  cursor: pointer;
   font-weight: 700;
 
   margin-right: 20px; // 모든 버튼의 오른쪽에 간격 설정
@@ -1142,15 +1161,6 @@ export const DisplayNoneDropdownItem = styled(DropdownItem)`
   display: none;
   @media (max-width: 768px) {
     display: inline;
-  }
-`;
-
-// components/Header.js
-export const LogginButton = styled(Button)`
-  background: none;
-  color: var(--black500);
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.1);
   }
 `;
 
@@ -1385,7 +1395,6 @@ export const ButtonGroup3 = styled.div`
 
 // components/Declaration.js, components/MemberEvaluation.js
 export const CancelButton = styled.button`
-  cursor: pointer;
 
   background-color: white;
   color: #8578D8;
@@ -1404,7 +1413,6 @@ export const CancelButton = styled.button`
 // components/ChallengeModal/ChallengePayCompleteModal.js, components/ChallengeModal/ChallengePayModal.js
 // components/ChallengeModal/ChallengeResultModal.js
 export const CancelButton2 = styled.div`
-    cursor: pointer;
     width: 100px;
     height: 30px;
     line-height: 30px;
@@ -1740,14 +1748,7 @@ export const TagContainer = styled.span`
     }
 `;
 
-// components/Category/Category.jsx
-export const CategoryWrapper = styled.div`
-    width: 100%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 10px 0;
-`;
+
 
 // components/SignInContent/ThirdProcessContent.jsx
 export const CategoryWrapper2 = styled.div`
@@ -1757,25 +1758,7 @@ export const CategoryWrapper2 = styled.div`
     margin-top: 20px;
 `;
 
-// components/Category/Category.jsx
-export const CategoryItem = styled.div`
-    margin-right: 25px;
-    font-size: 22px;
-    font-weight: 700;
-    color: ${({ $isActive }) => ($isActive ? 'var(--black700)' : 'var(--black400)')};
-    cursor: pointer;
-    transition: color 0.3s;
 
-    @media (max-width: 768px) {
-        font-size: 14px;
-        margin-right: 20px;
-    }
-
-    @media (max-width: 480px) {
-        font-size: 12px;
-        margin-right: 15px;
-    }
-`;
 
 // components/Challenge/ChallengeDetail.js
 export const Period = styled.div`
@@ -2216,22 +2199,7 @@ export const Fail = styled.div`
     height: 100%;
 `;
 
-// components/DateInputButton/DateButton.jsx
-export const Wrapper = styled.div`
-    background-color: white;
-    border: 1px solid var(--violet500);
-    display: flex;
-    align-items: center;
-    padding: 5px 15px;
-    border-radius: 7px;
-    @media (max-width: 768px) {
-        padding: 6px;
-    }
 
-    @media (max-width: 480px) {
-        padding: 3px;
-    }
-`;
 
 // components/Group/GroupComponent/FormField.jsx
 export const Wrapper2 = styled.div`
@@ -2271,22 +2239,7 @@ export const Wrapper3 = styled(ContentsWrapper)`
     ${responsivePadding}
 `;
 
-// components/DateInputButton/DateButton.jsx
-export const DatePickerCustom = styled(DatePicker)`
-    font-size: 16px;
-    width: 100%;
-    max-width: 95px;
-    
-    @media (max-width: 768px) {
-        font-size: 12px;
-        max-width: 70px;
-    }
 
-    @media (max-width: 480px) {
-        font-size: 10px;
-        max-width: 60px;
-    }
-`;
 
 // components/Group/ChallengeTab.js
 export const ChallengeLists = styled(ContentsWrapper)`
@@ -2324,7 +2277,6 @@ export const SupportButton = styled.button`
     color: white;
     border: none;
     border-radius: 5px;
-    cursor: pointer;
     transition: background-color 0.3s;
 
     &:hover {
@@ -2759,7 +2711,7 @@ export const TodoButton = styled.button`
   border: 1px solid #9787FF;
   padding: 8px 20px;
   border-radius: 5px;
-  cursor: pointer;
+
 
   &:hover {
     background-color: #8578d8;
@@ -2991,7 +2943,6 @@ export const StyledButton = styled.button`
     padding: 13px 15px;
     margin: 5px;
     border-radius: 30px;
-    cursor: pointer;
 
     @media (max-width: 768px) {
         padding: 8px;
@@ -3189,22 +3140,6 @@ export const InputField = styled.input`
     border-radius: 4px;
 `;
 
-// components/Group/GroupInfoModal/ApplicantConfirmModal.js, components/Group/GroupInfoModal/ApplicantModal.js, components/MyPageComponents/UserInfoContent.js
-export const ButtonContainer = styled.div`
-    display: flex;
-    justify-content: center; /* 버튼들을 가로 가운데 정렬 */
-    gap: 10px;
-
-        @media (max-width: 768px) {
-        gap: 15px;
-    }
-
-    @media (max-width: 480px) {
-        flex-direction: column;
-        gap: 10px;
-    }
-`;
-
 // components/Group/GroupInfoModal/ApplicantConfirmModal.js, components/Group/GroupInfoModal/ApplicantModal.js
 export const NoticeDiv = styled.div`
     margin: 30px 0 30px 0;
@@ -3323,7 +3258,6 @@ export const ControlButton = styled.button`
   color: white;
   border: none;
   border-radius: 5px;
-  cursor: pointer;
 
   &:hover {
     background-color: #574dff;
@@ -3424,22 +3358,7 @@ export const QuestionAuthor = styled.div`
     margin-bottom: 10px;
 `;
 
-// components/Icon/MiniIcon.jsx
-export const IconContainer = styled.img`
-    width: 16px;
-    height: 16px;
 
-    /* 반응형 미디어 쿼리 */
-    @media (max-width: 768px) {
-        width: 14px;
-        height: 14px; /* 태블릿에서 아이콘 크기 줄이기 */
-    }
-
-    @media (max-width: 480px) {
-        width: 12px;
-        height: 12px; /* 모바일에서 아이콘 크기 더 줄이기 */
-    }
-`;
 
 // components/Icon/RegularIcon.jsx
 export const IconContainer2 = styled.img`
@@ -3499,136 +3418,7 @@ export const LinkRowContainer = styled.div`
     gap: 15px;
 `;
 
-// components/MainPageComponents/Banner/BannerSlider.jsx
-export const SliderContainer = styled.div`
-    width: 100%;
-    max-width: 1300px; /* 최대 너비를 1300px로 설정 (변경 가능성 O) */
-    height: 300px;
-    margin: 0 auto;
-    overflow: hidden;
-    position: relative;
-    
-    @media (max-width: 768px) {
-        height: 180px;
-    }
-    
-    @media (max-width: 480px) {
-        height: 100px;
-    }
-`;
 
-// components/MainPageComponents/Banner/BannerSlider.jsx
-export const SliderInner = styled.div`
-    display: flex;
-    transition: transform 0.5s ease;
-    transform: ${({ position }) => `translateX(-${position}00%)`};
-    width: 100%;
-    height: 100%;
-`;
-
-// components/MainPageComponents/Banner/BannerSlider.jsx
-export const Slide = styled.img`
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    @media (max-width: 1300px) {
-        object-fit: contain;
-    }
-`;
-
-// components/MainPageComponents/Banner/Dots.jsx
-export const DotsContainer = styled.div`
-    position: absolute;
-    bottom: 15px;
-    right: 15px;
-    display: flex;
-    gap: 10px;
-
-    @media (max-width: 768px) {
-        bottom: 10px;
-        right: 10px;
-        gap: 8px;
-    }
-
-    @media (max-width: 480px) {
-        bottom: 5px;
-        right: 5px;
-        gap: 5px;
-    }
-`;
-
-// components/MainPageComponents/Banner/Dots.jsx
-export const Dot = styled.div`
-    width: 10px;
-    height: 10px;
-    background-color: ${(props) =>
-        props.active ? "var(--black100)" : "var(--black400)"};
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.20);
-
-    @media (max-width: 768px) {
-        width: 8px;
-        height: 8px;
-    }
-
-    @media (max-width: 480px) {
-        width: 6px;
-        height: 6px;
-    }
-`;
-
-// components/MainPageComponents/SearchBar/ButtonContainer.jsx
-export const OptionButton = styled.button`
-    background-color: white;
-    border: 1px solid var(--violet500);
-    border-radius: 7px;
-    margin-right: 10px;
-    padding: 5px 10px;
-    font-size: 16px;
-    
-    @media (max-width: 768px) {
-        font-size: 12px; 
-        padding: 3px 8px;
-    }
-
-    @media (max-width: 480px) {
-        font-size: 10px;
-        padding: 2px 6px;
-    }
-`;
-
-// components/MainPageComponents/SearchBar/SearchBar.jsx
-export const InputContainer = styled.div`
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 10px;
-    
-    background-color: var(--black200);
-    padding: 10px;
-    border-radius: 30px;
-    
-    min-width: 300px;
-    
-    @media (max-width: 768px) {
-        min-width: 180px;
-        padding: 8px;
-    }
-
-    @media (max-width: 480px) {
-        min-width: 100px;
-        padding: 5px;
-    }
-`;
-
-// components/MainPageComponents/SearchBar/SearchBar.jsx
-export const SearchInput = styled.input`
-    width: 100%;
-    border: none;
-    color: var(--black700);
-    background-color: var(--black200);
-`;
 
 // components/Modal/ModalContainer.jsx
 export const Overlay = styled.div`

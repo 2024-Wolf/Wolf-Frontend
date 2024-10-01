@@ -6,7 +6,7 @@ import {
 
 import React, { useState } from "react";
 import FormField from "./FormField";
-import DateButton from "../../DateInputButton/DateButton";
+import DateButton from "../../Button/DateButton";
 import WhiteInputBox from "../../Input/WhiteInputBox";
 
 // 메인 컴포넌트

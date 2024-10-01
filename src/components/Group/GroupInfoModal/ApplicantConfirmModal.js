@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { ModalBackground, ModalContainer4, Title7, Category3, PortfolioRow, InputField, SelectField, TextArea3, ButtonContainer, Button8, Row2, NoticeDiv } from "../../GlobalStyledComponents";
+import { ModalBackground, ModalContainer4, Title7, Category3, PortfolioRow, InputField, SelectField, TextArea3, ButtonContainer, Button, Row2, NoticeDiv } from "../../GlobalStyledComponents";
 
 
 
@@ -67,11 +67,11 @@ const MeetingApplicant = ({ onClose }) => {
                             placeholder="링크를 등록하세요"
                             required
                         />
-                        <Button8
+                        <Button
                             onClick={handlePortfolio}
                         >
                             등록
-                        </Button8>
+                        </Button>
                     </PortfolioRow>
 
                     <NoticeDiv>
@@ -80,8 +80,8 @@ const MeetingApplicant = ({ onClose }) => {
                     </NoticeDiv>
 
                     <ButtonContainer>
-                        <Button8 type="submit">승인</Button8>
-                        <Button8 onClick={onClose}>거절</Button8>
+                        <Button type="submit">승인</Button>
+                        <Button onClick={onClose}>거절</Button>
                     </ButtonContainer>
                 </ModalContainer4>
             </form>

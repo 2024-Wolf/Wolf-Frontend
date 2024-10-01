@@ -1,5 +1,8 @@
 import styled from 'styled-components';
-import { ModalBackground, ModalContainer4, Title7, Category3, SubTitle, PortfolioRow, InputField, SelectField, TextArea3, ButtonContainer, Button8, Row2, NoticeDiv } from "../../GlobalStyledComponents";
+import {
+  ModalBackground, ModalContainer4, Title7, Category3, SubTitle, PortfolioRow, InputField, SelectField, TextArea3, Button, ButtonContainer,
+  Row2, NoticeDiv
+} from "../../GlobalStyledComponents";
 
 import React from 'react';
 
@@ -41,7 +44,7 @@ const ApplicantModal = ({ onClose }) => {
           <PortfolioRow>
             <label>포트폴리오 링크</label>
             <InputField type="url" placeholder="링크를 등록하세요" required />
-            <Button8 onClick={handlePortofolio}>등록</Button8>
+            <Button onClick={handlePortofolio}>등록</Button>
           </PortfolioRow>
 
           <NoticeDiv>
@@ -50,8 +53,8 @@ const ApplicantModal = ({ onClose }) => {
           </NoticeDiv>
 
           <ButtonContainer>
-            <Button8 type='submit'>지원하기</Button8>
-            <Button8 onClick={onClose}>취소</Button8>
+            <Button type='submit'>지원하기</Button>
+            <Button onClick={onClose}>취소</Button>
           </ButtonContainer>
         </ModalContainer4>
       </form>
