@@ -17,14 +17,14 @@ export const CardContainer = styled.div`
     flex-direction: column;
     align-items: center;
 
-    border: 0.5px solid var(--black300);
+    border: 0.5px solid var(--black200);
     border-radius: 30px;
     background-color: #ffffff;
     transition: transform 0.3s ease;
     overflow: hidden;
 
     &:hover {
-        transform: scale(1.05);
+        transform: scale(1.03);
         cursor: pointer;
     }
     
@@ -33,8 +33,9 @@ export const CardContainer = styled.div`
         height: auto;
         border: none;
         &:hover {
-            transform: none;
+            transform: scale(1.02);
         }
+        border-radius: 10px;
     }
 `;
 
@@ -58,10 +59,6 @@ export const BottomInfo = styled.div`
     align-items: center;
     margin-top: 5px;
 
-    @media (max-width: 768px) {
-        margin-top: 3px;
-    }
-
     @media (max-width: 480px) {
         flex-direction: column;
         align-items: flex-start;
@@ -74,18 +71,17 @@ export const BottomInfo = styled.div`
 export const Tags = styled.div`
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: start;
     gap: 5px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #838586;
+    padding-bottom: 10px;
+    max-width:100%;
+    height: 67.67px;
+    border-bottom: 1px solid var(--black500);
 
-    @media (max-width: 768px) {
-        gap: 3px;
-    }
+    line-height: 1.5;
 
-    @media (max-width: 480px) {
-        gap: 2px;
-    }
+    overflow: hidden;
+    text-overflow: ellipsis;
 `;
 
 
@@ -111,17 +107,11 @@ export const CardTitle = styled.p`
     font-weight: 500;
     color: var(--black700);
     text-align: left;
-    margin-bottom: 7px;
+    margin-bottom: 8px;
 
     white-space: nowrap;
     overflow: hidden; 
     text-overflow: ellipsis; 
-
-    @media (max-width: 768px) {
-    }
-
-    @media (max-width: 480px) {
-    }
 `;
 
 // components/Card/Card.jsx

@@ -54,8 +54,10 @@ const CardMapingContainer = styled.div`
         display: flex;
         width: 90%;
         height: 300px;
-        border-radius: 5px;
-        border-bottom: 2px solid gray; /* 하단 테두리 */
+        border-radius: 10px;
+        border-bottom: 2px solid var(--black300); 
+
+        border: 0.5px solid var(--black200);
     }
 `;
 

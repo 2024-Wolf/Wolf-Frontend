@@ -1527,53 +1527,6 @@ export const BarLabel = styled.span`
 
 
 
-// components/Card/Profile.jsx
-export const ProfileContainer = styled.div`
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 4px;
-    font-size: 14px;
-    color: #333;
-    margin-top: 8px;
-
-    /* 반응형 미디어 쿼리 */
-    @media (max-width: 768px) {
-        font-size: 12px; /* 태블릿에서 텍스트 크기 줄이기 */
-    }
-
-    @media (max-width: 480px) {
-        font-size: 10px; /* 모바일에서 텍스트 크기 더 줄이기 */
-    }
-`;
-
-// components/Card/Profile.jsx
-export const ProfileImg = styled.img`
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-`;
-
-// components/Card/Tag.jsx
-export const TagContainer = styled.span`
-    background-color: var(--violet100);
-    color: var(--violet700);
-    border-radius: 10px;
-    padding: 4px 8px;
-    font-size: 12px;
-
-    /* 반응형 미디어 쿼리 */
-    @media (max-width: 768px) {
-        font-size: 11px; /* 태블릿에서 태그 크기 줄이기 */
-        padding: 3px 7px;
-    }
-
-    @media (max-width: 480px) {
-        font-size: 10px; /* 모바일에서 태그 크기 더 줄이기 */
-        padding: 2px 6px;
-    }
-`;
-
 
 
 // components/SignInContent/ThirdProcessContent.jsx

@@ -30,8 +30,8 @@ export const DotsContainer = styled.div`
 
 // components/MainPageComponents/Banner/Dots.jsx
 export const Dot = styled.div`
-    width: 1em;
-    height: 1em;
+    width: 0.9em;
+    height: 0.9em;
     background-color: ${(props) =>
         props.active ? "var(--black400)" : "var(--black200)"};
     border-radius: 50%;

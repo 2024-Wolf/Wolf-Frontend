@@ -41,7 +41,7 @@ const cards = [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Slack' }
         ],
         profile: {
-            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
             name: 'myeongju'
         }
     },
@@ -57,7 +57,7 @@ const cards = [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Slack' }
         ],
         profile: {
-            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
             name: 'jason'
         }
     },
@@ -73,7 +73,7 @@ const cards = [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Discord' }
         ],
         profile: {
-            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
             name: 'sunwoo'
         }
     },
@@ -89,7 +89,7 @@ const cards = [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Trello' }
         ],
         profile: {
-            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
             name: 'minji'
         }
     },
@@ -105,7 +105,7 @@ const cards = [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Zoom' }
         ],
         profile: {
-            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
             name: 'soyeon'
         }
     },
@@ -121,7 +121,7 @@ const cards = [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Slack' }
         ],
         profile: {
-            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
             name: 'hyunwoo'
         }
     },
@@ -137,7 +137,7 @@ const cards = [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Google Meet' }
         ],
         profile: {
-            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
             name: 'sujin'
         }
     },
@@ -153,7 +153,7 @@ const cards = [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Trello' }
         ],
         profile: {
-            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
             name: 'jiho'
         }
     },
@@ -169,7 +169,7 @@ const cards = [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Discord' }
         ],
         profile: {
-            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
             name: 'yuna'
         }
     },
@@ -185,7 +185,7 @@ const cards = [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Slack' }
         ],
         profile: {
-            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
             name: 'hwan'
         }
     },
@@ -201,7 +201,7 @@ const cards = [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Discord' }
         ],
         profile: {
-            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
             name: 'daeyoung'
         }
     },
@@ -217,7 +217,7 @@ const cards = [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Trello' }
         ],
         profile: {
-            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
             name: 'sangwoo'
         }
     },
@@ -233,7 +233,7 @@ const cards = [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Slack' }
         ],
         profile: {
-            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
             name: 'minseok'
         }
     },
@@ -249,7 +249,7 @@ const cards = [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Discord' }
         ],
         profile: {
-            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
             name: 'haeyoon'
         }
     },
@@ -265,7 +265,7 @@ const cards = [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Slack' }
         ],
         profile: {
-            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
             name: 'kyungsoo'
         }
     },
@@ -281,7 +281,7 @@ const cards = [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Zoom' }
         ],
         profile: {
-            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
             name: 'seojin'
         }
     },
@@ -297,7 +297,7 @@ const cards = [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Slack' }
         ],
         profile: {
-            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
             name: 'nara'
         }
     },
@@ -313,7 +313,7 @@ const cards = [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Discord' }
         ],
         profile: {
-            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
             name: 'minju'
         }
     },
@@ -329,7 +329,7 @@ const cards = [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Zoom' }
         ],
         profile: {
-            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
             name: 'sumin'
         }
     },
@@ -345,7 +345,7 @@ const cards = [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Slack' }
         ],
         profile: {
-            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
             name: 'jiyoon'
         }
     },
@@ -361,7 +361,7 @@ const cards = [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Trello' }
         ],
         profile: {
-            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
             name: 'kyeong'
         }
     },
@@ -377,7 +377,7 @@ const cards = [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Discord' }
         ],
         profile: {
-            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
             name: 'jeong'
         }
     },
@@ -393,7 +393,7 @@ const cards = [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Slack' }
         ],
         profile: {
-            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
             name: 'sangmin'
         }
     },
@@ -409,7 +409,7 @@ const cards = [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Zoom' }
         ],
         profile: {
-            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
             name: 'wooju'
         }
     },
@@ -425,7 +425,7 @@ const cards = [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Discord' }
         ],
         profile: {
-            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
             name: 'yang'
         }
     },
@@ -441,7 +441,7 @@ const cards = [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Zoom' }
         ],
         profile: {
-            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
             name: 'sora'
         }
     },
@@ -457,7 +457,7 @@ const cards = [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Discord' }
         ],
         profile: {
-            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
             name: 'dana'
         }
     },
@@ -473,7 +473,7 @@ const cards = [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Slack' }
         ],
         profile: {
-            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
             name: 'kyungmi'
         }
     },
@@ -489,7 +489,7 @@ const cards = [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Zoom' }
         ],
         profile: {
-            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
             name: 'bora'
         }
     },
@@ -505,7 +505,7 @@ const cards = [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Discord' }
         ],
         profile: {
-            imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
+            imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
             name: 'jaeyoon'
         }
     }

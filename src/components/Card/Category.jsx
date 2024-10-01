@@ -27,7 +27,7 @@ export const CategoryContainer = styled.div`
         props.category === "스터디"
             ? 'var(--black600)'
             : 'var(--black600)'};
-    border-radius: 30px 30px 0 0;
+    
 `;
 
 // components/Card/Category.jsx
