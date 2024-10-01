@@ -270,7 +270,6 @@ const cards = [
     }
 ];
 
-
 const Main = () => {
     const banners = [
         { id: 1, imgUrl: "/banner/banner1.png" },
@@ -280,26 +279,46 @@ const Main = () => {
 
     const categories = ["전체", "프로젝트", "스터디"];
     const [activeCategory, setActiveCategory] = useState('전체');
-    const [searchDate, setSearchDate] = useState(new Date());
+    const [searchDate, setSearchDate] = useState(null); // 기본값을 null로 설정
     const [isOptionActive, setIsOptionActive] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
+    const [filteredCards, setFilteredCards] = useState(cards);
+    const [isChanged, setIsChanged] = useState(false);
+
+    useEffect(() => {
+        const filteredByCategory = cards.filter(card =>
+            activeCategory === '전체' || card.category === activeCategory
+        );
+
+        const searchedCards = filteredByCategory.filter(card =>
+            card.title.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+
+        const dateFilteredCards = searchedCards.filter(card => {
+            const cardDeadline = new Date(card.deadline);
+            const isAfterSelectedDate = searchDate ? cardDeadline > searchDate : true;
+
+            if (isOptionActive) {
+                return isAfterSelectedDate && cardDeadline > new Date();
+            }
+
+            return isAfterSelectedDate;
+        });
+
+        setFilteredCards(dateFilteredCards);
+    }, [activeCategory, searchDate, isOptionActive, searchTerm]);
 
     const handleSearchDate = (date) => {
         setSearchDate(date);
-    }
+    };
 
     const handleOptionButtonClick = () => {
-        setIsOptionActive((prev) => !prev);
+        setIsOptionActive(prev => !prev);
     };
 
     const handleSearchTermChange = (term) => {
         setSearchTerm(term);
     };
-
-    // 검색된 카드 필터링
-    const filteredCards = cards.filter(card =>
-        card.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
 
     return (
         <>
@@ -316,6 +335,8 @@ const Main = () => {
                             <DateButton
                                 value={searchDate}
                                 onChange={handleSearchDate}
+                                isChanged={isChanged}
+                                setIsChanged={setIsChanged}
                             />
                             <OptionButton onClick={handleOptionButtonClick} isOptionActive={isOptionActive}>
                                 모집중인 글만 보기
@@ -326,11 +347,11 @@ const Main = () => {
                 </div>
                 <MainCardList
                     category={activeCategory}
-                    data={filteredCards || cards}
+                    data={filteredCards}
                 />
             </main>
-
         </>
     );
 }
+
 export default Main;
