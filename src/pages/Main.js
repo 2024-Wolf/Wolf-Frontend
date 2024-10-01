@@ -1,42 +1,12 @@
+import styled from "styled-components";
+import { MainContents, SearchContainer } from "../components/GlobalStyledComponents";
+
 import React, { useEffect, useState } from "react";
 import BannerSlider from "../components/MainPageComponents/Banner/BannerSlider";
 import Category from "../components/Category/Category";
-import styled from "styled-components";
 import MainCardList from "../components/MainPageComponents/MainCardList";
 import SearchBar from "../components/MainPageComponents/SearchBar/SearchBar";
 import ButtonContainer from "../components/MainPageComponents/SearchBar/ButtonContainer";
-
-
-const MainContents = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    height: auto;
-    flex-direction: column;
-    margin: 50px auto;
-    max-width: 1340px; /* 최대 너비를 1300px로 설정 (변경 가능성 O)*/
-    gap: 50px;
-    padding: 0 20px;
-
-    @media (max-width: 768px) {
-        padding: 0 15px;
-        margin: 50px auto;
-        gap: 30px;
-    }
-
-    @media (max-width: 480px) {
-        padding: 0 10px;
-        margin: 30px auto;
-        gap: 20px;
-    }
-`;
-
-const SearchContainer = styled.div`
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-`;
-
 
 
 const Main = () => {
