@@ -75,6 +75,17 @@ section {
     --black700: #49494A;
     --black800: #2E2E2E;
     --black900: #111111;
+
+    --blueViolet000: #eae9ff;
+    --blueViolet100: #d5d3ff;
+    --blueViolet200: #c0bcff;
+    --blueViolet300: #aba6ff;
+    --blueViolet400: #9690ff;
+    --blueViolet500: #817aff;
+    --blueViolet600: #6c63ff;
+    --blueViolet700: #574dff;
+    --blueViolet800: #413abf;
+    --blueViolet900: #2b2780;
 }
 
 

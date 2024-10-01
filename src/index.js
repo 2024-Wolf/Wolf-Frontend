@@ -7,10 +7,7 @@ import './resources/css/globalstyle.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-
     <div className="container">
         <App />
-
     </div>
-
 );
