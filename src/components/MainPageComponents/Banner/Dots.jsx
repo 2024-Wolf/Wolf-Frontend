@@ -11,20 +11,22 @@ export const DotsContainer = styled.div`
     padding: 5px 10px;
     margin: 5px;
     border-radius: 10px;
-    left: 50%;
+    left: 47%;
     bottom: 0%;
     cursor: auto;
 
     @media (max-width: 768px) {
         gap: 8px;
         padding: 4px 7px;
-        bottom: -5%;
+        bottom: -2%;
+        left: 44%;
     }
 
     @media (max-width: 480px) {
         gap: 5px;
-        bottom: -10%;
+        bottom: -8%;
         padding: 3px 6px;
+        left: 42%;
     }
 `;
 
@@ -38,18 +40,16 @@ export const Dot = styled.div`
     cursor: pointer;
 
     @media (max-width: 1200px) {
-        width: 0.8em;
-        height: 0.8em;
+        width: 0.85em;
+        height: 0.85em;
     }
 
     @media (max-width: 768px) {
-        width: 0.6em;
-        height: 0.6em;
+        width: 0.7em;
+        height: 0.7em;
     }
 
     @media (max-width: 480px) {
-        width: 0.4em;
-        height: 0.4em;
     }
 `;
 

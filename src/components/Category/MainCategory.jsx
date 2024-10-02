@@ -8,13 +8,12 @@ export const MainCategoryWrapper = styled.div`
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    padding: 10px 0;
 `;
 
 // components/Category/MainCategory.jsx
 export const MainCategoryItem = styled.div`
-    margin-right: 25px;
-    font-size: 22px;
+    margin-right: 15px;
+    font-size: 26px;
     font-weight: bold;
     color: ${({ $isActive }) => ($isActive ? 'var(--black700)' : 'var(--black400)')};
     cursor: pointer;
@@ -22,13 +21,11 @@ export const MainCategoryItem = styled.div`
     white-space: nowrap;
 
     @media (max-width: 768px) {
-        font-size: 20px;
-        margin-right: 22px;
+        font-size: 24px;
     }
 
     @media (max-width: 480px) {
-        font-size: 18px;
-        margin-right: 18px;
+        font-size: 22px;
     }
 `;
 

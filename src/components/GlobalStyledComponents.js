@@ -19,11 +19,11 @@ export const MainContents = styled.div`
     }
 
     @media (max-width: 768px) {
-        padding: 0px 30px;
+        padding: 0px 20px;
     }
 
     @media (max-width: 576px) {
-        padding: 0px 20px;
+        padding: 0px 5px;
     }
 `;
 
@@ -52,8 +52,8 @@ export const OptionButton = styled.button`
     font-size: 16px;
     color: var(--black500);
 
-    width: 150px;
-    height: 40px;
+    width: 140px;
+    height: 35px;
     
     @media (max-width: 768px) {
         font-size: 15px; 
@@ -960,37 +960,6 @@ export const SubmitButton3 = styled.button`
 `;
 
 // components/Footer.js
-export const FooterContent = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-  gap: 10px;
-  @media (max-width: 768px) {
-    font-size: 10px;
-    flex-direction: column;
-  }
-`;
-
-// components/Footer.js
-export const FooterText = styled.div`
-  font-size: 14px;
-  color: var(--black500);
-  line-height: 150%;
-  @media (max-width: 768px) {
-    font-size: 130%;
-  }
-`;
-
-// components/Footer.js
-export const FooterLinks = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--black700);
-`;
-
-// components/Footer.js
 export const NoBackgroundButton = styled.button`
   background: none;
   color: var(--black500);
@@ -1020,16 +989,6 @@ export const NoBackgroundButton = styled.button`
   }
 `;
 
-// components/Footer.js
-export const LogoS = styled.div`
-  font-family: "Kavoon";
-  font-size: 24px;
-  color: var(--black700);
-
-  @media (max-width: 768px) {
-    font-size: 1.2rem;
-  }
-`;
 
 // components/Header.js
 export const DarkBackgroundButton = styled(Button)`

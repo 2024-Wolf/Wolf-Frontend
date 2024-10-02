@@ -14,9 +14,8 @@ export const DateButtonWrapper = styled.div`
     border-radius: 7px;
     cursor: pointer;
     margin: 0px;
-    
     width: 140px;
-    height: 40px;
+    height: 35px;
 
     @media (max-width: 768px) {
         width: fit-content;
