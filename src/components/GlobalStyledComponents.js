@@ -372,20 +372,6 @@ export const MyPageContainer = styled.div`
     }
 `;
 
-// pages/StudyPage.js
-export const Container = styled.div`
-  flex-direction: column;
-  display: flex;
-
-  padding: 0 20px;
-  justify-content: center;
-  align-items: flex-start;
-  height: auto;
-  margin: 80px auto;
-  max-width: 1340px; /* 최대 너비를 1340px  설정 (변경 가능성 O)*/
-
-`;
-
 // components/Challenge/ChallengeList.js
 export const Container2 = styled.div`
     flex-direction: column;

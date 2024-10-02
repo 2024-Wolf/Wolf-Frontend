@@ -46,36 +46,34 @@ const StudyPage = () => {
 
   return (
     <>
-      <Container>
-        {/* 그룹 정보 영역 */}
-        <StudyInfoContent>
-          <CategoryButton>스터디</CategoryButton>
-          <Button3 onClick={openModal}>신고하기</Button3>
-          {isModalOpen && <Declaration onClose={closeModal} />}
-          <StudyTitle>파이널 스터디 - 지금2조</StudyTitle>
-          <StudyDetails>
-            <ProfileIcon
-              src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
-              alt="Profile"
-            />
-            <LeaderInfo>
-              <span>myeongju</span>
-              <LeaderText>평가점수지표 요약</LeaderText>
-            </LeaderInfo>
-          </StudyDetails>
-        </StudyInfoContent>
+      {/* 그룹 정보 영역 */}
+      <StudyInfoContent>
+        <CategoryButton>스터디</CategoryButton>
+        <Button3 onClick={openModal}>신고하기</Button3>
+        {isModalOpen && <Declaration onClose={closeModal} />}
+        <StudyTitle>파이널 스터디 - 지금2조</StudyTitle>
+        <StudyDetails>
+          <ProfileIcon
+            src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
+            alt="Profile"
+          />
+          <LeaderInfo>
+            <span>myeongju</span>
+            <LeaderText>평가점수지표 요약</LeaderText>
+          </LeaderInfo>
+        </StudyDetails>
+      </StudyInfoContent>
 
-        {/* 탭 영역 */}
-        <GroupTabs tab={activeTab} setActiveTab={setActiveTab} />
-        {/* */}
-        {/*<div className="study-content">*/}
-        {activeTab === TAB.MEETING ? (
-          <MeetingContent isMeetingStarted={isMeetingStarted} />
-        ) : (
-          <SelectedComponent />
-        )}
-        {/*</div>*/}
-      </Container>
+      {/* 탭 영역 */}
+      <GroupTabs tab={activeTab} setActiveTab={setActiveTab} />
+      {/* */}
+      {/*<div className="study-content">*/}
+      {activeTab === TAB.MEETING ? (
+        <MeetingContent isMeetingStarted={isMeetingStarted} />
+      ) : (
+        <SelectedComponent />
+      )}
+      {/*</div>*/}
     </>
   );
 };
