@@ -4,7 +4,7 @@ import { Container5, Section, ApplyTitle, ApplyInfo, UserImg, UserName, UserPosi
 import React, { useState } from "react";
 import ApplicantConfirmModal from "./GroupInfoModal/ApplicantConfirmModal";
 import TabContentsWrapper from "../TabContentsWrapper";
-import GroupWritingContent from "./GroupComponent/GroupWritingContent";
+import GroupInfoContent from "./GroupComponent/GroupInfoContent";
 
 
 const GroupManageContent = (props) => {
@@ -61,7 +61,7 @@ const GroupManageContent = (props) => {
     return (
         <Container5>
             <Section>
-                <GroupWritingContent
+                <GroupInfoContent
                     contentsType={"viewing"}
                     memberData={memberData}
                     groupData={groupData}

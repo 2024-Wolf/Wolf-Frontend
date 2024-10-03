@@ -1,16 +1,391 @@
 import styled from "styled-components";
-import {
-    ContentsWrapper2, Title6, Row, Select2, Label, LongLabel, ButtonGroup2, StyledButton, ThumbNail, HiddenFileInput, FileName, SubjectTitle,
-    TextArea2, Buttons2, Button7, DeleteCancelButton, MemberTitle, UserInfo, UserImg, UserName
-} from "../../GlobalStyledComponents";
+
 
 import React, { useState } from "react";
 import FormField from "./FormField";
 import DateButton from "../../Button/DateButton";
 import WhiteInputBox from "../../Input/WhiteInputBox";
 
+
+// 사용자 이름
+// components/Group/GroupManageContent.js, components/Group/GroupComponent/GroupWritingContent.jsx
+export const UserName = styled.div`
+    font-size: 18px;
+
+    @media (max-width: 768px) {
+        font-size: 16px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 14px;
+    }
+`;
+
+
+
+// 사용자 이미지
+// components/Group/GroupManageContent.js, components/Group/GroupComponent/GroupWritingContent.jsx
+export const UserImg = styled.div`
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #6c63ff;
+    margin-right: 10px;
+`;
+
+
+// components/Group/GroupComponent/GroupWritingContent.jsx
+export const MemberTitle = styled.div`
+    border-top: 1px solid var(--black200);
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 30px;
+    padding: 30px 0;
+    text-align: center;
+
+    @media (max-width: 768px) {
+        font-size: 20px;
+        padding: 20px 0;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 18px;
+        padding: 15px 0;
+    }
+`;
+
+// components/Group/GroupComponent/GroupWritingContent.jsx
+export const DeleteCancelButton = styled.button`
+    background-color: var(--black000);
+    color: var(--black800);
+    &:hover {
+        background-color: var(--black300);
+    }
+`;
+
+
+// components/Group/GroupComponent/GroupWritingContent.jsx
+export const Button7 = styled.button`
+    padding: 10px 15px;
+    background-color: var(--violet400);
+    color: white;
+    border: 1px solid var(--violet500);
+    border-radius: 5px;
+
+    &:hover {
+        background-color: var(--violet700);
+    }
+
+    @media (max-width: 768px) {
+        padding: 8px;
+        font-size: 14px;
+        width: 100%;
+    }
+    
+    @media (max-width: 480px) {
+        padding: 5px;
+        font-size: 12px;
+    }
+`;
+
+// components/Group/GroupComponent/GroupWritingContent.jsx
+export const Buttons2 = styled.div`
+    display: flex;
+    margin-top: 20px;
+    justify-content: flex-end;
+    gap: 20px;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    @media (max-width: 480px) {
+        gap: 5px;
+    }
+`;
+
+// components/Group/GroupComponent/GroupWritingContent.jsx
+export const Title6 = styled.h2`
+    font-size: 24px;
+    font-weight: 400;
+
+    @media (max-width: 768px) {
+    }
+
+    @media (max-width: 480px) {
+    }
+`;
+
+// components/Group/GroupComponent/GroupWritingContent.jsx
+export const ContentsWrapper2 = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+
+    @media (max-width: 768px) {
+        padding: 10px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 5px;
+    }
+`;
+
+// components/Group/GroupComponent/GroupWritingContent.jsx, 
+// components/SignInContent/FirstProcessContent.jsx
+export const Row = styled.div`
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin: 10px 0;
+    gap: 20px;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    @media (max-width: 480px) {
+        flex-direction: column;
+        gap: 8px;
+    }
+`;
+
+// components/Group/GroupComponent/GroupWritingContent.jsx
+export const Select2 = styled.select`
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: 2px solid var(--violet500);
+
+    @media (max-width: 768px) {
+        padding: 6px 10px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 5px 8px;
+    }
+`;
+
+
+// components/Group/GroupComponent/GroupWritingContent.jsx
+export const Label = styled.div`
+    width: 70px;
+    font-size: 16px;
+
+    @media (max-width: 768px) {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 13px;
+    }
+`;
+
+// components/Group/GroupComponent/GroupWritingContent.jsx
+export const LongLabel = styled(Label)`
+    width: 110px;
+    align-items: center;
+
+    @media (max-width: 768px) {
+        width: 100%;
+    }
+`;
+
+// components/Group/GroupComponent/GroupWritingContent.jsx
+export const ButtonGroup2 = styled.div`
+    display: flex;
+    width: 92%;
+    justify-content: left;
+
+    @media (max-width: 768px) {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+`;
+
+// components/Group/GroupComponent/GroupWritingContent.jsx
+export const StyledButton = styled.button`
+    background-color: ${({ clicked }) => (clicked ? "var(--black700)" : "white")};
+    color: ${({ clicked }) => (clicked ? "white" : "black")};
+    border: 1px solid var(--violet500);
+    padding: 13px 15px;
+    margin: 5px;
+    border-radius: 30px;
+
+    @media (max-width: 768px) {
+        padding: 8px;
+        font-size: 12px;
+        flex: 1;
+    }
+    
+    @media (max-width: 480px) {
+        padding: 5px;
+        font-size: 10px;
+        flex: 1;
+    }
+`;
+
+// components/Group/GroupComponent/GroupWritingContent.jsx
+export const ThumbNail = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 10px;
+
+    label {
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+    input {
+        width: 200px;
+
+        @media (max-width: 768px) {
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    @media (max-width: 480px) {
+        gap: 8px;
+    }
+`;
+
+// components/Group/GroupComponent/GroupWritingContent.jsx
+export const HiddenFileInput = styled.input`
+    display: none;
+`;
+
+// components/Group/GroupComponent/GroupWritingContent.jsx
+export const FileName = styled.div`
+    margin-top: 10px;
+    font-size: 14px;
+    color: var(--black800);
+`;
+
+// components/Group/GroupComponent/GroupWritingContent.jsx
+export const SubjectTitle = styled.div`
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+
+    label {
+        margin-right: 20px;
+        white-space: nowrap;
+
+        @media (max-width: 768px) {
+            margin-right: 10px;
+        }
+    }
+
+    input {
+        font-size: 16px;
+        padding: 10px;
+        width: 100%;
+        border: 1px solid var(--violet500);
+        background-color: var(--violet300);
+        border-radius: 5px;
+
+        @media (max-width: 768px) {
+            font-size: 14px;
+            padding: 8px;
+        }
+    }
+`;
+
+
+// components/Group/GroupComponent/GroupWritingContent.jsx
+export const TextArea2 = styled.textarea`
+    width: 100%;
+    min-height: 200px;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid var(--violet500);
+    border-radius: 5px;
+    resize: none;
+    font-size: 16px;
+    line-height: 1.5;
+
+    &:disabled {
+        background-color: var(--black000);
+    }
+
+    @media (max-width: 768px) {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 13px;
+        padding: 6px;
+    }
+`;
+
+
+// components/Group/GroupComponent/GroupWritingContent.jsx
+export const UserInfo = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+
+    .UserDetails {
+        display: flex; /* UserImg와 UserName을 한 줄로 정렬 */
+        align-items: center; /* UserImg와 UserName의 수직 중앙 정렬 */
+    }
+
+    .roleSelect {
+        display: flex;
+        align-items: center;
+    }
+
+    .roleSelect label {
+        margin: 25px;
+    }
+
+    .date {
+        width: 20%;
+        font-size: 12px;
+        color: #999;
+    }
+
+    @media (max-width: 768px) {
+        flex-wrap: wrap;
+        align-items: center;
+        font-size: 14px;
+
+        .UserDetails {
+            gap: 10px;
+        }
+
+        .roleSelect {
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .roleSelect label {
+            margin: 10px 0;
+        }
+        
+        .date {
+            width: 100%; /* 모바일에서 전체 너비 사용 */
+            text-align: center;
+        }
+    }
+`;
+
 // 메인 컴포넌트
-const GroupWritingContent = ({ contentType, memberData, groupData }) => {
+const GroupInfoContent = ({ contentType, memberData, groupData }) => {
     const [contentsType, setContentsType] = useState(contentType); // 상태 추가 ('writing', 'editing', 'viewing' 중 하나)
 
     const GroupData = groupData || {
@@ -269,4 +644,4 @@ const GroupWritingContent = ({ contentType, memberData, groupData }) => {
     );
 };
 
-export default GroupWritingContent;
+export default GroupInfoContent;

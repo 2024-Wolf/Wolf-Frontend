@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { FAQContainer, Title, Tabs, TabButton, FAQList, FAQItem, FAQQuestion, FAQAnswer, Arrow } from "../components/GlobalStyledComponents";
+import { FAQContainer, PageTitle, Tabs, TabButton, FAQList, FAQItem, FAQQuestion, FAQAnswer, Arrow } from "../components/GlobalStyledComponents";
 
 import React, { useState } from 'react';
 
@@ -37,7 +37,7 @@ const FAQ = () => {
 
   return (
     <FAQContainer>
-      <Title>FAQ</Title>
+      <PageTitle>FAQ</PageTitle>
       <Tabs>
         {['계정', '스터디', '프로젝트', '챌린지', 'Etc'].map((tab) => (
           <TabButton

@@ -1,0 +1,86 @@
+/* CSS 초기화 코드 시작 */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    line-height: 1;
+}
+
+ol,
+ul {
+    list-style: none;
+}
+
+blockquote,
+q {
+    quotes: none;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+    display: block;
+}
+
+/* CSS 초기화 코드 종료 */
+
+/* 색상 전역 번수 선언 */
+:root {
+    --violet000: #FAF9FF;
+    --violet100: #F2F0FF;
+    --violet200: #E5E1FF;
+    --violet300: #CEC6FF;
+    --violet400: #B3A8FF;
+    --violet500: #9787FF;
+    --violet600: #8578D8;
+    --violet700: #685EA8;
+    --violet800: #4F487D;
+    --violet900: #343054;
+
+    --black000: #FCFCFC;
+    --black100: #F1F1F1;
+    --black200: #E2E3E3;
+    --black300: #B3B4B4;
+    --black400: #A0A0A0;
+    --black500: #838586;
+    --black600: #666869;
+    --black700: #49494A;
+    --black800: #2E2E2E;
+    --black900: #111111;
+}
+
+
+/* 기본 폰트 설정 */
+html * {
+    font-family: "Pretendard", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* 부트스트랩 컨테이너 패딩 삭제 */
+.container {
+    padding: 0px;
+}

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { MyPageContainer, Title } from "../components/GlobalStyledComponents";
+import { MyPageContainer, PageTitle } from "../components/GlobalStyledComponents";
 
 import React, { useState } from "react";
 import UserInfoContent from "../components/MyPageComponents/UserInfoContent";
@@ -27,7 +27,7 @@ const MyPage = () => {
     return (
         <>
             <MyPageContainer>
-                <Title>MyPage</Title>
+                <PageTitle>MyPage</PageTitle>
                 <MyPageTabs tab={activeTab} setActiveTab={setActiveTab} />
                 {renderTabContent()}
             </MyPageContainer>
