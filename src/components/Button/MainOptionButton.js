@@ -2,13 +2,13 @@
 import styled from "styled-components";
 import { PurplelineSquareButton } from "../GlobalStyledComponents";
 
-const OptionButton = ({ innerText, onClick, isOptionActive }) => {
+const MainOptionButton = ({ children, onClick, isOptionActive }) => {
 
     return (
         <PurplelineSquareButton onClick={onClick} isOptionActive={isOptionActive}>
-            {innerText}
+            {children}
         </PurplelineSquareButton>
     );
 }
 
-export default OptionButton;
+export default MainOptionButton;

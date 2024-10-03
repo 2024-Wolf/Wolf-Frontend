@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { DarkBackgroundHover } from "../GlobalStyledComponents";
+
+import React, { useState, useEffect } from 'react';
 
 const PaginationContainer = styled.div`
     display: flex;
@@ -20,10 +22,7 @@ const PageButton = styled.button`
     background-color: ${props => (props.active ? 'var(--violet700)' : 'var(--violet100)')};
     color: ${props => (props.active ? 'var(--black200)' : 'var(--black800)')};
 
-    &:hover {
-        background-color: var(--violet700);
-        color: var(--black200);
-    }
+    ${DarkBackgroundHover}
 `;
 
 const PaginatedList = ({ data, renderItems }) => {

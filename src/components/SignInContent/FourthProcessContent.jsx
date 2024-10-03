@@ -3,7 +3,7 @@ import { ContentWrapper, InputLabel2, InputWrapper } from "../GlobalStyledCompon
 
 import React from "react";
 import StatusButton from "./Components/StatusButton";
-import WhiteInputBox from "../Input/WhiteInputBox";
+import InputText from "../Input/InputText";
 import NextButton from "./Components/NextButton";
 import SubTitle from "./Components/SubTitle";
 
@@ -18,7 +18,7 @@ const FourthProcessContent = ({ onPrev, onClose, onLogin }) => {
             <StatusButton nowIndex={3} />
             <SubTitle title={"닉네임을 입력해주세요."} />
             <InputWrapper>
-                <WhiteInputBox />
+                <InputText />
                 <InputLabel2>사용 가능한 닉네임입니다.</InputLabel2>
             </InputWrapper>
             <NextButton onClick={handleNext}>

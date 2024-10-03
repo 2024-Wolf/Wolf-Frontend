@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 import { Wrapper3, Row, ContentsRow, Column2, ContentsWrapper3, SubContentsWrapper, EtcContentsWrapper, SubTitle2, InputLabel, Description2, ToggleBox, TextArea6, LinkRow, Button12, UpdateButton, CancelButton3, ButtonContainer } from "../GlobalStyledComponents";
 
 import React, { useState } from "react";
-import WhiteInputBox from "../Input/WhiteInputBox";
+import InputText from "../Input/InputText";
 import ActivityScoreBar from "../ActivityScore/ActivityScoreBar";
 import RegularIcon from "../Icon/RegularIcon";
 import TabContentsWrapper from "../TabContentsWrapper";
@@ -30,7 +30,7 @@ const UserInfoContent = () => {
     const InputField = ({ label, field }) => (
         <>
             <InputLabel>{label}</InputLabel>
-            <WhiteInputBox
+            <InputText
                 value={userInfo[field]}
                 onChange={(e) => handleInputChange(field, e.target.value)}
             />
@@ -57,7 +57,7 @@ const UserInfoContent = () => {
                     <InputLabel>환불 계좌</InputLabel>
                     <ContentsRow>
                         <ToggleBox />
-                        <WhiteInputBox
+                        <InputText
                             value={userInfo.account}
                             onChange={(e) => handleInputChange("account", e.target.value)}
                         />

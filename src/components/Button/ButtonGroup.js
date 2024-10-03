@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { SquareButton, Purpleline, PurplelineHover } from "../GlobalStyledComponents";
+import { Square, Purpleline, PurplelineHover } from "../GlobalStyledComponents";
 
 import { useState } from 'react';
 import DatePicker from "react-datepicker";
@@ -7,7 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 // 날짜 버튼 래퍼 스타일
 export const DateButtonWrapper = styled.div`
-    ${SquareButton}
+    ${Square}
     ${Purpleline}
 
     display: flex;

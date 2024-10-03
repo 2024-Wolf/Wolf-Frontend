@@ -3,7 +3,7 @@ import { ContentWrapper, Row, InputLabel2, InputWrapper, ButtonWrapper, RadioBut
 
 import React from "react";
 import StatusButton from "./Components/StatusButton";
-import WhiteInputBox from "../Input/WhiteInputBox";
+import InputText from "../Input/InputText";
 import NextButton from "./Components/NextButton";
 import SubTitle from "./Components/SubTitle";
 
@@ -17,11 +17,11 @@ function FirstProcessContent({ onNext, onPrev }) {
             <Row>
                 <InputWrapper>
                     <InputLabel2>직무를 입력해주세요</InputLabel2>
-                    <WhiteInputBox />
+                    <InputText />
                 </InputWrapper>
                 <InputWrapper>
                     <InputLabel2>경력을 입력해주세요</InputLabel2>
-                    <WhiteInputBox />
+                    <InputText />
                 </InputWrapper>
             </Row>
 
@@ -36,7 +36,7 @@ function FirstProcessContent({ onNext, onPrev }) {
                         <RadioButtonLabel htmlFor="private">비공개</RadioButtonLabel>
                     </ButtonWrapper>
                 </Row>
-                <WhiteInputBox />
+                <InputText />
             </InputWrapper>
             <NextButton onClick={onNext}>
                 다음

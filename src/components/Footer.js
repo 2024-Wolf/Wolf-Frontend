@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { NoBackgroundButton } from "./GlobalStyledComponents";
+import { CommonButton, NoBackground } from "./GlobalStyledComponents";
 
 import React from 'react';
 
@@ -18,10 +18,12 @@ export const FooterContainer = styled.footer`
 `;
 
 // components/Footer.js
-export const LogoS = styled.div`
+export const FooterLogo = styled.div`
   font-family: "Kavoon";
   font-size: 24px;
   color: var(--black700);
+  width: 100%;
+  max-width: 1300px;
 
   @media (max-width: 768px) {
     font-size: 1.2rem;
@@ -53,16 +55,49 @@ export const FooterContent = styled.div`
   justify-content: space-between;
   flex-direction: row;
   gap: 10px;
+  width: 100%;
+  max-width: 1300px;
   @media (max-width: 768px) {
     font-size: 10px;
     flex-direction: column;
   }
 `;
 
+
+// components/Footer.js
+export const FooterButton = styled.button`
+${CommonButton}
+  ${NoBackground}
+  font-weight: 700;
+  padding: 0px;
+  
+  margin-right: 20px; // 모든 버튼의 오른쪽에 간격 설정
+  &:last-child {
+    margin-right: 0; // 마지막 버튼의 오른쪽 여백 제거
+  }
+
+  // Hover effect
+  &:hover {
+    color: var(--black600);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  // Active (마우스 클릭 또는 모바일 터치) effect
+  &:active {
+    color: var(--black800);
+    background-color: rgba(0, 0, 0, 0.2);
+    transition: background-color 0.1s ease, color 0.1s ease;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 80%;
+  }
+`;
+
 function Footer(props) {
   return (
     <FooterContainer>
-      <LogoS>WOLF</LogoS>
+      <FooterLogo>WOLF</FooterLogo>
       <FooterContent>
         <FooterText>
           지금2조 : 정명주, 강태현, 김한수, 박가현, 이정연, 허준혁<br />
@@ -70,9 +105,9 @@ function Footer(props) {
           Copyright
         </FooterText>
         <FooterLinks>
-          <NoBackgroundButton onClick={() => alert('공지사항')}>공지사항</NoBackgroundButton>
-          <NoBackgroundButton onClick={() => alert('FAQ 게시판')}>FAQ 게시판</NoBackgroundButton>
-          <NoBackgroundButton onClick={() => alert('이용약관')}>이용약관</NoBackgroundButton>
+          <FooterButton onClick={() => alert('공지사항')}>공지사항</FooterButton>
+          <FooterButton onClick={() => alert('FAQ 게시판')}>FAQ 게시판</FooterButton>
+          <FooterButton onClick={() => alert('이용약관')}>이용약관</FooterButton>
         </FooterLinks>
 
       </FooterContent>

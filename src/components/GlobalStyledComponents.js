@@ -28,8 +28,9 @@ export const MainContents = styled.div`
 `;
 
 // -------------------모든 버튼 공통-------------------
-const CommonButton = css`
-    padding: 5px 10px;
+export const CommonButton = css`
+    text-wrap: nowrap;
+    padding: 5px 20px;
     height: 35px;
     font-size: 16px;
     color: var(--black500);
@@ -50,16 +51,22 @@ const CommonButton = css`
     @media (max-width: 480px) {
         font-size: 14px;
     }
+
+    transition: background-color 0.3s ease, color 0.3s ease;
+`;
+
+export const HeaderButton = css`
+    padding: 5px 32px;
 `;
 
 // -------------------사각형/타원형 버튼 모양-------------------
 
-export const SquareButton = css`
+export const Square = css`
     ${CommonButton}
     border-radius: 7px;
 `;
 
-export const RoundButton = css`
+export const Round = css`
     ${CommonButton}
     border-radius: 30px;
 `;
@@ -68,17 +75,36 @@ export const RoundButton = css`
 
 // components/MainPageComponents/SearchBar/ButtonContainer.jsx
 export const Purpleline = css`
-    border: 1.5px solid var(--violet500);
+    border: 1px solid var(--violet500);
     background-color: var(--violet000);
 
     /* components/DateInputButton/OptionButton.js */
+    /* 선택 됐을 때 보라색 */
     ${({ isOptionActive }) => isOptionActive && `
         background-color: var(--violet500);
         color: var(--violet100);
     `}
+    
+    /* 선택 됐을 때 검은색 */
+    ${({ clicked }) => clicked && `
+        background-color: var(--black700);
+        color: var(--violet000);
+        border: 1px solid var(--black700);
+    `}
 `;
 
-//
+
+export const DarkBackground = css`
+  background: var(--violet600);
+  color: var(--violet000);
+`;
+
+export const LightBackground = css`
+  background: var(--violet100);
+  color: var(--black500);
+`;
+
+// Hover
 export const PurplelineHover = css`
     &:hover {
         background-color: var(--violet500);
@@ -91,22 +117,131 @@ export const PurplelineHover = css`
     }
 `;
 
+export const PurplelineBlackHover = css`
+    &:hover {
+        background-color: var(--black700);
+        color: var(--violet000);
+        border: 1px solid var(--black700);
+    }
+
+    &:active {
+        background-color: var(--black700);
+        color: var(--violet000);
+        border: 1px solid var(--black700);
+    }
+`;
+
+export const DarkBackgroundHover = css`
+  &:hover {
+    color: var(--violet000);
+    background-color: var(--violet700);
+    transition: background-color 0.3s ease;
+  }
+  &:active {
+    color: var(--violet000);
+    background-color: var(--violet700);
+    transition: background-color 0.1s ease;
+  }
+`;
+
+export const LightBackgroundHover = css`
+  &:hover {
+    background-color: var(--violet200);
+    transition: background-color 0.3s ease;
+  }
+  &:active {
+    background-color: var(--violet200);
+    transition: background-color 0.1s ease;
+  }
+`;
+
+export const NoBackgroundHover = css`
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+`;
+
+export const NoBackground = css`
+   background: none;
+`;
+
+
 
 // -------------------스타일별 버튼-------------------
 
 // SquareButton
 export const PurplelineSquareButton = styled.button`
-    ${SquareButton}
+    ${Square}
     ${Purpleline}
     ${PurplelineHover}
 `;
 
+// components/Header.js
+export const DarkBackgroundButton = styled.button`
+    ${Square}
+    ${DarkBackground}
+    ${DarkBackgroundHover}
+`;
+
+// components/Header.js
+export const LightBackgroundButton = styled.button`
+    ${Square}  
+    ${LightBackground}
+    ${LightBackgroundHover}
+`;
+
+// components/Header.js
+export const NoBackgroundButton = styled.button`
+    ${Square}  
+    ${NoBackground}
+    ${NoBackgroundHover}
+`;
+
 // RoundButton
 export const PurplelineRoundButton = styled.button`
-    ${RoundButton}
+    ${Round}
     ${Purpleline}
-    ${PurplelineHover}
+    ${PurplelineBlackHover}
 `;
+
+
+
+// -------------------------여기부터 버튼 끝------------------------------
+
+// pages/CreateGroupPage.js, pages/FAQ.js, pages/MyPage.js
+export const PageTitle = styled.h2`
+    text-wrap: nowrap;
+    font-weight: bold;
+    font-size: 26px;
+    color: var(--black800);
+`;
+
+// components/Group/GroupComponent/GroupWritingContent.jsx
+export const FormTitle = styled.h3`
+    text-wrap: nowrap;
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--black800);
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    color: var(--violet600);
+`;
+
+// components/Group/GroupComponent/FormField.jsx
+export const FormLabel = styled.label`
+    text-wrap: nowrap;
+    font-size: 18px;
+    min-width: 100px;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    min-height: 100%;
+    margin-top: 15px;
+    color: var(--black700);
+`;
+
+
 
 
 // components/Group/GroupInfoModal/ApplicantConfirmModal.js, components/Group/GroupInfoModal/ApplicantModal.js, 
@@ -167,13 +302,6 @@ export const ContentsWrapper3 = styled.div`
     display: flex;
     flex-direction: column;
     ${responsivePadding}
-`;
-
-// pages/CreateGroupPage.js, pages/FAQ.js, pages/MyPage.js
-export const PageTitle = styled.h2`
-    font-weight: bold;
-    font-size: 26px;
-    color: var(--black800);
 `;
 
 // components/MemberEvaluation.js
@@ -916,79 +1044,12 @@ export const SubmitButton3 = styled.button`
   }
 `;
 
-// components/Footer.js
-export const NoBackgroundButton = styled.button`
-  background: none;
-  color: var(--black500);
-  border: none;
-  font-weight: 700;
-
-  margin-right: 20px; // 모든 버튼의 오른쪽에 간격 설정
-  &:last-child {
-    margin-right: 0; // 마지막 버튼의 오른쪽 여백 제거
-  }
-
-  // Hover effect
-  &:hover {
-    color: var(--black600);
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-
-  // Active (마우스 클릭 또는 모바일 터치) effect
-  &:active {
-    color: var(--black800);
-    background-color: rgba(0, 0, 0, 0.2);
-    transition: background-color 0.1s ease, color 0.1s ease;
-  }
-
-  @media (max-width: 768px) {
-    font-size: 80%;
-  }
-`;
-
-
-// components/Header.js
-export const DarkBackgroundButton = styled(Button)`
-  background: var(--violet600);
-  color: var(--violet000);
-  &:hover {
-    background-color: var(--violet700);
-    transition: background-color 0.3s ease;
-  }
-  &:active {
-    background-color: var(--violet700);
-    transition: background-color 0.1s ease;
-  }
-  @media (max-width: 768px) {
-    display: none;
-  }
-`;
-
-// components/Header.js
-export const LightBackgroundButton = styled(Button)`
-  background: var(--violet100);
-  color: var(--black500);
-  &:hover {
-    background-color: var(--violet200);
-    transition: background-color 0.3s ease;
-  }
-  &:active {
-    background-color: var(--violet200);
-    transition: background-color 0.1s ease;
-  }
-  @media (max-width: 768px) {
-    display: none;
-  }
-`;
-
 // components/Header.js
 export const MainLogo = styled.a`
   color: var(--black900);
   font: 32px Kavoon, sans-serif;
   text-decoration: none;
 `;
-
-
 
 // components/Header.js
 export const UserProfileContainer = styled.div`
@@ -998,7 +1059,8 @@ export const UserProfileContainer = styled.div`
   padding: 4px 15px;
   gap: 10px;
   border-radius: 20px;
-  width: 153.55px;
+  width: 166.15px;
+  height: 35px;
 `;
 
 // components/Header.js
@@ -1219,13 +1281,10 @@ export const TextArea6 = styled.textarea`
 // components/Declaration.js, components/MemberEvaluation.js
 export const ButtonGroup = styled.div`
   display: flex;
-  gap: 10px; /* components/Declaration.js */
-
-  /* gap: 0; */ /* components/MemberEvaluation.js */
-  /* justify-content: center; */ /* components/Declaration.js */
+  gap: 5px;
+  width: 100%;
+  flex-wrap: wrap;
 `;
-
-
 
 
 // components/SignInContent/SecondProcessContent.jsx, components/SignInContent/ThirdProcessContent.jsx
@@ -1818,36 +1877,7 @@ export const Fail = styled.div`
 
 
 
-// components/Group/GroupComponent/FormField.jsx
-export const Wrapper2 = styled.div`
-    display: flex;
-    justify-content: flex-start;
-    gap: 10px;
-    align-items: center;
-    margin-bottom: 10px;
 
-    label {
-        font-size: 16px;
-        line-height: 1.5;
-    }
-
-    @media (max-width: 768px) {
-        gap: 5px;
-
-        label {
-            font-size: 14px;
-        }
-    }
-    
-    @media (max-width: 530px) {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        label {
-            font-size: 12px;
-        }
-    }
-`;
 
 // components/MyPageComponents/UserInfoContent.js
 export const Wrapper3 = styled(ContentsWrapper)`
@@ -2791,39 +2821,6 @@ export const IconContainer2 = styled.img`
     }
 `;
 
-// components/Input/WhiteInputBox.jsx
-export const ActiveTextInput = styled.input`
-    width: 100%;
-    border: 1px solid var(--violet500);
-    border-radius: 5px;
-    padding: 8px 15px;
-    font-size: 16px;
-
-    @media (max-width: 768px) {
-        font-size: 14px;
-        padding: 5px 10px;
-    }
-
-    @media (max-width: 480px) {
-        font-size: 12px;
-        padding: 5px 10px;
-    }
-    
-    &:disabled {
-        background-color: var(--black000);
-        border-radius: 5px;
-
-        @media (max-width: 768px) {
-            font-size: 14px;
-            padding: 5px 10px;
-        }
-
-        @media (max-width: 480px) {
-            font-size: 12px;
-            padding: 5px 10px;
-        }
-    }
-`;
 
 // components/Input/Link/LinkInput.jsx
 export const LinkRowContainer = styled.div`

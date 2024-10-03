@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Button, DarkBackgroundButton, LightBackgroundButton, MainLogo, ProfileIcon, UserProfileContainer, StyledHeaderIcon, DropdownContainer, DropdownContent, DropdownItem, UserWrapper, DisplayNoneDropdownItem } from "./GlobalStyledComponents";
+import { HeaderButton, DarkBackgroundButton, LightBackgroundButton, MainLogo, ProfileIcon, UserProfileContainer, StyledHeaderIcon, DropdownContainer, DropdownContent, DropdownItem, UserWrapper, DisplayNoneDropdownItem, NoBackground, NoBackgroundButton } from "./GlobalStyledComponents";
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -11,15 +11,24 @@ import SecondProcessContext from "./SignInContent/SecondProcessContext";
 import ThirdProcessContent from "./SignInContent/ThirdProcessContent";
 import FourthProcessContent from "./SignInContent/FourthProcessContent";
 
-// components/Header.js
-export const LogginButton = styled.button`
-  font-weight: 500;
-  font-size: 14px;
-  border-radius: 5px;
-  padding: 10px 32px;
 
-  background: none;
-  color: var(--black500);
+const CreateGroupButton = styled(DarkBackgroundButton)`
+  ${HeaderButton}
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const FaqButton = styled(LightBackgroundButton)`
+  ${HeaderButton}
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
+// components/Header.js
+const LogginButton = styled(NoBackgroundButton)`
+    ${HeaderButton}
 
   @media (max-width: 320px) {
       padding: 10px;
@@ -201,8 +210,8 @@ function Header() {
     <HeaderContainer>
       <MainLogo href="/">WOLF</MainLogo>
       <div style={{ display: 'flex', gap: '10px' }}>
-        <DarkBackgroundButton onClick={() => navigate('/write')}>팀원 모집하기</DarkBackgroundButton>
-        <LightBackgroundButton onClick={() => navigate('/faq')}>FAQ</LightBackgroundButton>
+        <CreateGroupButton onClick={() => navigate('/write')}>팀원 모집하기</CreateGroupButton>
+        <FaqButton onClick={() => navigate('/faq')}>FAQ</FaqButton>
         <Login isLoggedIn={isLoggedIn} openModal={openModal} offLogin={offLogin} notifications={sampleData} />
       </div>
       {isModalOpen && <ModalContainer onClose={closeModal}>{steps[currentStep - 1]}</ModalContainer>}

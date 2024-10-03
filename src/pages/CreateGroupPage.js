@@ -10,9 +10,10 @@ export const GroupInfoContainer = styled.div`
     width: 100%;
     background-color: var(--violet000);
     border-radius: 10px;
-    border: 1px solid var(--violet400);
-    padding: 30px;
+    border: 2px solid var(--black200);
+    padding: 40px 30px;
     flex-direction: column;
+    gap: 50px;
 `;
 
 const CreateGroupPage = () => {

@@ -5,7 +5,7 @@ import MainCategory from "../components/Category/MainCategory";
 import MainCardList from "../components/MainPageComponents/MainCardList";
 import SearchBar from "../components/MainPageComponents/SearchBar/SearchBar";
 import DateButton from "../components/Button/DateButton";
-import OptionButton from "../components/Button/OptionButton";
+import MainOptionButton from "../components/Button/MainOptionButton";
 
 
 // pages/Main.js
@@ -588,7 +588,9 @@ const Main = () => {
                                 isChanged={isChanged}
                                 setIsChanged={setIsChanged}
                             />
-                            <OptionButton innerText={'모집중인 글만 보기'} onClick={handleOptionButtonClick} isOptionActive={isOptionActive} />
+                            <MainOptionButton onClick={handleOptionButtonClick} isOptionActive={isOptionActive}>
+                                모집 중만 보기
+                            </MainOptionButton>
                         </MainButtonContainer>
                         <SearchBar onSearchTermChange={handleSearchTermChange} />
                     </SearchContainer>

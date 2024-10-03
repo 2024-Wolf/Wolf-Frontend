@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { LinkRowContainer, Button9 } from "../../GlobalStyledComponents";
 
 import React from 'react';
-import WhiteInputBox from "../WhiteInputBox";
+import InputText from "../InputText";
 import RegularIcon from "../../Icon/RegularIcon";
 
 const LinkInput = ({ iconSrc, iconAlt, inputValue, onInputChange }) => {
@@ -12,7 +12,7 @@ const LinkInput = ({ iconSrc, iconAlt, inputValue, onInputChange }) => {
                 src={iconSrc}
                 alt={iconAlt}
             />
-            <WhiteInputBox
+            <InputText
                 value={inputValue}
                 onChange={onInputChange}
             />
