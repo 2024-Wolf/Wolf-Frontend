@@ -19,6 +19,7 @@ export const AlarmModalContainer = styled.div`
   display: ${props => (props.isAlarmOpen ? 'fixed' : 'none')};
   position: absolute;
   min-width: 350px;
+  max-width: 90vw; /* 최대 너비 조정 */
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
   right: 0px;
@@ -26,6 +27,20 @@ export const AlarmModalContainer = styled.div`
   background-color: #fff;
   border-radius: 12px;
   padding: 20px;
+  overflow-y: auto; /* 내용이 길어질 경우 스크롤 가능 */
+
+  @media (max-width: 768px) {
+    min-width: 330px;
+  }
+
+  @media (max-width: 576px) {
+    min-width: 250px;
+  }
+
+  @media (max-width: 376px) {
+    min-width: 200px;
+  }
+  
 `;
 
 export const AlramDate = styled.div`
@@ -82,7 +97,14 @@ export const AlramContent = styled.div`
   margin-bottom: 5px; 
 `;
 
-const AlramPreview = ({ notifications, setNotifications, isAlarmOpen, onNotificationClick }) => {
+export const OtherAlramItem = styled(AlramItem)`
+  &:hover {
+    background-color: transparent; /* 기타 알림에 대한 호버 효과 없음 */
+    transform: none; /* 확대 효과 제거 */
+  }
+`;
+
+const AlramPreview = ({ notifications, isAlarmOpen, onNotificationClick }) => {
   const [unreadCount, setUnreadCount] = useState(0);
   const navigate = useNavigate();
 
@@ -121,11 +143,14 @@ const AlramPreview = ({ notifications, setNotifications, isAlarmOpen, onNotifica
     );
   }
 
+  const displayedNotifications = unreadNotifications.slice(0, 5); // 최대 5개 알림 표시
+  const hasMoreNotifications = unreadNotifications.length > 5;
+
   return (
     <AlarmModalContainer isAlarmOpen={isAlarmOpen}>
       <AlramTitle>알림</AlramTitle>
       <AlramHeader>읽지 않은 알림 ({unreadCount})</AlramHeader>
-      {unreadNotifications.map((notification) => (
+      {displayedNotifications.map((notification) => (
         <AlramItem key={notification.alert_id} onClick={() => handleNotificationClick(notification.alert_id)}>
           <AlramContent>
             <AlramImg>
@@ -139,6 +164,11 @@ const AlramPreview = ({ notifications, setNotifications, isAlarmOpen, onNotifica
           </AlramText>
         </AlramItem>
       ))}
+      {hasMoreNotifications && (
+        <OtherAlramItem>
+          <AlramText>{unreadNotifications.length - 5}개의 기타 알림이 있습니다.</AlramText>
+        </OtherAlramItem>
+      )}
       <AlramFooter onClick={() => navigate('/mypage')}>
         전체 알림 보기
       </AlramFooter>
