@@ -28,32 +28,18 @@ const PageButton = styled.button`
 
 const PaginatedList = ({ data, renderItems }) => {
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(15);
-    const minWidth = 1500; // 최소 가로 길이
-    const cardWidth = 250; // 카드 가로 길이
-    const cardHeight = 260; // 카드 세로 길이
-    const gap = 27.5; // 카드 간격
+    const [itemsPerPage, setItemsPerPage] = useState(21); // 기본 카드 수를 20으로 설정
 
     useEffect(() => {
         const calculateItemsPerPage = () => {
-            const availableWidth = minWidth - (gap * 4); // 여유 공간 계산 (5개 기준)
-            const numberOfCards = Math.floor(availableWidth / (cardWidth + gap));
+            const availableWidth = window.innerWidth; // 현재 가로 길이
 
-            // 가로에 따른 세로 카드 개수 설정
-            let rows;
-            if (numberOfCards >= 5) {
-                rows = 3; // 5개 이상일 때 3줄
-            } else if (numberOfCards >= 4) {
-                rows = 4; // 4개일 때 4줄
-            } else if (numberOfCards >= 3) {
-                rows = 5; // 3개일 때 5줄
-            } else if (numberOfCards >= 2) {
-                rows = 7; // 2개일 때 7줄
+            // 616px에서 964px 사이일 경우 21개 설정
+            if (availableWidth >= 964 && availableWidth <= 1257) {
+                setItemsPerPage(21);
             } else {
-                rows = 15; // 1개일 때 15줄
+                setItemsPerPage(20);
             }
-
-            setItemsPerPage(numberOfCards * rows);
         };
 
         calculateItemsPerPage();
@@ -62,7 +48,7 @@ const PaginatedList = ({ data, renderItems }) => {
         return () => {
             window.removeEventListener('resize', calculateItemsPerPage);
         };
-    }, [minWidth, cardWidth, gap]);
+    });
 
     const handlePageChange = (page) => {
         setCurrentPage(page);

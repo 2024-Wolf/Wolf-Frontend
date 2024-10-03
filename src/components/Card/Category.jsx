@@ -34,12 +34,9 @@ export const CategoryContainer = styled.div`
 export const CategoryTag = styled.span`
     background-color: ${(props) =>
         props.category === "스터디"
-            ? 'var(--violet400)' // 스터디 태그 배경
-            : 'var(--violet100)'}; // 프로젝트 태그 배경
-    color: ${(props) =>
-        props.category === "스터디"
-            ? 'var(--violet100)' // 스터디 태그 글자색
-            : 'var(--violet400)'}; // 프로젝트 태그 글자색
+            ? 'var(--black500)'
+            : 'var(--black500)'};
+    color: var(--violet100);
 
     border-radius: 10px;
     padding: 4px 8px;
@@ -54,7 +51,7 @@ const Category = ({ category }) => {
     return (
         <CategoryContainer category={category}>
             WOLF
-            <CategoryTag category={category}>#{category}</CategoryTag>
+            <CategoryTag category={category}>{category}</CategoryTag>
         </CategoryContainer>
     );
 }
