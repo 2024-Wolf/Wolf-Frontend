@@ -1,12 +1,12 @@
 import styled from "styled-components";
-import { Square, Purpleline } from "../GlobalStyledComponents";
+import { Square, Violet500Line } from "../GlobalStyledComponents";
 
 import React from "react";
 
-// components/Input/WhiteInputBox.jsx
+// components/Input/InputNumber.jsx
 const InputNumberWrapper = styled.input`
     ${Square}
-    ${Purpleline}
+    ${Violet500Line}
     width: 55px;
     
     &:disabled {
@@ -25,9 +25,9 @@ const InputNumberWrapper = styled.input`
     }
 `;
 
-const InputNumber = ({ value, onChange, disabled = false }) => {
+const InputNumber = ({ ...props }) => {
     return (
-        <InputNumberWrapper value={value} onChange={onChange} disabled={disabled} />
+        <InputNumberWrapper {...props} />
     );
 }
 

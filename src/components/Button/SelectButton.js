@@ -1,12 +1,12 @@
 
 import styled from "styled-components";
-import { Square, Purpleline } from "../GlobalStyledComponents";
+import { Square, Violet500Line } from "../GlobalStyledComponents";
 
 // components/Group/GroupComponent/GroupWritingContent.jsx
 // select 드롭다운 목록
 const SelectButtonWrapper = styled.select`
     ${Square}
-    ${Purpleline}
+    ${Violet500Line}
 
     display: flex;
     align-items: center;

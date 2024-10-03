@@ -3,7 +3,7 @@ import { Square } from "../GlobalStyledComponents";
 
 import React from "react";
 
-// components/Input/WhiteInputBox.jsx
+// components/Input/InputFile.jsx
 const InputFileWrapper = styled.input`
     ${Square}
     width: 100%;
@@ -27,15 +27,9 @@ const InputFileWrapper = styled.input`
 `;
 {/*{newGroupData.fileName && <FileName>선택된 파일: {newGroupData.fileName}</FileName>}*/ }
 
-const InputFile = ({ id, accept, onChange, disabled }) => {
+const InputFile = ({ ...props }) => {
     return (
-        <InputFileWrapper
-            id="id"
-            type="file"
-            accept="accept/*"
-            onChange={onChange}
-            disabled={disabled}
-        />
+        <InputFileWrapper {...props} />
     );
 }
 

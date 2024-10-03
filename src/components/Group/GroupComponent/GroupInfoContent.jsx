@@ -11,6 +11,7 @@ import InputText from "../../Input/InputText";
 import FormOptionButton from "../../Button/FormOptionButton";
 import InputFile from "../../Input/InputFile"
 import InputNumber from "../../Input/InputNumber"
+import TextArea from "../../Input/TextArea";
 
 // 사용자 이름
 // components/Group/GroupManageContent.js, components/Group/GroupComponent/GroupWritingContent.jsx
@@ -210,34 +211,6 @@ export const FileName = styled.div`
 
 
 // components/Group/GroupComponent/GroupWritingContent.jsx
-export const TextArea2 = styled.textarea`
-    width: 100%;
-    min-height: 200px;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid var(--violet500);
-    border-radius: 5px;
-    resize: none;
-    font-size: 16px;
-    line-height: 1.5;
-
-    &:disabled {
-        background-color: var(--black000);
-    }
-
-    @media (max-width: 768px) {
-        font-size: 14px;
-        padding: 8px;
-    }
-
-    @media (max-width: 480px) {
-        font-size: 13px;
-        padding: 6px;
-    }
-`;
-
-
-// components/Group/GroupComponent/GroupWritingContent.jsx
 export const UserInfo = styled.div`
     display: flex;
     align-items: center;
@@ -305,7 +278,7 @@ const GroupInfoContent = ({ contentType, memberData, groupData }) => {
             { label: "이메일", clicked: true },
             { label: "지원직군", clicked: true },
             { label: "지원사유", clicked: false },
-            { label: "다를 수 있는 언어", clicked: false },
+            { label: "다룰 수 있는 언어", clicked: false },
             { label: "참여가능 요일", clicked: false },
             { label: "자기소개", clicked: false },
             { label: "포트폴리오 링크", clicked: true },
@@ -501,7 +474,6 @@ const GroupInfoContent = ({ contentType, memberData, groupData }) => {
                 <FormFieldRow>
                     <FormFieldSingle label={"주제"}>
                         <InputText
-                            placeholder="모집에 대한 간단한 소개를 작성해주세요."
                             value={newGroupData.subject}
                             onChange={(e) => handleInputChange('subject', e.target.value)}
                             disabled={contentsType === 'viewing'}
@@ -518,14 +490,14 @@ const GroupInfoContent = ({ contentType, memberData, groupData }) => {
                     </FormFieldMultiple>
 
                 </FormFieldRow>
-                <TextArea2
+                <TextArea
                     rows="4"
                     placeholder="모집에 대한 간단한 소개를 작성해주세요."
                     value={newGroupData.introduction}
                     onChange={(e) => handleInputChange('introduction', e.target.value)}
                     disabled={contentsType === 'viewing'}
                 />
-                <TextArea2
+                <TextArea
                     rows="4"
                     placeholder="유의사항을 적어주세요."
                     value={newGroupData.guidelines}

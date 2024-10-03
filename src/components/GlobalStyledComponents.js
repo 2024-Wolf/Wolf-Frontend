@@ -64,7 +64,7 @@ export const Round = css`
 // -------------------스타일만 정의-------------------
 
 // components/MainPageComponents/SearchBar/ButtonContainer.jsx
-export const Purpleline = css`
+export const Violet500Line = css`
     border: 1px solid var(--violet500);
     background-color: var(--violet000);
 
@@ -84,12 +84,12 @@ export const Purpleline = css`
 `;
 
 
-export const DarkBackground = css`
+export const Violet600Background = css`
   background: var(--violet600);
   color: var(--violet000);
 `;
 
-export const LightBackground = css`
+export const Violet100Background = css`
   background: var(--violet100);
   color: var(--black500);
 `;
@@ -99,7 +99,7 @@ export const NoBackground = css`
 `;
 
 // Hover
-export const PurplelineHover = css`
+export const Violet500LineHover = css`
     &:hover {
         background-color: var(--violet500);
         color: var(--violet100);
@@ -111,7 +111,7 @@ export const PurplelineHover = css`
     }
 `;
 
-export const PurplelineBlackHover = css`
+export const Violet500LineBlackHover = css`
     &:hover {
         background-color: var(--black700);
         color: var(--violet000);
@@ -125,7 +125,7 @@ export const PurplelineBlackHover = css`
     }
 `;
 
-export const DarkBackgroundHover = css`
+export const Violet600BackgroundHover = css`
   &:hover {
     color: var(--violet000);
     background-color: var(--violet700);
@@ -136,7 +136,7 @@ export const DarkBackgroundHover = css`
   }
 `;
 
-export const LightBackgroundHover = css`
+export const Violet100BackgroundHover = css`
   &:hover {
     background-color: var(--violet200);
   }
@@ -157,24 +157,24 @@ export const NoBackgroundHover = css`
 // -------------------스타일별 버튼-------------------
 
 // SquareButton
-export const PurplelineSquareButton = styled.button`
+export const Violet500LineSquareButton = styled.button`
     ${Square}
-    ${Purpleline}
-    ${PurplelineHover}
+    ${Violet500Line}
+    ${Violet500LineHover}
 `;
 
 // components/Header.js
-export const DarkBackgroundButton = styled.button`
+export const Violet600BackgroundButton = styled.button`
     ${Square}
-    ${DarkBackground}
-    ${DarkBackgroundHover}
+    ${Violet600Background}
+    ${Violet600BackgroundHover}
 `;
 
 // components/Header.js
-export const LightBackgroundButton = styled.button`
+export const Violet100BackgroundButton = styled.button`
     ${Square}  
-    ${LightBackground}
-    ${LightBackgroundHover}
+    ${Violet100Background}
+    ${Violet100BackgroundHover}
 `;
 
 // components/Header.js
@@ -185,10 +185,10 @@ export const NoBackgroundButton = styled.button`
 `;
 
 // RoundButton
-export const PurplelineRoundButton = styled.button`
+export const Violet500LineRoundButton = styled.button`
     ${Round}
-    ${Purpleline}
-    ${PurplelineBlackHover}
+    ${Violet500Line}
+    ${Violet500LineBlackHover}
 `;
 
 

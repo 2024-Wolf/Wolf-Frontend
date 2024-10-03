@@ -1,14 +1,18 @@
 import styled from "styled-components";
-import { Square, Purpleline } from "../GlobalStyledComponents";
+import { Square, Violet500Line } from "../GlobalStyledComponents";
 
 import React from "react";
 
-// components/Input/WhiteInputBox.jsx
-const InputTextWrapper = styled.input`
+// components/Input/TextAreaWrapper.jsx
+const TextAreaWrapper = styled.textarea`
     ${Square}
-    ${Purpleline}
+    ${Violet500Line}
+    padding: 10px;
     width: 100%;
-    
+    min-height: 200px;
+    resize: none;
+    line-height: 1.5;
+
     &:disabled {
         background-color: var(--black000);
         border-radius: 5px;
@@ -25,10 +29,12 @@ const InputTextWrapper = styled.input`
     }
 `;
 
-const InputText = ({ value, onChange, disabled = false }) => {
+const TextArea = ({ ...props }, children) => {
     return (
-        <InputTextWrapper value={value} onChange={onChange} disabled={disabled} />
+        <TextAreaWrapper {...props}>
+            {children}
+        </TextAreaWrapper>
     );
 }
 
-export default InputText;
+export default TextArea;

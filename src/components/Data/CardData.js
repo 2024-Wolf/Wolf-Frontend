@@ -14,7 +14,7 @@ const CardData = [
         ],
         profile: {
             imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
-            name: 'myeongju'
+            name: '정명주'
         }
     },
     {
@@ -30,7 +30,7 @@ const CardData = [
         ],
         profile: {
             imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
-            name: 'jason'
+            name: '강태현'
         }
     },
     {
@@ -46,7 +46,7 @@ const CardData = [
         ],
         profile: {
             imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
-            name: 'sunwoo'
+            name: '김한수'
         }
     },
     {
@@ -62,7 +62,7 @@ const CardData = [
         ],
         profile: {
             imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
-            name: 'minji'
+            name: '박가현'
         }
     },
     {
@@ -78,7 +78,7 @@ const CardData = [
         ],
         profile: {
             imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
-            name: 'soyeon'
+            name: '이정연'
         }
     },
     {
@@ -94,7 +94,7 @@ const CardData = [
         ],
         profile: {
             imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
-            name: 'hyunwoo'
+            name: '허준혁'
         }
     },
     {

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { HeaderButton, DarkBackgroundButton, LightBackgroundButton, MainLogo, ProfileIcon, UserProfileContainer, StyledHeaderIcon, DropdownContainer, DropdownContent, DropdownItem, UserWrapper, DisplayNoneDropdownItem, NoBackground, NoBackgroundButton } from "./GlobalStyledComponents";
+import { HeaderButton, Violet600BackgroundButton, Violet100BackgroundButton, MainLogo, ProfileIcon, UserProfileContainer, StyledHeaderIcon, DropdownContainer, DropdownContent, DropdownItem, UserWrapper, DisplayNoneDropdownItem, NoBackground, NoBackgroundButton } from "./GlobalStyledComponents";
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -12,14 +12,14 @@ import ThirdProcessContent from "./SignInContent/ThirdProcessContent";
 import FourthProcessContent from "./SignInContent/FourthProcessContent";
 
 
-const CreateGroupButton = styled(DarkBackgroundButton)`
+const CreateGroupButton = styled(Violet600BackgroundButton)`
   ${HeaderButton}
   @media (max-width: 768px) {
     display: none;
   }
 `;
 
-const FaqButton = styled(LightBackgroundButton)`
+const FaqButton = styled(Violet100BackgroundButton)`
   ${HeaderButton}
   @media (max-width: 768px) {
     display: none;

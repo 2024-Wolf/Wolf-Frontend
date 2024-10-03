@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Square, Purpleline, PurplelineHover } from "../GlobalStyledComponents";
+import { Square, Violet500Line, Violet500LineHover } from "../GlobalStyledComponents";
 
 import { useState } from 'react';
 import DatePicker from "react-datepicker";
@@ -8,7 +8,7 @@ import "react-datepicker/dist/react-datepicker.css";
 // 날짜 버튼 래퍼 스타일
 export const DateButtonWrapper = styled.div`
     ${Square}
-    ${Purpleline}
+    ${Violet500Line}
 
     display: flex;
     align-items: center;
@@ -22,7 +22,7 @@ export const DateButtonWrapper = styled.div`
     // 옵션 선택 버튼이면 hover 시 색상 변경
     ${({ setIsChanged }) =>
         typeof setIsChanged === 'function' ? `
-            ${PurplelineHover}
+            ${Violet500LineHover}
             &:hover {
                 svg {
                     background-color: var(--violet500);

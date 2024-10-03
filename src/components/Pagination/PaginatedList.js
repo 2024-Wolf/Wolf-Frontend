@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { NoBackground, NoBackgroundHover, DarkBackgroundHover } from "../GlobalStyledComponents";
+import { NoBackground, NoBackgroundHover, Violet600BackgroundHover } from "../GlobalStyledComponents";
 
 import React, { useState, useEffect } from 'react';
 
@@ -23,7 +23,7 @@ const PageButton = styled.button`
     background-color: ${props => (props.active ? 'var(--violet700)' : 'var(--violet100)')};
     color: ${props => (props.active ? 'var(--black200)' : 'var(--black800)')};
 
-    ${DarkBackgroundHover}
+    ${Violet600BackgroundHover}
 `;
 
 const ArrowButton = styled.button`
