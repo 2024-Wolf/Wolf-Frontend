@@ -36,14 +36,6 @@ export const CommonButton = css`
     color: var(--black500);
     width: auto;
 
-    &:hover {
-        transition: background-color 0.3s ease, color 0.3s ease;
-    }
-    
-    &:active {
-        transition: background-color 0.1s ease, color 0.1s ease;
-    }
-
     @media (max-width: 768px) {
         font-size: 15px; 
     }
@@ -51,8 +43,6 @@ export const CommonButton = css`
     @media (max-width: 480px) {
         font-size: 14px;
     }
-
-    transition: background-color 0.3s ease, color 0.3s ease;
 `;
 
 export const HeaderButton = css`
@@ -104,6 +94,10 @@ export const LightBackground = css`
   color: var(--black500);
 `;
 
+export const NoBackground = css`
+   background: none;
+`;
+
 // Hover
 export const PurplelineHover = css`
     &:hover {
@@ -135,23 +129,19 @@ export const DarkBackgroundHover = css`
   &:hover {
     color: var(--violet000);
     background-color: var(--violet700);
-    transition: background-color 0.3s ease;
   }
   &:active {
     color: var(--violet000);
     background-color: var(--violet700);
-    transition: background-color 0.1s ease;
   }
 `;
 
 export const LightBackgroundHover = css`
   &:hover {
     background-color: var(--violet200);
-    transition: background-color 0.3s ease;
   }
   &:active {
     background-color: var(--violet200);
-    transition: background-color 0.1s ease;
   }
 `;
 
@@ -159,13 +149,10 @@ export const NoBackgroundHover = css`
   &:hover {
     background-color: rgba(0, 0, 0, 0.1);
   }
+  &:active {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
 `;
-
-export const NoBackground = css`
-   background: none;
-`;
-
-
 
 // -------------------스타일별 버튼-------------------
 
