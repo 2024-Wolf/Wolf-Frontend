@@ -99,8 +99,8 @@ export const AlramContent = styled.div`
 
 export const OtherAlramItem = styled(AlramItem)`
   &:hover {
-    background-color: transparent; /* 기타 알림에 대한 호버 효과 없음 */
-    transform: none; /* 확대 효과 제거 */
+    background-color: transparent; 
+    transform: none; 
   }
 `;
 
@@ -126,7 +126,7 @@ const AlramPreview = ({ notifications, isAlarmOpen, onNotificationClick }) => {
   };
 
   const handleNotificationClick = (alertId) => {
-    onNotificationClick(alertId); // 부모 컴포넌트의 핸들러 호출
+    onNotificationClick(alertId);
   };
 
   if (!Array.isArray(unreadNotifications) || unreadNotifications.length === 0) {
@@ -136,7 +136,7 @@ const AlramPreview = ({ notifications, isAlarmOpen, onNotificationClick }) => {
         <AlramContent>
           <div>새로운 알림이 없습니다.</div>
         </AlramContent>
-        <AlramFooter onClick={() => alert('전체 알림 페이지로 이동합니다.')}>
+        <AlramFooter onClick={() => navigate('/user')}>
           전체 알림 보기
         </AlramFooter>
       </AlarmModalContainer>
@@ -169,7 +169,7 @@ const AlramPreview = ({ notifications, isAlarmOpen, onNotificationClick }) => {
           <AlramText>{unreadNotifications.length - 5}개의 기타 알림이 있습니다.</AlramText>
         </OtherAlramItem>
       )}
-      <AlramFooter onClick={() => navigate('/mypage')}>
+      <AlramFooter onClick={() => handleNotificationClick(notifications.user_id)}>
         전체 알림 보기
       </AlramFooter>
     </AlarmModalContainer>

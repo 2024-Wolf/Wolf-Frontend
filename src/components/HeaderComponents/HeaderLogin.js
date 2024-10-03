@@ -41,7 +41,7 @@ function HeaderLogin({ isLoggedIn, openModal, offLogin, notifications, setNotifi
         setNotifications(prevNotifications =>
             prevNotifications.filter(notification => notification.alert_id !== alertId)
         );
-        navigate(`/user/${alertId}`);
+        navigate(`/user`); // navigate(`/user/${alertId}`) 등으로 경로 바꿀 것
         setIsAlarmOpen(false); // 알림 클릭 시 알림창 닫기
     };
 
@@ -51,13 +51,13 @@ function HeaderLogin({ isLoggedIn, openModal, offLogin, notifications, setNotifi
         } else {
             const action = e.currentTarget.getAttribute('dataAction');
             if (action === 'bell') {
-                setIsDropdownOpen(false);
-                setIsAlarmOpen(prev => !prev);
+                setIsDropdownOpen(false); // 드롭다운을 닫습니다.
+                setIsAlarmOpen(prev => !prev); // 알림창을 토글합니다.
             } else if (action === 'profile') {
                 navigate('/user');
             } else if (action === 'dropdown') {
-                setIsAlarmOpen(false);
-                setIsDropdownOpen(prev => !prev);
+                setIsAlarmOpen(false); // 알림창 닫기
+                setIsDropdownOpen(prev => !prev); // 드롭다운 상태 토글
             }
         }
     };
@@ -70,11 +70,10 @@ function HeaderLogin({ isLoggedIn, openModal, offLogin, notifications, setNotifi
     // 클릭 이벤트 리스너 추가
     useEffect(() => {
         const handleClickOutside = (event) => {
-            if (
-                alarmRef.current && !alarmRef.current.contains(event.target) &&
-                dropdownRef.current && !dropdownRef.current.contains(event.target)
-            ) {
+            if (alarmRef.current && !alarmRef.current.contains(event.target)) {
                 setIsAlarmOpen(false); // 알림창 닫기
+            }
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
                 setIsDropdownOpen(false); // 드롭다운 닫기
             }
         };
@@ -88,48 +87,44 @@ function HeaderLogin({ isLoggedIn, openModal, offLogin, notifications, setNotifi
     return (
         <>
             {isLoggedIn ? (
-                <>
-                    <UserProfileContainer>
-                        <DropdownContainer>
-                            <BellIcon onClick={handleClick} hasNotifications={notifications.length > 0} />
-                            <div ref={alarmRef}>
-                                {/* 알림창 */}
-                                <AlramPreview
-                                    notifications={notifications}
-                                    isAlarmOpen={isAlarmOpen}
-                                    onNotificationClick={handleNotificationClick}
-                                />
-                            </div>
-                        </DropdownContainer>
-                        <UserWrapper>
-                            <ProfileIcon
-                                dataAction="profile"
+                <UserProfileContainer>
+                    <DropdownContainer ref={alarmRef}>
+                        <BellIcon onClick={handleClick} hasNotifications={notifications.length > 0} />
+                        {/* 알림창 */}
+                        <AlramPreview
+                            notifications={notifications}
+                            isAlarmOpen={isAlarmOpen}
+                            onNotificationClick={handleNotificationClick}
+                        />
+                    </DropdownContainer>
+                    <UserWrapper>
+                        <ProfileIcon
+                            dataAction="profile"
+                            onClick={handleClick}
+                            src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
+                            alt="Profile"
+                        />
+                        <DropdownContainer ref={dropdownRef}>
+                            <DropdownIcon
                                 onClick={handleClick}
-                                src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
-                                alt="Profile"
-                            />
-                            <DropdownContainer ref={dropdownRef}>
-                                <DropdownIcon
-                                    onClick={handleClick}
-                                    dataAction="dropdown"
-                                    width="16"
-                                    height="16"
-                                    fill="currentColor"
-                                    className="bi bi-caret-down-fill"
-                                >
-                                    <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
-                                </DropdownIcon>
-                                <DropdownContent isDropdownOpen={isDropdownOpen}>
-                                    <DropdownItem onClick={() => handleItemClick('/mypage')}>내 정보</DropdownItem>
-                                    <DisplayNoneDropdownItem onClick={() => handleItemClick('/write')}>팀원 모집하기</DisplayNoneDropdownItem>
-                                    <DisplayNoneDropdownItem onClick={() => handleItemClick('/faq')}>FAQ</DisplayNoneDropdownItem>
-                                    <DropdownItem onClick={() => handleItemClick('/study')}>챌린지 보기</DropdownItem>
-                                    <DropdownItem onClick={offLogin}>로그아웃</DropdownItem>
-                                </DropdownContent>
-                            </DropdownContainer>
-                        </UserWrapper>
-                    </UserProfileContainer>
-                </>
+                                dataAction="dropdown"
+                                width="16"
+                                height="16"
+                                fill="currentColor"
+                                className="bi bi-caret-down-fill"
+                            >
+                                <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                            </DropdownIcon>
+                            <DropdownContent isDropdownOpen={isDropdownOpen}>
+                                <DropdownItem onClick={() => handleItemClick('/user')}>내 정보</DropdownItem>
+                                <DisplayNoneDropdownItem onClick={() => handleItemClick('/write')}>팀원 모집하기</DisplayNoneDropdownItem>
+                                <DisplayNoneDropdownItem onClick={() => handleItemClick('/faq')}>FAQ</DisplayNoneDropdownItem>
+                                <DropdownItem onClick={() => handleItemClick('/user')}>챌린지 보기</DropdownItem>
+                                <DropdownItem onClick={offLogin}>로그아웃</DropdownItem>
+                            </DropdownContent>
+                        </DropdownContainer>
+                    </UserWrapper>
+                </UserProfileContainer>
             ) : (
                 <HeaderLogginButton onClick={handleClick} />
             )}
