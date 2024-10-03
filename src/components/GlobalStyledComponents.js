@@ -63,7 +63,7 @@ export const Round = css`
 
 // -------------------스타일만 정의-------------------
 
-// components/MainPageComponents/SearchBar/ButtonContainer.jsx
+// Style
 export const Violet500Line = css`
     border: 1px solid var(--violet500);
     background-color: var(--violet000);
@@ -83,11 +83,21 @@ export const Violet500Line = css`
     `}
 `;
 
+export const Violet400Background = css`
+    background-color: var(--violet400);
+    color: var(--violet000);
+`;
+
+export const Violet500Background = css`
+    background-color: var(--violet500);
+    color: var(--violet000);
+`;
 
 export const Violet600Background = css`
   background: var(--violet600);
   color: var(--violet000);
 `;
+
 
 export const Violet100Background = css`
   background: var(--violet100);
@@ -98,7 +108,57 @@ export const NoBackground = css`
    background: none;
 `;
 
+export const BlueViolet600Background = css`
+    background-color: var(--blueViolet600);
+    color: white;
+`;
+export const Black300Background = css`
+    background-color: var(--black300);
+    color: var(--violet000);
+`;
+
 // Hover
+export const Violet400BackgroundHover = css`
+    &:hover {
+        background-color: var(--violet600);
+    }
+    &:active {
+        background-color: var(--violet600);
+    }
+`;
+
+export const Black300BackgroundBlueHover = css`
+    &:hover {
+        background-color: var(--blueViolet700);
+    }
+
+    &:active {
+        background-color: var(--blueViolet600);
+    }
+`;
+
+export const BlueViolet600BackgroundHover = css`
+    &:hover {
+        background-color: var(--blueViolet800);
+    }
+    &:active {
+        background-color: var(--blueViolet800);
+    }
+`;
+
+
+export const Violet500BackgroundHover = css`
+    &:hover {
+        background - color: var(--violet600);
+        transition: background - color 0.3s ease;
+    }
+
+    &:active {
+        background - color: var(--violet600);
+        transition: background - color 0.1s ease;
+    }
+`;
+
 export const Violet500LineHover = css`
     &:hover {
         background-color: var(--violet500);
@@ -157,31 +217,55 @@ export const NoBackgroundHover = css`
 // -------------------스타일별 버튼-------------------
 
 // SquareButton
+
+
+export const NoBackgroundButton = styled.button`
+    ${Square}  
+    ${NoBackground}
+    ${NoBackgroundHover}
+`;
+
 export const Violet500LineSquareButton = styled.button`
     ${Square}
     ${Violet500Line}
     ${Violet500LineHover}
 `;
 
-// components/Header.js
-export const Violet600BackgroundButton = styled.button`
-    ${Square}
-    ${Violet600Background}
-    ${Violet600BackgroundHover}
+export const Black300BackgroundButton = styled.button`
+    ${Square}  
+    ${Black300Background}
+    ${Black300BackgroundBlueHover}
 `;
 
-// components/Header.js
+export const BlueViolet600BackgroundButton = styled.button`
+    ${Square}  
+    ${BlueViolet600Background}
+    ${BlueViolet600BackgroundHover}
+`;
+
 export const Violet100BackgroundButton = styled.button`
     ${Square}  
     ${Violet100Background}
     ${Violet100BackgroundHover}
 `;
 
-// components/Header.js
-export const NoBackgroundButton = styled.button`
+
+export const Violet400BackgroundButton = styled.button`
     ${Square}  
-    ${NoBackground}
-    ${NoBackgroundHover}
+    ${Violet400Background}
+    ${Violet400BackgroundHover}
+`;
+
+export const Violet500BackgroundButton = styled.button`
+    ${Square}  
+    ${Violet500Background}
+    ${Violet500BackgroundHover}
+`;
+
+export const Violet600BackgroundButton = styled.button`
+    ${Square}
+    ${Violet600Background}
+    ${Violet600BackgroundHover}
 `;
 
 // RoundButton
@@ -190,8 +274,6 @@ export const Violet500LineRoundButton = styled.button`
     ${Violet500Line}
     ${Violet500LineBlackHover}
 `;
-
-
 
 // -------------------------여기부터 버튼 끝------------------------------
 
