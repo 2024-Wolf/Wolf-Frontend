@@ -1,6 +1,10 @@
 import styled from 'styled-components';
-import { QuestionItemContainer, ActionButtons, QuestionContent, QuestionText, QuestionDate, QuestionAuthor, ProfileIcon } from "../../GlobalStyledComponents";
+import {
+    QuestionItemContainer, ActionButtons, QuestionContent, QuestionText, QuestionDate,
+    QuestionAuthor
+} from "../../GlobalStyledComponents";
 
+import ProfileIcon from '../../Icon/ProfileIcon';
 import React from 'react';
 
 const QuestionItem = ({

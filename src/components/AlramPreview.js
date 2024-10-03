@@ -1,17 +1,93 @@
 import styled from 'styled-components';
-import { ModalContainer3, AlramTitle, AlramHeader, AlramItem, AlramContent, AlramImg, AlramText, AlramDate, AlramFooter } from "./GlobalStyledComponents";
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+// Styled Components
+export const AlramFooter = styled.div`
+  margin-top: 15px;
+  text-align: right;
+  font-size: 10px;
+  color: #666;
+  cursor: pointer;
 
-const AlramPreview = ({ notifications, userId, isAlarmOpen }) => {
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+export const AlarmModalContainer = styled.div`
+  display: ${props => (props.isAlarmOpen ? 'fixed' : 'none')};
+  position: absolute;
+  min-width: 350px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  right: 0px;
+  top: calc(100% + 10px);
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 20px;
+`;
+
+export const AlramDate = styled.div`
+  font-size: 10px;
+  color: #999;
+`;
+
+export const AlramTitle = styled.div`
+  font-weight: bold;
+  font-size: 15px;
+  margin-bottom: 20px;
+  text-align: left; 
+`;
+
+export const AlramText = styled.div`
+  font-size: 12px;
+  margin-top: 5px; 
+  margin-left: 25px;
+`;
+
+export const AlramHeader = styled.div`
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 15px;
+  text-align: left; 
+`;
+
+export const AlramItem = styled.div`
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column; 
+
+  &:hover {
+    background-color: #f5f5f5; /* hover 시 배경색 변경 */
+    transform: scale(1.02); /* hover 시 약간 확대 */
+    transition: background-color 0.3s, transform 0.3s; /* 부드러운 전환 효과 */
+  }
+`;
+
+export const AlramImg = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  gap: 5px; 
+`;
+
+export const AlramContent = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px; 
+`;
+
+const AlramPreview = ({ notifications, setNotifications, isAlarmOpen, onNotificationClick }) => {
   const [unreadCount, setUnreadCount] = useState(0);
   const navigate = useNavigate();
 
-  // 읽지 않은 알림의 ()안에 숫자 카운트 , 모든 알림을 읽지 않은 것으로 가정
   useEffect(() => {
-    const unread = notifications.length;
+    const unread = notifications.filter(notification => notification.is_read === '0').length;
     setUnreadCount(unread);
   }, [notifications]);
 
@@ -21,81 +97,53 @@ const AlramPreview = ({ notifications, userId, isAlarmOpen }) => {
     return dateDiff === 0 ? '오늘' : `${dateDiff}일 전`;
   };
 
-  if (notifications == null | !Array.isArray(notifications)) {
-    // notifications이 null이거나 배열이 아니라면
+  const unreadNotifications = notifications.filter(notification => notification.is_read === '0');
+
+  const getFormattedAlertContent = (content, nickname) => {
+    return content.replace(/{nickname}/g, nickname).replace(/<br\s*\/?>/g, '\n');
+  };
+
+  const handleNotificationClick = (alertId) => {
+    onNotificationClick(alertId); // 부모 컴포넌트의 핸들러 호출
+  };
+
+  if (!Array.isArray(unreadNotifications) || unreadNotifications.length === 0) {
     return (
-      <ModalContainer3>
-        {/* Alram 제목 */}
+      <AlarmModalContainer isAlarmOpen={isAlarmOpen}>
         <AlramTitle>알림</AlramTitle>
-
-        < div > 알림이 없습니다.</div >
-
-        {/* 전체 알림 상세 페이지 이동 */}
+        <AlramContent>
+          <div>새로운 알림이 없습니다.</div>
+        </AlramContent>
         <AlramFooter onClick={() => alert('전체 알림 페이지로 이동합니다.')}>
           전체 알림 보기
         </AlramFooter>
-      </ModalContainer3>
-    )
+      </AlarmModalContainer>
+    );
   }
 
   return (
-    <ModalContainer3 isAlarmOpen={isAlarmOpen}>
-      {/* Alram 제목 */}
+    <AlarmModalContainer isAlarmOpen={isAlarmOpen}>
       <AlramTitle>알림</AlramTitle>
-
-      {/* Alram 상당 */}
       <AlramHeader>읽지 않은 알림 ({unreadCount})</AlramHeader>
-      {notifications.map((notification, index) => (
-        <AlramItem key={index}>
-
-          {/* 아이콘, Wolf 알림, 날짜 */}
+      {unreadNotifications.map((notification) => (
+        <AlramItem key={notification.alert_id} onClick={() => handleNotificationClick(notification.alert_id)}>
           <AlramContent>
             <AlramImg>
               <span role="img" aria-label="notification">🔔</span>
-              <strong>Wolf 알림</strong>
+              <strong>{notification.group_post_id ? '그룹 알림' : '회원 알림'}</strong>
             </AlramImg>
-            <AlramDate>{calculateDaysAgo(notification.date)}</AlramDate>
+            <AlramDate>{calculateDaysAgo(notification.alert_date)}</AlramDate>
           </AlramContent>
-
-          {/* Alram 텍스트 */}
           <AlramText>
-            {userId} 님, 만나서 반가워요 👋🏻 <br />
-            ??명의 ??들이 {userId}님에 대해 알고 싶대요! <br />
-            지금 프로필을 작성하고 팀 매칭률을 올려볼까요?
+            {getFormattedAlertContent(notification.alert_content, notification.nickname)}
           </AlramText>
         </AlramItem>
       ))}
-
-      {/* 전체 알림 상세 페이지 이동 */}
       <AlramFooter onClick={() => navigate('/mypage')}>
         전체 알림 보기
       </AlramFooter>
-    </ModalContainer3>
+    </AlarmModalContainer>
   );
 };
 
 export default AlramPreview;
-
-
-
-// 테스트
-
-/* import React from 'react';
-import AlramPreview from './Components/AlramPreview';
-
-const notifications = [
-  { id: 1, date: '2024-09-18' }, 
-  { id: 2, date: '2024-09-15' },
-  { id: 3, date: '2024-09-10' },
-];
-
-function App() {
-  return (
-    <div>
-      <h1>테스트 페이지</h1>
-      <AlramPreview notifications={notifications} userId="gahyun00" />
-    </div>
-  );
-}
-
-export default App; */

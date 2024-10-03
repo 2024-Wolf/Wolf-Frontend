@@ -1028,16 +1028,7 @@ export const MemberName = styled.div`
   font-size: 16px;
 `;
 
-// components/Header.js, components/MemberEvaluation.js, pages/StudyPage.js, components/Group/Question/QuestionItem.jsx
-export const ProfileIcon = styled.img`
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  cursor: pointer;
 
-  /* margin: auto 30px; */ /* components/MemberEvaluation.js */
-  /* margin-right: 10px; */ /* pages/StudyPage.js */
-`;
 
 // components/MemberEvaluation.js
 export const SubmitContainer = styled.div`
@@ -1086,37 +1077,7 @@ export const SubmitButton3 = styled.button`
   }
 `;
 
-// components/Header.js
-export const MainLogo = styled.a`
-  color: var(--black900);
-  font: 32px Kavoon, sans-serif;
-  text-decoration: none;
-`;
 
-// components/Header.js
-export const UserProfileContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 4px 15px;
-  gap: 10px;
-  border-radius: 20px;
-  width: 166.15px;
-  height: 35px;
-`;
-
-// components/Header.js
-export const StyledHeaderIcon = styled.svg`
-  width: 20px;
-  height: 20px;
-  color: var(--violet600);
-  cursor: pointer;
-`;
-
-// components/Header.js
-export const DropdownContainer = styled.div`
-  position: relative;
-`;
 
 // components/Header.js
 export const DropdownContent = styled.div`
@@ -1183,20 +1144,6 @@ export const ModalContainer2 = styled.div`
   padding: 30px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-`;
-
-// components/AlramPreview.js
-export const ModalContainer3 = styled.div`
-  display: ${props => (props.isAlarmOpen ? 'fixed' : 'none')};
-  position: absolute;
-  min-width: 350px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-  right: 0px;
-  top: calc(100% + 10px);
-  background-color: #fff;
-  border-radius: 12px;
-  padding: 20px;
 `;
 
 // components/Group/GroupInfoModal/ApplicantConfirmModal.js, components/Group/GroupInfoModal/ApplicantModal.js
@@ -1378,73 +1325,6 @@ export const CancelButton3 = styled(Button)`
     color: var(--violet800);
 `;
 
-// components/AlramPreview.js
-export const AlramTitle = styled.div`
-  font-weight: bold;
-  font-size: 15px;
-  margin-bottom: 20px;
-  text-align: left; 
-`;
-
-// components/AlramPreview.js
-export const AlramHeader = styled.div`
-  font-weight: bold;
-  font-size: 14px;
-  margin-bottom: 15px;
-  text-align: left; 
-`;
-
-// components/AlramPreview.js
-export const AlramItem = styled.div`
-  padding: 10px;
-  border-bottom: 1px solid #eee;
-  font-size: 14px;
-  line-height: 1.6;
-  display: flex;
-  flex-direction: column; 
-`;
-
-// components/AlramPreview.js
-export const AlramContent = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 5px; 
-`;
-
-// components/AlramPreview.js
-export const AlramImg = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: 13px;
-  gap: 5px; 
-`;
-
-// components/AlramPreview.js
-export const AlramText = styled.div`
-  font-size: 12px;
-  margin-top: 5px; 
-  margin-left: 25px;
-`;
-
-// components/AlramPreview.js
-export const AlramDate = styled.div`
-  font-size: 10px;
-  color: #999;
-`;
-
-// components/AlramPreview.js
-export const AlramFooter = styled.div`
-  margin-top: 15px;
-  text-align: right;
-  font-size: 10px;
-  color: #666;
-  cursor: pointer;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`;
 
 // components/ActivityScore/ActivityScoreBar.jsx
 export const BarContainer = styled.div`

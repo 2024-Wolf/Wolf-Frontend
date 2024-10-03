@@ -1,5 +1,8 @@
 import styled from "styled-components";
-import { Container, StudyInfoContent, CategoryButton, StudyTitle, Button3, StudyDetails, ProfileIcon, LeaderInfo, LeaderText } from "../components/GlobalStyledComponents";
+import {
+  Container, StudyInfoContent, CategoryButton, StudyTitle,
+  Button3, StudyDetails, LeaderInfo, LeaderText
+} from "../components/GlobalStyledComponents";
 
 import React, { useState } from "react";
 import TodoContent from "../components/Group/TodoContent";
@@ -9,6 +12,7 @@ import GroupInfoContent from "../components/Group/GroupInfoContent";
 import GroupTabs from "../components/Group/GroupTabs";
 import GroupManageContent from "../components/Group/GroupManageContent";
 import Declaration from "../components/Declaration";
+import ProfileIcon from "../components/Icon/ProfileIcon";
 
 // 상수로 카테고리 선언
 const TAB = {
