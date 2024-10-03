@@ -1,7 +1,16 @@
 import styled from 'styled-components';
-import { FAQContainer, PageTitle, Tabs, TabButton, FAQList, FAQItem, FAQQuestion, FAQAnswer, Arrow } from "../components/GlobalStyledComponents";
+import { PageTitle, Tabs, TabButton, FAQList, FAQItem, FAQQuestion, FAQAnswer, Arrow } from "../components/GlobalStyledComponents";
 
 import React, { useState } from 'react';
+
+const FAQContainer = styled.div`
+    display: flex;
+    width: 100%;
+    padding: 40px 30px;
+    flex-direction: column;
+    gap: 50px;
+`;
+
 
 const FAQ = () => {
   const [activeTab, setActiveTab] = useState('계정');

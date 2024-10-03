@@ -376,12 +376,7 @@ export const Title7 = styled.div`
     align-self: center; /* ModalContainer 안에서 세로 가운데 정렬 */
 `;
 
-// pages/FAQ.js
-export const FAQContainer = styled.div`
-  max-width: 1440px;
-  margin: 80px auto;
-  padding: 0 50px;
-`;
+
 
 // pages/FAQ.js
 export const Tabs = styled.div`
@@ -470,28 +465,6 @@ export const Arrow = styled.span`
   border-right: 6px solid transparent;
   border-top: ${(props) => (props.isOpen ? 'none' : '6px solid #333')};
   border-bottom: ${(props) => (props.isOpen ? '6px solid #333' : 'none')};
-`;
-
-// pages/MyPage.js
-export const MyPageContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    height: auto;
-    flex-direction: column;
-    margin: 50px auto;
-    max-width: 1340px; /* 최대 너비를 1340px  설정 (변경 가능성 O)*/
-    padding: 0 20px;
-
-    @media (max-width: 768px) {
-        padding: 0 15px;
-        margin: 50px auto;
-    }
-
-    @media (max-width: 480px) {
-        padding: 0 10px;
-        margin: 30px auto;
-    }
 `;
 
 // components/Challenge/ChallengeList.js

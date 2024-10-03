@@ -108,7 +108,7 @@ function Login({ isLoggedIn, openModal, offLogin, notifications }) {
         if (hasNotifications) setHasNotifications(false);
       } else if (action === 'profile') {
         // 프로필 아이콘
-        navigate('/mypage');
+        navigate('/user');
       } else if (action === 'dropdown') {
         // 드롭다운 아이콘
         setIsAlarmOpen(false); // 알람 목록이 열려 있으면 닫기
