@@ -42,6 +42,7 @@ function HeaderLogin({ isLoggedIn, openModal, offLogin, notifications, setNotifi
             prevNotifications.filter(notification => notification.alert_id !== alertId)
         );
         navigate(`/user/${alertId}`);
+        setIsAlarmOpen(false); // 알림 클릭 시 알림창 닫기
     };
 
     const handleClick = (e) => {
