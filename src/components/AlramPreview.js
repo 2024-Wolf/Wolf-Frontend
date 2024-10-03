@@ -1,79 +1,8 @@
-import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { ModalContainer3, AlramTitle, AlramHeader, AlramItem, AlramContent, AlramImg, AlramText, AlramDate, AlramFooter } from "./GlobalStyledComponents";
+
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-const ModalContainer = styled.div`
-  display: ${props => (props.isAlarmOpen ? 'fixed' : 'none')};
-  position: absolute;
-  min-width: 350px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-  right: 0px;
-  top: calc(100% + 10px);
-  background-color: #fff;
-  border-radius: 12px;
-  padding: 20px;
-`;
-
-const AlramTitle = styled.div`
-  font-weight: bold;
-  font-size: 15px;
-  margin-bottom: 20px;
-  text-align: left; 
-`;
-
-const AlramHeader = styled.div`
-  font-weight: bold;
-  font-size: 14px;
-  margin-bottom: 15px;
-  text-align: left; 
-`;
-
-const AlramItem = styled.div`
-  padding: 10px;
-  border-bottom: 1px solid #eee;
-  font-size: 14px;
-  line-height: 1.6;
-  display: flex;
-  flex-direction: column; 
-`;
-
-const AlramContent = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 5px; 
-`;
-
-const AlramImg = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: 13px;
-  gap: 5px; 
-`;
-
-const AlramText = styled.div`
-  font-size: 12px;
-  margin-top: 5px; 
-  margin-left: 25px;
-`;
-
-const AlramDate = styled.div`
-  font-size: 10px;
-  color: #999;
-`;
-
-const AlramFooter = styled.div`
-  margin-top: 15px;
-  text-align: right;
-  font-size: 10px;
-  color: #666;
-  cursor: pointer;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`;
 
 
 const AlramPreview = ({ notifications, userId, isAlarmOpen }) => {
@@ -95,7 +24,7 @@ const AlramPreview = ({ notifications, userId, isAlarmOpen }) => {
   if (notifications == null | !Array.isArray(notifications)) {
     // notifications이 null이거나 배열이 아니라면
     return (
-      <ModalContainer>
+      <ModalContainer3>
         {/* Alram 제목 */}
         <AlramTitle>알림</AlramTitle>
 
@@ -105,12 +34,12 @@ const AlramPreview = ({ notifications, userId, isAlarmOpen }) => {
         <AlramFooter onClick={() => alert('전체 알림 페이지로 이동합니다.')}>
           전체 알림 보기
         </AlramFooter>
-      </ModalContainer>
+      </ModalContainer3>
     )
   }
 
   return (
-    <ModalContainer isAlarmOpen={isAlarmOpen}>
+    <ModalContainer3 isAlarmOpen={isAlarmOpen}>
       {/* Alram 제목 */}
       <AlramTitle>알림</AlramTitle>
 
@@ -141,7 +70,7 @@ const AlramPreview = ({ notifications, userId, isAlarmOpen }) => {
       <AlramFooter onClick={() => navigate('/mypage')}>
         전체 알림 보기
       </AlramFooter>
-    </ModalContainer>
+    </ModalContainer3>
   );
 };
 

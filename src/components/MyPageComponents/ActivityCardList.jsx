@@ -1,13 +1,11 @@
-import React from 'react';
 import styled from 'styled-components';
+import { ActivityCardListContainer } from "../GlobalStyledComponents";
+
+import React from 'react';
 import Card from "../Card/Card";
 import { useNavigate } from 'react-router-dom';
 
-const ActivityCardListContainer = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-`;
+
 
 
 const ActivityCardList = ({ cards, buttonText }) => {

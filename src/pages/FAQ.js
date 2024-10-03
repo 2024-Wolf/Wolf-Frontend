@@ -1,78 +1,16 @@
-import React, { useState } from 'react';
 import styled from 'styled-components';
+import { PageTitle, Tabs, TabButton, FAQList, FAQItem, FAQQuestion, FAQAnswer, Arrow } from "../components/GlobalStyledComponents";
+
+import React, { useState } from 'react';
 
 const FAQContainer = styled.div`
-  max-width: 1440px;
-  margin: 80px auto;
-  padding: 0 50px;
+    display: flex;
+    width: 100%;
+    padding: 40px 30px;
+    flex-direction: column;
+    gap: 50px;
 `;
 
-const Title = styled.h1`
-  text-align: left;
-  font-weight: bold;
-  font-size: 2.5rem;
-  color: #333;
-  margin: 30px 0px;
-`;
-
-const Tabs = styled.div`
-  display: flex;
-  justify-content: space-around;
-  margin: 0;
-  padding: 0;
-  border-bottom: 1px solid #ccc;
-`;
-
-const TabButton = styled.button`
-  flex: 1;
-  background: none;
-  border: none;
-  padding: 15px 0;
-  font-size: 16px;
-  text-align: center;
-  cursor: pointer;
-  outline: none;
-  color: ${(props) => (props.active ? '#6a5acd' : '#333')};
-  background-color: ${(props) => (props.active ? '#F2F0FF' : 'none')};
-  border-bottom: ${(props) => (props.active ? '2px solid #6a5acd' : 'none')};
-`;
-
-const FAQList = styled.div`
-  margin-top: 0;
-  padding: 0;
-`;
-
-const FAQItem = styled.div`
-  border-bottom: 1px solid #ccc;
-  padding: 15px 0;
-`;
-
-const FAQQuestion = styled.div`
-  display: flex;
-  justify-content: space-between;
-  cursor: pointer;
-  font-weight: bold;
-  padding: 15px 0;
-  line-height: 1.5;
-  min-height: 30px;
-  background-color: ${(props) => (props.active ? '#F2F0FF' : 'none')};
-`;
-
-const FAQAnswer = styled.div`
-  margin-top: 10px;
-  padding-left: 20px;
-  color: #666;
-  line-height: 1.6;
-`;
-
-const Arrow = styled.span`
-  width: 0;
-  height: 0;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-top: ${(props) => (props.isOpen ? 'none' : '6px solid #333')};
-  border-bottom: ${(props) => (props.isOpen ? '6px solid #333' : 'none')};
-`;
 
 const FAQ = () => {
   const [activeTab, setActiveTab] = useState('계정');
@@ -108,7 +46,7 @@ const FAQ = () => {
 
   return (
     <FAQContainer>
-      <Title>FAQ</Title>
+      <PageTitle>FAQ</PageTitle>
       <Tabs>
         {['계정', '스터디', '프로젝트', '챌린지', 'Etc'].map((tab) => (
           <TabButton

@@ -1,42 +1,54 @@
-import React from "react";
 import styled from "styled-components";
 
-const DotsContainer = styled.div`
+import React from "react";
+
+// components/MainPageComponents/Banner/Dots.jsx
+export const DotsContainer = styled.div`
     position: absolute;
-    bottom: 15px;
-    right: 15px;
     display: flex;
     gap: 10px;
+    background-color: var(--black000);
+    padding: 5px 10px;
+    margin: 5px;
+    border-radius: 10px;
+    left: 47%;
+    bottom: 0%;
+    cursor: auto;
 
     @media (max-width: 768px) {
-        bottom: 10px;
-        right: 10px;
         gap: 8px;
+        padding: 4px 7px;
+        bottom: -2%;
+        left: 44%;
     }
 
     @media (max-width: 480px) {
-        bottom: 5px;
-        right: 5px;
         gap: 5px;
+        padding: 3px 6px;
+        left: 42%;
     }
 `;
 
-const Dot = styled.div`
-    width: 10px;
-    height: 10px;
-    background-color: ${(props) => 
-            props.active ? "var(--black100)" : "var(--black400)"};
+// components/MainPageComponents/Banner/Dots.jsx
+export const Dot = styled.div`
+    width: 0.9em;
+    height: 0.9em;
+    background-color: ${(props) =>
+        props.active ? "var(--black400)" : "var(--black200)"};
     border-radius: 50%;
     cursor: pointer;
 
+    @media (max-width: 1200px) {
+        width: 0.85em;
+        height: 0.85em;
+    }
+
     @media (max-width: 768px) {
-        width: 8px;
-        height: 8px;
+        width: 0.7em;
+        height: 0.7em;
     }
 
     @media (max-width: 480px) {
-        width: 6px;
-        height: 6px;
     }
 `;
 

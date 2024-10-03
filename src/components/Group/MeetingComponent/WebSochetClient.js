@@ -5,9 +5,9 @@ const WebSocketClient = () => {
   const [chatLog, setChatLog] = useState([]);
   const webSocketRef = useRef(null);
 
-// WebSocket 서버와 연결 설정
+  // WebSocket 서버와 연결 설정
   useEffect(() => {
-// WebSocket 연결
+    // WebSocket 연결
     webSocketRef.current = new WebSocket('ws://localhost:8080');
 
     webSocketRef.current.onopen = () => {
@@ -15,7 +15,7 @@ const WebSocketClient = () => {
     };
 
     webSocketRef.current.onmessage = (event) => {
-// 서버에서 메시지를 받을 때마다 chatLog에 추가
+      // 서버에서 메시지를 받을 때마다 chatLog에 추가
       setChatLog((prevLog) => [...prevLog, event.data]);
     };
 
@@ -30,11 +30,11 @@ const WebSocketClient = () => {
     };
   }, []);
 
-// 메시지 전송 함수 _  메시지 전송 후 input 초기화
+  // 메시지 전송 함수 _  메시지 전송 후 input 초기화
   const sendMessage = () => {
     if (message.trim() !== '') {
       webSocketRef.current.send(message);
-      setMessage(''); 
+      setMessage('');
     }
   };
 
