@@ -116,14 +116,13 @@ export const GroupInfoContentsWrapper = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 25px;
+    gap: 20px;
 
     @media (max-width: 768px) {
-        padding: 10px;
+        gap: 25px;
     }
 
     @media (max-width: 480px) {
-        padding: 5px;
     }
 `;
 
@@ -133,6 +132,9 @@ export const GroupInfoContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 15px;
+    @media (max-width: 768px) {
+        gap: 20px;
+    }
 `;
 
 // components/Group/GroupComponent/GroupWritingContent.jsx, 
@@ -141,8 +143,9 @@ export const FormFieldRow = styled.div`
     display: flex;
     width: 100%;
     justify-content: start;
-    gap: 30px;
+    gap: 20px;
     @media (max-width: 768px) {
+
     }
 
     @media (max-width: 480px) {
@@ -263,11 +266,17 @@ export const UserInfo = styled.div`
     }
 `;
 
-// 메인 컴포넌트
-const GroupInfoContent = ({ contentType, memberData, groupData }) => {
+export const DoubleDateContainer = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+`;
+
+const GroupInfoContent = ({ contentType, memberData, groupData }) => { // memberData에 기본값 추가
     const [contentsType, setContentsType] = useState(contentType); // 상태 추가 ('writing', 'editing', 'viewing' 중 하나)
 
-    const GroupData = groupData || {
+    const initialGroupData = {
         groupType: "study",
         startDate: new Date(),
         endDate: new Date(),
@@ -290,8 +299,9 @@ const GroupInfoContent = ({ contentType, memberData, groupData }) => {
         guidelines: "",
         fileName: ""
     };
-    const [newGroupData, setNewGroupData] = useState(groupData ? { ...groupData } : GroupData);
-    // 상태를 변경하는 핸들러
+
+    const [newGroupData, setNewGroupData] = useState(groupData ? { ...groupData } : initialGroupData);
+
     const handleInputChange = (field, value) => {
         setNewGroupData(prevState => ({
             ...prevState,
@@ -300,31 +310,26 @@ const GroupInfoContent = ({ contentType, memberData, groupData }) => {
     };
 
     const toggleButtonClick = (index) => {
-        setNewGroupData((prevState) => {
-            const newButtons = [...prevState.buttons];
-            newButtons[index].clicked = !newButtons[index].clicked;
-            return {
-                ...prevState,
-                buttons: newButtons,
-            };
+        setNewGroupData(prevState => {
+            const newButtons = prevState.buttons.map((button, idx) =>
+                idx === index ? { ...button, clicked: !button.clicked } : button
+            );
+            return { ...prevState, buttons: newButtons };
         });
     };
 
-    // 수정 버튼 클릭 시 상태 변경
     const handleEditClick = () => {
         setContentsType('editing');
     };
 
-    // 작성/수정 완료 시 상태 변경
     const handleSaveClick = () => {
         setContentsType('viewing');
     };
 
     return (
         <GroupInfoContentsWrapper>
-
             <FormTitle>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-1-circle-fill" viewBox="0 0 16 16">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-1-circle-fill" viewBox="0 0 16 16">
                     <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M9.283 4.002H7.971L6.072 5.385v1.271l1.834-1.318h.065V12h1.312z" />
                 </svg>
                 모임 정보
@@ -344,17 +349,19 @@ const GroupInfoContent = ({ contentType, memberData, groupData }) => {
                 </FormFieldRow>
                 <FormFieldRow>
                     <FormFieldSingle label={"모임 기간"}>
-                        <DateButton
-                            value={newGroupData.startDate}
-                            onChange={(date) => handleInputChange('startDate', date)}
-                            disabled={contentsType === 'viewing'}
-                        />
-                        ~
-                        <DateButton
-                            value={newGroupData.endDate}
-                            onChange={(date) => handleInputChange('endDate', date)}
-                            disabled={contentsType === 'viewing'}
-                        />
+                        <DoubleDateContainer>
+                            <DateButton
+                                value={newGroupData.startDate}
+                                onChange={(date) => handleInputChange('startDate', date)}
+                                disabled={contentsType === 'viewing'}
+                            />
+                            ~
+                            <DateButton
+                                value={newGroupData.endDate}
+                                onChange={(date) => handleInputChange('endDate', date)}
+                                disabled={contentsType === 'viewing'}
+                            />
+                        </DoubleDateContainer>
                     </FormFieldSingle>
                 </FormFieldRow>
                 <FormFieldRow>
@@ -378,7 +385,7 @@ const GroupInfoContent = ({ contentType, memberData, groupData }) => {
             <hr style={{ border: '1px solid var(--black200)' }} />
 
             <FormTitle>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-2-circle-fill" viewBox="0 0 16 16">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-2-circle-fill" viewBox="0 0 16 16">
                     <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M6.646 6.24c0-.691.493-1.306 1.336-1.306.756 0 1.313.492 1.313 1.236 0 .697-.469 1.23-.902 1.705l-2.971 3.293V12h5.344v-1.107H7.268v-.077l1.974-2.22.096-.107c.688-.763 1.287-1.428 1.287-2.43 0-1.266-1.031-2.215-2.613-2.215-1.758 0-2.637 1.19-2.637 2.402v.065h1.271v-.07Z" />
                 </svg>
                 모집 정보
@@ -392,69 +399,42 @@ const GroupInfoContent = ({ contentType, memberData, groupData }) => {
                             disabled={contentsType === 'viewing'}
                         />
                     </FormFieldSingle>
+                    <FormFieldSingle label={"총 모집 인원"}>
+                        <SelectButton defaultValue={newGroupData.totalMemberCount} disabled={contentsType === 'viewing'}>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                        </SelectButton>
+                    </FormFieldSingle>
                 </FormFieldRow>
 
                 <FormFieldRow>
-                    {newGroupData.groupType === 'project' ? (
-                        <>
-                            <FormFieldRow>
-                                <FormFieldMultiple label={"모집 직군"}>
-                                    <SelectButton defaultValue="frontEnd" disabled={contentsType === 'viewing'}>
-                                        <option value="frontEnd">프론트엔드개발자</option>
-                                        <option value="backEnd">백엔드개발자</option>
-                                        <option value="planner">기획자</option>
-                                        <option value="designer">디자이너</option>
-                                    </SelectButton>
-                                </FormFieldMultiple>
-                                <FormFieldMultiple label={"직군별 모집 인원"}>
-                                    <SelectButton defaultValue="" disabled={contentsType === 'viewing'}>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                    </SelectButton>
-                                </FormFieldMultiple>
-                                <FormFieldMultiple label={"총 모집 인원"}>
-                                    <InputNumber value={newGroupData.totalMemberCount} disabled={contentsType == 'viewing'} />
-                                </FormFieldMultiple>
-                            </FormFieldRow>
-                        </>
-                    ) :
-                        <>
-                            <FormFieldMultiple label={"총 모집 인원"}>
-                                <SelectButton defaultValue={newGroupData.totalMemberCount} disabled={contentsType === 'viewing'}>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
-                                </SelectButton>
-                            </FormFieldMultiple>
-                        </>
-                    }
+                    <FormFieldSingle label={"모집 직군"}>
+                        <SelectButton defaultValue="frontEnd" disabled={contentsType === 'viewing'}>
+                            <option value="frontEnd">프론트엔드개발자</option>
+                            <option value="backEnd">백엔드개발자</option>
+                            <option value="planner">기획자</option>
+                            <option value="designer">디자이너</option>
+                        </SelectButton>
+                    </FormFieldSingle>
                 </FormFieldRow>
                 <FormFieldRow>
                     <FormFieldSingle label={"기술 스택"}>
                         <ButtonGroup>
                             {newGroupData.buttons.map((button, index) => (
-                                <>
-                                    <FormOptionButton
-                                        key={index}
-                                        clicked={button.clicked}
-                                        onClick={() => toggleButtonClick(index)}
-                                        disabled={contentsType === 'viewing'}
-                                    >
-                                        {button.label}
-
-                                    </FormOptionButton>
-                                </>
+                                <FormOptionButton
+                                    key={index}
+                                    clicked={button.clicked}
+                                    onClick={() => toggleButtonClick(index)}
+                                    disabled={contentsType === 'viewing'}
+                                >
+                                    {button.label}
+                                </FormOptionButton>
                             ))}
                         </ButtonGroup>
                     </FormFieldSingle>

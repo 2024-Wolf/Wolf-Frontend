@@ -12,6 +12,12 @@ const FormFieldSingleWrapper = styled.div`
     align-items: center;
     width: 100%;
     color: var(--black700);
+
+    @media (max-width: 768px) {
+        width: 100%;
+        flex-direction: column;
+        align-items: start;
+    }
 `;
 
 const FormFieldSingle = ({ label, children }) => {

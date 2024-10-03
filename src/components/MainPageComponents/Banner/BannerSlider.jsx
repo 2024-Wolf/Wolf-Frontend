@@ -15,7 +15,7 @@ export const SliderContainer = styled.div`
     max-width: 100%;
     max-height: 300px;
 
-    filter: drop-shadow(0px 0px 30px rgba(0, 0, 0, 0.08));
+    filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.05));
 
     @media (max-width: 1200px) {
     }

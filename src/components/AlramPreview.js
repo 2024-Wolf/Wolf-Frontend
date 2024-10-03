@@ -34,7 +34,8 @@ export const AlarmModalContainer = styled.div`
   }
 
   @media (max-width: 576px) {
-    min-width: 250px;
+    min-width: 270px;
+    right: -50px;
   }
 
   @media (max-width: 376px) {

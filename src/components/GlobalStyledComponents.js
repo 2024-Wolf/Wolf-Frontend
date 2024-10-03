@@ -301,13 +301,23 @@ export const FormTitle = styled.h3`
 export const FormLabel = styled.label`
     text-wrap: nowrap;
     font-size: 18px;
-    min-width: 100px;
+    min-width: 120px;
     display: flex;
     align-items: start;
     justify-content: center;
-    min-height: 100%;
-    margin-top: 15px;
+
     color: var(--black700);
+
+    @media (max-width: 768px) {
+        width: 100%;
+        min-width: auto;
+        justify-content: start;
+        font-size: 17px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 16px;
+    }
 `;
 
 
@@ -1093,6 +1103,9 @@ export const DropdownContent = styled.div`
   padding: 10px;
   flex-direction: column;
   align-items: center;
+@media (max-width: 576px) {
+    right: -20px;
+  }
 `;
 
 // components/Header.js

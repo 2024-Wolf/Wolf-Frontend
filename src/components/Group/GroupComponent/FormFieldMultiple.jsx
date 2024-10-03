@@ -12,6 +12,12 @@ const FormFieldMultipleWrapper = styled.div`
     align-items: center;
     width: fit-content;
     color: var(--black700);
+
+    @media (max-width: 768px) {
+        width: fit-content;
+        flex-direction: column;
+        align-items: start;
+    }
 `;
 
 const FormFieldMultiple = ({ label, children }) => {

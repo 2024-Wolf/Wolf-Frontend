@@ -19,6 +19,16 @@ export const DateButtonWrapper = styled.div`
     width: 140px;
     height: 35px;
 
+    @media (max-width: 768px) {
+    }
+
+    @media (max-width: 480px) {
+        width: 105px;
+        svg {
+            display:none;
+        }
+    }
+
     // 옵션 선택 버튼이면 hover 시 색상 변경
     ${({ setIsChanged }) =>
         typeof setIsChanged === 'function' ? `
@@ -52,11 +62,13 @@ export const DateButtonWrapper = styled.div`
 
 // 날짜 선택기 스타일
 export const DatePickerCustom = styled(DatePicker)`
-    font-size: 16px;
     width: 90px;
     min-height: 20px;
     color: var(--black500);
     background-color: var(--violet000);
+    @media (max-width: 480px) {
+        width: 78px;
+    }
 `;
 
 const DateButton = ({ value, onChange, setIsChanged, isChanged }) => {

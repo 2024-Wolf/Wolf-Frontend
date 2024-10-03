@@ -7,13 +7,18 @@ import GroupInfoContent from "../components/Group/GroupComponent/GroupInfoConten
 // pages/CreateGroupPage.js
 export const GroupInfoContainer = styled.div`
     display: flex;
-    width: 100%;
+    min-width: 100%;
     background-color: var(--violet000);
     border-radius: 10px;
     border: 2px solid var(--black200);
     padding: 40px 30px;
     flex-direction: column;
-    gap: 50px;
+    gap: 30px;
+
+    @media (max-width: 768px) {
+    min-width: auto;
+    margin: 0px 15px;
+    }
 `;
 
 const CreateGroupPage = () => {
