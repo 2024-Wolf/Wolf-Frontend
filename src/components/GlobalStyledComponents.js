@@ -28,7 +28,7 @@ export const MainContents = styled.div`
 `;
 
 // -------------------모든 버튼 공통-------------------
-const CommonButton = styled.button`
+const CommonButton = css`
     padding: 5px 10px;
     height: 35px;
     font-size: 16px;
@@ -54,37 +54,58 @@ const CommonButton = styled.button`
 
 // -------------------사각형/타원형 버튼 모양-------------------
 
-const SquareButton = styled(CommonButton)`
+export const SquareButton = css`
+    ${CommonButton}
     border-radius: 7px;
 `;
 
-const RoundButton = styled(CommonButton)`
+export const RoundButton = css`
+    ${CommonButton}
     border-radius: 30px;
 `;
 
-// -------------------스타일 버튼-------------------
+// -------------------스타일만 정의-------------------
 
 // components/MainPageComponents/SearchBar/ButtonContainer.jsx
-export const PurplelineSquareButton = styled(SquareButton)`
+export const Purpleline = css`
     border: 1.5px solid var(--violet500);
     background-color: var(--violet000);
-
-    &:hover {
-        background-color: var(--violet500);
-        color: var(--violet100);
-    }
-    
-    &:active {
-        background-color: var(--violet500);
-        color: var(--violet100);
-    }
 
     /* components/DateInputButton/OptionButton.js */
     ${({ isOptionActive }) => isOptionActive && `
         background-color: var(--violet500);
         color: var(--violet100);
     `}
+`;
 
+//
+export const PurplelineHover = css`
+    &:hover {
+        background-color: var(--violet500);
+        color: var(--violet100);
+    }
+
+    &:active {
+        background-color: var(--violet500);
+        color: var(--violet100);
+    }
+`;
+
+
+// -------------------스타일별 버튼-------------------
+
+// SquareButton
+export const PurplelineSquareButton = styled.button`
+    ${SquareButton}
+    ${Purpleline}
+    ${PurplelineHover}
+`;
+
+// RoundButton
+export const PurplelineRoundButton = styled.button`
+    ${RoundButton}
+    ${Purpleline}
+    ${PurplelineHover}
 `;
 
 

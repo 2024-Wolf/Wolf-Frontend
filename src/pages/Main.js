@@ -529,7 +529,7 @@ const Main = () => {
 
     const categories = ["전체", "프로젝트", "스터디"];
     const [activeCategory, setActiveCategory] = useState('전체');
-    const [searchDate, setSearchDate] = useState(null); // 기본값을 null로 설정
+    const [searchDate, setSearchDate] = useState(null);
     const [isOptionActive, setIsOptionActive] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredCards, setFilteredCards] = useState(cards);
