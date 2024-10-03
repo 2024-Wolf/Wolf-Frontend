@@ -17,7 +17,7 @@ export const CardContainer = styled.div`
     flex-direction: column;
     align-items: center;
 
-    border: 0.5px solid var(--black200);
+    border: 2px solid var(--black200);
     border-radius: 30px;
     background-color: #ffffff;
     transition: transform 0.3s ease;
@@ -31,7 +31,6 @@ export const CardContainer = styled.div`
     @media (max-width: 616px) {
         width: 100%;
         height: auto;
-        border: none;
         &:hover {
             transform: scale(1.02);
         }
@@ -66,7 +65,6 @@ export const BottomInfo = styled.div`
     }
 `;
 
-
 // components/Card/Card.jsx
 export const Tags = styled.div`
     display: flex;
@@ -75,13 +73,11 @@ export const Tags = styled.div`
     gap: 5px;
     padding-bottom: 10px;
     max-width:100%;
-    height: 67.67px;
-    border-bottom: 1px solid var(--black500);
-
+    height: 50px;
+    border-bottom: 1px solid var(--black200);
     line-height: 1.5;
-
+    white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
 `;
 
 

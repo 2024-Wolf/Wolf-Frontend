@@ -7,7 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 // components/DateInputButton/DateButton.jsx
 export const DateButtonWrapper = styled.div`
     background-color: var(--violet000);
-    border: 1px solid var(--violet500);
+    border: 1.5px solid var(--violet500);
     display: flex;
     align-items: center;
     padding: 5px 15px;

@@ -45,14 +45,14 @@ export const ButtonContainer = styled.div`
 // components/MainPageComponents/SearchBar/ButtonContainer.jsx
 export const OptionButton = styled.button`
     background-color: var(--violet000);
-    border: 1px solid var(--violet500);
+    border: 1.5px solid var(--violet500);
     border-radius: 7px;
     margin-right: 10px;
     padding: 5px 10px;
     font-size: 16px;
     color: var(--black500);
 
-    width: 140px;
+    width: auto;
     height: 35px;
     
     @media (max-width: 768px) {

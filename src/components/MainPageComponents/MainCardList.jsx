@@ -56,9 +56,6 @@ const CardMapingContainer = styled.div`
         width: 90%;
         height: 300px;
         border-radius: 10px;
-        border-bottom: 2px solid var(--black300); 
-
-        border: 0.5px solid var(--black200);
     }
 `;
 

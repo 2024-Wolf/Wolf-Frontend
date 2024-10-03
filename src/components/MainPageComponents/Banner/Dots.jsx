@@ -24,7 +24,6 @@ export const DotsContainer = styled.div`
 
     @media (max-width: 480px) {
         gap: 5px;
-        bottom: -8%;
         padding: 3px 6px;
         left: 42%;
     }

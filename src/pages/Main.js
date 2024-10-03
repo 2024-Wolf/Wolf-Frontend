@@ -35,7 +35,7 @@ const cards = [
         title: 'React 기초 스터디',
         deadline: '2024-09-30',
         challenge: true,
-        tags: ['#프론트엔드', '#리액트', '#초보환영'],
+        tags: ['#프론트엔드', '#리액트', '#초보환영1', '#초보환영2', '#초보환영3', '#초보환영4', '#초보환영5', '#초보환영6', '#초보환영7'],
         icons: [
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'GitHub' },
             { src: 'https://cdn-icons-png.flaticon.com/512/25/25231.png', alt: 'Slack' }

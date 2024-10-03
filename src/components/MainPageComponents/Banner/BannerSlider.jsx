@@ -9,24 +9,24 @@ export const SliderContainer = styled.div`
     margin: 0 auto;
     overflow: hidden;
     position: relative;
-    cursor: pointer;
     border-radius: 20px;
 
     width: 100%;
-    max-width: 100%; // 화면에 맞게 조정
-    max-height: 300px; // 세로를 조정하여 더 높게 설정
+    max-width: 100%;
+    max-height: 300px;
+
+    filter: drop-shadow(0px 0px 30px rgba(0, 0, 0, 0.08));
 
     @media (max-width: 1200px) {
     }
 
     @media (max-width: 768px) {
-    min-height: 90px; // 아주 작은 화면에서 높이 조정
     }
     
     @media (max-width: 480px) {
-        
+        height: 140px;
     }
-    filter: drop-shadow(0px 0px 100px rgba(0, 0, 0, 0.01));
+
 `;
 
 // components/MainPageComponents/Banner/BannerSlider.jsx
@@ -43,7 +43,8 @@ export const Slide = styled.img`
     width: 100%;
     height: 100%;
     max-height: 100%;
-    object-fit: cover; // 이미지가 배너에 맞게 조정
+    object-fit: contain;
+    cursor: pointer;
 `;
 
 const BannerSlider = ({ images }) => {
@@ -100,9 +101,9 @@ const BannerSlider = ({ images }) => {
             onMouseMove={handleMove}
             onMouseUp={handleEnd}
             onMouseLeave={handleEnd}
-            onTouchStart={handleStart} // 터치 시작
-            onTouchMove={handleMove} // 터치 이동
-            onTouchEnd={handleEnd} // 터치 종료
+            onTouchStart={handleStart}
+            onTouchMove={handleMove}
+            onTouchEnd={handleEnd}
         >
             <SliderInner position={currentPosition}>
                 {images.map((image, index) => (
