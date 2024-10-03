@@ -27,6 +27,67 @@ export const MainContents = styled.div`
     }
 `;
 
+// -------------------모든 버튼 공통-------------------
+const CommonButton = styled.button`
+    padding: 5px 10px;
+    height: 35px;
+    font-size: 16px;
+    color: var(--black500);
+    width: auto;
+
+    &:hover {
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    
+    &:active {
+        transition: background-color 0.1s ease, color 0.1s ease;
+    }
+
+    @media (max-width: 768px) {
+        font-size: 15px; 
+    }
+
+    @media (max-width: 480px) {
+        font-size: 14px;
+    }
+`;
+
+// -------------------사각형/타원형 버튼 모양-------------------
+
+const SquareButton = styled(CommonButton)`
+    border-radius: 7px;
+`;
+
+const RoundButton = styled(CommonButton)`
+    border-radius: 30px;
+`;
+
+// -------------------스타일 버튼-------------------
+
+// components/MainPageComponents/SearchBar/ButtonContainer.jsx
+export const PurplelineSquareButton = styled(SquareButton)`
+    border: 1.5px solid var(--violet500);
+    background-color: var(--violet000);
+
+    &:hover {
+        background-color: var(--violet500);
+        color: var(--violet100);
+    }
+    
+    &:active {
+        background-color: var(--violet500);
+        color: var(--violet100);
+    }
+
+    /* components/DateInputButton/OptionButton.js */
+    ${({ isOptionActive }) => isOptionActive && `
+        background-color: var(--violet500);
+        color: var(--violet100);
+    `}
+
+`;
+
+
 // components/Group/GroupInfoModal/ApplicantConfirmModal.js, components/Group/GroupInfoModal/ApplicantModal.js, 
 // components/MyPageComponents/UserInfoContent.js, components/Group/GroupInfoModal/ApplicantConfirmModal.js, 
 // components/Group/GroupInfoModal/ApplicantModal.js, components/MainPageComponents/SearchBar/ButtonContainer.jsx
@@ -40,50 +101,6 @@ export const ButtonContainer = styled.div`
 
     @media (max-width: 480px) {
     }
-`;
-
-// components/MainPageComponents/SearchBar/ButtonContainer.jsx
-export const OptionButton = styled.button`
-    background-color: var(--violet000);
-    border: 1.5px solid var(--violet500);
-    border-radius: 7px;
-    margin-right: 10px;
-    padding: 5px 10px;
-    font-size: 16px;
-    color: var(--black500);
-
-    width: auto;
-    height: 35px;
-    
-    @media (max-width: 768px) {
-        font-size: 15px; 
-    }
-
-    @media (max-width: 480px) {
-        font-size: 14px;
-    }
-
-    @media (max-width: 350px) {
-        display: none;
-    }
-
-    &:hover {
-        background-color: var(--violet500);
-        color: var(--violet100);
-        transition: background-color 0.3s ease, color 0.3s ease;
-    }
-    
-    &:active {
-        background-color: var(--violet500);
-        color: var(--violet100);
-        transition: background-color 0.1s ease, color 0.1s ease;
-    }
-
-    ${({ isOptionActive }) => isOptionActive && `
-        background-color: var(--violet500);
-        color: var(--violet100);
-    `}
-
 `;
 
 

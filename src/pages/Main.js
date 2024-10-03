@@ -1,12 +1,11 @@
 import styled from "styled-components";
-import { OptionButton, ButtonContainer } from "../components/GlobalStyledComponents";
-
 import React, { useEffect, useState } from "react";
 import BannerSlider from "../components/MainPageComponents/Banner/BannerSlider";
 import MainCategory from "../components/Category/MainCategory";
 import MainCardList from "../components/MainPageComponents/MainCardList";
 import SearchBar from "../components/MainPageComponents/SearchBar/SearchBar";
 import DateButton from "../components/Button/DateButton";
+import OptionButton from "../components/Button/OptionButton";
 
 
 // pages/Main.js
@@ -25,6 +24,16 @@ export const SearchContainer = styled.div`
 
     @media (max-width: 480px) {
 
+    }
+`;
+
+export const MainButtonContainer = styled.div`
+    display: flex;
+    gap: 10px;
+    justify-content: center; /* 버튼들을 가로 가운데 정렬 */
+
+    @media (max-width: 350px) {
+        display: none;
     }
 `;
 
@@ -572,17 +581,15 @@ const Main = () => {
                         setActiveCategory={setActiveCategory}
                     />
                     <SearchContainer>
-                        <ButtonContainer>
+                        <MainButtonContainer>
                             <DateButton
                                 value={searchDate}
                                 onChange={handleSearchDate}
                                 isChanged={isChanged}
                                 setIsChanged={setIsChanged}
                             />
-                            <OptionButton onClick={handleOptionButtonClick} isOptionActive={isOptionActive}>
-                                모집중인 글만 보기
-                            </OptionButton>
-                        </ButtonContainer>
+                            <OptionButton innerText={'모집중인 글만 보기'} onClick={handleOptionButtonClick} isOptionActive={isOptionActive} />
+                        </MainButtonContainer>
                         <SearchBar onSearchTermChange={handleSearchTermChange} />
                     </SearchContainer>
                 </div>
@@ -590,7 +597,7 @@ const Main = () => {
                     category={activeCategory}
                     data={filteredCards}
                 />
-            </main>
+            </main >
         </>
     );
 }
