@@ -1,14 +1,27 @@
 
 import styled from "styled-components";
-import { Violet500LineRoundButton } from "../GlobalStyledComponents";
+import { Round, Violet500Line, Violet500LineBlackHover } from "../GlobalStyledComponents";
+
+
+const FormOptionButtonWrapper = styled.button`
+    ${Round}
+    ${Violet500Line}
+    ${Violet500LineBlackHover}
+
+    &:disabled {
+        background-color: ${({ clicked }) => (clicked ? "var(--black600)" : "var(--violet200)")};
+        color: ${({ clicked }) => (clicked ? "var(--violet000)" : "")};
+    }
+
+`;
 
 const FormOptionButton = ({ children, key, clicked, onClick, disabled }) => {
 
     return (
-        <Violet500LineRoundButton key={key} clicked={clicked}
+        <FormOptionButtonWrapper type="button" key={key} clicked={clicked}
             onClick={onClick} disabled={disabled}>
             {children}
-        </Violet500LineRoundButton>
+        </FormOptionButtonWrapper>
     );
 }
 

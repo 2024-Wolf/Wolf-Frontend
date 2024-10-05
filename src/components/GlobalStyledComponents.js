@@ -1,7 +1,5 @@
 import styled, { css } from "styled-components";
 
-import DatePicker from "react-datepicker";
-
 export const MainContents = styled.div`
     display: flex;
     justify-content: start;
@@ -27,6 +25,94 @@ export const MainContents = styled.div`
     }
 `;
 
+export const FormLabelGroup = styled.div`
+    display: flex;
+    gap: 5px;
+    align-items: start;
+    justify-content: start;
+    width: fit-content;
+    flex-direction: column;
+    height: 100%;
+    margin-top: 15px;
+
+    @media (max-width: 768px) {
+    flex-direction: row;
+    }
+
+    @media (max-width: 480px) {
+
+    }
+`;
+
+export const FormDescription = styled.span`
+    font-size: 12px;
+    color : var(--black600);
+`;
+
+export const FormChildrenGroup = styled.div`
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+`;
+
+// components/Declaration.js, components/MemberEvaluation.js
+export const ButtonGroupWrap = styled.div`
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+
+    @media (max-width: 768px) {
+    }
+    
+    @media (max-width: 480px) {
+    }
+`;
+
+
+// components/Declaration.js, components/MemberEvaluation.js
+export const ButtonGroupCenter = styled.div`
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  justify-content: center;
+    @media (max-width: 768px) {
+    }
+    
+    @media (max-width: 480px) {
+    }
+`;
+
+// components/Declaration.js, components/MemberEvaluation.js
+export const ButtonGroupRight = styled.div`
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  justify-content: right;
+    @media (max-width: 768px) {
+    }
+    
+    @media (max-width: 480px) {
+    }
+`;
+
+// components/Declaration.js, components/MemberEvaluation.js
+export const ButtonGroupLeft = styled.div`
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  justify-content: left;
+    @media (max-width: 768px) {
+    }
+    
+    @media (max-width: 480px) {
+    }
+`;
+
 // -------------------모든 버튼 공통-------------------
 export const CommonButton = css`
     text-wrap: nowrap;
@@ -43,11 +129,41 @@ export const CommonButton = css`
     @media (max-width: 480px) {
         font-size: 14px;
     }
+
+    &::placeholder {
+        color: var(--black300);
+    }
+
+    &:disabled {
+        pointer-events: none;
+    }
 `;
 
 export const HeaderButton = css`
     padding: 5px 32px;
+    @media (max-width: 768px) {
+        display: none;
+    }
 `;
+
+export const IconButton = css`
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+
+    @media (max-width: 480px) {
+        padding: 10px;
+    }
+`;
+
+export const IconInnerText = styled.span`
+    @media (max-width: 480px) {
+        display: none;
+    }
+`;
+
 
 // -------------------사각형/타원형 버튼 모양-------------------
 
@@ -67,6 +183,10 @@ export const Round = css`
 export const Violet500Line = css`
     border: 1px solid var(--violet500);
     background-color: var(--violet000);
+
+    &:disabled {
+        background-color: var(--violet200);
+    }
 
     /* components/DateInputButton/OptionButton.js */
     /* 선택 됐을 때 보라색 */
@@ -127,6 +247,8 @@ export const Violet400BackgroundHover = css`
     }
 `;
 
+
+
 export const Black300BackgroundBlueHover = css`
     &:hover {
         background-color: var(--blueViolet700);
@@ -136,6 +258,17 @@ export const Black300BackgroundBlueHover = css`
         background-color: var(--blueViolet600);
     }
 `;
+
+export const Black200BackgroundBlueHover = css`
+    &:hover {
+        background-color: var(--black200);
+    }
+
+    &:active {
+        background-color: var(--black200);
+    }
+`;
+
 
 export const BlueViolet600BackgroundHover = css`
     &:hover {
@@ -211,6 +344,17 @@ export const NoBackgroundHover = css`
   }
   &:active {
     background-color: rgba(0, 0, 0, 0.1);
+  }
+`;
+
+export const NoBackgroundHover2 = css`
+  &:hover {
+    color: var(--black600);
+  }
+
+  // Active (마우스 클릭 또는 모바일 터치) effect
+  &:active {
+    color: var(--black600);
   }
 `;
 
@@ -295,6 +439,7 @@ export const FormTitle = styled.h3`
     gap: 5px;
     align-items: center;
     color: var(--violet600);
+    height: 35px;
 `;
 
 // components/Group/GroupComponent/FormField.jsx
@@ -1278,14 +1423,6 @@ export const TextArea6 = styled.textarea`
     }
 
     ${responsiveFontSize}
-`;
-
-// components/Declaration.js, components/MemberEvaluation.js
-export const ButtonGroup = styled.div`
-  display: flex;
-  gap: 5px;
-  width: 100%;
-  flex-wrap: wrap;
 `;
 
 
@@ -2309,12 +2446,7 @@ export const TodoButton = styled.button`
   }
 `;
 
-// components/Group/TodoContent.js
-export const ButtonGroupRight = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 20px;
-`;
+
 
 // components/Group/TodoContent.js
 export const ColumnContainer = styled.div`

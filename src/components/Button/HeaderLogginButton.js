@@ -1,17 +1,15 @@
 import styled from "styled-components";
-import { HeaderButton, NoBackgroundButton } from "../GlobalStyledComponents";
+import { HeaderButton, NoBackgroundButton, Black200BackgroundBlueHover } from "../GlobalStyledComponents";
 
 const HeaderLogginButtonWrapper = styled(NoBackgroundButton)`
-    ${HeaderButton}
+  ${HeaderButton}
+  ${Black200BackgroundBlueHover}
 
     @media (max-width: 320px) {
         padding: 10px;
         border: 1px solid var(--black300);
     }
 
-    &:hover {
-        background-color: rgba(0, 0, 0, 0.1);
-    }
 
     span:nth-child(1) {
         @media (max-width: 320px) {
@@ -30,7 +28,7 @@ const HeaderLogginButtonWrapper = styled(NoBackgroundButton)`
 
 const HeaderLogginButton = ({ onClick, children }) => {
   return (
-    <HeaderLogginButtonWrapper onClick={onClick}>
+    <HeaderLogginButtonWrapper type="button" onClick={onClick}>
       <span>로그인/회원가입</span>
       <span>
         <svg

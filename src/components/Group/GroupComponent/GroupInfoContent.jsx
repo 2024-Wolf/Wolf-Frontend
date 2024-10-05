@@ -1,17 +1,24 @@
 import styled from "styled-components";
 
-
 import React, { useState } from "react";
+
 import FormFieldSingle from "./FormFieldSingle";
 import FormFieldMultiple from "./FormFieldMultiple";
 import DateButton from "../../Button/DateButton";
 import SelectButton from "../../Button/SelectButton";
-import { FormTitle, ButtonGroup } from "../../GlobalStyledComponents";
+import { FormTitle, ButtonGroupCenter, ButtonGroupRight, ButtonGroupWrap } from "../../GlobalStyledComponents";
 import InputText from "../../Input/InputText";
 import FormOptionButton from "../../Button/FormOptionButton";
 import InputFile from "../../Input/InputFile"
 import InputNumber from "../../Input/InputNumber"
 import TextArea from "../../Input/TextArea";
+import SaveButton from "../../Button/SaveButton";
+import CancelButton from "../../Button/CancelButton";
+import EditButton from "../../Button/EditButton";
+import DeleteButton from "../../Button/DeleteButton";
+import CompleteButton from "../../Button/CompleteButton"
+import DeleteIconButton from "../../Button/DeleteIconButton";
+import { useNavigate } from 'react-router-dom';
 
 // 사용자 이름
 // components/Group/GroupManageContent.js, components/Group/GroupComponent/GroupWritingContent.jsx
@@ -61,57 +68,6 @@ export const MemberTitle = styled.div`
 `;
 
 // components/Group/GroupComponent/GroupWritingContent.jsx
-export const DeleteCancelButton = styled.button`
-    background-color: var(--black000);
-    color: var(--black800);
-    &:hover {
-        background-color: var(--black300);
-    }
-`;
-
-
-// components/Group/GroupComponent/GroupWritingContent.jsx
-export const Button7 = styled.button`
-    padding: 10px 15px;
-    background-color: var(--violet400);
-    color: white;
-    border: 1px solid var(--violet500);
-    border-radius: 5px;
-
-    &:hover {
-        background-color: var(--violet700);
-    }
-
-    @media (max-width: 768px) {
-        padding: 8px;
-        font-size: 14px;
-        width: 100%;
-    }
-    
-    @media (max-width: 480px) {
-        padding: 5px;
-        font-size: 12px;
-    }
-`;
-
-// components/Group/GroupComponent/GroupWritingContent.jsx
-export const Buttons2 = styled.div`
-    display: flex;
-    margin-top: 20px;
-    justify-content: flex-end;
-    gap: 20px;
-
-    @media (max-width: 768px) {
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    @media (max-width: 480px) {
-        gap: 5px;
-    }
-`;
-
-// components/Group/GroupComponent/GroupWritingContent.jsx
 export const GroupInfoContentsWrapper = styled.div`
     width: 100%;
     display: flex;
@@ -119,7 +75,6 @@ export const GroupInfoContentsWrapper = styled.div`
     gap: 20px;
 
     @media (max-width: 768px) {
-        gap: 25px;
     }
 
     @media (max-width: 480px) {
@@ -133,7 +88,6 @@ export const GroupInfoContainer = styled.div`
     flex-direction: column;
     gap: 15px;
     @media (max-width: 768px) {
-        gap: 20px;
     }
 `;
 
@@ -179,37 +133,8 @@ export const LongLabel = styled(Label)`
 `;
 
 // components/Group/GroupComponent/GroupWritingContent.jsx
-export const StyledButton = styled.button`
-    background-color: ${({ clicked }) => (clicked ? "var(--black700)" : "white")};
-    color: ${({ clicked }) => (clicked ? "white" : "black")};
-    border: 1px solid var(--violet500);
-    padding: 13px 15px;
-    margin: 5px;
-    border-radius: 30px;
-
-    @media (max-width: 768px) {
-        padding: 8px;
-        font-size: 12px;
-        flex: 1;
-    }
-    
-    @media (max-width: 480px) {
-        padding: 5px;
-        font-size: 10px;
-        flex: 1;
-    }
-`;
-
-// components/Group/GroupComponent/GroupWritingContent.jsx
 export const HiddenFileInput = styled.input`
     display: none;
-`;
-
-// components/Group/GroupComponent/GroupWritingContent.jsx
-export const FileName = styled.div`
-    margin-top: 10px;
-    font-size: 14px;
-    color: var(--black800);
 `;
 
 
@@ -273,8 +198,26 @@ export const DoubleDateContainer = styled.div`
     width: 100%;
 `;
 
-const GroupInfoContent = ({ contentType, memberData, groupData }) => { // memberData에 기본값 추가
+const ImagePlaceholder = styled.div`
+    display: ${(props) => (props.hasFiles ? 'flex' : 'none')};
+    flex-direction: row;
+    justify-content: center;
+    align-items: start;
+    width: 100%;
+    gap: 10px;
+`;
+
+const ImagePreview = styled.img`
+    object-fit: cover;
+    max-width: 100%;
+    max-height: 214px;
+    border: 1.5px solid var(--black200);
+    border-radius: 10px;
+`;
+
+const GroupInfoContent = ({ contentType, memberData, groupData }) => {
     const [contentsType, setContentsType] = useState(contentType); // 상태 추가 ('writing', 'editing', 'viewing' 중 하나)
+    const navigate = useNavigate();
 
     const initialGroupData = {
         groupType: "study",
@@ -286,11 +229,11 @@ const GroupInfoContent = ({ contentType, memberData, groupData }) => { // member
         buttons: [
             { label: "이메일", clicked: true },
             { label: "지원직군", clicked: true },
-            { label: "지원사유", clicked: false },
+            { label: "지원사유", clicked: true },
             { label: "다룰 수 있는 언어", clicked: false },
             { label: "참여가능 요일", clicked: false },
             { label: "자기소개", clicked: false },
-            { label: "포트폴리오 링크", clicked: true },
+            { label: "포트폴리오 링크", clicked: false },
             { label: "자유기재", clicked: false }
         ],
         totalMemberCount: 0,
@@ -301,12 +244,39 @@ const GroupInfoContent = ({ contentType, memberData, groupData }) => { // member
     };
 
     const [newGroupData, setNewGroupData] = useState(groupData ? { ...groupData } : initialGroupData);
+    const [selectedFiles, setSelectedFiles] = useState([]);
+    const allowedFormats = ['image/jpeg', 'image/png'];
 
     const handleInputChange = (field, value) => {
         setNewGroupData(prevState => ({
             ...prevState,
             [field]: value
         }));
+    };
+
+    const handleDeleteFile = () => {
+        setSelectedFiles([]); // 선택된 파일 초기화
+        handleInputChange('fileName', ''); // 파일 이름 초기화
+        document.getElementById('thumbnail').value = ''; // input 파일 필드 초기화
+    };
+
+
+
+    const handleImgType = (event) => {
+        const files = Array.from(event.target.files);
+        const invalidFiles = files.filter(file => {
+            const isJfif = file.name.toLowerCase().endsWith('.jfif');
+            const isPjpeg = file.name.toLowerCase().endsWith('.pjpeg');
+            const isPjp = file.name.toLowerCase().endsWith('.pjp');
+            return !allowedFormats.includes(file.type) || isJfif || isPjpeg || isPjp;
+        });
+
+        if (invalidFiles.length > 0) {
+            alert('허용되지 않는 파일 형식입니다 (첨부 가능 형식: jpeg, jpg, png)');
+            return;
+        }
+
+        setSelectedFiles(files); // 파일 목록 업데이트
     };
 
     const toggleButtonClick = (index) => {
@@ -328,16 +298,37 @@ const GroupInfoContent = ({ contentType, memberData, groupData }) => { // member
 
     return (
         <GroupInfoContentsWrapper>
-            <FormTitle>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-1-circle-fill" viewBox="0 0 16 16">
-                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M9.283 4.002H7.971L6.072 5.385v1.271l1.834-1.318h.065V12h1.312z" />
-                </svg>
-                모임 정보
-            </FormTitle>
+            <FormFieldRow>
+                <FormTitle>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-1-circle-fill" viewBox="0 0 16 16">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M9.283 4.002H7.971L6.072 5.385v1.271l1.834-1.318h.065V12h1.312z" />
+                    </svg>
+                    모임 정보
+                </FormTitle>
+                <ButtonGroupRight>
+                    {contentsType === 'editing' ? (
+                        <>
+                            {/* editing */}
+                            {/* 그룹 페이지 관리 탭 */}
+                        </>
+                    ) : contentsType === 'writing' ? (
+                        <>
+                            {/* writing */}
+                            {/* 팀원 모집하기 페이지 */}
+                        </>
+                    ) : (
+                        <>
+                            {/* viewing */}
+                            <EditButton onClick={handleEditClick} />
+                            <DeleteButton />
+                        </>
+                    )}
+                </ButtonGroupRight>
+            </FormFieldRow>
             <GroupInfoContainer>
                 <FormFieldRow>
                     <FormFieldMultiple label={"모임 구분"}>
-                        <SelectButton
+                        <SelectButton name="groupType"
                             value={newGroupData.groupType}
                             onChange={(e) => handleInputChange('groupType', e.target.value)}
                             disabled={contentsType === 'viewing'}
@@ -350,13 +341,14 @@ const GroupInfoContent = ({ contentType, memberData, groupData }) => { // member
                 <FormFieldRow>
                     <FormFieldSingle label={"모임 기간"}>
                         <DoubleDateContainer>
-                            <DateButton
+                            <DateButton name="startDate"
                                 value={newGroupData.startDate}
                                 onChange={(date) => handleInputChange('startDate', date)}
                                 disabled={contentsType === 'viewing'}
+                                required
                             />
                             ~
-                            <DateButton
+                            <DateButton name="endDate"
                                 value={newGroupData.endDate}
                                 onChange={(date) => handleInputChange('endDate', date)}
                                 disabled={contentsType === 'viewing'}
@@ -366,34 +358,94 @@ const GroupInfoContent = ({ contentType, memberData, groupData }) => { // member
                 </FormFieldRow>
                 <FormFieldRow>
                     <FormFieldSingle label={"모임 이름"}>
-                        <InputText
+                        <InputText name="title"
                             value={newGroupData.title}
                             onChange={(e) => handleInputChange('title', e.target.value)}
-                            disabled={contentsType === 'viewing'} />
+                            disabled={contentsType === 'viewing'}
+                            placeholder={"모임 이름을 입력하세요"}
+                            required />
                     </FormFieldSingle>
                 </FormFieldRow>
                 <FormFieldRow>
-                    <FormFieldSingle label={"기술 태그"}>
-                        <InputText
-                            value={newGroupData.techStack}
-                            onChange={(e) => handleInputChange('techStack', e.target.value)}
+                    <FormFieldSingle label={"썸네일"} htmlFor="thumbnail">
+                        <InputFile
+                            id="thumbnail"
+                            type="file"
                             disabled={contentsType === 'viewing'}
+                            className="textContent"
+                            name="thumbnail"
+                            accept="image/jpeg, image/png"
+                            onChange={(e) => {
+                                // jpg, png
+                                handleImgType(e);
+                                // 이미지 파일이 선택된 경우
+                                if (e.target.files.length > 0) {
+                                    handleInputChange('fileName', e.target.files[0].name);
+                                } else {
+                                    // 이미지 파일이 선택되지 않은 경우
+                                    handleInputChange('fileName', '');
+                                }
+                            }}
                         />
                     </FormFieldSingle>
                 </FormFieldRow>
+                <ImagePlaceholder hasFiles={selectedFiles.length > 0}>
+                    {selectedFiles.map((file, index) => {
+                        const fileURL = URL.createObjectURL(file);
+                        return (
+                            <> {/* 고유한 key 사용 */}
+                                <ImagePreview key={file.name} src={fileURL} alt={`preview-${index}`} />
+                                <DeleteIconButton onClick={() => handleDeleteFile()} />
+                            </>
+                        );
+                    })}
+                </ImagePlaceholder>
             </GroupInfoContainer>
             <hr style={{ border: '1px solid var(--black200)' }} />
-
             <FormTitle>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-2-circle-fill" viewBox="0 0 16 16">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-2-circle-fill" viewBox="0 0 16 16">
                     <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M6.646 6.24c0-.691.493-1.306 1.336-1.306.756 0 1.313.492 1.313 1.236 0 .697-.469 1.23-.902 1.705l-2.971 3.293V12h5.344v-1.107H7.268v-.077l1.974-2.22.096-.107c.688-.763 1.287-1.428 1.287-2.43 0-1.266-1.031-2.215-2.613-2.215-1.758 0-2.637 1.19-2.637 2.402v.065h1.271v-.07Z" />
                 </svg>
-                모집 정보
+                모집 기본 정보
             </FormTitle>
             <GroupInfoContainer>
                 <FormFieldRow>
+                    <FormFieldSingle
+                        label={"지원시"}
+                        label2={"필수/선택사항"}
+                        description={"이메일, 지원직군, 지원사유는 필수값입니다. 정보를 많이 요청시, 지원율이 떨어집니다. 필수값만 지정해주세요! "}>
+                        <ButtonGroupWrap>
+                            {newGroupData.buttons.map((button, index) => (
+                                <FormOptionButton
+                                    name={button.label}
+                                    key={index}
+                                    clicked={button.clicked}
+                                    onClick={() => toggleButtonClick(index)}
+                                    disabled={contentsType === 'viewing'
+                                    }
+                                >
+                                    {button.label}
+                                </FormOptionButton>
+                            ))}
+                        </ButtonGroupWrap>
+                    </FormFieldSingle>
+                </FormFieldRow>
+                <FormFieldRow>
+                    <FormFieldSingle label={"기술 스택"}>
+                        <InputText
+                            name="techStack"
+                            value={newGroupData.techStack}
+                            onChange={(e) => handleInputChange('techStack', e.target.value)}
+                            disabled={contentsType === 'viewing'}
+                            placeholder={"#기술 #스택"}
+                            required
+                        />
+                    </FormFieldSingle>
+                </FormFieldRow>
+                <FormFieldRow>
                     <FormFieldSingle label={"모집 마감일"}>
                         <DateButton
+                            name="deadLineDate"
                             value={newGroupData.deadLineDate}
                             onChange={(date) => handleInputChange('deadLineDate', date)}
                             disabled={contentsType === 'viewing'}
@@ -408,7 +460,9 @@ const GroupInfoContent = ({ contentType, memberData, groupData }) => { // member
                     ) :
                         <>
                             <FormFieldSingle label={"총 모집 인원"}>
-                                <SelectButton defaultValue={newGroupData.totalMemberCount} disabled={contentsType == 'viewing'}>
+                                <SelectButton
+                                    name="totalMemberCount"
+                                    defaultValue={newGroupData.totalMemberCount} disabled={contentsType == 'viewing'}>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -423,13 +477,14 @@ const GroupInfoContent = ({ contentType, memberData, groupData }) => { // member
                     }
 
                 </FormFieldRow>
-
                 <FormFieldRow>
                     {newGroupData.groupType === 'project' ? (
                         <>
                             <FormFieldRow>
                                 <FormFieldSingle label={"모집 직군"}>
-                                    <SelectButton defaultValue="frontEnd" disabled={contentsType === 'viewing'}>
+                                    <SelectButton
+                                        name="recruitingJob"
+                                        defaultValue="frontEnd" disabled={contentsType === 'viewing'}>
                                         <option value="frontEnd">프론트엔드개발자</option>
                                         <option value="backEnd">백엔드개발자</option>
                                         <option value="planner">기획자</option>
@@ -437,7 +492,10 @@ const GroupInfoContent = ({ contentType, memberData, groupData }) => { // member
                                     </SelectButton>
                                 </FormFieldSingle>
                                 <FormFieldSingle label={"직군별 모집 인원"}>
-                                    <SelectButton defaultValue="" disabled={contentsType === 'viewing'}>
+                                    <SelectButton
+                                        name="numOfrecruitingJob"
+                                        defaultValue=""
+                                        disabled={contentsType === 'viewing'}>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
                                         <option value="3">3</option>
@@ -456,29 +514,13 @@ const GroupInfoContent = ({ contentType, memberData, groupData }) => { // member
                         </>
                     }
                 </FormFieldRow>
-                <FormFieldRow>
-                    <FormFieldSingle label={"기술 스택"}>
-                        <ButtonGroup>
-                            {newGroupData.buttons.map((button, index) => (
-                                <FormOptionButton
-                                    key={index}
-                                    clicked={button.clicked}
-                                    onClick={() => toggleButtonClick(index)}
-                                    disabled={contentsType === 'viewing'}
-                                >
-                                    {button.label}
-                                </FormOptionButton>
-                            ))}
-                        </ButtonGroup>
-                    </FormFieldSingle>
-                </FormFieldRow>
-                <hr style={{ border: '1px solid var(--black200)' }} />
             </GroupInfoContainer>
 
+            <hr style={{ border: '1px solid var(--black200)' }} />
             <FormFieldRow>
                 <FormTitle>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-3-circle-fill" viewBox="0 0 16 16">
-                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-8.082.414c.92 0 1.535.54 1.541 1.318.012.791-.615 1.36-1.588 1.354-.861-.006-1.482-.469-1.54-1.066H5.104c.047 1.177 1.05 2.144 2.754 2.144 1.653 0 2.954-.937 2.93-2.396-.023-1.278-1.031-1.846-1.734-1.916v-.07c.597-.1 1.505-.739 1.482-1.876-.03-1.177-1.043-2.074-2.637-2.062-1.675.006-2.59.984-2.625 2.12h1.248c.036-.556.557-1.054 1.348-1.054.785 0 1.348.486 1.348 1.195.006.715-.563 1.237-1.342 1.237h-.838v1.072h.879Z" />
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-2-circle-fill" viewBox="0 0 16 16">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M6.646 6.24c0-.691.493-1.306 1.336-1.306.756 0 1.313.492 1.313 1.236 0 .697-.469 1.23-.902 1.705l-2.971 3.293V12h5.344v-1.107H7.268v-.077l1.974-2.22.096-.107c.688-.763 1.287-1.428 1.287-2.43 0-1.266-1.031-2.215-2.613-2.215-1.758 0-2.637 1.19-2.637 2.402v.065h1.271v-.07Z" />
                     </svg>
                     모임 소개
                 </FormTitle>
@@ -487,35 +529,32 @@ const GroupInfoContent = ({ contentType, memberData, groupData }) => { // member
                 <FormFieldRow>
                     <FormFieldSingle label={"주제"}>
                         <InputText
+                            name="subject"
                             value={newGroupData.subject}
                             onChange={(e) => handleInputChange('subject', e.target.value)}
                             disabled={contentsType === 'viewing'}
+                            placeholder={"주제를 입력해주세요"}
+                            required
                         />
                     </FormFieldSingle>
-                    <FormFieldMultiple label={"썸네일"} htmlFor="thumbnail">
-                        <InputFile
-                            id="thumbnail"
-                            type="file"
-                            accept="image/*"
-                            onChange={(e) => handleInputChange('fileName', e.target.files[0].name)}
-                            disabled={contentsType === 'viewing'}
-                        />
-                    </FormFieldMultiple>
-
                 </FormFieldRow>
                 <TextArea
+                    name="introduction"
                     rows="4"
                     placeholder="모집에 대한 간단한 소개를 작성해주세요."
                     value={newGroupData.introduction}
                     onChange={(e) => handleInputChange('introduction', e.target.value)}
                     disabled={contentsType === 'viewing'}
+                    required
                 />
                 <TextArea
+                    name="guidelines"
                     rows="4"
                     placeholder="유의사항을 적어주세요."
                     value={newGroupData.guidelines}
                     onChange={(e) => handleInputChange('guidelines', e.target.value)}
                     disabled={contentsType === 'viewing'}
+                    required
                 />
 
                 {memberData && (
@@ -551,24 +590,27 @@ const GroupInfoContent = ({ contentType, memberData, groupData }) => { // member
                 )
                 }
             </GroupInfoContainer>
-            <Buttons2>
+            <ButtonGroupCenter>
                 {contentsType === 'editing' ? (
                     <>
-                        <Button7 onClick={handleSaveClick}>저장</Button7>
-                        <DeleteCancelButton onClick={() => setContentsType('viewing')}>취소</DeleteCancelButton>
+                        {/* editing */}
+                        {/* 그룹 페이지 관리 탭 */}
+                        <CancelButton onClick={() => setContentsType('viewing')} />
+                        <SaveButton onClick={handleSaveClick} />
                     </>
                 ) : contentsType === 'writing' ? (
                     <>
-                        <Button7 onClick={handleSaveClick}>작성 완료</Button7>
-                        <DeleteCancelButton onClick={() => setContentsType('viewing')}>취소</DeleteCancelButton>
+                        {/* writing */}
+                        {/* 팀원 모집하기 페이지 */}
+                        <CancelButton onClick={() => window.history.back()} />
+                        <CompleteButton />
                     </>
                 ) : (
                     <>
-                        <Button7 onClick={handleEditClick}>수정</Button7>
-                        <DeleteCancelButton>삭제</DeleteCancelButton>
+                        {/* viewing */}
                     </>
                 )}
-            </Buttons2>
+            </ButtonGroupCenter>
         </GroupInfoContentsWrapper>
     );
 };

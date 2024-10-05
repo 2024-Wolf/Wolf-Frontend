@@ -5,7 +5,7 @@ import React from "react";
 import GroupInfoContent from "../components/Group/GroupComponent/GroupInfoContent";
 
 // pages/CreateGroupPage.js
-export const GroupInfoContainer = styled.div`
+export const GroupInfoContainer = styled.form`
     display: flex;
     min-width: 100%;
     background-color: var(--violet000);
@@ -22,13 +22,18 @@ export const GroupInfoContainer = styled.div`
 `;
 
 const CreateGroupPage = () => {
+    const handleSubmit = (event) => {
+        // 여기서 API 호출
+
+        alert('모집글이 등록되었습니다');
+    };
 
     return (
-        <GroupInfoContainer>
+        <GroupInfoContainer method="get" action="/" onSubmit={handleSubmit} encType="multipart/form-data">
             <PageTitle>팀원 모집하기</PageTitle>
             <GroupInfoContent contentType={'writing'} />
         </GroupInfoContainer>
-    )
+    );
 }
 
 export default CreateGroupPage;

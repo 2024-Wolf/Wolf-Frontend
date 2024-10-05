@@ -89,6 +89,7 @@ function HeaderLogin({ isLoggedIn, openModal, offLogin, notifications, setNotifi
             {isLoggedIn ? (
                 <UserProfileContainer>
                     <DropdownContainer ref={alarmRef}>
+                        {/* 벨 모양 아이콘 */}
                         <BellIcon onClick={handleClick} hasNotifications={notifications.length > 0} />
                         {/* 알림창 */}
                         <AlramPreview
@@ -98,6 +99,7 @@ function HeaderLogin({ isLoggedIn, openModal, offLogin, notifications, setNotifi
                         />
                     </DropdownContainer>
                     <UserWrapper>
+                        {/* 프로필 아이콘 */}
                         <ProfileIcon
                             dataAction="profile"
                             onClick={handleClick}
@@ -105,6 +107,7 @@ function HeaderLogin({ isLoggedIn, openModal, offLogin, notifications, setNotifi
                             alt="Profile"
                         />
                         <DropdownContainer ref={dropdownRef}>
+                            {/* 드롭다운 아이콘 */}
                             <DropdownIcon
                                 onClick={handleClick}
                                 dataAction="dropdown"
@@ -115,6 +118,7 @@ function HeaderLogin({ isLoggedIn, openModal, offLogin, notifications, setNotifi
                             >
                                 <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
                             </DropdownIcon>
+                            {/* 드롭다운창 */}
                             <DropdownContent isDropdownOpen={isDropdownOpen}>
                                 <DropdownItem onClick={() => handleItemClick('/user')}>내 정보</DropdownItem>
                                 <DisplayNoneDropdownItem onClick={() => handleItemClick('/write')}>팀원 모집하기</DisplayNoneDropdownItem>
@@ -126,6 +130,7 @@ function HeaderLogin({ isLoggedIn, openModal, offLogin, notifications, setNotifi
                     </UserWrapper>
                 </UserProfileContainer>
             ) : (
+                // 로그인&회원가입 버튼
                 <HeaderLogginButton onClick={handleClick} />
             )}
         </>

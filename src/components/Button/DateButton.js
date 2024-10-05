@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { Square, Violet500Line, Violet500LineHover } from "../GlobalStyledComponents";
-
 import { useState } from 'react';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -12,24 +11,24 @@ export const DateButtonWrapper = styled.div`
 
     display: flex;
     align-items: center;
-    padding: 5px 15px;
+    padding: 5px 10px;
     border-radius: 7px;
     cursor: pointer;
     margin: 0px;
-    width: 140px;
+    width: 130px;
     height: 35px;
 
     @media (max-width: 768px) {
+        /* 여기에 다른 스타일 추가 가능 */
     }
 
     @media (max-width: 480px) {
-        width: 105px;
+        width: 95px;
         svg {
             display:none;
         }
     }
 
-    // 옵션 선택 버튼이면 hover 시 색상 변경
     ${({ setIsChanged }) =>
         typeof setIsChanged === 'function' ? `
             ${Violet500LineHover}
@@ -43,11 +42,21 @@ export const DateButtonWrapper = styled.div`
                     color: var(--violet100);
                 }
             }
-        ` : `
-        `
+        ` : ``
     }
 
-    // 옵션 선택 버튼이면 선택됐을 때 배경을 바꿈
+        /* disabled 상태의 스타일 */
+    ${({ disabled }) => disabled && `
+        background-color: var(--violet200);
+        pointer-events: none;
+        svg {
+
+        }
+        ${DatePickerCustom} {
+            background-color: var(--violet200);
+        }
+    `}
+
     ${({ isChanged }) => isChanged && `
         background-color: var(--violet500);
         svg {
@@ -66,6 +75,7 @@ export const DatePickerCustom = styled(DatePicker)`
     min-height: 20px;
     color: var(--black500);
     background-color: var(--violet000);
+    
     @media (max-width: 480px) {
         width: 78px;
     }
@@ -77,7 +87,7 @@ const DateButton = ({ value, onChange, setIsChanged, isChanged, disabled }) => {
 
     const handleChange = (newDate) => {
         if (newDate) {
-            if (typeof setIsChanged === 'function') { // 옵션 선택 버튼인지 확인함
+            if (typeof setIsChanged === 'function') { // 옵션 선택 버튼인지 확인
                 setIsChanged(true);
             }
             setDate(newDate);
@@ -90,8 +100,7 @@ const DateButton = ({ value, onChange, setIsChanged, isChanged, disabled }) => {
 
     const handleWrapperClick = () => {
         if (isChanged) {
-
-            if (typeof setIsChanged === 'function') {  // 옵션 선택 버튼인지 확인함
+            if (typeof setIsChanged === 'function') { // 옵션 선택 버튼인지 확인
                 setIsChanged(false);
             }
             setDate(new Date());
@@ -99,14 +108,12 @@ const DateButton = ({ value, onChange, setIsChanged, isChanged, disabled }) => {
                 onChange(null);
             }
         } else {
-            if (open == false) {
-                setOpen(true);
-            }
+            setOpen(!open); // 클릭 시 열림 상태 전환
         }
     };
 
     return (
-        <DateButtonWrapper onClick={handleWrapperClick} isChanged={isChanged} setIsChanged={setIsChanged} disabled={disabled}>
+        <DateButtonWrapper disabled={disabled} onClick={handleWrapperClick} isChanged={isChanged}>
             <DatePickerCustom
                 selected={date}
                 open={open} // 상태로 열림 여부 관리
@@ -117,16 +124,18 @@ const DateButton = ({ value, onChange, setIsChanged, isChanged, disabled }) => {
                 disabled={disabled}
                 onCalendarClose={() => setOpen(false)} // 날짜 고르면 선택기 닫음
             />
+
             <svg xmlns="http://www.w3.org/2000/svg"
                 width="16"
                 height="16"
                 fill="currentColor"
-                class="bi bi-calendar-week-fill"
+                disabled={disabled}
+                className="bi bi-calendar-week-fill" // className으로 변경
                 viewBox="0 0 16 16">
                 <path d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2M9.5 7h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5m3 0h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5M2 10.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5" />
             </svg>
         </DateButtonWrapper>
     );
-}
+};
 
 export default DateButton;

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ModalContainer2, Title3, Description, Form, Select, TextArea, ButtonGroup, SubmitButton, CancelButton } from "./GlobalStyledComponents";
+import { ModalContainer2, Title3, Description, Form, Select, TextArea, ButtonGroupCenter, SubmitButton, CancelButton } from "./GlobalStyledComponents";
 
 import React, { useState } from 'react';
 
@@ -53,10 +53,10 @@ const Declaration = ({ onSubmit, onClose }) => {
           required
         />
 
-        <ButtonGroup>
+        <ButtonGroupCenter>
           <SubmitButton type="submit">전송</SubmitButton>
           <CancelButton type="button" onClick={onClose}>취소</CancelButton>
-        </ButtonGroup>
+        </ButtonGroupCenter>
       </Form>
     </ModalContainer2>
   );

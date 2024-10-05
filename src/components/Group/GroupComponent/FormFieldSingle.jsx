@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import React from 'react';
 
-import { FormLabel } from "../../GlobalStyledComponents";
+import { FormLabel, FormChildrenGroup, FormLabelGroup, FormDescription } from "../../GlobalStyledComponents";
 
 // components/Group/GroupComponent/FormField.jsx
 const FormFieldSingleWrapper = styled.div`
@@ -20,11 +20,20 @@ const FormFieldSingleWrapper = styled.div`
     }
 `;
 
-const FormFieldSingle = ({ label, children }) => {
+const FormFieldSingle = ({ label, label2, children, description }) => {
     return (
         <FormFieldSingleWrapper>
-            <FormLabel>{label}</FormLabel>
-            {children}
+            <FormLabelGroup>
+                <FormLabel>{label}</FormLabel>
+                {label2 && <FormLabel>{label2}</FormLabel>} {/* 2번째 라벨이 있으면 보임 */}
+            </FormLabelGroup>
+            {description && (
+                <FormChildrenGroup> {/* 설명이 있으면 설명과 children을 보임 */}
+                    <FormDescription>{description}</FormDescription>
+                    {children}
+                </FormChildrenGroup>
+            )}
+            {!description && children} {/* 설명이 없을 경우 children만 보임 */}
         </FormFieldSingleWrapper>
     );
 };

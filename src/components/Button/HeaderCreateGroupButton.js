@@ -3,15 +3,12 @@ import { HeaderButton, Violet600BackgroundButton } from "../GlobalStyledComponen
 
 const HeaderCreateGroupButtonWrapper = styled(Violet600BackgroundButton)`
   ${HeaderButton}
-  @media (max-width: 768px) {
-    display: none;
-  }
 `;
 
 // props를 구조 분해 할당하여 사용
 const HeaderCreateGroupButton = ({ onClick, children }) => {
   return (
-    <HeaderCreateGroupButtonWrapper onClick={onClick}>
+    <HeaderCreateGroupButtonWrapper type="button" onClick={onClick}>
       {children}
     </HeaderCreateGroupButtonWrapper>
   );
