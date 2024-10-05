@@ -41,9 +41,9 @@ const ArrowButton = styled.button`
 `;
 
 const PaginatedList = ({ data, renderItems }) => {
-    const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(21);
-    const [maxPageNumbersToShow, setMaxPageNumbersToShow] = useState(10); // 기본값 설정
+    const [currentPage, setCurrentPage] = useState(1); // 최근 페이지 번호
+    const [itemsPerPage, setItemsPerPage] = useState(20);  // 보여줄 아이템 개수
+    const [maxPageNumbersToShow, setMaxPageNumbersToShow] = useState(10); // 보여줄 페이지 번호 개수
 
     const calculateItemsPerPage = () => {
         const availableWidth = window.innerWidth;
@@ -61,7 +61,9 @@ const PaginatedList = ({ data, renderItems }) => {
     }, []);
 
     const handlePageChange = (page) => {
-        setCurrentPage(page);
+        if (page !== currentPage) {
+            setCurrentPage(page);
+        }
     };
 
     const goToNextPage = () => {
@@ -83,6 +85,7 @@ const PaginatedList = ({ data, renderItems }) => {
     const goToLastPage = () => {
         setCurrentPage(pageCount);
     };
+    console.log(data);
 
     const startIndex = (currentPage - 1) * itemsPerPage;
     const currentItems = data.slice(startIndex, startIndex + itemsPerPage);

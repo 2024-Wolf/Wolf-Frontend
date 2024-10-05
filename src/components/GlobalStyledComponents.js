@@ -427,6 +427,7 @@ export const PageTitle = styled.h2`
     font-weight: bold;
     font-size: 26px;
     color: var(--black800);
+    padding: 10px;
 `;
 
 // components/Group/GroupComponent/GroupWritingContent.jsx
@@ -601,36 +602,6 @@ export const Title7 = styled.div`
 `;
 
 
-
-// pages/FAQ.js
-export const Tabs = styled.div`
-  display: flex;
-  justify-content: space-around;
-  margin: 0;
-  padding: 0;
-  border-bottom: 1px solid #ccc;
-`;
-
-// pages/FAQ.js
-export const TabButton = styled.button`
-  border: none;
-  text-align: center;
-
-  padding: 15px 0;
-  background: none;
-  font-size: 16px;
-  flex: 1;
-  outline: none;
-
-  color: ${(props) => (props.active ? '#6a5acd' : '#333')};
-  background-color: ${(props) => (props.active ? '#F2F0FF' : 'none')};
-  border-bottom: ${(props) => (props.active ? '2px solid #6a5acd' : 'none')};
-  
-  &:hover {
-    background-color: #f0f0f0;
-  }
-`;
-
 // pages/Tabs.js FAQ에서 쓰는 탭으로 확인됨
 export const TabButton2 = styled.button`
   border: none;
@@ -647,48 +618,6 @@ export const TabButton2 = styled.button`
   &:hover {
     background-color: #f0f0f0;
   }
-`;
-
-// pages/FAQ.js
-export const FAQList = styled.div`
-  margin-top: 0;
-  padding: 0;
-`;
-
-// pages/FAQ.js
-export const FAQItem = styled.div`
-  border-bottom: 1px solid #ccc;
-  padding: 15px 0;
-`;
-
-// pages/FAQ.js
-export const FAQQuestion = styled.div`
-  display: flex;
-  justify-content: space-between;
-  cursor: pointer;
-  font-weight: bold;
-  padding: 15px 0;
-  line-height: 1.5;
-  min-height: 30px;
-  background-color: ${(props) => (props.active ? '#F2F0FF' : 'none')};
-`;
-
-// pages/FAQ.js
-export const FAQAnswer = styled.div`
-  margin-top: 10px;
-  padding-left: 20px;
-  color: #666;
-  line-height: 1.6;
-`;
-
-// pages/FAQ.js
-export const Arrow = styled.span`
-  width: 0;
-  height: 0;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-top: ${(props) => (props.isOpen ? 'none' : '6px solid #333')};
-  border-bottom: ${(props) => (props.isOpen ? '6px solid #333' : 'none')};
 `;
 
 // components/Challenge/ChallengeList.js

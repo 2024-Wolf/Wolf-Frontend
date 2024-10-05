@@ -11,7 +11,7 @@ export const GroupInfoContainer = styled.form`
     background-color: var(--violet000);
     border-radius: 10px;
     border: 2px solid var(--black200);
-    padding: 40px 30px;
+    padding: 40px 20px;
     flex-direction: column;
     gap: 30px;
 

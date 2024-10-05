@@ -1,74 +1,171 @@
 import styled from 'styled-components';
-import { PageTitle, Tabs, TabButton, FAQList, FAQItem, FAQQuestion, FAQAnswer, Arrow } from "../components/GlobalStyledComponents";
+import { PageTitle, CommonButton } from "../components/GlobalStyledComponents";
+
+import FaqData from "../components/Data/FaqData";
+
+import ArrowDownIcon from '../components/Icon/ArrowDownIcon';
+import ArrowUpIcon from '../components/Icon/ArrowUpIcon';
+import PaginatedList from '../components/Pagination/PaginatedList';
 
 import React, { useState } from 'react';
 
 const FAQContainer = styled.div`
     display: flex;
     width: 100%;
-    padding: 40px 30px;
     flex-direction: column;
     gap: 50px;
+    padding: 40px 30px;
+    @media (max-width: 768px) {
+      padding: 40px 20px;
+    }
+    @media (max-width: 480px) {
+      padding: 40px 10px;
+    }
 `;
 
+const FAQContent = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+`;
+
+export const Tabs = styled.div`
+  display: flex;
+  justify-content: space-around;
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid var(--black200);
+`;
+
+export const TabButton = styled.button`
+  white-space: nowrap;
+  font-size: 18px;
+  width: auto;
+  text-align: center;
+  min-height: 50px;
+  background: none;
+  flex: 1;
+  outline: none;
+
+  color: ${(props) => (props.active ? 'var(--violet600)' : 'var(--black600)')};
+  background-color: ${(props) => (props.active ? '' : 'none')};
+  border-bottom: ${(props) => (props.active ? '2px solid var(--violet600)' : 'none')};
+
+  &:hover {
+    background-color: var(--black100);
+  }
+
+  @media (max-width: 768px) {
+    font-size: 17px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 16px;
+  }
+`;
+
+export const FAQList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 5px;
+  width: 100%;
+`;
+
+export const FAQItem = styled.div`
+  padding-bottom: 5px;
+  border-bottom: 1px solid #ccc;
+  width: 100%;
+`;
+
+export const FAQQuestion = styled.div`
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  line-height: 1.5;
+  align-items: center;
+  padding: 15px;
+  font-size: 16px;
+  color: var(--black800);
+  min-height: 80px;
+
+  border-radius: 7px;
+  background-color: ${(props) => (props.active ? 'var(--violet200)' : 'none')};
+
+  &:hover {
+    background-color: var(--violet200);
+  }
+
+  &:active {
+    background-color: var(--violet200);
+  }
+
+  span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+  }
+`;
+
+export const FAQAnswer = styled.div`
+  padding: 15px 30px;
+  line-height: 1.6;
+  border-radius: 7px;
+  background-color: var(--black100);
+  margin-left: 20px;
+  font-size: 16px;
+  color: var(--black600);
+`;
 
 const FAQ = () => {
   const [activeTab, setActiveTab] = useState('계정');
-  const [openQuestions, setOpenQuestions] = useState({});
-
-  const faqData = {
-    계정: [
-      { question: '비회원으로 이용 가능한 기능이 있나요?', answer: '비회원은 검색과 조회만 가능합니다.' },
-      { question: '회원정보 수정은 어디서 할 수 있나요?', answer: '회원정보 수정은 설정에서 가능합니다.' },
-      { question: '탈퇴 신청을 철회할 수 있나요?', answer: '탈퇴 신청은 7일 이내에 철회 가능합니다.' },
-    ],
-    스터디: [
-      { question: '스터디 시작은 어떻게 하나요?', answer: '스터디 게시판에서 해당 스터디에 참여신청을 통해 시작할 수 있습니다.' },
-      { question: '스터디 참여 방법은 무엇인가요?', answer: '참여 링크를 통해 쉽게 참여할 수 있습니다.' },
-    ],
-    프로젝트: [
-      { question: '프로젝트 관리 방법은?', answer: '프로젝트 관리 페이지에서 가능합니다.' },
-    ],
-    챌린지: [
-      { question: '챌린지에 어떻게 참여하나요?', answer: '챌린지 페이지에서 참가 신청 가능합니다.' },
-    ],
-    Etc: [
-      { question: '기타 문의는 어디로?', answer: '기타 문의는 wolfas@wolf.com으로 해주세요.' },
-    ],
-  };
+  const [openQuestion, setOpenQuestion] = useState(null); // 하나의 질문만 열리도록 설정
 
   const toggleQuestion = (index) => {
-    setOpenQuestions((prev) => ({
-      ...prev,
-      [index]: !prev[index],
-    }));
+    setOpenQuestion(openQuestion === index ? null : index); // 현재 열려있는 질문이면 닫고, 아니면 해당 질문을 열도록 설정
   };
+
+  const changeTab = (tab) => {
+    setActiveTab(tab);
+    setOpenQuestion(null); // 탭 변경 시 열려 있는 질문 해제
+  };
+
+  const renderItems = (items) => (
+    items?.map((faq, index) => (
+      <FAQItem key={index}>
+        <FAQQuestion active={openQuestion === index} onClick={() => toggleQuestion(index)}>
+          <span>{faq.question}</span>
+          {openQuestion === index ? (
+            <ArrowUpIcon isOpen={openQuestion === index} />
+          ) : (
+            <ArrowDownIcon isOpen={openQuestion === index} />
+          )}
+        </FAQQuestion>
+        {openQuestion === index && <FAQAnswer>{faq.answer}</FAQAnswer>}
+      </FAQItem>
+    ))
+  );
 
   return (
     <FAQContainer>
       <PageTitle>FAQ</PageTitle>
-      <Tabs>
-        {['계정', '스터디', '프로젝트', '챌린지', 'Etc'].map((tab) => (
-          <TabButton
-            key={tab}
-            active={activeTab === tab}
-            onClick={() => setActiveTab(tab)}
-          >
-            {tab}
-          </TabButton>
-        ))}
-      </Tabs>
-      <FAQList>
-        {faqData[activeTab]?.map((faq, index) => (
-          <FAQItem key={index}>
-            <FAQQuestion active={openQuestions[index]} onClick={() => toggleQuestion(index)}>
-              {faq.question}
-              <Arrow isOpen={openQuestions[index]} />
-            </FAQQuestion>
-            {openQuestions[index] && <FAQAnswer>{faq.answer}</FAQAnswer>}
-          </FAQItem>
-        ))}
-      </FAQList>
+      <FAQContent>
+        <Tabs>
+          {['계정', '스터디', '프로젝트', '챌린지', 'Etc'].map((tab) => (
+            <TabButton
+              key={tab}
+              active={activeTab === tab}
+              onClick={() => changeTab(tab)} // 탭 변경 시 질문 해제
+            >
+              {tab}
+            </TabButton>
+          ))}
+        </Tabs>
+        <FAQList>
+          <PaginatedList data={FaqData[activeTab]} renderItems={renderItems} />
+        </FAQList>
+      </FAQContent>
     </FAQContainer>
   );
 };

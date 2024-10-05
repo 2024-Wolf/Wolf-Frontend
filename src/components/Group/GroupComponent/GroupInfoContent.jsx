@@ -17,7 +17,7 @@ import CancelButton from "../../Button/CancelButton";
 import EditButton from "../../Button/EditButton";
 import DeleteButton from "../../Button/DeleteButton";
 import CompleteButton from "../../Button/CompleteButton"
-import DeleteIconButton from "../../Button/DeleteIconButton";
+import DeleteIconButton from "../../Icon/DeleteIcon";
 import { useNavigate } from 'react-router-dom';
 
 // 사용자 이름
@@ -73,6 +73,7 @@ export const GroupInfoContentsWrapper = styled.div`
     display: flex;
     flex-direction: column;
     gap: 20px;
+    padding: 0px 10px;
 
     @media (max-width: 768px) {
     }
