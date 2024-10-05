@@ -483,7 +483,7 @@ const CardData = [
     }
 ];
 
-for (let i = 31; i <= 100; i++) {
+for (let i = 31; i <= 700; i++) {
     CardData.push({
         id: i,
         category: i % 3 === 0 ? '프로젝트' : (i % 3 === 1 ? '스터디' : '챌린지'),

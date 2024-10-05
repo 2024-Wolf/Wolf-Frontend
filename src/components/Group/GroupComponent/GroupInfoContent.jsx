@@ -399,29 +399,62 @@ const GroupInfoContent = ({ contentType, memberData, groupData }) => { // member
                             disabled={contentsType === 'viewing'}
                         />
                     </FormFieldSingle>
-                    <FormFieldSingle label={"총 모집 인원"}>
-                        <SelectButton defaultValue={newGroupData.totalMemberCount} disabled={contentsType === 'viewing'}>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                        </SelectButton>
-                    </FormFieldSingle>
+                    {newGroupData.groupType === 'project' ? (
+                        <>
+                            <FormFieldSingle label={"총 모집 인원"}>
+                                <InputNumber value={newGroupData.totalMemberCount} disabled='true' />
+                            </FormFieldSingle>
+                        </>
+                    ) :
+                        <>
+                            <FormFieldSingle label={"총 모집 인원"}>
+                                <SelectButton defaultValue={newGroupData.totalMemberCount} disabled={contentsType == 'viewing'}>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                </SelectButton>
+                            </FormFieldSingle>
+                        </>
+                    }
+
                 </FormFieldRow>
 
                 <FormFieldRow>
-                    <FormFieldSingle label={"모집 직군"}>
-                        <SelectButton defaultValue="frontEnd" disabled={contentsType === 'viewing'}>
-                            <option value="frontEnd">프론트엔드개발자</option>
-                            <option value="backEnd">백엔드개발자</option>
-                            <option value="planner">기획자</option>
-                            <option value="designer">디자이너</option>
-                        </SelectButton>
-                    </FormFieldSingle>
+                    {newGroupData.groupType === 'project' ? (
+                        <>
+                            <FormFieldRow>
+                                <FormFieldSingle label={"모집 직군"}>
+                                    <SelectButton defaultValue="frontEnd" disabled={contentsType === 'viewing'}>
+                                        <option value="frontEnd">프론트엔드개발자</option>
+                                        <option value="backEnd">백엔드개발자</option>
+                                        <option value="planner">기획자</option>
+                                        <option value="designer">디자이너</option>
+                                    </SelectButton>
+                                </FormFieldSingle>
+                                <FormFieldSingle label={"직군별 모집 인원"}>
+                                    <SelectButton defaultValue="" disabled={contentsType === 'viewing'}>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                    </SelectButton>
+                                </FormFieldSingle>
+
+                            </FormFieldRow>
+                        </>
+                    ) :
+                        <>
+                        </>
+                    }
                 </FormFieldRow>
                 <FormFieldRow>
                     <FormFieldSingle label={"기술 스택"}>

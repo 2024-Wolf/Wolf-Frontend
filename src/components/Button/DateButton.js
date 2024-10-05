@@ -71,7 +71,7 @@ export const DatePickerCustom = styled(DatePicker)`
     }
 `;
 
-const DateButton = ({ value, onChange, setIsChanged, isChanged }) => {
+const DateButton = ({ value, onChange, setIsChanged, isChanged, disabled }) => {
     const [date, setDate] = useState(value || new Date());
     const [open, setOpen] = useState(false); // 날짜 선택기의 열림 상태
 
@@ -106,7 +106,7 @@ const DateButton = ({ value, onChange, setIsChanged, isChanged }) => {
     };
 
     return (
-        <DateButtonWrapper onClick={handleWrapperClick} isChanged={isChanged} setIsChanged={setIsChanged}>
+        <DateButtonWrapper onClick={handleWrapperClick} isChanged={isChanged} setIsChanged={setIsChanged} disabled={disabled}>
             <DatePickerCustom
                 selected={date}
                 open={open} // 상태로 열림 여부 관리
@@ -114,7 +114,7 @@ const DateButton = ({ value, onChange, setIsChanged, isChanged }) => {
                 dateFormat="yyyy/MM/dd"
                 onClick={(e) => e.stopPropagation()} // 날짜 선택기 내부 클릭 시 닫히지 않게 함
                 isChanged={isChanged}
-                disabled={false}
+                disabled={disabled}
                 onCalendarClose={() => setOpen(false)} // 날짜 고르면 선택기 닫음
             />
             <svg xmlns="http://www.w3.org/2000/svg"
