@@ -322,7 +322,6 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
                             className="textContent"
                             name="thumbnail"
                             accept="image/jpeg, image/png"
-                            disabled={contentsType === 'viewing'}
                             onChange={(e) => {
                                 // jpg, png
                                 handleImgType(e);
