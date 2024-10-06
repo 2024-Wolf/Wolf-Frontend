@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { FormFieldColumn, Violet500BackgroundButton, FormFieldRow, DoubleDateContainer, InfoContainer, SupportRecruit, PostInfo, PostContent, QuestionContainer, QuestionHeader } from "../GlobalStyledComponents";
+import { Violet500LineDiv, FormFieldColumn, Violet500BackgroundButton, FormFieldRow, DoubleDateContainer, InfoContainer, PostContent, QuestionHeader } from "../GlobalStyledComponents";
 
 import React, { useState } from 'react';
 import ApplicantModal from "./GroupInfoModal/ApplicantModal";
@@ -11,7 +11,6 @@ import TextAreaNoCss from '../Input/TextAreaNoCss';
 import InputTextNoCss from '../Input/InputTextNoCss';
 import InputDateNoCss from '../Input/InputDateNoCss';
 import RecentNewsSlider from '../Slider/RecentNewsSlider';
-
 
 const GroupInfoContent = ({ mode }) => {
     const [questions, setQuestions] = useState([
@@ -98,7 +97,7 @@ const GroupInfoContent = ({ mode }) => {
     return (
         <InfoContainer>
             {/* 정보 묶음 */}
-            <SupportRecruit>
+            <Violet500LineDiv>
                 <FormFieldColumn>
                     <FormFieldSingle label={"모임 기간"}>
                         <DoubleDateContainer className="date">
@@ -119,7 +118,7 @@ const GroupInfoContent = ({ mode }) => {
                     </FormFieldSingle>
                 </FormFieldRow>
 
-            </SupportRecruit>
+            </Violet500LineDiv>
             {/*<HiddenFileInput*/}
             {/*    id="thumbnail"*/}
             {/*    type="file"*/}
@@ -127,7 +126,7 @@ const GroupInfoContent = ({ mode }) => {
             {/*    onChange={handleFileChange}*/}
             {/*/>*/}
             {/* 주제 설명 */}
-            <PostInfo>
+            <Violet500LineDiv>
                 <FormFieldRow>
                     <FormFieldSingle label={"주제"} className="PostTitle">
                         <InputTextNoCss value="인스타그램 클론 코딩 해보기" />
@@ -145,17 +144,14 @@ const GroupInfoContent = ({ mode }) => {
                     readOnly
                 />
                 <PostContent>
-
                 </PostContent>
-            </PostInfo>
-
+            </Violet500LineDiv>
 
             {/* 최근 소식 */}
-
             <RecentNewsSlider news={recentNews} />
 
             {/* 질문 작성 영역 */}
-            <QuestionContainer>
+            <Violet500LineDiv>
                 <QuestionHeader>응원이나 궁금한 내용을 입력해주세요 !</QuestionHeader>
                 <QuestionForm
                     newQuestion={newQuestion}
@@ -173,8 +169,7 @@ const GroupInfoContent = ({ mode }) => {
                     handleQuestionDelete={(id) => { }}
                     showFileOptions={false}
                 />
-            </QuestionContainer>
-
+            </Violet500LineDiv>
         </InfoContainer>
     );
 };

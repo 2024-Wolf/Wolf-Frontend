@@ -111,7 +111,7 @@ export const FormFieldColumn = styled.div`
     gap: 10px;
     width: 100%;
     @media (max-width: 768px) {
-        flex-direction: column;
+        flex-direction: column-reverse;
     }
 
     @media (max-width: 480px) {
@@ -235,6 +235,18 @@ export const Round = css`
 // -------------------스타일만 정의-------------------
 
 // Style
+export const Black500Line = css`
+    border: 1px solid var(--black500);
+    background-color: var(--black000);
+
+    &:disabled {
+        background-color: var(--black200);
+    }
+    &[readonly] {
+        background-color: var(--black200);
+    }
+`;
+
 export const Violet500Line = css`
     border: 1px solid var(--violet500);
     background-color: var(--violet000);
@@ -396,9 +408,11 @@ export const Violet600BackgroundHover = css`
 export const Violet100BackgroundHover = css`
   &:hover {
     background-color: var(--violet200);
+    transition: background-color 0.3s ease;
   }
   &:active {
     background-color: var(--violet200);
+    transition: background-color 0.1s ease;
   }
 `;
 
@@ -431,6 +445,12 @@ export const NoBackgroundButton = styled.button`
     ${Square}  
     ${NoBackground}
     ${NoBackgroundHover}
+`;
+
+export const Violet500LineButton = styled.button`
+    ${Square}
+    ${Violet500Line}
+    ${Violet100BackgroundHover}
 `;
 
 export const Violet500LineSquareButton = styled.button`
@@ -481,7 +501,7 @@ export const Violet600BackgroundButton = styled.button`
 export const Violet500LineRoundButton = styled.button`
     ${Round}
     ${Violet500Line}
-    ${Violet500LineBlackHover}
+    ${Violet100BackgroundHover}
 `;
 
 // -------------------------여기부터 버튼 끝------------------------------
@@ -1138,19 +1158,6 @@ export const SubmitButton2 = styled.button`
   }
 `;
 
-// components/Group/Question/QuestionForm.jsx
-export const SubmitButton3 = styled.button`
-  background-color: #fff;
-  color: #000000;
-  border: 1px solid #968AFF;
-  padding: 8px 20px;
-  border-radius: 5px;
-  font-size: 13px;
-  &:hover {
-    background-color: #CEC6FF;
-  }
-`;
-
 
 
 // components/Header.js
@@ -1313,19 +1320,6 @@ export const TextArea4 = styled.textarea`
   border: 1px solid #ddd;
   border-radius: 5px;
   margin-top: 10px;
-`;
-
-// components/Group/Question/QuestionForm.jsx
-export const TextArea5 = styled.textarea`
-    background-color: #ffffff;
-    border-radius: 10px;
-    border: 1px solid var(--black400);
-    width: 100%;
-    height: 100px;
-    padding: 10px;
-    resize: none;
-    margin-top: 15px;
-    line-height: 1.3;
 `;
 
 // components/MyPageComponents/UserInfoContent.js
@@ -1908,16 +1902,16 @@ export const InfoContainer = styled(ContentsWrapper)`
 
 // 정보 묶음
 // components/Group/GroupInfoContent.js
-export const SupportRecruit = styled.div` 
+
+export const Violet500LineDiv = styled.div` 
+    ${Violet500Line}
+    ${Square}
     width: 100%;
-    background-color: white;
     display: flex;
     flex-direction: column;
-    font-size: 18px;
     padding: 20px;
-    border: 1px solid var(--violet500);
-    border-radius: 10px;
     gap: 25px;
+    height: auto;
 `;
 
 
@@ -1926,28 +1920,14 @@ export const DoubleDateContainer = styled.div`
     align-items: center;
     gap: 5px;
     width: 100%;
-
-`;
-
-// 주제 설명
-// components/Group/GroupInfoContent.js
-export const PostInfo = styled.div` 
-    margin-top: 30px;
-    background-color: white;
-    border: 1px solid var(--violet500);
-    border-radius: 10px;
-    width: 100%;
-    min-height: 300px;
-    padding: 30px;
-    line-height: 2;
+    font-size: 16px;
+    color: var(--black500);
 
     @media (max-width: 768px) {
-        padding: 20px;
-        font-size: 16px;
+        font-size: 15px; 
     }
 
     @media (max-width: 480px) {
-        padding: 15px;
         font-size: 14px;
     }
 `;
@@ -1966,24 +1946,6 @@ export const PostContent = styled.div`
     }
 `;
 
-
-// 질문 컨테이너
-// components/Group/GroupInfoContent.js
-export const QuestionContainer = styled.div` 
-    width: 100%;
-    background-color: white;
-    padding: 30px;
-    border: 1px solid var(--violet500);
-    border-radius: 10px;
-
-    @media (max-width: 768px) {
-        padding: 20px;
-    }
-
-    @media (max-width: 480px) {
-        padding: 15px;
-    }
-`;
 
 // 질문 헤더
 // components/Group/GroupInfoContent.js
@@ -2603,17 +2565,23 @@ export const QuestionFormContainer = styled.form`
 
 // components/Group/Question/QuestionForm.jsx
 export const FileInputButton = styled.label`
-  background-color: #fff;
-  color: #000000;
-  border: 1px solid #968AFF;
-  padding: 8px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 13px;
-  display: inline-block;
-  &:hover {
-    background-color: #CEC6FF;
-  }
+    ${Square}
+    ${Violet500Line}
+    ${Violet100BackgroundHover}
+    display:flex;
+    align-items: center;
+    gap: 5px;
+    
+    @media (max-width: 480px) {
+        svg {
+            display:none;
+        }
+    }
+
+    ${({ disabled }) => disabled && `
+        background-color: var(--violet200);
+        pointer-events: none;
+    `}
 `;
 
 // components/Group/Question/QuestionItem.jsx

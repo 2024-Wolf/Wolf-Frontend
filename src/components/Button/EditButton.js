@@ -7,7 +7,6 @@ const EditButtonWrapper = styled.button`
     ${Violet500Line}
     ${Violet100BackgroundHover}
     ${IconButton}
-    
 `;
 
 const EditButton = ({ children, onClick }) => {

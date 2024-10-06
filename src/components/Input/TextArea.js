@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { Square, Violet500Line } from "../GlobalStyledComponents";
-
 import React from "react";
 
 // components/Input/TextAreaWrapper.jsx

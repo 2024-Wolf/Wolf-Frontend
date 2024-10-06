@@ -130,8 +130,9 @@ const ImagePlaceholder = styled.div`
     flex-direction: row;
     justify-content: center;
     align-items: start;
-    width: 100%;
+    width: 90%;
     gap: 10px;
+    margin: 0 20px;
 `;
 
 const ImagePreview = styled.img`
@@ -321,6 +322,7 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
                             className="textContent"
                             name="thumbnail"
                             accept="image/jpeg, image/png"
+                            disabled={contentsType === 'viewing'}
                             onChange={(e) => {
                                 // jpg, png
                                 handleImgType(e);
