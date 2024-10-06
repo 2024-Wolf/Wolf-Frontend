@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import React from "react";
+import React, { useState } from 'react';
 import Card from "../Card/Card";
 import { useNavigate } from 'react-router-dom';
 import PaginatedList from '../Pagination/PaginatedList';
@@ -61,6 +61,8 @@ const CardMapingContainer = styled.div`
 
 
 const MainCardList = ({ category, data }) => {
+    const [currentPage, setCurrentPage] = useState(1); // 최근 페이지 번호
+
     const navigate = useNavigate();
 
     const handleCardClick = (id) => {
@@ -88,7 +90,7 @@ const MainCardList = ({ category, data }) => {
     return (
         <MainCardParentContainer>
             <MainCardListContainer>
-                <PaginatedList data={filteredData} renderItems={renderItems} />
+                <PaginatedList data={filteredData} renderItems={renderItems} currentPage={currentPage} setCurrentPage={setCurrentPage} />
             </MainCardListContainer>
         </MainCardParentContainer>
     );

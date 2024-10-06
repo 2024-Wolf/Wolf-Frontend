@@ -40,8 +40,7 @@ const ArrowButton = styled.button`
     }
 `;
 
-const PaginatedList = ({ data, renderItems }) => {
-    const [currentPage, setCurrentPage] = useState(1); // 최근 페이지 번호
+const PaginatedList = ({ data, renderItems, currentPage, setCurrentPage }) => {
     const [itemsPerPage, setItemsPerPage] = useState(20);  // 보여줄 아이템 개수
     const [maxPageNumbersToShow, setMaxPageNumbersToShow] = useState(10); // 보여줄 페이지 번호 개수
 

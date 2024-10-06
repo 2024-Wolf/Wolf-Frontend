@@ -93,13 +93,6 @@ export const FAQQuestion = styled.div`
   border-radius: 7px;
   background-color: ${(props) => (props.active ? 'var(--violet200)' : 'none')};
 
-  &:hover {
-    background-color: var(--violet200);
-  }
-
-  &:active {
-    background-color: var(--violet200);
-  }
 
   span {
     overflow: hidden;
@@ -121,6 +114,7 @@ export const FAQAnswer = styled.div`
 const FAQ = () => {
   const [activeTab, setActiveTab] = useState('계정');
   const [openQuestion, setOpenQuestion] = useState(null); // 하나의 질문만 열리도록 설정
+  const [currentPage, setCurrentPage] = useState(1); // 최근 페이지 번호
 
   const toggleQuestion = (index) => {
     setOpenQuestion(openQuestion === index ? null : index); // 현재 열려있는 질문이면 닫고, 아니면 해당 질문을 열도록 설정
@@ -129,6 +123,7 @@ const FAQ = () => {
   const changeTab = (tab) => {
     setActiveTab(tab);
     setOpenQuestion(null); // 탭 변경 시 열려 있는 질문 해제
+    setCurrentPage(1);
   };
 
   const renderItems = (items) => (
@@ -163,7 +158,7 @@ const FAQ = () => {
           ))}
         </Tabs>
         <FAQList>
-          <PaginatedList data={FaqData[activeTab]} renderItems={renderItems} />
+          <PaginatedList data={FaqData[activeTab]} renderItems={renderItems} currentPage={currentPage} setCurrentPage={setCurrentPage} />
         </FAQList>
       </FAQContent>
     </FAQContainer>
