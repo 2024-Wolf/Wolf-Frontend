@@ -15,6 +15,7 @@ const SelectButtonWrapper = styled.select`
     cursor: pointer;
     margin: 0px;
     height: 35px;
+    min-height: 35px;
 `;
 
 const SelectButton = ({ children, value, onChange, disabled, defaultValue }) => {

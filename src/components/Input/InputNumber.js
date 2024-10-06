@@ -14,7 +14,7 @@ const InputNumberWrapper = styled.input`
 
 const InputNumber = ({ ...props }) => {
     return (
-        <InputNumberWrapper {...props} />
+        <InputNumberWrapper {...props} type="number" />
     );
 }
 

@@ -36,7 +36,7 @@ export const CategoryTag = styled.span`
         props.category === "스터디"
             ? 'var(--black500)'
             : 'var(--black500)'};
-    color: var(--violet100);
+    color: var(--black000);
 
     border-radius: 10px;
     padding: 4px 8px;
@@ -44,7 +44,6 @@ export const CategoryTag = styled.span`
     position: absolute;
     top: 10px;
     left: 10px;
-    z-index: 0.5;
 `;
 
 const Category = ({ category }) => {

@@ -1,10 +1,31 @@
 import styled from "styled-components";
-import { Container5, Section, ApplyTitle, ApplyInfo, UserImg, UserName, UserPosition, DateStyle, Button6, ApplySection } from "../GlobalStyledComponents";
+import { ContentsWrapper, MemberInfo, FormFieldRow, Violet500BackgroundButton, FormTitle, Section, ApplyTitle, ApplyInfo, UserImg, UserName, DateStyle, Button6, ApplySection } from "../GlobalStyledComponents";
 
 import React, { useState } from "react";
 import ApplicantConfirmModal from "./GroupInfoModal/ApplicantConfirmModal";
-import TabContentsWrapper from "../TabContentsWrapper";
-import GroupInfoContent from "./GroupComponent/GroupInfoContent";
+import GroupInfoContent from "./GroupComponent/GroupContent";
+import ProfileIcon from "../Icon/ProfileIcon";
+import FormFieldMultiple from "./GroupComponent/FormFieldMultiple";
+import InputText from "../Input/InputText";
+
+
+
+// 전체 div
+// components/Group/GroupManageContent.js
+export const Container5 = styled(ContentsWrapper)`
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    background-color: white;
+
+    @media (max-width: 768px) {
+        padding: 0 40px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 0 20px;
+    }
+`;
 
 
 const GroupManageContent = (props) => {
@@ -45,9 +66,9 @@ const GroupManageContent = (props) => {
     ];
 
     const applicantData = [
-        { id: 1, name: "박가현", role: "프론트엔드개발자", date: "2024.09.10" },
-        { id: 2, name: "강감찬", role: "기획자", date: "2024.09.11" },
-        { id: 3, name: "김가네", role: "백엔드개발자", date: "2024.09.12" },
+        { id: 1, name: "박가현", role: "프론트엔드개발자", date: "2024-09-10" },
+        { id: 2, name: "강감찬", role: "기획자", date: "2024-09-11" },
+        { id: 3, name: "김가네", role: "백엔드개발자", date: "2024-09-12" },
     ];
 
     const openModal = () => {
@@ -72,24 +93,29 @@ const GroupManageContent = (props) => {
             </Section>
 
             <ApplySection>
-                <ApplyTitle>지원자 관리</ApplyTitle>
+                <FormTitle>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-add" viewBox="0 0 16 16">
+                        <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0m-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                        <path d="M2 13c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4" />
+                    </svg>
+                    지원자 관리
+                </FormTitle>
                 {applicantData.map((user, index) => (
-                    <ApplyInfo key={user.id}>
-                        <div className="UserDetails">
-                            <UserImg />
-                            <UserName>{user.name}</UserName>
-                        </div>
-
-                        <div className="roleSelect">
-                            <label>모집직군</label>
-                            <UserPosition>{user.role}</UserPosition>
-                        </div>
-
-                        <DateStyle className="date">{user.date}</DateStyle>
-                        <Button6 onClick={openModal}>지원글 확인하기</Button6>
-                    </ApplyInfo>
+                    <>
+                        <MemberInfo key={user.id}>
+                            <ProfileIcon /*src="" alt=""*/ >{user.name}</ProfileIcon>
+                            <FormFieldRow>
+                                <FormFieldMultiple label={"모집 직군"}>
+                                    <InputText value={user.role} readOnly />
+                                </FormFieldMultiple>
+                                <FormFieldMultiple label={"지원일자"}>
+                                    <InputText value={user.date} readOnly />
+                                </FormFieldMultiple>
+                            </FormFieldRow>
+                            <Violet500BackgroundButton onClick={openModal}>지원글 확인하기</Violet500BackgroundButton>
+                        </MemberInfo>
+                    </>
                 ))}
-
                 {isModalOpen && <ApplicantConfirmModal onClose={closeModal} />}
             </ApplySection>
         </Container5>

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { PageTitle } from "../components/GlobalStyledComponents";
 
 import React from "react";
-import GroupInfoContent from "../components/Group/GroupComponent/GroupInfoContent";
+import GroupContent from "../components/Group/GroupComponent/GroupContent";
 
 // pages/CreateGroupPage.js
 export const GroupInfoContainer = styled.form`
@@ -31,7 +31,7 @@ const CreateGroupPage = () => {
     return (
         <GroupInfoContainer method="get" action="/" onSubmit={handleSubmit} encType="multipart/form-data">
             <PageTitle>팀원 모집하기</PageTitle>
-            <GroupInfoContent contentType={'writing'} />
+            <GroupContent contentType={'writing'} />
         </GroupInfoContainer>
     );
 }

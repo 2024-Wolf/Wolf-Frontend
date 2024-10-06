@@ -9,6 +9,8 @@ const InputTextWrapper = styled.input`
     ${Violet500Line}
     width: 100%;
     padding: 10px;
+    white-space: nowrap;       // 줄 바꿈 방지
+    text-overflow: ellipsis;
 `;
 
 const InputText = ({ ...props }) => {

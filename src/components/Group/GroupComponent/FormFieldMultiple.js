@@ -13,7 +13,7 @@ const FormFieldMultipleWrapper = styled.div`
     width: fit-content;
     color: var(--black700);
 
-    @media (max-width: 768px) {
+    @media (max-width: 950px) {
         width: fit-content;
         flex-direction: column;
         align-items: start;

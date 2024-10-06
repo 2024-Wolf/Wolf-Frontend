@@ -12,11 +12,12 @@ const TextAreaWrapper = styled.textarea`
     min-height: 200px;
     resize: none;
     line-height: 1.5;
+    text-overflow: ellipsis;
 `;
 
 const TextArea = ({ ...props }, children) => {
     return (
-        <TextAreaWrapper {...props}>
+        <TextAreaWrapper {...props} rows="4">
             {children}
         </TextAreaWrapper>
     );
