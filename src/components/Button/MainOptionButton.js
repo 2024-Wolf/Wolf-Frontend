@@ -1,13 +1,13 @@
 
 import styled from "styled-components";
-import { PurplelineSquareButton } from "../GlobalStyledComponents";
+import { Violet500LineSquareButton } from "../GlobalStyledComponents";
 
 const MainOptionButton = ({ children, onClick, isOptionActive }) => {
 
     return (
-        <PurplelineSquareButton onClick={onClick} isOptionActive={isOptionActive}>
+        <Violet500LineSquareButton type="button" onClick={onClick} isOptionActive={isOptionActive}>
             {children}
-        </PurplelineSquareButton>
+        </Violet500LineSquareButton>
     );
 }
 

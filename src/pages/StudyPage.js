@@ -1,14 +1,71 @@
 import styled from "styled-components";
-import { Container, StudyInfoContent, CategoryButton, StudyTitle, Button3, StudyDetails, ProfileIcon, LeaderInfo, LeaderText } from "../components/GlobalStyledComponents";
+import {
+  StudyTitle, StudyDetails, LeaderText, Violet500LineSquareButton
+} from "../components/GlobalStyledComponents";
 
 import React, { useState } from "react";
 import TodoContent from "../components/Group/TodoContent";
 import ChallengeTab from "../components/Group/ChallengeTab";
 import MeetingContent from "../components/Group/MeetingContent";
 import GroupInfoContent from "../components/Group/GroupInfoContent";
-import GroupTabs from "../components/Group/GroupTabs";
 import GroupManageContent from "../components/Group/GroupManageContent";
 import Declaration from "../components/Declaration";
+import ProfileIcon from "../components/Icon/ProfileIcon";
+import FAQTab from "../components/Tab/FAQTab";
+import ReportButton from "../components/Button/ReportButton";
+
+// pages/StudyPage.js
+const GroupCategory = styled.div`
+    background-color: var(--black500);
+    color: var(--black000);
+    border-radius: 20px;
+    font-size: 14px;
+    text-align: center;
+    padding: 10px 20px;
+    font-weight: bold;
+    text-wrap: nowrap;
+`;
+
+// pages/StudyPage.js
+const GroupHeader = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+`;
+
+// pages/StudyPage.js
+const GroupHeaderTop = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  justify-content: space-between;
+
+  .hiddenSpan {
+    width: 116.65px;
+    @media (max-width: 768px) {
+        width: 113.2px;
+    }
+    @media (max-width: 480px) {
+        width: 36.33px;
+    }
+  }
+`;
+
+const GroupBody = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+const UserName = styled.span`
+
+`;
+
 
 // 상수로 카테고리 선언
 const TAB = {
@@ -24,8 +81,15 @@ const StudyPage = () => {
   const [isMeetingStarted, setIsMeetingStarted] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
 
+  const mode = "project"; // "study" 또는 "project"
+
+
+  const changeTab = (tab) => {
+    setActiveTab(tab);
+  };
+
   const componentsMap = {
-    [TAB.INFO]: GroupInfoContent, // StudyInfo 컴포넌트 렌더링
+    [TAB.INFO]: (props) => <GroupInfoContent mode={mode} />,
     [TAB.TODO]: TodoContent,
     [TAB.CHALLENGE]: ChallengeTab,
     [TAB.MEETING]: MeetingContent,
@@ -44,36 +108,46 @@ const StudyPage = () => {
     setModalOpen(false);
   };
 
+
   return (
     <>
       {/* 그룹 정보 영역 */}
-      <StudyInfoContent>
-        <CategoryButton>스터디</CategoryButton>
-        <Button3 onClick={openModal}>신고하기</Button3>
+      <GroupHeader>
+        <GroupHeaderTop>
+          <span className="hiddenSpan" />
+          <GroupCategory>{mode === "study" ? "스터디" : "프로젝트"}</GroupCategory>
+          <ReportButton onClick={openModal} />
+        </GroupHeaderTop>
         {isModalOpen && <Declaration onClose={closeModal} />}
         <StudyTitle>파이널 스터디 - 지금2조</StudyTitle>
         <StudyDetails>
           <ProfileIcon
             src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
-            alt="Profile"
-          />
-          <LeaderInfo>
-            <span>myeongju</span>
-            <LeaderText>평가점수지표 요약</LeaderText>
-          </LeaderInfo>
+            alt="Profile">
+            myeongju
+          </ProfileIcon>
+          <LeaderText>평가점수지표 요약</LeaderText>
         </StudyDetails>
-      </StudyInfoContent>
+      </GroupHeader >
 
-      {/* 탭 영역 */}
-      <GroupTabs tab={activeTab} setActiveTab={setActiveTab} />
-      {/* */}
-      {/*<div className="study-content">*/}
-      {activeTab === TAB.MEETING ? (
-        <MeetingContent isMeetingStarted={isMeetingStarted} />
-      ) : (
-        <SelectedComponent />
-      )}
-      {/*</div>*/}
+      <GroupBody>
+        {/* 탭 영역 */}
+        < FAQTab
+          tab={[TAB.INFO, TAB.TODO, TAB.CHALLENGE, TAB.MEETING, TAB.MANAGE]}
+          activeTab={activeTab}
+          changeTab={changeTab} />
+        {/* */}
+
+        {/*<div className="study-content">*/}
+        {
+          activeTab === TAB.MEETING ? (
+            <MeetingContent isMeetingStarted={isMeetingStarted} />
+          ) : (
+            <SelectedComponent />
+          )
+        }
+        {/*</div>*/}
+      </GroupBody>
     </>
   );
 };

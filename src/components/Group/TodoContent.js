@@ -5,7 +5,7 @@
 호환 오류 해결: index.js에서 strict모드(<React.StrictMode>)를 삭제
 */
 import styled from 'styled-components';
-import { TodoContainer, TodoHeader, ButtonGroup, TodoTitle, TodoButton, ButtonGroupRight, ColumnContainer, Column, TodoItem, ModalContainer2, ModalTitle, Modaldescription, ModalInput, ModalInputDate, TodoPlus, ModalTaskInput, LinkInputTitle, LinkInputContainer, Input, StatusButton, CalendarIcon } from "../GlobalStyledComponents";
+import { TodoContainer, TodoHeader, ButtonGroupCenter, TodoTitle, TodoButton, ButtonGroupRight, ColumnContainer, Column, TodoItem, ModalContainer2, ModalTitle, Modaldescription, ModalInput, ModalInputDate, TodoPlus, ModalTaskInput, LinkInputTitle, LinkInputContainer, Input, StatusButton, CalendarIcon } from "../GlobalStyledComponents";
 
 import React, { useState } from 'react';
 import Modal from 'react-modal';
@@ -115,9 +115,9 @@ const TodoContent = () => {
       {/* Todo 상단 */}
       <TodoHeader>
         <TodoTitle>일정 리스트</TodoTitle>
-        <ButtonGroup>
+        <ButtonGroupCenter>
           <TodoButton onClick={openModal}>일정 등록</TodoButton>
-        </ButtonGroup>
+        </ButtonGroupCenter>
       </TodoHeader>
 
       {/* 일정 등록 모달 */}

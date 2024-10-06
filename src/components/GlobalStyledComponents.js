@@ -1,6 +1,5 @@
 import styled, { css } from "styled-components";
 
-import DatePicker from "react-datepicker";
 
 export const MainContents = styled.div`
     display: flex;
@@ -12,7 +11,7 @@ export const MainContents = styled.div`
     flex-direction: column;
     margin: 30px auto;
     min-height: 700px;
-    gap: 50px;
+    gap: 40px;
     padding: 0px 70px;
 
     @media (max-width: 1200px) {
@@ -27,6 +26,144 @@ export const MainContents = styled.div`
     }
 `;
 
+export const FormLabelGroup = styled.div`
+    display: flex;
+    gap: 5px;
+    align-items: start;
+    justify-content: start;
+    width: fit-content;
+    flex-direction: column;
+    height: 100%;
+    margin-top: 18px;
+
+    @media (max-width: 950px) {
+    flex-direction: row;
+    margin-top: 0px;
+    }
+
+    @media (max-width: 480px) {
+
+    }
+`;
+
+export const FormDescription = styled.span`
+    font-size: 12px;
+    color : var(--black600);
+`;
+
+export const FormChildrenGroup = styled.div`
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+`;
+
+// components/Declaration.js, components/MemberEvaluation.js
+export const ButtonGroupWrap = styled.div`
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+
+    @media (max-width: 768px) {
+    }
+    
+    @media (max-width: 480px) {
+    }
+`;
+
+
+// components/Declaration.js, components/MemberEvaluation.js
+export const ButtonGroupCenter = styled.div`
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  justify-content: center;
+    @media (max-width: 768px) {
+    }
+    
+    @media (max-width: 480px) {
+    }
+`;
+// components/Group/GroupComponent/GroupWritingContent.jsx, 
+// components/SignInContent/FirstProcessContent.jsx
+export const FormFieldRow = styled.div`
+    display: flex;
+    justify-content: start;
+    gap: 10px;
+    width: 100%;
+    @media (max-width: 768px) {
+        
+    }
+
+    @media (max-width: 480px) {
+    }
+`;
+
+// components/Group/GroupComponent/GroupWritingContent.jsx, 
+// components/SignInContent/FirstProcessContent.jsx
+export const FormFieldColumn = styled.div`
+    display: flex;
+    justify-content: start;
+    gap: 10px;
+    width: 100%;
+    @media (max-width: 768px) {
+        flex-direction: column-reverse;
+    }
+
+    @media (max-width: 480px) {
+    }
+`;
+
+export const MemberInfo = styled.div`
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding: 15px 0px;
+    border-bottom: 1px solid var(--black300);
+    gap: 20px;
+    align-items: center;
+
+    @media (max-width: 768px) {
+        align-items: start;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    @media (max-width: 480px) {
+    }
+`;
+
+
+// components/Declaration.js, components/MemberEvaluation.js
+export const ButtonGroupRight = styled.div`
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  justify-content: right;
+    @media (max-width: 768px) {
+    }
+    
+    @media (max-width: 480px) {
+    }
+`;
+
+// components/Declaration.js, components/MemberEvaluation.js
+export const ButtonGroupLeft = styled.div`
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  justify-content: left;
+    @media (max-width: 768px) {
+    }
+    
+    @media (max-width: 480px) {
+    }
+`;
+
 // -------------------모든 버튼 공통-------------------
 export const CommonButton = css`
     text-wrap: nowrap;
@@ -36,14 +173,6 @@ export const CommonButton = css`
     color: var(--black500);
     width: auto;
 
-    &:hover {
-        transition: background-color 0.3s ease, color 0.3s ease;
-    }
-    
-    &:active {
-        transition: background-color 0.1s ease, color 0.1s ease;
-    }
-
     @media (max-width: 768px) {
         font-size: 15px; 
     }
@@ -52,12 +181,44 @@ export const CommonButton = css`
         font-size: 14px;
     }
 
-    transition: background-color 0.3s ease, color 0.3s ease;
+    &::placeholder {
+        color: var(--black300);
+    }
+
+    &:disabled {
+        pointer-events: none;
+    }
 `;
 
 export const HeaderButton = css`
     padding: 5px 32px;
+    @media (max-width: 768px) {
+        display: none;
+    }
 `;
+
+export const IconButton = css`
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+
+    @media (max-width: 480px) {
+        padding: 10px;
+    }
+    svg{
+        width: 15px;
+        heignt: 15px;
+    }
+`;
+
+export const IconInnerText = styled.span`
+    @media (max-width: 480px) {
+        display: none;
+    }
+`;
+
 
 // -------------------사각형/타원형 버튼 모양-------------------
 
@@ -68,15 +229,34 @@ export const Square = css`
 
 export const Round = css`
     ${CommonButton}
-    border-radius: 30px;
+    border-radius: 20px;
 `;
 
 // -------------------스타일만 정의-------------------
 
-// components/MainPageComponents/SearchBar/ButtonContainer.jsx
-export const Purpleline = css`
+// Style
+export const Black500Line = css`
+    border: 1px solid var(--black500);
+    background-color: var(--black000);
+
+    &:disabled {
+        background-color: var(--black200);
+    }
+    &[readonly] {
+        background-color: var(--black200);
+    }
+`;
+
+export const Violet500Line = css`
     border: 1px solid var(--violet500);
     background-color: var(--violet000);
+
+    &:disabled {
+        background-color: var(--violet200);
+    }
+    &[readonly] {
+        background-color: var(--violet200);
+    }
 
     /* components/DateInputButton/OptionButton.js */
     /* 선택 됐을 때 보라색 */
@@ -93,19 +273,102 @@ export const Purpleline = css`
     `}
 `;
 
+export const Violet400Background = css`
+    background-color: var(--violet400);
+    color: var(--violet000);
+`;
 
-export const DarkBackground = css`
+export const Violet500Background = css`
+    background-color: var(--violet500);
+    color: var(--violet000);
+`;
+
+export const Violet600Background = css`
   background: var(--violet600);
   color: var(--violet000);
 `;
 
-export const LightBackground = css`
+
+export const Violet100Background = css`
   background: var(--violet100);
   color: var(--black500);
 `;
 
+export const NoBackground = css`
+   background: none;
+    &:disabled {
+    }
+    &[readonly] {
+    }
+`;
+
+export const BlueViolet600Background = css`
+    background-color: var(--blueViolet600);
+    color: white;
+`;
+export const Black300Background = css`
+    background-color: var(--black300);
+    color: var(--violet000);
+`;
+
 // Hover
-export const PurplelineHover = css`
+export const Violet400BackgroundHover = css`
+    &:hover {
+        background-color: var(--violet600);
+    }
+    &:active {
+        background-color: var(--violet600);
+    }
+`;
+
+
+
+export const Black300BackgroundBlueHover = css`
+    &:hover {
+        background-color: var(--blueViolet700);
+    }
+
+    &:active {
+        background-color: var(--blueViolet600);
+    }
+`;
+
+export const Black200BackgroundBlueHover = css`
+    &:hover {
+        background-color: var(--black200);
+    }
+
+    &:active {
+        background-color: var(--black200);
+    }
+`;
+
+
+export const BlueViolet600BackgroundHover = css`
+    &:hover {
+        background-color: var(--blueViolet800);
+    }
+    &:active {
+        background-color: var(--blueViolet800);
+    }
+`;
+
+
+export const Violet500BackgroundHover = css`
+    &:hover {
+        background-color: var(--violet600);
+        color: var(--violet100);
+        transition: background-color 0.3s ease;
+    }
+
+    &:active {
+        background-color: var(--violet600);
+        color: var(--violet100);
+        transition: background-color 0.1s ease;
+    }
+`;
+
+export const Violet500LineHover = css`
     &:hover {
         background-color: var(--violet500);
         color: var(--violet100);
@@ -117,7 +380,7 @@ export const PurplelineHover = css`
     }
 `;
 
-export const PurplelineBlackHover = css`
+export const Violet500LineBlackHover = css`
     &:hover {
         background-color: var(--black700);
         color: var(--violet000);
@@ -131,20 +394,18 @@ export const PurplelineBlackHover = css`
     }
 `;
 
-export const DarkBackgroundHover = css`
+export const Violet600BackgroundHover = css`
   &:hover {
     color: var(--violet000);
     background-color: var(--violet700);
-    transition: background-color 0.3s ease;
   }
   &:active {
     color: var(--violet000);
     background-color: var(--violet700);
-    transition: background-color 0.1s ease;
   }
 `;
 
-export const LightBackgroundHover = css`
+export const Violet100BackgroundHover = css`
   &:hover {
     background-color: var(--violet200);
     transition: background-color 0.3s ease;
@@ -159,52 +420,89 @@ export const NoBackgroundHover = css`
   &:hover {
     background-color: rgba(0, 0, 0, 0.1);
   }
+  &:active {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
 `;
 
-export const NoBackground = css`
-   background: none;
+export const NoBackgroundHover2 = css`
+  &:hover {
+    color: var(--black600);
+  }
+
+  // Active (마우스 클릭 또는 모바일 터치) effect
+  &:active {
+    color: var(--black600);
+  }
 `;
-
-
 
 // -------------------스타일별 버튼-------------------
 
 // SquareButton
-export const PurplelineSquareButton = styled.button`
-    ${Square}
-    ${Purpleline}
-    ${PurplelineHover}
-`;
 
-// components/Header.js
-export const DarkBackgroundButton = styled.button`
-    ${Square}
-    ${DarkBackground}
-    ${DarkBackgroundHover}
-`;
 
-// components/Header.js
-export const LightBackgroundButton = styled.button`
-    ${Square}  
-    ${LightBackground}
-    ${LightBackgroundHover}
-`;
-
-// components/Header.js
 export const NoBackgroundButton = styled.button`
     ${Square}  
     ${NoBackground}
     ${NoBackgroundHover}
 `;
 
-// RoundButton
-export const PurplelineRoundButton = styled.button`
-    ${Round}
-    ${Purpleline}
-    ${PurplelineBlackHover}
+export const Violet500LineButton = styled.button`
+    ${Square}
+    ${Violet500Line}
+    ${Violet100BackgroundHover}
+`;
+
+export const Violet500LineSquareButton = styled.button`
+    ${Square}
+    ${Violet500Line}
+    ${Violet500LineHover}
+    ${IconButton}
+`;
+
+export const Black300BackgroundButton = styled.button`
+    ${Square}  
+    ${Black300Background}
+    ${Black300BackgroundBlueHover}
+`;
+
+export const BlueViolet600BackgroundButton = styled.button`
+    ${Square}  
+    ${BlueViolet600Background}
+    ${BlueViolet600BackgroundHover}
+`;
+
+export const Violet100BackgroundButton = styled.button`
+    ${Square}  
+    ${Violet100Background}
+    ${Violet100BackgroundHover}
 `;
 
 
+export const Violet400BackgroundButton = styled.button`
+    ${Square}  
+    ${Violet400Background}
+    ${Violet400BackgroundHover}
+`;
+
+export const Violet500BackgroundButton = styled.button`
+    ${Square}  
+    ${Violet500Background}
+    ${Violet500BackgroundHover}
+`;
+
+export const Violet600BackgroundButton = styled.button`
+    ${Square}
+    ${Violet600Background}
+    ${Violet600BackgroundHover}
+`;
+
+// RoundButton
+export const Violet500LineRoundButton = styled.button`
+    ${Round}
+    ${Violet500Line}
+    ${Violet100BackgroundHover}
+`;
 
 // -------------------------여기부터 버튼 끝------------------------------
 
@@ -214,6 +512,7 @@ export const PageTitle = styled.h2`
     font-weight: bold;
     font-size: 26px;
     color: var(--black800);
+    padding: 10px;
 `;
 
 // components/Group/GroupComponent/GroupWritingContent.jsx
@@ -226,19 +525,31 @@ export const FormTitle = styled.h3`
     gap: 5px;
     align-items: center;
     color: var(--violet600);
+    height: 35px;
+    font-weight: 500;
 `;
 
 // components/Group/GroupComponent/FormField.jsx
 export const FormLabel = styled.label`
     text-wrap: nowrap;
-    font-size: 18px;
+    font-size: 17px;
     min-width: 100px;
     display: flex;
-    align-items: start;
+    align-items: center;
     justify-content: center;
-    min-height: 100%;
-    margin-top: 15px;
+    font-weight: 500;
     color: var(--black700);
+
+    @media (max-width: 950px) {
+        width: 100%;
+        min-width: auto;
+        justify-content: start;
+        font-size: 16px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 15px;
+    }
 `;
 
 
@@ -377,36 +688,6 @@ export const Title7 = styled.div`
 `;
 
 
-
-// pages/FAQ.js
-export const Tabs = styled.div`
-  display: flex;
-  justify-content: space-around;
-  margin: 0;
-  padding: 0;
-  border-bottom: 1px solid #ccc;
-`;
-
-// pages/FAQ.js
-export const TabButton = styled.button`
-  border: none;
-  text-align: center;
-
-  padding: 15px 0;
-  background: none;
-  font-size: 16px;
-  flex: 1;
-  outline: none;
-
-  color: ${(props) => (props.active ? '#6a5acd' : '#333')};
-  background-color: ${(props) => (props.active ? '#F2F0FF' : 'none')};
-  border-bottom: ${(props) => (props.active ? '2px solid #6a5acd' : 'none')};
-  
-  &:hover {
-    background-color: #f0f0f0;
-  }
-`;
-
 // pages/Tabs.js FAQ에서 쓰는 탭으로 확인됨
 export const TabButton2 = styled.button`
   border: none;
@@ -423,48 +704,6 @@ export const TabButton2 = styled.button`
   &:hover {
     background-color: #f0f0f0;
   }
-`;
-
-// pages/FAQ.js
-export const FAQList = styled.div`
-  margin-top: 0;
-  padding: 0;
-`;
-
-// pages/FAQ.js
-export const FAQItem = styled.div`
-  border-bottom: 1px solid #ccc;
-  padding: 15px 0;
-`;
-
-// pages/FAQ.js
-export const FAQQuestion = styled.div`
-  display: flex;
-  justify-content: space-between;
-  cursor: pointer;
-  font-weight: bold;
-  padding: 15px 0;
-  line-height: 1.5;
-  min-height: 30px;
-  background-color: ${(props) => (props.active ? '#F2F0FF' : 'none')};
-`;
-
-// pages/FAQ.js
-export const FAQAnswer = styled.div`
-  margin-top: 10px;
-  padding-left: 20px;
-  color: #666;
-  line-height: 1.6;
-`;
-
-// pages/FAQ.js
-export const Arrow = styled.span`
-  width: 0;
-  height: 0;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-top: ${(props) => (props.isOpen ? 'none' : '6px solid #333')};
-  border-bottom: ${(props) => (props.isOpen ? '6px solid #333' : 'none')};
 `;
 
 // components/Challenge/ChallengeList.js
@@ -521,45 +760,6 @@ export const Container4 = styled.div`
     background: rgba(226, 227, 227, 0.8);
 `;
 
-// 전체 div
-// components/Group/GroupManageContent.js
-export const Container5 = styled(ContentsWrapper)`
-    padding: 0 80px;
-    display: flex;
-    align-items: center;
-    background-color: white;
-
-    @media (max-width: 768px) {
-        padding: 0 40px;
-    }
-
-    @media (max-width: 480px) {
-        padding: 0 20px;
-    }
-`;
-
-// pages/StudyPage.js
-export const StudyInfoContent = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 20px;
-`;
-
-// pages/StudyPage.js
-export const CategoryButton = styled.div`
-  background-color: #9787ff;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  font-weight: bold;
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 12px;
-  width: 140px;
-  position: relative;
-`;
 
 
 // components/SignInContent/ThirdProcessContent.jsx
@@ -616,9 +816,8 @@ export const CategoryButton2 = styled.div`
 
 // pages/StudyPage.js
 export const StudyTitle = styled.h2`
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
-  margin-bottom: 15px;
 `;
 
 // components/Header.js
@@ -645,33 +844,6 @@ export const Button2 = styled.button`
   &:hover {
     background-color: #8578D8;
     color: white;
-  }
-`;
-
-// pages/StudyPage.js
-export const Button3 = styled.button`
-  color: white;
-
-  padding: 10px 15px;
-  background-color: var(--violet500);
-
-  border: none;
-  border-radius: 5px;
-
-  transition: background-color 0.3s;
-  margin-left: auto;
-
-  &:hover {
-    background-color: var(--violet300);
-  }
-
-  @media (max-width: 768px) {
-    padding: 8px 12px;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 12px;
-    padding: 5px 10px;
   }
 `;
 
@@ -875,15 +1047,6 @@ export const StudyDetails = styled.div`
 `;
 
 
-
-// pages/StudyPage.js
-export const LeaderInfo = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  color: #000000;
-`;
-
 // pages/StudyPage.js
 export const LeaderText = styled.span`
   margin-left: 10px;
@@ -959,16 +1122,7 @@ export const MemberName = styled.div`
   font-size: 16px;
 `;
 
-// components/Header.js, components/MemberEvaluation.js, pages/StudyPage.js, components/Group/Question/QuestionItem.jsx
-export const ProfileIcon = styled.img`
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  cursor: pointer;
 
-  /* margin: auto 30px; */ /* components/MemberEvaluation.js */
-  /* margin-right: 10px; */ /* pages/StudyPage.js */
-`;
 
 // components/MemberEvaluation.js
 export const SubmitContainer = styled.div`
@@ -1004,50 +1158,7 @@ export const SubmitButton2 = styled.button`
   }
 `;
 
-// components/Group/Question/QuestionForm.jsx
-export const SubmitButton3 = styled.button`
-  background-color: #fff;
-  color: #000000;
-  border: 1px solid #968AFF;
-  padding: 8px 20px;
-  border-radius: 5px;
-  font-size: 13px;
-  &:hover {
-    background-color: #CEC6FF;
-  }
-`;
 
-// components/Header.js
-export const MainLogo = styled.a`
-  color: var(--black900);
-  font: 32px Kavoon, sans-serif;
-  text-decoration: none;
-`;
-
-// components/Header.js
-export const UserProfileContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 4px 15px;
-  gap: 10px;
-  border-radius: 20px;
-  width: 166.15px;
-  height: 35px;
-`;
-
-// components/Header.js
-export const StyledHeaderIcon = styled.svg`
-  width: 20px;
-  height: 20px;
-  color: var(--violet600);
-  cursor: pointer;
-`;
-
-// components/Header.js
-export const DropdownContainer = styled.div`
-  position: relative;
-`;
 
 // components/Header.js
 export const DropdownContent = styled.div`
@@ -1063,6 +1174,9 @@ export const DropdownContent = styled.div`
   padding: 10px;
   flex-direction: column;
   align-items: center;
+@media (max-width: 576px) {
+    right: -20px;
+  }
 `;
 
 // components/Header.js
@@ -1114,20 +1228,6 @@ export const ModalContainer2 = styled.div`
   padding: 30px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-`;
-
-// components/AlramPreview.js
-export const ModalContainer3 = styled.div`
-  display: ${props => (props.isAlarmOpen ? 'fixed' : 'none')};
-  position: absolute;
-  min-width: 350px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-  right: 0px;
-  top: calc(100% + 10px);
-  background-color: #fff;
-  border-radius: 12px;
-  padding: 20px;
 `;
 
 // components/Group/GroupInfoModal/ApplicantConfirmModal.js, components/Group/GroupInfoModal/ApplicantModal.js
@@ -1222,19 +1322,6 @@ export const TextArea4 = styled.textarea`
   margin-top: 10px;
 `;
 
-// components/Group/Question/QuestionForm.jsx
-export const TextArea5 = styled.textarea`
-    background-color: #ffffff;
-    border-radius: 10px;
-    border: 1px solid var(--black400);
-    width: 100%;
-    height: 100px;
-    padding: 10px;
-    resize: none;
-    margin-top: 15px;
-    line-height: 1.3;
-`;
-
 // components/MyPageComponents/UserInfoContent.js
 export const TextArea6 = styled.textarea`
     width: 100%;
@@ -1249,14 +1336,6 @@ export const TextArea6 = styled.textarea`
     }
 
     ${responsiveFontSize}
-`;
-
-// components/Declaration.js, components/MemberEvaluation.js
-export const ButtonGroup = styled.div`
-  display: flex;
-  gap: 5px;
-  width: 100%;
-  flex-wrap: wrap;
 `;
 
 
@@ -1309,73 +1388,6 @@ export const CancelButton3 = styled(Button)`
     color: var(--violet800);
 `;
 
-// components/AlramPreview.js
-export const AlramTitle = styled.div`
-  font-weight: bold;
-  font-size: 15px;
-  margin-bottom: 20px;
-  text-align: left; 
-`;
-
-// components/AlramPreview.js
-export const AlramHeader = styled.div`
-  font-weight: bold;
-  font-size: 14px;
-  margin-bottom: 15px;
-  text-align: left; 
-`;
-
-// components/AlramPreview.js
-export const AlramItem = styled.div`
-  padding: 10px;
-  border-bottom: 1px solid #eee;
-  font-size: 14px;
-  line-height: 1.6;
-  display: flex;
-  flex-direction: column; 
-`;
-
-// components/AlramPreview.js
-export const AlramContent = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 5px; 
-`;
-
-// components/AlramPreview.js
-export const AlramImg = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: 13px;
-  gap: 5px; 
-`;
-
-// components/AlramPreview.js
-export const AlramText = styled.div`
-  font-size: 12px;
-  margin-top: 5px; 
-  margin-left: 25px;
-`;
-
-// components/AlramPreview.js
-export const AlramDate = styled.div`
-  font-size: 10px;
-  color: #999;
-`;
-
-// components/AlramPreview.js
-export const AlramFooter = styled.div`
-  margin-top: 15px;
-  text-align: right;
-  font-size: 10px;
-  color: #666;
-  cursor: pointer;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`;
 
 // components/ActivityScore/ActivityScoreBar.jsx
 export const BarContainer = styled.div`
@@ -1877,11 +1889,10 @@ export const InfoContainer = styled(ContentsWrapper)`
     position: relative;
     justify-content: space-between;
     align-items: center;
-    padding: 40px;
+    padding: 20px 40px;
     background: var(--violet100);
-
     @media (max-width: 768px) {
-        padding: 20px;
+        padding: 15px;
     }
 
     @media (max-width: 480px) {
@@ -1889,121 +1900,31 @@ export const InfoContainer = styled(ContentsWrapper)`
     }
 `;
 
-// 지원하기 버튼
-// components/Group/GroupInfoContent.js
-export const SupportButton = styled.button` 
-    padding: 10px 15px;
-    background-color: var(--violet500);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-
-    &:hover {
-        background-color: var(--violet300);
-    }
-
-    @media (max-width: 768px) {
-        padding: 8px 12px;
-    }
-    
-    @media (max-width: 480px) {
-        font-size: 12px;
-        padding: 5px 10px;
-    }
-`;
-
 // 정보 묶음
 // components/Group/GroupInfoContent.js
-export const SupportRecruit = styled.div` 
+
+export const Violet500LineDiv = styled.div` 
+    ${Violet500Line}
+    ${Square}
     width: 100%;
-    background-color: white;
     display: flex;
     flex-direction: column;
-    font-size: 18px;
-    padding: 30px;
-    border: 1px solid var(--violet500);
-    border-radius: 10px;
+    padding: 20px;
     gap: 25px;
-
-    @media (max-width: 768px) {
-        font-size: 16px;
-        padding: 20px;
-    }
-
-    @media (max-width: 480px) {
-        font-size: 14px;
-        padding: 15px;
-    }
+    height: auto;
 `;
 
-// 모임 기간 및 지원하기 묶음
-// components/Group/GroupInfoContent.js
-export const SupportRecruit1 = styled.div` 
+
+export const DoubleDateContainer = styled.div`
     display: flex;
-    justify-content: space-between;
     align-items: center;
-
-    @media (max-width: 768px) {
-        justify-content: space-between;
-    }
-`;
-
-// 모집 현황 및 지원 가능 묶음
-// components/Group/GroupInfoContent.js
-export const SupportRecruit2 = styled.div` 
-    display: flex;
-    justify-content: space-between;
-
-    @media (max-width: 768px) {
-        flex-direction: column;
-        gap: 15px;
-    }
-`;
-
-// 모집 현황 묶음
-// components/Group/GroupInfoContent.js
-export const RecruitContainer = styled.div` 
-    display: flex;
-`;
-
-// 지원 가능 묶음
-// components/Group/GroupInfoContent.js
-export const SupportContainer = styled.div` 
-    display: flex;
-`;
-
-// 주제 설명
-// components/Group/GroupInfoContent.js
-export const PostInfo = styled.div` 
-    margin-top: 30px;
-    background-color: white;
-    border: 1px solid var(--violet500);
-    border-radius: 10px;
+    gap: 5px;
     width: 100%;
-    min-height: 300px;
-    padding: 30px;
-    line-height: 2;
+    font-size: 16px;
+    color: var(--black500);
 
     @media (max-width: 768px) {
-        padding: 20px;
-        font-size: 16px;
-    }
-
-    @media (max-width: 480px) {
-        padding: 15px;
-        font-size: 14px;
-    }
-`;
-
-// 포스트 제목
-// components/Group/GroupInfoContent.js
-export const PostTitle = styled.h3` 
-    font-size: 18px;
-    margin-bottom: 10px;
-
-    @media (max-width: 768px) {
-        font-size: 16px;
+        font-size: 15px; 
     }
 
     @media (max-width: 480px) {
@@ -2025,59 +1946,6 @@ export const PostContent = styled.div`
     }
 `;
 
-// 최근 소식
-// components/Group/GroupInfoContent.js
-export const UpdateInfo = styled.div` 
-    background-color: white;
-    margin: 30px 0;
-    padding: 40px 30px;
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    align-items: center;
-    border-top: 1px solid #000;
-    border-bottom: 1px solid #000;
-    
-    div, label {
-        margin: 0 10px;
-    }
-
-    @media (max-width: 768px) {
-        font-size: 14px;
-        padding: 20px;
-        
-        div, label {
-            margin: 0 10px;
-        }
-    }
-
-    @media (max-width: 480px) {
-        font-size: 12px;
-        padding: 10px;
-        
-        div, label {
-            margin: 0 10px;
-        }
-    }
-`;
-
-// 질문 컨테이너
-// components/Group/GroupInfoContent.js
-export const QuestionContainer = styled.div` 
-    width: 100%;
-    background-color: white;
-    padding: 30px;
-    border: 1px solid var(--violet500);
-    border-radius: 10px;
-
-    @media (max-width: 768px) {
-        padding: 20px;
-    }
-
-    @media (max-width: 480px) {
-        padding: 15px;
-    }
-`;
 
 // 질문 헤더
 // components/Group/GroupInfoContent.js
@@ -2110,7 +1978,7 @@ export const Section = styled.section`
     flex-direction: column;
     background-color: var(--violet100);
     border: 1px solid var(--black200);
-    border-radius: 0 0 8px 8px;
+    border-radius: 0px 0px 7px 7px;
 
     @media (max-width: 768px) {
         padding: 15px;
@@ -2257,10 +2125,8 @@ export const DateStyle = styled.div`
 // 지원자 섹션   
 // components/Group/GroupManageContent.js
 export const ApplySection = styled.div`
-    margin-top: 20px;
     padding: 20px;
     width: 100%;
-    border-radius: 8px;
     
     @media (max-width: 768px) {
         padding: 15px;
@@ -2268,18 +2134,6 @@ export const ApplySection = styled.div`
 
     @media (max-width: 480px) {
         padding: 10px;
-    }
-
-    label {
-        font-size: 18px;
-
-        @media (max-width: 768px) {
-            font-size: 16px;
-        }
-
-        @media (max-width: 480px) {
-            font-size: 14px;
-        }
     }
 `;
 
@@ -2347,12 +2201,7 @@ export const TodoButton = styled.button`
   }
 `;
 
-// components/Group/TodoContent.js
-export const ButtonGroupRight = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 20px;
-`;
+
 
 // components/Group/TodoContent.js
 export const ColumnContainer = styled.div`
@@ -2716,17 +2565,23 @@ export const QuestionFormContainer = styled.form`
 
 // components/Group/Question/QuestionForm.jsx
 export const FileInputButton = styled.label`
-  background-color: #fff;
-  color: #000000;
-  border: 1px solid #968AFF;
-  padding: 8px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 13px;
-  display: inline-block;
-  &:hover {
-    background-color: #CEC6FF;
-  }
+    ${Square}
+    ${Violet500Line}
+    ${Violet100BackgroundHover}
+    display:flex;
+    align-items: center;
+    gap: 5px;
+    
+    @media (max-width: 480px) {
+        svg {
+            display:none;
+        }
+    }
+
+    ${({ disabled }) => disabled && `
+        background-color: var(--violet200);
+        pointer-events: none;
+    `}
 `;
 
 // components/Group/Question/QuestionItem.jsx
@@ -3272,32 +3127,6 @@ export const GoogleLoginButton = styled.button`
         transition: background-color 0.1s ease, color 0.1s ease;
     }
 `;
-
-// components/Tab/TabButton.js
-export const TabButtonContainer = styled.button`
-    width: calc(100% / 3);
-    //background-color: white;
-    background-color: var(--black000);
-    border: 1px solid var(--black100);
-    font-weight: 500;
-    padding: 15px;
-`;
-
-// components/Tab/TabButton.js
-export const ActiveTabButtonContainer = styled.button`
-    width: calc(100% / 3);
-    font-weight: 500;
-    padding: 15px;
-    background-color: var(--violet000);
-    border: 1px solid var(--black100);
-    
-    border-bottom: 2px solid var(--violet700);
-    //border-top: 1px solid var(--violet300);
-    //border-left: 1px solid var(--violet300);
-    //border-right: 1px solid var(--violet300);
-`;
-
-
 
 
 

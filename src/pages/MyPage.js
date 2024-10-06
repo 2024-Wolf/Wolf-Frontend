@@ -3,10 +3,10 @@ import { PageTitle } from "../components/GlobalStyledComponents";
 
 import React, { useState } from "react";
 import UserInfoContent from "../components/MyPageComponents/UserInfoContent";
-import MyPageTabs from "../components/MyPageComponents/MyPageTabs";
 import NotificationContent from "../components/MyPageComponents/NotificationContent";
 import ActivitiesContent from "../components/MyPageComponents/ActivitiesContent";
 
+import FAQTab from "../components/Tab/FAQTab";
 
 // pages/MyPage.js
 const MyPageContainer = styled.div`
@@ -37,11 +37,16 @@ const MyPage = () => {
         }
     };
 
+    const changeTab = (tab) => {
+        setActiveTab(tab);
+    };
+
+
     return (
         <>
             <MyPageContainer>
                 <PageTitle>MyPage</PageTitle>
-                <MyPageTabs tab={activeTab} setActiveTab={setActiveTab} />
+                <FAQTab tab={["계정", "알림", "활동"]} activeTab={activeTab} changeTab={changeTab} />
                 {renderTabContent()}
             </MyPageContainer>
         </>

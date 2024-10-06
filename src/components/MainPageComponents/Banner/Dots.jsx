@@ -19,13 +19,16 @@ export const DotsContainer = styled.div`
         gap: 8px;
         padding: 4px 7px;
         bottom: -2%;
-        left: 44%;
+        left: 43%;
     }
 
     @media (max-width: 480px) {
         gap: 5px;
         padding: 3px 6px;
-        left: 42%;
+        left: 41%;
+    }
+    @media (max-width: 300px) {
+        left: 37%;
     }
 `;
 

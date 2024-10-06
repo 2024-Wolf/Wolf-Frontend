@@ -10,12 +10,11 @@ export const SliderContainer = styled.div`
     overflow: hidden;
     position: relative;
     border-radius: 20px;
-
     width: 100%;
     max-width: 100%;
     max-height: 300px;
 
-    filter: drop-shadow(0px 0px 30px rgba(0, 0, 0, 0.08));
+    filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.05));
 
     @media (max-width: 1200px) {
     }
@@ -24,7 +23,6 @@ export const SliderContainer = styled.div`
     }
     
     @media (max-width: 480px) {
-        height: 140px;
     }
 
 `;
@@ -34,8 +32,8 @@ export const SliderInner = styled.div`
     display: flex;
     transition: transform 0.5s ease;
     transform: ${({ position }) => `translateX(-${position}00%)`};
-    width: 100%;
     height: 100%;
+    width: 100%;
 `;
 
 // components/MainPageComponents/Banner/BannerSlider.jsx
@@ -43,8 +41,12 @@ export const Slide = styled.img`
     width: 100%;
     height: 100%;
     max-height: 100%;
-    object-fit: contain;
     cursor: pointer;
+    object-fit: contain;
+    max-width: 1360px;
+    max-height: 300px;
+;
+
 `;
 
 const BannerSlider = ({ images }) => {
@@ -107,15 +109,18 @@ const BannerSlider = ({ images }) => {
         >
             <SliderInner position={currentPosition}>
                 {images.map((image, index) => (
-                    <Slide key={index} src={image.imgUrl} />
-                ))}
-            </SliderInner>
+                    <>
+                        <Slide key={index} src={image.imgUrl} />
+                    </>
+                ))
+                }
+            </SliderInner >
             <Dots
                 images={images}
                 currentPosition={currentPosition}
                 goToSlide={goToSlide}
             />
-        </SliderContainer>
+        </SliderContainer >
     );
 };
 

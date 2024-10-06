@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { CommentItem, CommentBody, TextArea4, ButtonRow, SubmitButton2 } from "../../GlobalStyledComponents";
+import { Violet500LineButton, CommentItem, CommentBody, TextArea4, ButtonRow, SubmitButton2 } from "../../GlobalStyledComponents";
 
 import React, { useState } from 'react';
-
+import TextAreaBlackLine from '../../Input/TextAreaBlackLine';
 const CommentSection = ({ comments = [], onSubmit }) => {
     const [newComment, setNewComment] = useState('');
 
@@ -26,14 +26,16 @@ const CommentSection = ({ comments = [], onSubmit }) => {
             ) : (<></>)}
             {/* 댓글 작성 영역 */}
             <form onSubmit={handleCommentSubmit}>
-                <TextArea4
+                <TextAreaBlackLine
+                    placeholder="댓글을 적어주세요"
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}
-                    placeholder="댓글을 적어주세요"
                 />
                 <ButtonRow>
-                    <SubmitButton2 type="submit">등록</SubmitButton2>
+                    <Violet500LineButton type="submit">등록</Violet500LineButton>
                 </ButtonRow>
+
+
             </form>
         </>
     );

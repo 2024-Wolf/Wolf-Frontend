@@ -1,7 +1,13 @@
 import styled from 'styled-components';
-import { QuestionItemContainer, ActionButtons, QuestionContent, QuestionText, QuestionDate, QuestionAuthor, ProfileIcon } from "../../GlobalStyledComponents";
+import {
+    QuestionItemContainer, ActionButtons, QuestionContent, QuestionText, QuestionDate,
+    QuestionAuthor
+} from "../../GlobalStyledComponents";
 
+import ProfileIcon from '../../Icon/ProfileIcon';
 import React from 'react';
+import ArrowUpIcon from '../../Icon/ArrowUpIcon';
+import ArrowDownIcon from '../../Icon/ArrowDownIcon';
 
 const QuestionItem = ({
     question,
@@ -19,9 +25,9 @@ const QuestionItem = ({
             <QuestionAuthor>
                 <ProfileIcon
                     src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
-                    alt="Profile"
-                />
-                {question.author}
+                    alt="Profile">
+                    {question.author}
+                </ProfileIcon>
             </QuestionAuthor>
             <QuestionContent>
                 <QuestionText>{question.text}</QuestionText>
@@ -54,16 +60,18 @@ const QuestionItem = ({
                 >
                     수정
                 </button>
-                <button onClick={() => handleQuestionDelete(question.id)}>삭제</button>
+                <button onClick={() => handleQuestionDelete(question.id)}>
+                    삭제
+                </button>
             </ActionButtons>
 
             <span onClick={() => toggleComments(question.id)}>
-                {selectedQuestionId === question.id
-                    ? '댓글 닫기'
-                    : '댓글 열기'
-                }
+                {selectedQuestionId === question.id ? (
+                    <>댓글 닫기 <ArrowUpIcon /></>
+                ) : (
+                    <>댓글 열기 <ArrowDownIcon /></>
+                )}
             </span>
-
             {selectedQuestionId === question.id && renderComments()}
         </QuestionItemContainer>
     );

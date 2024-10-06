@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { CommonButton, NoBackground } from "./GlobalStyledComponents";
+import { CommonButton, NoBackground, NoBackgroundHover2 } from "./GlobalStyledComponents";
 
 import React from 'react';
 
@@ -66,27 +66,16 @@ export const FooterContent = styled.div`
 
 // components/Footer.js
 export const FooterButton = styled.button`
-${CommonButton}
+  ${CommonButton}
   ${NoBackground}
+  ${NoBackgroundHover2}
+  
   font-weight: 700;
   padding: 0px;
   
   margin-right: 20px; // 모든 버튼의 오른쪽에 간격 설정
   &:last-child {
     margin-right: 0; // 마지막 버튼의 오른쪽 여백 제거
-  }
-
-  // Hover effect
-  &:hover {
-    color: var(--black600);
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-
-  // Active (마우스 클릭 또는 모바일 터치) effect
-  &:active {
-    color: var(--black800);
-    background-color: rgba(0, 0, 0, 0.2);
-    transition: background-color 0.1s ease, color 0.1s ease;
   }
 
   @media (max-width: 768px) {

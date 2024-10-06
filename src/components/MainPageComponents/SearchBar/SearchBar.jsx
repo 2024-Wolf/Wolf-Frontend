@@ -27,7 +27,7 @@ export const InputContainer = styled.div`
 
 // components/MainPageComponents/SearchBar/SearchBar.jsx
 export const SearchInput = styled.input`
-    font-size: 14px;
+    font-size: 16px;
     width: 100%;
     border: none;
     color: var(--black700);
@@ -55,7 +55,7 @@ const SearchBar = ({ onSearchTermChange }) => {
             <InputContainer>
                 <SearchInput
                     type="text"
-                    placeholder="제목, 글 내용을 검색해보세요."
+                    placeholder="제목, 태그, 작성자를 검색해보세요."
                     value={searchTerm}
                     onChange={handleSearch}
                     aria-label="Search"
