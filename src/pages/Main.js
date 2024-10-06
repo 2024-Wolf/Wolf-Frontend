@@ -42,6 +42,7 @@ const Main = () => {
         { id: 1, imgUrl: "/banner/banner1.png" },
         { id: 2, imgUrl: "/banner/banner2.png" },
         { id: 3, imgUrl: "/banner/banner3.png" },
+        { id: 4, imgUrl: "/banner/banner4.png" },
     ];
 
     const categories = ["전체", "프로젝트", "스터디"];

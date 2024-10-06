@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import {
-  Container, StudyInfoContent, CategoryButton, StudyTitle,
+  StudyInfoContent, StudyTitle,
   Button3, StudyDetails, LeaderInfo, LeaderText
 } from "../components/GlobalStyledComponents";
 
@@ -13,6 +13,21 @@ import GroupTabs from "../components/Group/GroupTabs";
 import GroupManageContent from "../components/Group/GroupManageContent";
 import Declaration from "../components/Declaration";
 import ProfileIcon from "../components/Icon/ProfileIcon";
+import GroupPostData from "../Data/5_GroupPostData";
+
+// pages/StudyPage.js
+export const GroupCategory = styled.div`
+  background-color: var(--violet500);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 12px;
+  width: 140px;
+  position: relative;
+`;
 
 // 상수로 카테고리 선언
 const TAB = {
@@ -52,7 +67,7 @@ const StudyPage = () => {
     <>
       {/* 그룹 정보 영역 */}
       <StudyInfoContent>
-        <CategoryButton>스터디</CategoryButton>
+        <GroupCategory>스터디</GroupCategory>
         <Button3 onClick={openModal}>신고하기</Button3>
         {isModalOpen && <Declaration onClose={closeModal} />}
         <StudyTitle>파이널 스터디 - 지금2조</StudyTitle>

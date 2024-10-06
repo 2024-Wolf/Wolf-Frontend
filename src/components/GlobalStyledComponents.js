@@ -700,20 +700,6 @@ export const StudyInfoContent = styled.div`
   margin-bottom: 20px;
 `;
 
-// pages/StudyPage.js
-export const CategoryButton = styled.div`
-  background-color: #9787ff;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  font-weight: bold;
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 12px;
-  width: 140px;
-  position: relative;
-`;
-
 
 // components/SignInContent/ThirdProcessContent.jsx
 export const CategoryButton2 = styled.div`
