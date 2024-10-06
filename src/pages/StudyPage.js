@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import {
-  StudyInfoContent, StudyTitle,
+  StudyTitle,
   Button3, StudyDetails, LeaderInfo, LeaderText
 } from "../components/GlobalStyledComponents";
 
@@ -9,11 +9,10 @@ import TodoContent from "../components/Group/TodoContent";
 import ChallengeTab from "../components/Group/ChallengeTab";
 import MeetingContent from "../components/Group/MeetingContent";
 import GroupInfoContent from "../components/Group/GroupInfoContent";
-import GroupTabs from "../components/Group/GroupTabs";
 import GroupManageContent from "../components/Group/GroupManageContent";
 import Declaration from "../components/Declaration";
 import ProfileIcon from "../components/Icon/ProfileIcon";
-import GroupPostData from "../Data/5_GroupPostData";
+import FAQTab from "../components/Tab/FAQTab";
 
 // pages/StudyPage.js
 export const GroupCategory = styled.div`
@@ -29,6 +28,15 @@ export const GroupCategory = styled.div`
   position: relative;
 `;
 
+// pages/StudyPage.js
+export const GroupHeader = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+`;
+
 // 상수로 카테고리 선언
 const TAB = {
   INFO: "정보",
@@ -42,6 +50,10 @@ const StudyPage = () => {
   const [activeTab, setActiveTab] = useState(TAB.INFO);
   const [isMeetingStarted, setIsMeetingStarted] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
+
+  const changeTab = (tab) => {
+    setActiveTab(tab);
+  };
 
   const componentsMap = {
     [TAB.INFO]: GroupInfoContent, // StudyInfo 컴포넌트 렌더링
@@ -66,7 +78,7 @@ const StudyPage = () => {
   return (
     <>
       {/* 그룹 정보 영역 */}
-      <StudyInfoContent>
+      <GroupHeader>
         <GroupCategory>스터디</GroupCategory>
         <Button3 onClick={openModal}>신고하기</Button3>
         {isModalOpen && <Declaration onClose={closeModal} />}
@@ -81,11 +93,15 @@ const StudyPage = () => {
             <LeaderText>평가점수지표 요약</LeaderText>
           </LeaderInfo>
         </StudyDetails>
-      </StudyInfoContent>
+      </GroupHeader>
 
       {/* 탭 영역 */}
-      <GroupTabs tab={activeTab} setActiveTab={setActiveTab} />
+      <FAQTab
+        tab={[TAB.INFO, TAB.TODO, TAB.CHALLENGE, TAB.MEETING, TAB.MANAGE]}
+        activeTab={activeTab}
+        changeTab={changeTab} />
       {/* */}
+
       {/*<div className="study-content">*/}
       {activeTab === TAB.MEETING ? (
         <MeetingContent isMeetingStarted={isMeetingStarted} />

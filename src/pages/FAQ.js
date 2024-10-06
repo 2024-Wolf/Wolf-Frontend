@@ -8,6 +8,7 @@ import ArrowUpIcon from '../components/Icon/ArrowUpIcon';
 import PaginatedList from '../components/Pagination/PaginatedList';
 
 import React, { useState } from 'react';
+import FAQTab from "../components/Tab/FAQTab";
 
 const FAQContainer = styled.div`
     display: flex;
@@ -28,41 +29,6 @@ const FAQContent = styled.div`
     display: flex;
     flex-direction: column;
     gap: 10px;
-`;
-
-export const Tabs = styled.div`
-  display: flex;
-  justify-content: space-around;
-  margin: 0;
-  padding: 0;
-  border-bottom: 1px solid var(--black200);
-`;
-
-export const TabButton = styled.button`
-  white-space: nowrap;
-  font-size: 18px;
-  width: auto;
-  text-align: center;
-  min-height: 50px;
-  background: none;
-  flex: 1;
-  outline: none;
-
-  color: ${(props) => (props.active ? 'var(--violet600)' : 'var(--black600)')};
-  background-color: ${(props) => (props.active ? '' : 'none')};
-  border-bottom: ${(props) => (props.active ? '2px solid var(--violet600)' : 'none')};
-
-  &:hover {
-    background-color: var(--black100);
-  }
-
-  @media (max-width: 768px) {
-    font-size: 17px;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 16px;
-  }
 `;
 
 export const FAQList = styled.div`
@@ -111,6 +77,42 @@ export const FAQAnswer = styled.div`
   color: var(--black600);
 `;
 
+
+export const FAQTabs = styled.div`
+  display: flex;
+  justify-content: space-around;
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid var(--black200);
+`;
+
+export const FAQTabButton = styled.button`
+  white-space: nowrap;
+  font-size: 18px;
+  width: auto;
+  text-align: center;
+  min-height: 50px;
+  background: none;
+  flex: 1;
+  outline: none;
+
+  color: ${(props) => (props.active ? 'var(--violet600)' : 'var(--black600)')};
+  background-color: ${(props) => (props.active ? '' : 'none')};
+  border-bottom: ${(props) => (props.active ? '2px solid var(--violet600)' : 'none')};
+
+  &:hover {
+    background-color: var(--black100);
+  }
+
+  @media (max-width: 768px) {
+    font-size: 17px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 16px;
+  }
+`;
+
 const FAQ = () => {
   const [activeTab, setActiveTab] = useState('계정');
   const [openQuestion, setOpenQuestion] = useState(null); // 하나의 질문만 열리도록 설정
@@ -146,17 +148,11 @@ const FAQ = () => {
     <FAQContainer>
       <PageTitle>FAQ</PageTitle>
       <FAQContent>
-        <Tabs>
-          {['계정', '스터디', '프로젝트', '챌린지', 'Etc'].map((tab) => (
-            <TabButton
-              key={tab}
-              active={activeTab === tab}
-              onClick={() => changeTab(tab)} // 탭 변경 시 질문 해제
-            >
-              {tab}
-            </TabButton>
-          ))}
-        </Tabs>
+        <FAQTab
+          tab={['계정', '스터디', '프로젝트', '챌린지', 'Etc']}
+          activeTab={activeTab}
+          changeTab={changeTab}
+        />
         <FAQList>
           <PaginatedList data={FaqData[activeTab]} renderItems={renderItems} currentPage={currentPage} setCurrentPage={setCurrentPage} />
         </FAQList>

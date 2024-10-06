@@ -2,8 +2,6 @@ import styled from 'styled-components';
 import { Title4, Period, PeriodText, ParticipationButton, Content, ChallengeFee, ChallengeWarning, BackButton } from "../GlobalStyledComponents";
 
 import React from "react";
-import thumbnail from '../../resources/image/ChallengeThumbnail.png'
-
 
 function ChallengeDetail(props) {
 
@@ -11,7 +9,7 @@ function ChallengeDetail(props) {
         <div>
             <Title4>
                 <span style={{ fontWeight: 'bold', marginBottom: '30px' }}>기사 자격증 취득 챌린지</span>
-                <img src={thumbnail} alt='챌린지 썸네일' />
+                <img src={'ChallengeThumbnail/ChallengeThumbnail.png'} alt='챌린지 썸네일' />
             </Title4>
             <Period>
                 <PeriodText>챌린지 기간&nbsp;&nbsp;&nbsp;&nbsp;2024.08.23~2024.10.23</PeriodText>

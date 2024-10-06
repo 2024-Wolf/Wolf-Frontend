@@ -1,10 +1,14 @@
 import styled from "styled-components";
-import { TabContainer } from "../GlobalStyledComponents";
 
 import React from "react";
 import TabButton from "../Tab/TabButton";
 
 
+// components/Group/GroupTabs.jsx, components/MyPageComponents/MyPageTabs.jsx
+export const TabContainer = styled.div`
+    display: flex;
+    width: 100%;
+`;
 
 const TabList = [
     "정보",
