@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Square, Violet500Line, Violet500LineHover } from "../GlobalStyledComponents";
+import { Square, Violet500Line, Violet500BackgroundHover } from "../GlobalStyledComponents";
 import { useState } from 'react';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -31,7 +31,7 @@ export const DateButtonWrapper = styled.div`
 
     ${({ setIsChanged }) =>
         typeof setIsChanged === 'function' ? `
-            ${Violet500LineHover}
+            ${Violet500BackgroundHover}
             &:hover {
                 svg {
                     background-color: var(--violet500);

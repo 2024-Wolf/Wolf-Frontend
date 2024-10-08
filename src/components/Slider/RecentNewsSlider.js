@@ -64,9 +64,24 @@ const SliderTitle = styled.div`
     flex-direction: row;
     white-space: nowrap;
     margin: auto;
-    width: 100px;
+    width: auto;
     gap: 5px;
     font-weight: bold;
+    justify-content: center;
+    font-size: 17px;
+    color: var(--violet500);
+    margin-left: 10px;
+
+    @media (max-width: 768px) {
+        font-size: 16px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 15px;
+        span {
+            display: none;
+        }
+    }
 `;
 
 const Arrow = styled.button`
@@ -75,6 +90,15 @@ const Arrow = styled.button`
     cursor: pointer;
     font-size: 20px;
     margin: 0 10px;
+`;
+
+const SlideContent = styled.div`
+  width: 100%;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 3; /* 줄 수 제한 */
+  color: var(--black700);
 `;
 
 const RecentNewsSlider = ({ news }) => {
@@ -105,13 +129,13 @@ const RecentNewsSlider = ({ news }) => {
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-megaphone-fill" viewBox="0 0 16 16">
                     <path d="M13 2.5a1.5 1.5 0 0 1 3 0v11a1.5 1.5 0 0 1-3 0zm-1 .724c-2.067.95-4.539 1.481-7 1.656v6.237a25 25 0 0 1 1.088.085c2.053.204 4.038.668 5.912 1.56zm-8 7.841V4.934c-.68.027-1.399.043-2.008.053A2.02 2.02 0 0 0 0 7v2c0 1.106.896 1.996 1.994 2.009l.496.008a64 64 0 0 1 1.51.048m1.39 1.081q.428.032.85.078l.253 1.69a1 1 0 0 1-.983 1.187h-.548a1 1 0 0 1-.916-.599l-1.314-2.48a66 66 0 0 1 1.692.064q.491.026.966.06" />
                 </svg>
-                최근 소식
+                <span>최근 소식</span>
             </SliderTitle>
             <SliderInner position={currentPosition}>
                 {news.map((item, index) => (
                     <Slide key={index}>
-                        <div style={{ width: "100%" }}>{item.content}</div>
-                        <div>{item.date}</div>
+                        <SlideContent>{item.content}</SlideContent>
+                        <div style={{ color: "var(--black400)" }}>{item.date}</div>
                     </Slide>
                 ))}
             </SliderInner>

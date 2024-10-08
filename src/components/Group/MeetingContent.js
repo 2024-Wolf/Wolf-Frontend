@@ -7,6 +7,7 @@ import CommentSection from "./Question/CommentSection";
 import QuestionList from "./Question/QuestionList";
 import QuestionForm from "./Question/QuestionForm";
 import MeetingPortal from "./MeetingComponent/MeetingPortal";
+import FormFieldSingle from "./GroupComponent/FormFieldSingle";
 
 const MeetingContent = ({ isMeetingStarted }) => {
   const [posts, setPosts] = useState([
@@ -123,7 +124,7 @@ const MeetingContent = ({ isMeetingStarted }) => {
         {isMeetingOpen && <MeetingPortal onClose={closeMeetingWindow} />}
       </MeetingDiv>
 
-      <MeetingHeader>팀원들과 궁금한 내용을 나눠보세요!</MeetingHeader>
+      <FormFieldSingle label={"팀원들과 궁금한 내용을 나눠보세요 !"} />
 
       {/* 게시글 작성 영역 */}
       <QuestionForm

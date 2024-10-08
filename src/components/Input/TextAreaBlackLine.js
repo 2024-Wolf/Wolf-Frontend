@@ -12,13 +12,19 @@ const TextAreaBlackLineWrapper = styled.textarea`
     resize: none;
     line-height: 1.5;
     text-overflow: ellipsis;
+    white-space: pre-wrap;  // 줄바꿈 및 공백 유지
+    overflow-wrap: break-word;  // 브라우저 호환성 용어
 `;
 
-const TextAreaBlackLine = ({ ...props }, children) => {
+const TextAreaBlackLine = ({ value, readOnly, ...props }) => {
     return (
-        <TextAreaBlackLineWrapper {...props} rows="4">
-            {children}
-        </TextAreaBlackLineWrapper>
+        <TextAreaBlackLineWrapper
+            value={value}
+            wrap="soft"  // 줄바꿈 설정 (HTML 속성으로 전달)
+            rows="4"
+            readOnly={readOnly}
+            {...props}
+        />
     );
 }
 

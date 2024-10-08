@@ -19,7 +19,7 @@ export const ProfileIconImg = styled.img`
 const UserName = styled.span`
   text-wrap: nowrap;
   font-size: 16px;
-  color: var(--black700);
+  color: var(--black500);
 `;
 
 const ProfileIcon = ({ src = "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png",

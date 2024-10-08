@@ -12,6 +12,9 @@ const InputTextNoCssWrapper = styled.input`
     white-space: nowrap;
     text-overflow: ellipsis;
 
+    caret-color: transparent; 
+    cursor: default;
+
     &:focus {
         outline: none;
     }

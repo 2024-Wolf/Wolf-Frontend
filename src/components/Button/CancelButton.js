@@ -1,11 +1,11 @@
 
 import styled from "styled-components";
-import { Square, Violet500Line, Violet100BackgroundHover } from "../GlobalStyledComponents";
+import { Square, Violet500Line, Violet600BackgroundHover } from "../GlobalStyledComponents";
 
 const CancelButtonWrapper = styled.button`
     ${Square}
     ${Violet500Line}
-    ${Violet100BackgroundHover}
+    ${Violet600BackgroundHover}
 `;
 
 const CancelButton = ({ children, onClick }) => {

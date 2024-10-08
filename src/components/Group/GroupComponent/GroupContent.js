@@ -6,7 +6,7 @@ import FormFieldMultiple from "./FormFieldMultiple";
 import FormFieldSingle from "./FormFieldSingle";
 import DateButton from "../../Button/DateButton";
 import SelectButton from "../../Button/SelectButton";
-import { FormLabel, MemberInfo, FormFieldRow, FormTitle, ButtonGroupCenter, ButtonGroupRight, ButtonGroupWrap, DoubleDateContainer } from "../../GlobalStyledComponents";
+import { ImagePreview, FormLabel, MemberInfo, FormFieldRow, FormTitle, ButtonGroupCenter, ButtonGroupRight, ButtonGroupWrap, DoubleDateContainer } from "../../GlobalStyledComponents";
 import InputText from "../../Input/InputText";
 import FormOptionButton from "../../Button/FormOptionButton";
 import InputFile from "../../Input/InputFile"
@@ -17,7 +17,7 @@ import CancelButton from "../../Button/CancelButton";
 import EditButton from "../../Button/EditButton";
 import DeleteButton from "../../Button/DeleteButton";
 import CompleteButton from "../../Button/CompleteButton"
-import DeleteIconButton from "../../Icon/DeleteIcon";
+import CancelIcon from "../../Icon/CancelIcon";
 import { useNavigate } from 'react-router-dom';
 import ProfileIcon from "../../Icon/ProfileIcon";
 
@@ -133,14 +133,6 @@ const ImagePlaceholder = styled.div`
     width: 90%;
     gap: 10px;
     margin: 0 20px;
-`;
-
-const ImagePreview = styled.img`
-    object-fit: cover;
-    max-width: 100%;
-    max-height: 214px;
-    border: 1.5px solid var(--black200);
-    border-radius: 10px;
 `;
 
 const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
@@ -342,7 +334,7 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
                         return (
                             <> {/* 고유한 key 사용 */}
                                 <ImagePreview key={file.name} src={fileURL} alt={`preview-${index}`} />
-                                <DeleteIconButton onClick={() => handleDeleteFile()} />
+                                <CancelIcon onClick={() => handleDeleteFile()} />
                             </>
                         );
                     })}

@@ -1,11 +1,11 @@
 
 import styled from "styled-components";
-import { Square, Violet500Line, Violet100BackgroundHover, IconButton, IconInnerText } from "../GlobalStyledComponents";
+import { Square, Violet500Line, Violet200BackgroundHover, IconButton, IconInnerText } from "../GlobalStyledComponents";
 
 const ReportButtonWrapper = styled.button`
     ${Square}
     ${Violet500Line}
-    ${Violet100BackgroundHover}
+    ${Violet200BackgroundHover}
     ${IconButton}
 `;
 

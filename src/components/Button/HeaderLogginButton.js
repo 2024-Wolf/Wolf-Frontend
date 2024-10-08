@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import { HeaderButton, NoBackgroundButton, Black200BackgroundBlueHover } from "../GlobalStyledComponents";
+import { HeaderButton, NoBackgroundButton, Black200BackgroundHover } from "../GlobalStyledComponents";
 
 const HeaderLogginButtonWrapper = styled(NoBackgroundButton)`
   ${HeaderButton}
-  ${Black200BackgroundBlueHover}
+  ${Black200BackgroundHover}
 
     @media (max-width: 320px) {
         padding: 10px;

@@ -1,13 +1,29 @@
 import styled from 'styled-components';
 import {
-    QuestionItemContainer, ActionButtons, QuestionContent, QuestionText, QuestionDate,
-    QuestionAuthor
+    ActionButtons,
+    QuestionRow, ButtonGroupRight,
+    QuestionItemContainer,
 } from "../../GlobalStyledComponents";
 
 import ProfileIcon from '../../Icon/ProfileIcon';
-import React from 'react';
+import React, { useState } from 'react';
 import ArrowUpIcon from '../../Icon/ArrowUpIcon';
 import ArrowDownIcon from '../../Icon/ArrowDownIcon';
+import TextAreaNoCss from '../../Input/TextAreaNoCss';
+import DoubleButton from '../../Button/DoubleButton';
+
+// components/Group/Question/QuestionItem.jsx
+export const QuestionDate = styled.div`
+    font-size: 13px;
+    color: var(--black400);
+`;
+
+// components/Group/Question/QuestionItem.jsx
+export const QuestionItemWrapper = styled.div`
+    padding: 0px 10px;
+    border-radius: 7px;
+    width: 100%;
+`;
 
 const QuestionItem = ({
     question,
@@ -20,17 +36,37 @@ const QuestionItem = ({
     showFileOptions = true,
 }) => {
 
+    const [isEditing, setIsEditing] = useState(false);
+
+    const edithandler = () => {
+        // 편집버튼 또는 편집 완료
+        setIsEditing(!isEditing);
+    };
+
+    const deletehandler = () => {
+        if (isEditing) {
+            // 취소버튼 : isEditing 편집 상태이면
+            edithandler(); // edithandler 함수 호출
+        } else {
+            // 삭제버튼 : isEditing 편집 상태가 아니면
+            alert("삭제 버튼이 클릭되었습니다.");
+        }
+    };
+
+
     return (
-        <QuestionItemContainer>
-            <QuestionAuthor>
-                <ProfileIcon
-                    src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
-                    alt="Profile">
-                    {question.author}
-                </ProfileIcon>
-            </QuestionAuthor>
-            <QuestionContent>
-                <QuestionText>{question.text}</QuestionText>
+        <QuestionItemWrapper>
+            <QuestionItemContainer>
+                <QuestionRow>
+                    <ProfileIcon
+                        src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
+                        alt="Profile">
+                        {question.author}
+                    </ProfileIcon>
+                    <QuestionDate>{question.date}</QuestionDate>
+                </QuestionRow>
+                <TextAreaNoCss value={question.text} isEditing={isEditing} />
+
                 {question.file && (
                     <img
                         src={URL.createObjectURL(question.file)}
@@ -38,42 +74,55 @@ const QuestionItem = ({
                         style={{ maxWidth: '100px' }}
                     />
                 )}
-                <QuestionDate>{question.date}</QuestionDate>
-            </QuestionContent>
 
-
-            <ActionButtons>
                 {showFileOptions && question.file && (
-                    <label>
-                        파일 변경
-                        <input
-                            type="file"
-                            onChange={(e) => handleFileChange(question.id, e.target.files[0])}
-                            style={{ display: 'none' }}
-                        />
-                    </label>
+                    <ActionButtons>
+                        <label>
+                            파일 변경
+                            <input
+                                type="file"
+                                onChange={(e) => handleFileChange(question.id, e.target.files[0])}
+                                style={{ display: 'none' }}
+                            />
+                        </label>
+                    </ActionButtons>
                 )}
-                <button
-                    onClick={() =>
-                        handleQuestionEdit(question.id, prompt('수정할 내용을 입력하세요', question.text))
-                    }
-                >
-                    수정
-                </button>
-                <button onClick={() => handleQuestionDelete(question.id)}>
-                    삭제
-                </button>
-            </ActionButtons>
 
-            <span onClick={() => toggleComments(question.id)}>
-                {selectedQuestionId === question.id ? (
-                    <>댓글 닫기 <ArrowUpIcon /></>
-                ) : (
-                    <>댓글 열기 <ArrowDownIcon /></>
-                )}
-            </span>
-            {selectedQuestionId === question.id && renderComments()}
-        </QuestionItemContainer>
+
+                <QuestionRow>
+                    {selectedQuestionId === question.id ? (
+                        <>
+                            <ArrowUpIcon onClick={() => toggleComments(question.id)}>
+                                댓글 닫기
+                            </ArrowUpIcon>
+                        </>
+                    ) : (
+                        <>
+                            <ArrowDownIcon onClick={() => toggleComments(question.id)}>
+                                댓글 열기
+                            </ArrowDownIcon>
+                        </>
+                    )}
+
+                    <ButtonGroupRight>
+                        <DoubleButton
+                            leftButtonText={isEditing ? "완료" : "수정"} rightButtonText={isEditing ? "취소" : "삭제"}
+                            leftButtonOnClick={edithandler}
+                            rightButtonOnClick={deletehandler}
+                            isEditing={isEditing}
+                        >
+                        </DoubleButton>
+                    </ButtonGroupRight>
+                </QuestionRow>
+            </QuestionItemContainer>
+            {selectedQuestionId === question.id && (
+                <>
+                    {renderComments()}
+                </>
+            )}
+
+
+        </QuestionItemWrapper >
     );
 };
 

@@ -1,12 +1,12 @@
 
 import styled from "styled-components";
-import { Round, Violet500Line, Violet500LineBlackHover } from "../GlobalStyledComponents";
+import { Round, Violet500Line, Violet700BackgroundHover } from "../GlobalStyledComponents";
 
 
 const FormOptionButtonWrapper = styled.button`
     ${Round}
     ${Violet500Line}
-    ${Violet500LineBlackHover}
+    ${Violet700BackgroundHover}
 
     &:disabled {
         background-color: ${({ clicked }) => (clicked ? "var(--black600)" : "var(--violet200)")};
