@@ -27,13 +27,17 @@ const FormFieldMultiple = ({ label, label2, children, description }) => {
                 <FormLabel>{label}</FormLabel>
                 {label2 && <FormLabel>{label2}</FormLabel>} {/* 2번째 라벨이 있으면 보임 */}
             </FormLabelGroup>
-            {description && (
-                <FormChildrenGroup> {/* 설명이 있으면 설명과 children을 보임 */}
-                    <FormDescription>{description}</FormDescription>
-                    {children}
-                </FormChildrenGroup>
-            )}
-            {!description && children} {/* 설명이 없을 경우 children만 보임 */}
+            <FormChildrenGroup>
+                {description && (
+                    <>
+                        {/* 설명이 있으면 설명과 children이 보임 */}
+                        <FormDescription>{description}</FormDescription>
+                        {children}
+                    </>
+                )}
+
+                {!description && children} {/* 설명이 없을 경우 children만 보임 */}
+            </FormChildrenGroup>
         </FormFieldMultipleWrapper>
     );
 };
