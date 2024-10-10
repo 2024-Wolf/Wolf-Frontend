@@ -10,12 +10,13 @@ const TextAreaNoCssWrapper = styled.textarea`
   width: 100%;
   height: auto;
   resize: none;
-  line-height: 1.5;
+  line-height: 1.7;
   white-space: pre-wrap;  // 줄바꿈 및 공백 유지
   overflow-wrap: break-word;  // 브라우저 호환성 용어
   border: 2px solid rgba(255, 255, 255, 0);
   overflow: hidden;
-color: var(--black700);
+  color: var(--black700);
+  transition: border 0.3s ease, color 0.3s ease; /* transition 추가 */
   ${({ editing }) =>
         editing
             ? `

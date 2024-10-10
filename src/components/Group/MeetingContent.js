@@ -2,9 +2,7 @@ import styled from 'styled-components';
 import { MeetingContainer2, MeetingHeader, StartMeetingButton, MeetingDiv } from "../GlobalStyledComponents";
 
 import React, { useState } from 'react';
-import TabContentsWrapper from "../TabContentsWrapper";
 import CommentSection from "./Question/CommentSection";
-import QuestionList from "./Question/QuestionList";
 import QuestionForm from "./Question/QuestionForm";
 import MeetingPortal from "./MeetingComponent/MeetingPortal";
 import FormFieldSingle from "./GroupComponent/FormFieldSingle";
@@ -126,25 +124,9 @@ const MeetingContent = ({ isMeetingStarted }) => {
 
       <FormFieldSingle label={"팀원들과 궁금한 내용을 나눠보세요 !"} />
 
-      {/* 게시글 작성 영역 */}
       <QuestionForm
-        newQuestion={newQuestion}
-        setNewQuestion={setNewQuestion}
-        newQuestionFile={newQuestionFile}
-        setNewQuestionFile={setNewQuestionFile}
-        handleQuestionSubmit={handlePostSubmit}
-      />
-      <QuestionList
-        questions={posts}
-        selectedQuestionId={selectedPostId}
-        toggleComments={toggleComments}
-        renderComments={renderComments}
-        handleFileChange={(id, file) => {
-        }}
-        handleQuestionEdit={(id, text) => {
-        }}
-        handleQuestionDelete={(id) => {
-        }}
+        showFileOption={true}
+      // data={data} 데이터 연결 필요
       />
     </MeetingContainer2>
   );

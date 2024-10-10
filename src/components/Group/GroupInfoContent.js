@@ -3,16 +3,14 @@ import { Violet500LineDiv, FormFieldColumn, Violet500BackgroundButton, FormField
 
 import React, { useState } from 'react';
 import ApplicantModal from "./GroupInfoModal/ApplicantModal";
-import QuestionForm from "./Question/QuestionForm";
-import QuestionList from "./Question/QuestionList";
+
 import CommentSection from "./Question/CommentSection";
 import FormFieldSingle from "./GroupComponent/FormFieldSingle";
 import TextAreaNoCss from '../Input/TextAreaNoCss';
 import InputTextNoCss from '../Input/InputTextNoCss';
 import InputDateNoCss from '../Input/InputDateNoCss';
 import RecentNewsSlider from '../Slider/RecentNewsSlider';
-import Exam from "../Exam";
-import Exam2 from '../Exam2';
+import QuestionForm from "./Question/QuestionForm";
 
 const GroupInfoContent = ({ mode }) => {
     const [questions, setQuestions] = useState([
@@ -109,8 +107,6 @@ const GroupInfoContent = ({ mode }) => {
 
     return (
         <>
-            <Exam />
-            <hr />
             <InfoContainer>
                 {/* 정보 묶음 */}
                 <Violet500LineDiv>
@@ -171,20 +167,8 @@ const GroupInfoContent = ({ mode }) => {
                 <Violet500LineDiv>
                     <FormFieldSingle label={"응원이나 궁금한 내용을 입력해주세요 !"} />
                     <QuestionForm
-                        newQuestion={newQuestion}
-                        setNewQuestion={setNewQuestion}
-                        handleQuestionSubmit={handleQuestionSubmit}
-                        showFileOptions={false}
-                    />
-                    {/* 질문 목록 */}
-                    <QuestionList
-                        questions={questions}
-                        selectedQuestionId={selectedQuestionId}
-                        toggleComments={toggleComments}
-                        renderComments={renderComments}
-                        handleQuestionEdit={(id, text) => { }}
-                        handleQuestionDelete={(id) => { }}
-                        showFileOptions={false}
+                        showFileOption={false}
+                    // data={data} 데이터 연결 필요
                     />
                 </Violet500LineDiv>
             </InfoContainer>
