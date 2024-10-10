@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const Image = styled.img`
@@ -33,7 +33,20 @@ const CancelIcon = styled.button`
     cursor: pointer;
 `;
 
-const ImagePreview = ({ isImageModalOpen, setIsImageModalOpen, ...props }) => {
+const ImagePlaceholder = styled.div`
+    display: ${(props) => (props.hasFiles ? 'flex' : 'none')};
+    flex-direction: row;
+    justify-content: center;
+    align-items: start;
+    width: 90%;
+    gap: 10px;
+    margin: 0 20px;
+`;
+
+const ImagePreview = ({ images, isImageModal, ...props }) => {
+    const [isEditingQuestion, setIsEditingQuestion] = useState(false);
+
+
     useEffect(() => {
         if (isImageModalOpen) {
             document.body.style.overflow = 'hidden';
@@ -48,16 +61,23 @@ const ImagePreview = ({ isImageModalOpen, setIsImageModalOpen, ...props }) => {
 
     return (
         <>
-            <Image />
+            <ImagePlaceholder hasFiles={images.length > 0}>
+                {images.map((image, index) => {
+                    return (
+                        <> {/* 고유한 key 사용 */}
+                            <ImagePreview {...props} key={image.name} src={URL.createObjectURL(image)} alt={`preview-${index}`} />
+                            <CancelIcon onClick={() => handleDeleteFile()} />
+                        </>
+                    );
+                })}
+            </ImagePlaceholder>
             {isImageModalOpen && (
                 <ModalOverlay>
                     <img
                         alt="확대된 이미지"
                         style={{ maxWidth: '90%', maxHeight: '90%', borderRadius: '10px' }}
                     />
-                    <CancelIcon onClick={() => setIsImageModalOpen(false)}>
-                        ✕
-                    </CancelIcon>
+                    <CancelIcon onClick={() => setIsImageModalOpen(false)} />
                 </ModalOverlay>
             )}
         </>
