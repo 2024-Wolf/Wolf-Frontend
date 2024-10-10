@@ -42,7 +42,7 @@ const InputFile = ({ disabled, ...props }) => {
                     {...props}
                     disabled={disabled}
                     type="file"
-                // style={{ display: 'none' }}
+                    style={{ display: 'none' }}
                 />
             </FileInputButton>
         </>

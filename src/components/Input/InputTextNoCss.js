@@ -11,7 +11,6 @@ const InputTextNoCssWrapper = styled.input`
     padding: 10px;
     white-space: nowrap;
     text-overflow: ellipsis;
-
     caret-color: transparent; 
     cursor: default;
 

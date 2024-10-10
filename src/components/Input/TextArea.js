@@ -10,7 +10,7 @@ const TextAreaWrapper = styled.textarea`
     width: 100%;
     min-height: 200px;
     resize: none;
-    line-height: 1.5;
+  line-height: 1.7;
     text-overflow: ellipsis;
     white-space: pre-wrap;  // 줄바꿈 및 공백 유지
     overflow-wrap: break-word;  // 브라우저 호환성 용어

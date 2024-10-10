@@ -1,34 +1,19 @@
 import styled from 'styled-components';
 import {
-    Violet500LineButton, ButtonRow,
-    Violet500LineDiv, FormFieldColumn, Violet500BackgroundButton, FormFieldRow, DoubleDateContainer, InfoContainer, PostContent, QuestionHeader,
     ItemRow, ButtonGroupRight,
     QuestionItemContainer, Hr,
-    CommentBody,
-    QuestionRow, ItemCol,
+    ItemCol,
+} from "../../GlobalStyledComponents";
 
-} from "./GlobalStyledComponents";
-
-import ProfileIcon from './Icon/ProfileIcon';
-import ArrowUpIcon from './Icon/ArrowUpIcon';
-import ArrowDownIcon from './Icon/ArrowDownIcon';
-import DoubleButton from './Button/DoubleButton';
-import DownloadIcon from './Icon/DownloadIcon';
-import ImagePreview from './Img/ImagePreview';
-
-import FormFieldSingle from "./Group/GroupComponent/FormFieldSingle";
-import ApplicantModal from "./Group/GroupInfoModal/ApplicantModal";
-import QuestionForm from "./Group/Question/QuestionForm";
-import QuestionList from "./Group/Question/QuestionList";
-import CommentSection from "./Group/Question/CommentSection";
-import TextAreaNoCss from './Input/TextAreaNoCss';
-import InputTextNoCss from './Input/InputTextNoCss';
-import InputDateNoCss from './Input/InputDateNoCss';
-import RecentNewsSlider from './Slider/RecentNewsSlider';
-import CancelIcon from './Icon/CancelIcon';
+import ProfileIcon from '../../Icon/ProfileIcon';
+import ArrowUpIcon from '../../Icon/ArrowUpIcon';
+import ArrowDownIcon from '../../Icon/ArrowDownIcon';
+import DoubleButton from '../../Button/DoubleButton';
+import ImagePreview from '../../Img/ImagePreview';
+import TextAreaNoCss from '../../Input/TextAreaNoCss';
 import React, { useEffect, useState, useRef } from 'react';
-import TextAreaBlackLine from './Input/TextAreaBlackLine';
-import InputFile from './Input/InputFile';
+import TextAreaBlackLine from '../../Input/TextAreaBlackLine';
+
 
 const CommentSectionWrapper = styled.div`
     padding:10px;
@@ -140,9 +125,10 @@ const Question = ({
     handleQuestionFileDelete,
     commentFileURL,
     setCommentFileURL,
+    showFileOption
 }) => {
     const [isEditingQuestion, setIsEditingQuestion] = useState(false);
-    const [isEditingComment, setIsEditingComment] = useState(false);
+    const [isEditFileComment, setIsEditFileComment] = useState({});
 
     const [isShowComments, setIsShowComments] = useState(false);
 
@@ -155,28 +141,17 @@ const Question = ({
     const [questionFileURL, setQuestionFileURL] = useState('');
     const [questionEditFileURL, setQuestionEditFileURL] = useState('');
 
-    const [commentEditFile, setCommentEditFile] = useState({});
+    const [commentEditFile, setCommentEditFile] = useState(null);
 
     const [commentEditFileURL, setCommentEditFileURL] = useState('');
 
     const [isEditFile, setIsEditFile] = useState(false);
     const [editingComments, setEditingComments] = useState({}); // 질문 ID를 키로 사용하는 객체
 
-
-
-
-
-
-    useEffect(() => {
-        const newCommentEditFiles = question.comments.map(comment => comment.file || null);
-        setCommentEditFile(newCommentEditFiles);
-    }, [question.comments]);
-
-
     const handleQuestionSubmit = (e) => {
         e.preventDefault();
         const questionValue = new FormData(e.target).get('textareaQuestion');
-        const file = new FormData(e.target).get('fileInput');
+
         // 질문 수정 및 파일 첨부
         onEdit(question.id, {
             text: questionValue || question.text,
@@ -190,24 +165,20 @@ const Question = ({
     const handleCommentSubmit = (e, index) => {
         e.preventDefault();
         const commentValue = new FormData(e.target).get('textareaComment');
-        const file = new FormData(e.target).get('fileInput');
 
         if (question.comments[index]) {
             const updatedComment = {
                 ...question.comments[index],
                 text: commentValue || question.comments[index].text,
-                file: isEditFile ? commentEditFile : question.comments[index].file,
+                file: isEditFileComment[index] ? commentEditFile : question.comments[index].file,
             };
             onCommentEdit(question.id, index, updatedComment);
             setCommentIndex(null);
         } else {
         }
-
-        document.querySelectorAll('.InputFileImage').forEach(input => {
-            input.value = ''; // 각 input의 value 초기화
-        });
         setEditingComments({});
-        setIsEditingComment(false);
+        setIsEditFileComment({});
+
     };
 
     const startEditQuestion = () => {
@@ -221,64 +192,60 @@ const Question = ({
         setQuestionEditFile(null);
         setIsEditFile(false);
     };
-    //------------------------------------------------------------------------------
-    const deleteQuestionEditFile = () => {
-        setQuestionEditFile(null);
-        setIsEditFile(true);
-    }
 
-    const addQuestionEditFile = (file) => {
-        if (file) {
-            setQuestionEditFile(file);
-            setIsEditFile(true);
-        }
-    }
-    // -----------------------------------------------------------------------------
 
     const startEditComment = (questionId, index) => {
         setEditingComments((prev) => ({
             ...prev,
             [questionId]: index, // 특정 질문의 댓글 인덱스 저장
         }));
-        setIsEditingComment(true);
         setCommentEditText(question.comments[index].text);
+        setCommentEditFile(null);
+        setIsEditFileComment({});
     };
 
 
-    const cancelEditComment = () => {
+    const cancelEditComment = (index) => {
         setCommentIndex(null);
         setCommentEditText('');
-        setIsEditingComment(false);
         setEditingComments({});
-    };
-    // -----------------------------------------------------------------------------
-
-    const deleteCommentEditFile = (questionId, index) => {
-        setCommentEditFile((prevFiles) => {
-            const newFiles = { ...prevFiles };
-
-            // 특정 questionId가 존재하는 경우
-            if (newFiles[questionId]) {
-                delete newFiles[questionId][index]; // 특정 댓글 파일 삭제
-            }
-
-            return newFiles;
-        });
-
-        setIsEditFile(true); // 파일이 삭제되었음을 상태로 반영
+        setIsEditFileComment({});
+        setCommentEditFile(null);
     };
 
-    const addCommentEditFile = (file, questionId, index) => {
+    const deleteQuestionEditFile = () => {
+        setIsEditFile(true);
+        setQuestionEditFile(null);
+    }
+
+    const addQuestionEditFile = (file) => {
+        setIsEditFile(true);
         if (file) {
-            setCommentEditFile((prevFiles) => ({
-                ...prevFiles,
-                [questionId]: {
-                    ...(prevFiles[questionId] || {}),
-                    [index]: file, // index를 키로 하여 파일 저장
-                },
-            }));
-            setIsEditFile(true);
+            setQuestionEditFile(file);
         }
+    }
+
+    const deleteCommentEditFile = (index) => {
+        setIsEditFileComment((prev) => ({
+            ...prev,
+            [index]: true, // 특정 질문의 댓글 인덱스 저장
+        }));
+        setCommentEditFile(null);
+    }
+
+    const addCommentEditFile = (file, index) => {
+        setIsEditFileComment((prev) => ({
+            ...prev,
+            [index]: true, // 특정 질문의 댓글 인덱스 저장
+        }));
+        if (file) {
+            setCommentEditFile(file);
+        }
+    }
+
+    const handleAddComment = (e) => {
+        e.preventDefault();
+        onAddComment(question.id);
     };
 
     useEffect(() => {
@@ -309,36 +276,6 @@ const Question = ({
         };
     }, [question.file, questionEditFile]);
 
-    useEffect(() => {
-        let commentURL;
-        let commentEditURL;
-
-        console.log(question.comments[commentIndex]);
-        // 인덱스가 유효하고, 파일이 존재하는지 확인
-        if (commentIndex !== null && question.comments[commentIndex].file) {
-            commentURL = URL.createObjectURL(question.comments[commentIndex].file);
-            setCommentFileURL(commentURL);
-        } else {
-            setCommentFileURL(''); // 파일이 없을 경우 빈 문자열 설정
-        }
-
-        if (commentIndex !== null && commentEditFileURL) {
-            commentEditURL = URL.createObjectURL(commentEditFileURL);
-            setCommentEditFileURL(commentEditURL);
-        } else {
-            setCommentEditFileURL('');
-        }
-
-
-        // 컴포넌트 언마운트 시 URL 해제
-        return () => {
-            if (commentURL) {
-                URL.revokeObjectURL(commentURL);
-            }
-        };
-    }, [commentIndex, question.comments]);
-
-
     return (
         <>
             {/* 질문(Question) */}
@@ -368,13 +305,15 @@ const Question = ({
                                     required
                                 />
                                 {/* [질문[수정중O]]-이미지 프리뷰 */}
-                                <ImagePreview
-                                    src={questionEditFile ? questionEditFileURL : isEditFile ? "" : questionFileURL}
-                                    alt={questionEditFileURL ? "" : ""}
-                                    imageFile={question.file}
-                                    isEditing={true}
-                                    onClick={deleteQuestionEditFile}
-                                />
+                                {(questionFileURL || questionEditFileURL) &&
+                                    <ImagePreview
+                                        src={questionEditFile ? questionEditFileURL : isEditFile ? "" : questionFileURL}
+                                        alt={questionEditFileURL ? "" : ""}
+                                        imageFile={question.file}
+                                        isEditing={true}
+                                        onClick={deleteQuestionEditFile}
+                                    />
+                                }
                             </ItemCol>
                             <ItemRow>
                                 {/* [질문[수정중O]]-댓글 열기/닫기 버튼 */}
@@ -392,7 +331,7 @@ const Question = ({
                                 <ButtonGroupRight>
                                     {/* [질문[수정중O]]-파일 선택 & 삭제 버튼 */}
                                     <ImagePreview
-                                        isNoCssUploadButtonAppear={true}
+                                        isNoCssUploadButtonAppear={showFileOption}
                                         onChange={(file) => addQuestionEditFile(file)}
                                         onClick={deleteQuestionEditFile}
                                     />
@@ -471,7 +410,6 @@ const Question = ({
                         ) : (
                             question.comments.map((comment, index) => (
                                 <React.Fragment key={comment.id} comment={comment}>
-                                    {console.log(comment)}
                                     <CommentSectionWrapper>
                                         <ItemRow>
                                             {/* [댓글] 프로필 */}
@@ -483,7 +421,6 @@ const Question = ({
                                             {/* [댓글] 날짜 */}
                                             <QuestionDate>{comment.date}</QuestionDate>
                                         </ItemRow>
-                                        {console.log(comment)}
 
                                         {editingComments[question.id] === index ? (
                                             <>
@@ -497,26 +434,29 @@ const Question = ({
                                                             onKeyDown={(e) => handleEnterSubmit(e, true)}
                                                             required
                                                         />
-                                                        {/* [댓글[수정중O]]-이미지 프리뷰 & 삭제 버튼 */}
-                                                        {comment.file && (
-                                                            <ImagePreview
-                                                                src={URL.createObjectURL(comment.file)}
-                                                                alt={comment.file.name}
-                                                                imageFile={comment.file}
-                                                                isEditing={true}
-                                                                onClick={() => handleCommentFileDelete(question.id)} // questionId 전달
-                                                                questionId={question.id}
-                                                            />
+                                                        {(comment.file || commentEditFile) && (
+                                                            <>
+                                                                {/* [댓글[수정중O]]-이미지 프리뷰 & 삭제 버튼 */}
+                                                                <ImagePreview
+                                                                    src={commentEditFile ? URL.createObjectURL(commentEditFile) : isEditFileComment[index] ? "" : URL.createObjectURL(comment.file)}
+                                                                    alt={comment.file ? comment.file.name : ""}
+                                                                    imageFile={comment.file}
+                                                                    isEditing={true}
+                                                                    questionId={question.id}
+                                                                    onClick={() => deleteCommentEditFile(index)} // questionId 전달
+                                                                />
+                                                            </>
                                                         )}
                                                     </ItemCol>
                                                     <ItemRow>
                                                         <ButtonGroupRight>
                                                             {/* [댓글[수정중O]]-파일 선택 버튼 */}
                                                             <ImagePreview
-                                                                isNoCssUploadButtonAppear={true}
-                                                                onChange={(file) => addCommentEditFile(file, question.id, index)}
-                                                                onClick={() => deleteCommentEditFile(question.id, index)}
+                                                                isNoCssUploadButtonAppear={showFileOption}
+                                                                onChange={(file) => addCommentEditFile(file, index)}
+                                                                onClick={() => deleteCommentEditFile(index)}
                                                                 questionId={question.id}
+
                                                             />
                                                             {/* [댓글[수정중O]]-완료 & 취소 버튼 */}
                                                             <DoubleButton
@@ -524,7 +464,7 @@ const Question = ({
                                                                 leftButtonType={"submit"}
                                                                 rightButtonText={"취소"}
                                                                 rightButtonType={"button"}
-                                                                rightButtonOnClick={cancelEditComment}
+                                                                rightButtonOnClick={() => cancelEditComment(index)}
                                                                 editing={editingComments[question.id] === index}
                                                             />
                                                         </ButtonGroupRight>
@@ -573,11 +513,7 @@ const Question = ({
                                 </React.Fragment>
                             ))
                         )}
-                        <FormContainer onSubmit={(e) => {
-                            e.preventDefault();
-                            onAddComment(question.id);
-                            setIsEditingComment(false);
-                        }}>
+                        <FormContainer onSubmit={(e) => handleAddComment(e)}>
                             {/* [댓글] 텍스트 입력창 */}
                             <TextAreaBlackLine
                                 placeholder="댓글을 적어주세요"
@@ -589,7 +525,7 @@ const Question = ({
                             {/* [댓글]사진 파일 업로드 버튼 & 댓글 등록(제출) 버튼 */}
                             <ImagePreview
                                 isEditing={true}
-                                isUploadButtonAppear={true}
+                                isUploadButtonAppear={showFileOption}
                                 isSubmitButtonAppear={true}
                                 onChange={(file) => handleCommentFileChange(file, question.id)}
                                 onClick={() => handleCommentFileDelete(question.id)} // questionId 전달
@@ -605,14 +541,15 @@ const Question = ({
 };
 
 
-const Exam = () => {
+const Exam = ({ showFileOption }) => {
+    {/* 데이터 연결 필요 */ }
     const [questions, setQuestions] = useState(dummyQuestions);
     const [newQuestion, setNewQuestion] = useState('');
     const [newComments, setNewComments] = useState({});
     const [newQuestionFile, setNewQuestionFile] = useState(null);
     const [newCommentFile, setNewCommentFile] = useState({}); // 각 댓글의 파일 상태
-    const [showFileOption, setShowFileOption] = useState(true);
     const [commentFileURL, setCommentFileURL] = useState('');
+
 
     const currentUser = '사용자';
 
@@ -754,8 +691,7 @@ const Exam = () => {
     };
 
     return (
-        <Violet500LineDiv>
-            <FormFieldSingle label={"응원이나 궁금한 내용을 입력해주세요 !"} />
+        <>
             <FormContainer onSubmit={handleAddQuestion}>
                 {/* [질문] 텍스트 입력창 */}
                 <TextAreaBlackLine
@@ -767,10 +703,11 @@ const Exam = () => {
                 {/* [질문] 사진 파일 업로드 버튼 & 질문 등록(제출) 버튼 */}
                 <ImagePreview
                     isEditing={true}
-                    isUploadButtonAppear={true}
+                    isUploadButtonAppear={showFileOption}
                     isSubmitButtonAppear={true}
                     onChange={(file) => handleQuestionFileChange(file)}
                     onClick={() => handleQuestionFileDelete()}
+
                 />
             </FormContainer>
 
@@ -797,7 +734,6 @@ const Exam = () => {
                             newComments={newComments}
                             newCommentFile={newCommentFile[item.id] || null}
                             handleCommentChange={handleCommentChange}
-                            showFileOption={showFileOption}
                             handleEnterSubmit={handleEnterSubmit}
                             handleQuestionFileChange={handleQuestionFileChange}
                             handleQuestionFileDelete={handleQuestionFileDelete}
@@ -805,13 +741,13 @@ const Exam = () => {
                             handleCommentFileDelete={handleCommentFileDelete}
                             commentFileURL={commentFileURL}
                             setCommentFileURL={setCommentFileURL}
+                            showFileOption={showFileOption}
                         />
                     ))
 
                 )
             }
-
-        </Violet500LineDiv>
+        </>
     );
 };
 

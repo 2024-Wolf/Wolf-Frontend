@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, forwardRef, useImperativeHandle, useRef } from 'react';
 import styled from 'styled-components';
 
 import { Violet500LineButton } from "../GlobalStyledComponents";
@@ -89,7 +89,7 @@ export const ActionButtons = styled.div`
     }
 `;
 
-const ImagePreview = ({
+const ImagePreview = (({
     children,
     src,
     alt,
@@ -103,8 +103,10 @@ const ImagePreview = ({
     isSubmitButtonAppear,
     imageFile,
     questionId,
-    ...props
-}) => {
+    ...props // 나머지 props를 받을 수 있도록
+}
+) => {
+
     const [isImageModalOpen, setIsImageModalOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState([] || imageFile);
     const [modalImage, setModalImage] = useState(null);
@@ -150,7 +152,6 @@ const ImagePreview = ({
     const handleDeleteFile = (e) => {
         setHasImageFile(false);
         setSelectedImage([]); // 선택된 파일 초기화
-        console.log("출력")
         document.querySelectorAll('.InputFileImage').forEach(input => {
             input.value = ''; // 각 input의 value 초기화
         });
@@ -162,14 +163,13 @@ const ImagePreview = ({
         }
     };
 
-    const handleSubmitFile = (e) => {
+    const handleSubmitFile = () => {
         setHasImageFile(false);
         setSelectedImage([]); // 선택된 파일 초기화
         document.querySelectorAll('.InputFileImage').forEach(input => {
             input.value = ''; // 각 input의 value 초기화
         });
     };
-
 
     const handleImageClick = (file) => {
         setModalImage(URL.createObjectURL(file));
@@ -244,14 +244,15 @@ const ImagePreview = ({
                     height: '100%',
                 }}>
                     {/* 파일 업로드 버튼 */}
-                    {isUploadButtonAppear && <InputFile
-                        {...props}
-                        className={className}
-                        type="file"
-                        name="InputFileImage"
-                        accept="image/jpeg, image/png"
-                        onChange={handleInputFile}
-                    />}
+                    {isUploadButtonAppear &&
+                        <InputFile
+                            {...props}
+                            className={className}
+                            type="file"
+                            name="InputFileImage"
+                            accept="image/jpeg, image/png"
+                            onChange={handleInputFile}
+                        />}
                     {/* 등록 버튼 */}
                     {isSubmitButtonAppear &&
                         <Violet500LineButton type="submit" onClick={handleSubmitFile}>
@@ -272,6 +273,7 @@ const ImagePreview = ({
                                     className={className}
                                     name="fileInput"
                                     onChange={handleInputFile}
+                                    style={{ display: "none" }}
                                 />
                             </label>
                         </ActionButtons>
@@ -280,6 +282,6 @@ const ImagePreview = ({
             </ButtonRow>
         </>
     );
-};
+});
 
 export default ImagePreview;

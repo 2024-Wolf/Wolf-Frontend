@@ -2566,8 +2566,6 @@ export const ButtonRow = styled.div`
     justify-content: end;
     align-items: start;
     gap: 10px;
-
-    overflow: hidden;
     text-overflow: ellipsis;
     flex-direction: row;
 
@@ -2632,11 +2630,11 @@ export const ItemCol = styled.div`
     font-weight: bold;
     color: #333;
     display: flex;
-    align-items: center;
     width: 100%;
     justify-content: space-between;
     flex-direction: column;
     gap: 5px;
+    align-items: start;
 `;
 
 // components/Icon/RegularIcon.jsx
