@@ -2590,8 +2590,15 @@ export const ActionButtons = styled.div`
     display: flex;
     justify-content: flex-end;
     gap: 10px;
+    
     button {
         background-color: white;
+    }
+
+    label {
+        cursor: pointer;
+        color: var(--black500);
+        font-size: 14px;
     }
 `;
 
@@ -2620,6 +2627,17 @@ export const ItemRow = styled.div`
     justify-content: space-between;
 `;
 
+// components/Group/Question/QuestionItem.jsx
+export const ItemCol = styled.div`
+    font-weight: bold;
+    color: #333;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    flex-direction: column;
+    gap: 5px;
+`;
 
 // components/Icon/RegularIcon.jsx
 export const IconContainer2 = styled.img`

@@ -12,6 +12,7 @@ import InputTextNoCss from '../Input/InputTextNoCss';
 import InputDateNoCss from '../Input/InputDateNoCss';
 import RecentNewsSlider from '../Slider/RecentNewsSlider';
 import Exam from "../Exam";
+import Exam2 from '../Exam2';
 
 const GroupInfoContent = ({ mode }) => {
     const [questions, setQuestions] = useState([
@@ -108,7 +109,6 @@ const GroupInfoContent = ({ mode }) => {
 
     return (
         <>
-
             <Exam />
             <hr />
             <InfoContainer>

@@ -6,7 +6,7 @@ import FormFieldMultiple from "./FormFieldMultiple";
 import FormFieldSingle from "./FormFieldSingle";
 import DateButton from "../../Button/DateButton";
 import SelectButton from "../../Button/SelectButton";
-import { ImagePreview, FormLabel, MemberInfo, FormFieldRow, FormTitle, ButtonGroupCenter, ButtonGroupRight, ButtonGroupWrap, DoubleDateContainer } from "../../GlobalStyledComponents";
+import { FormLabel, MemberInfo, FormFieldRow, FormTitle, ButtonGroupCenter, ButtonGroupRight, ButtonGroupWrap, DoubleDateContainer } from "../../GlobalStyledComponents";
 import InputText from "../../Input/InputText";
 import FormOptionButton from "../../Button/FormOptionButton";
 import InputFile from "../../Input/InputFile"
@@ -20,6 +20,7 @@ import CompleteButton from "../../Button/CompleteButton"
 import CancelIcon from "../../Icon/CancelIcon";
 import { useNavigate } from 'react-router-dom';
 import ProfileIcon from "../../Icon/ProfileIcon";
+import ImagePreview from "../../Img/ImagePreview";
 
 // 사용자 이름
 // components/Group/GroupManageContent.js, components/Group/GroupComponent/GroupWritingContent.jsx
@@ -307,38 +308,19 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
                 </FormFieldRow>
                 <FormFieldRow>
                     <FormFieldSingle label={"썸네일"} htmlFor="thumbnail">
-                        <InputFile
+                        <ImagePreview
                             id="thumbnail"
-                            type="file"
-                            disabled={contentsType === 'viewing'}
-                            className="textContent"
                             name="thumbnail"
-                            accept="image/jpeg, image/png"
-                            onChange={(e) => {
-                                // jpg, png
-                                handleImgType(e);
-                                // 이미지 파일이 선택된 경우
-                                if (e.target.files.length > 0) {
-                                    handleInputChange('fileName', e.target.files[0].name);
-                                } else {
-                                    // 이미지 파일이 선택되지 않은 경우
-                                    handleInputChange('fileName', '');
-                                }
+                            disabled={contentsType === 'viewing'}
+                            isUploadButtonAppear={true}
+                            style={{
+                                flexDirection: 'column-reverse',
+                                alignItems: 'start',
+                                justifyContent: 'start',
                             }}
                         />
                     </FormFieldSingle>
                 </FormFieldRow>
-                <ImagePlaceholder hasFiles={selectedFiles.length > 0}>
-                    {selectedFiles.map((file, index) => {
-                        const fileURL = URL.createObjectURL(file);
-                        return (
-                            <> {/* 고유한 key 사용 */}
-                                <ImagePreview key={file.name} src={fileURL} alt={`preview-${index}`} />
-                                <CancelIcon onClick={() => handleDeleteFile()} />
-                            </>
-                        );
-                    })}
-                </ImagePlaceholder>
             </GroupInfoContainer>
             <hr style={{ border: '1px solid var(--black200)' }} />
             <GroupInfoContainer>

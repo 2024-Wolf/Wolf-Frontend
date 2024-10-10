@@ -4,13 +4,13 @@ import { CommonButton, NoBackground, fontColorHover } from "../GlobalStyledCompo
 const ArrowUpIconWrapper = styled.button`
     ${CommonButton}
     ${NoBackground}
-    ${fontColorHover}
     padding: 10px;
     display: flex;
     justify-content: center;
     elignt-items: center;
     gap: 5px;
     font-size: 13px;
+    color: var(--violet500);
 
     svg {
         width: 13px;
