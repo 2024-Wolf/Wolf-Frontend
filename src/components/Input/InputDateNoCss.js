@@ -13,16 +13,21 @@ export const InputDateNoCssWrapper = styled(DatePicker)`
     white-space: nowrap;
     text-overflow: ellipsis;
 
+
+
+    caret-color: transparent; 
+    cursor: default;
+
+    &:focus {
+        outline: none;
+    }
+
     @media (max-width: 768px) {
         width: 80px;
     }
 
     @media (max-width: 480px) {
         width: 75px;
-    }
-
-    &:focus {
-        outline: none;
     }
 `;
 

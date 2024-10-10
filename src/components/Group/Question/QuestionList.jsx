@@ -1,6 +1,9 @@
 import React from 'react';
 import QuestionItem from './QuestionItem';
 
+import { Hr } from "../../GlobalStyledComponents";
+
+
 const QuestionList = ({
     questions,
     selectedQuestionId,
@@ -13,19 +16,27 @@ const QuestionList = ({
 }) => {
     return (
         <>
-            {questions ? questions.map((question) => (
-                <QuestionItem
-                    key={question.id}
-                    question={question}
-                    selectedQuestionId={selectedQuestionId}
-                    toggleComments={toggleComments}
-                    renderComments={renderComments}
-                    handleFileChange={handleFileChange}
-                    handleQuestionEdit={handleQuestionEdit}
-                    handleQuestionDelete={handleQuestionDelete}
-                    showFileOptions={showFileOptions}
-                />
-            )) : null}
+            {questions ? (
+                <>
+                    <Hr />
+                    {questions.map((question) => (
+                        <>
+                            <QuestionItem
+                                key={question.id}
+                                question={question}
+                                selectedQuestionId={selectedQuestionId}
+                                toggleComments={toggleComments}
+                                renderComments={renderComments}
+                                handleFileChange={handleFileChange}
+                                handleQuestionEdit={handleQuestionEdit}
+                                handleQuestionDelete={handleQuestionDelete}
+                                showFileOptions={showFileOptions}
+                            />
+                            <Hr />
+                        </>
+                    ))}
+                </>
+            ) : null}
         </>
     );
 };

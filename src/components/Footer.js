@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { CommonButton, NoBackground, NoBackgroundHover2 } from "./GlobalStyledComponents";
+import { CommonButton, NoBackground, fontColorHover } from "./GlobalStyledComponents";
 
 import React from 'react';
 
@@ -68,7 +68,7 @@ export const FooterContent = styled.div`
 export const FooterButton = styled.button`
   ${CommonButton}
   ${NoBackground}
-  ${NoBackgroundHover2}
+  ${fontColorHover}
   
   font-weight: 700;
   padding: 0px;

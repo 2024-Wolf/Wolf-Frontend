@@ -12,13 +12,18 @@ const TextAreaWrapper = styled.textarea`
     resize: none;
     line-height: 1.5;
     text-overflow: ellipsis;
+    white-space: pre-wrap;  // 줄바꿈 및 공백 유지
+    overflow-wrap: break-word;  // 브라우저 호환성 용어
 `;
 
-const TextArea = ({ ...props }, children) => {
+const TextArea = ({ value, ...props }) => {
     return (
-        <TextAreaWrapper {...props} rows="4">
-            {children}
-        </TextAreaWrapper>
+        <TextAreaWrapper
+            value={value}
+            wrap="soft"  // 줄바꿈 설정 (HTML 속성으로 전달)
+            rows="4"
+            {...props}
+        />
     );
 }
 

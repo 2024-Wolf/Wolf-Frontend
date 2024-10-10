@@ -1,6 +1,14 @@
 import styled, { css } from "styled-components";
 
 
+export const QuestionItemContainer = styled.div`
+  padding-bottom: 5px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
 export const MainContents = styled.div`
     display: flex;
     justify-content: start;
@@ -273,6 +281,10 @@ export const Violet500Line = css`
     `}
 `;
 
+export const Violet300Background = css`
+    background-color: var(--violet300);
+`;
+
 export const Violet400Background = css`
     background-color: var(--violet400);
     color: var(--violet000);
@@ -311,29 +323,19 @@ export const Black300Background = css`
     color: var(--violet000);
 `;
 
+
 // Hover
-export const Violet400BackgroundHover = css`
-    &:hover {
-        background-color: var(--violet600);
-    }
-    &:active {
-        background-color: var(--violet600);
-    }
-`;
-
-
-
-export const Black300BackgroundBlueHover = css`
+export const blueViolet700BackgroundHover = css`
     &:hover {
         background-color: var(--blueViolet700);
     }
 
     &:active {
-        background-color: var(--blueViolet600);
+        background-color: var(--blueViolet700);
     }
 `;
 
-export const Black200BackgroundBlueHover = css`
+export const Black200BackgroundHover = css`
     &:hover {
         background-color: var(--black200);
     }
@@ -343,8 +345,32 @@ export const Black200BackgroundBlueHover = css`
     }
 `;
 
+export const Black300BackgroundHover = css`
+    &:hover {
+        background-color: var(--black300);
+        color: var(--black000);
+    }
 
-export const BlueViolet600BackgroundHover = css`
+    &:active {
+        background-color: var(--black300);
+        color: var(--black000);
+    }
+`;
+
+export const Black400BackgroundHover = css`
+    &:hover {
+        background-color: var(--black400);
+        color: var(--black000);
+    }
+
+    &:active {
+        background-color: var(--black400);
+        color: var(--black000);
+    }
+`;
+
+
+export const BlueViolet800BackgroundHover = css`
     &:hover {
         background-color: var(--blueViolet800);
     }
@@ -354,7 +380,7 @@ export const BlueViolet600BackgroundHover = css`
 `;
 
 
-export const Violet500BackgroundHover = css`
+export const Violet600BackgroundHover = css`
     &:hover {
         background-color: var(--violet600);
         color: var(--violet100);
@@ -368,7 +394,31 @@ export const Violet500BackgroundHover = css`
     }
 `;
 
-export const Violet500LineHover = css`
+export const Violet400BackgroundHover = css`
+    &:hover {
+        background-color: var(--violet400);
+        color: var(--violet100);
+    }
+
+    &:active {
+        background-color: var(--violet400);
+        color: var(--violet100);
+    }
+`;
+
+export const Violet300BackgroundHover = css`
+    &:hover {
+        background-color: var(--violet300);
+        color: var(--violet100);
+    }
+
+    &:active {
+        background-color: var(--violet300);
+        color: var(--violet100);
+    }
+`;
+
+export const Violet500BackgroundHover = css`
     &:hover {
         background-color: var(--violet500);
         color: var(--violet100);
@@ -380,24 +430,11 @@ export const Violet500LineHover = css`
     }
 `;
 
-export const Violet500LineBlackHover = css`
-    &:hover {
-        background-color: var(--black700);
-        color: var(--violet000);
-        border: 1px solid var(--black700);
-    }
-
-    &:active {
-        background-color: var(--black700);
-        color: var(--violet000);
-        border: 1px solid var(--black700);
-    }
-`;
-
-export const Violet600BackgroundHover = css`
+export const Violet700BackgroundHover = css`
   &:hover {
     color: var(--violet000);
     background-color: var(--violet700);
+    border: 1px solid var(--black700);
   }
   &:active {
     color: var(--violet000);
@@ -405,7 +442,7 @@ export const Violet600BackgroundHover = css`
   }
 `;
 
-export const Violet100BackgroundHover = css`
+export const Violet200BackgroundHover = css`
   &:hover {
     background-color: var(--violet200);
     transition: background-color 0.3s ease;
@@ -425,7 +462,7 @@ export const NoBackgroundHover = css`
   }
 `;
 
-export const NoBackgroundHover2 = css`
+export const fontColorHover = css`
   &:hover {
     color: var(--black600);
   }
@@ -450,58 +487,58 @@ export const NoBackgroundButton = styled.button`
 export const Violet500LineButton = styled.button`
     ${Square}
     ${Violet500Line}
-    ${Violet100BackgroundHover}
+    ${Violet200BackgroundHover}
 `;
 
 export const Violet500LineSquareButton = styled.button`
     ${Square}
     ${Violet500Line}
-    ${Violet500LineHover}
+    ${Violet500BackgroundHover}
     ${IconButton}
 `;
 
 export const Black300BackgroundButton = styled.button`
     ${Square}  
     ${Black300Background}
-    ${Black300BackgroundBlueHover}
+    ${blueViolet700BackgroundHover}
 `;
 
 export const BlueViolet600BackgroundButton = styled.button`
     ${Square}  
     ${BlueViolet600Background}
-    ${BlueViolet600BackgroundHover}
+    ${BlueViolet800BackgroundHover}
 `;
 
 export const Violet100BackgroundButton = styled.button`
     ${Square}  
     ${Violet100Background}
-    ${Violet100BackgroundHover}
+    ${Violet200BackgroundHover}
 `;
 
 
 export const Violet400BackgroundButton = styled.button`
     ${Square}  
     ${Violet400Background}
-    ${Violet400BackgroundHover}
+    ${Violet600BackgroundHover}
 `;
 
 export const Violet500BackgroundButton = styled.button`
     ${Square}  
     ${Violet500Background}
-    ${Violet500BackgroundHover}
+    ${Violet600BackgroundHover}
 `;
 
 export const Violet600BackgroundButton = styled.button`
     ${Square}
     ${Violet600Background}
-    ${Violet600BackgroundHover}
+    ${Violet700BackgroundHover}
 `;
 
 // RoundButton
 export const Violet500LineRoundButton = styled.button`
     ${Round}
     ${Violet500Line}
-    ${Violet100BackgroundHover}
+    ${Violet200BackgroundHover}
 `;
 
 // -------------------------여기부터 버튼 끝------------------------------
@@ -529,6 +566,15 @@ export const FormTitle = styled.h3`
     font-weight: 500;
 `;
 
+
+export const ImagePreview = styled.img`
+    object-fit: cover;
+    max-width: 100%;
+    max-height: 214px;
+    border: 1.5px solid var(--black200);
+    border-radius: 10px;
+`;
+
 // components/Group/GroupComponent/FormField.jsx
 export const FormLabel = styled.label`
     text-wrap: nowrap;
@@ -538,7 +584,7 @@ export const FormLabel = styled.label`
     align-items: center;
     justify-content: center;
     font-weight: 500;
-    color: var(--black700);
+    color: var(--black600);
 
     @media (max-width: 950px) {
         width: 100%;
@@ -1146,18 +1192,6 @@ export const SubmitButton = styled.button`
   }
 `;
 
-// components/Group/Question/CommentSection.jsx
-export const SubmitButton2 = styled.button`
-  background-color: #6c63ff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  &:hover {
-    background-color: #574dc2;
-  }
-`;
-
 
 
 // components/Header.js
@@ -1310,16 +1344,6 @@ export const TextArea3 = styled.textarea`
     border: 1px solid #ccc;
     border-radius: 4px;
     resize: none;
-`;
-
-// components/Group/Question/CommentSection.jsx
-export const TextArea4 = styled.textarea`
-  width: 100%;
-  min-height: 80px;
-  padding: 15px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  margin-top: 10px;
 `;
 
 // components/MyPageComponents/UserInfoContent.js
@@ -1908,12 +1932,12 @@ export const Violet500LineDiv = styled.div`
     ${Square}
     width: 100%;
     display: flex;
+    background-color: white;
     flex-direction: column;
     padding: 20px;
-    gap: 25px;
+    gap: 15px;
     height: auto;
 `;
-
 
 export const DoubleDateContainer = styled.div`
     display: flex;
@@ -2152,8 +2176,6 @@ export const MeetingHeader = styled.h3`
     color: var(--black800);
     text-align: left;
 `;
-
-
 
 // components/Group/MeetingContent.js
 export const MeetingDiv = styled.div`
@@ -2532,14 +2554,6 @@ export const ControlButton = styled.button`
 `;
 
 // components/Group/Question/CommentSection.jsx
-export const CommentItem = styled.div`
-    background-color: #ffffff;
-    padding: 15px;
-    border-radius: 3px;
-    margin-bottom: 15px;
-`;
-
-// components/Group/Question/CommentSection.jsx
 export const CommentBody = styled.div`
     margin-top: 10px;
 `;
@@ -2548,49 +2562,27 @@ export const CommentBody = styled.div`
 
 // components/Group/Question/CommentSection.jsx, components/Group/Question/QuestionForm.jsx
 export const ButtonRow = styled.div`
-  display: flex;
-  justify-content: flex-end;
-    align-items: center;
-  gap: 10px;
-  margin-top: 10px;
-`;
-
-// components/Group/Question/QuestionForm.jsx
-export const QuestionFormContainer = styled.form`
     display: flex;
-    flex-direction: column;
+    justify-content: end;
+    align-items: start;
     gap: 10px;
-    margin-bottom: 10px;
-`;
 
-// components/Group/Question/QuestionForm.jsx
-export const FileInputButton = styled.label`
-    ${Square}
-    ${Violet500Line}
-    ${Violet100BackgroundHover}
-    display:flex;
-    align-items: center;
-    gap: 5px;
-    
-    @media (max-width: 480px) {
-        svg {
-            display:none;
-        }
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-direction: row;
+
+    @media (max-width: 768px) {
+
     }
 
-    ${({ disabled }) => disabled && `
-        background-color: var(--violet200);
-        pointer-events: none;
-    `}
+    @media (max-width: 480px) {
+        flex-direction: column-reverse;
+        align-items: end;
+    }
+
 `;
 
-// components/Group/Question/QuestionItem.jsx
-export const QuestionItemContainer = styled.div`
-    background-color: white;
-    padding: 10px;
-    border-radius: 3px;
-    margin-bottom: 20px;
-`;
+
 
 // components/Group/Question/QuestionItem.jsx
 export const ActionButtons = styled.div`
@@ -2598,40 +2590,54 @@ export const ActionButtons = styled.div`
     display: flex;
     justify-content: flex-end;
     gap: 10px;
+    
     button {
         background-color: white;
     }
+
+    label {
+        cursor: pointer;
+        color: var(--black500);
+        font-size: 14px;
+    }
 `;
 
-// components/Group/Question/QuestionItem.jsx
-export const QuestionContent = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin: 25px;
+export const Hr = styled.hr`
+    border-bottom: 1px solid var(--black300);
 `;
 
-// components/Group/Question/QuestionItem.jsx
-export const QuestionText = styled.div`
-    font-size: 16px;
-`;
 
 // components/Group/Question/QuestionItem.jsx
-export const QuestionDate = styled.div`
-    font-size: 14px;
-    color: var(--black500);
-`;
-
-// components/Group/Question/QuestionItem.jsx
-export const QuestionAuthor = styled.div`
+export const QuestionRow = styled.div`
     font-weight: bold;
     color: #333;
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
+    width: 100%;
+    justify-content: space-between;
 `;
 
+// components/Group/Question/QuestionItem.jsx
+export const ItemRow = styled.div`
+    font-weight: bold;
+    color: #333;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+`;
 
+// components/Group/Question/QuestionItem.jsx
+export const ItemCol = styled.div`
+    font-weight: bold;
+    color: #333;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    flex-direction: column;
+    gap: 5px;
+`;
 
 // components/Icon/RegularIcon.jsx
 export const IconContainer2 = styled.img`

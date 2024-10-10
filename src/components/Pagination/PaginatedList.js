@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { NoBackground, NoBackgroundHover, Violet600BackgroundHover } from "../GlobalStyledComponents";
+import { NoBackground, NoBackgroundHover, Violet700BackgroundHover } from "../GlobalStyledComponents";
 import React, { useState, useEffect } from 'react';
 
 const PaginationContainer = styled.div`
@@ -20,7 +20,7 @@ const PageButton = styled.button`
     border-radius: 50%;
     background-color: ${props => (props.active ? 'var(--violet700)' : 'var(--violet100)')};
     color: ${props => (props.active ? 'var(--black200)' : 'var(--black800)')};
-    ${Violet600BackgroundHover}
+    ${Violet700BackgroundHover}
 `;
 
 const ArrowButton = styled.button`

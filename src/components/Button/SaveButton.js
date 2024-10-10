@@ -1,11 +1,11 @@
 
 import styled from "styled-components";
-import { Square, Violet400Background, Violet400BackgroundHover } from "../GlobalStyledComponents";
+import { Square, Violet400Background, Violet600BackgroundHover } from "../GlobalStyledComponents";
 
 const SaveButtonWrapper = styled.button`
     ${Square}  
     ${Violet400Background}
-    ${Violet400BackgroundHover}
+    ${Violet600BackgroundHover}
 `;
 
 const SaveButton = ({ children, onClick }) => {

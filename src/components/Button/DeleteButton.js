@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import { Square, Violet400Background, Violet400BackgroundHover, IconButton, IconInnerText } from "../GlobalStyledComponents";
+import { Square, Violet400Background, Violet600BackgroundHover, IconButton, IconInnerText } from "../GlobalStyledComponents";
 
 const DeleteButtonWrapper = styled.button`
     ${Square}  
     ${Violet400Background}
-    ${Violet400BackgroundHover}
+    ${Violet600BackgroundHover}
 
     ${IconButton}
 `;

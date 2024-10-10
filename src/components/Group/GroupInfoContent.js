@@ -11,6 +11,8 @@ import TextAreaNoCss from '../Input/TextAreaNoCss';
 import InputTextNoCss from '../Input/InputTextNoCss';
 import InputDateNoCss from '../Input/InputDateNoCss';
 import RecentNewsSlider from '../Slider/RecentNewsSlider';
+import Exam from "../Exam";
+import Exam2 from '../Exam2';
 
 const GroupInfoContent = ({ mode }) => {
     const [questions, setQuestions] = useState([
@@ -35,6 +37,8 @@ const GroupInfoContent = ({ mode }) => {
         { title: '최근 소식', content: '프로젝트 회의는 다음 주 월요일 오후 3시입니다.', date: '2024.09.03' },
         { title: '최근 소식', content: '스터디원 모집 중 프론트엔드 스터디에 참여하세요!', date: '2024.09.04' },
     ];
+
+
 
     const [newQuestion, setNewQuestion] = useState('');
     const [newComment, setNewComment] = useState('');
@@ -63,10 +67,12 @@ const GroupInfoContent = ({ mode }) => {
     };
 
     const renderComments = (comments) => (
-        <CommentSection
-            comments={comments}
-            onSubmit={(commentText) => handleCommentSubmit(selectedQuestionId, commentText)}
-        />
+        <>
+            <CommentSection
+                comments={comments}
+                onSubmit={(commentText) => handleCommentSubmit(selectedQuestionId, commentText)}
+            />
+        </>
     );
 
     // 댓글 추가
@@ -76,7 +82,14 @@ const GroupInfoContent = ({ mode }) => {
                 if (question.id === questionId) {
                     return {
                         ...question,
-                        comments: [...question.comments, { author: 'currentUser', text: commentText, date: new Date().toLocaleDateString() }],
+                        comments: [
+                            ...question.comments,
+                            {
+                                author: 'currentUser',
+                                text: commentText,
+                                date: new Date().toLocaleDateString()
+                            }
+                        ],
                     };
                 }
                 return question;
@@ -95,82 +108,87 @@ const GroupInfoContent = ({ mode }) => {
     };
 
     return (
-        <InfoContainer>
-            {/* 정보 묶음 */}
-            <Violet500LineDiv>
-                <FormFieldColumn>
-                    <FormFieldSingle label={"모임 기간"}>
-                        <DoubleDateContainer className="date">
-                            <InputDateNoCss value="2024-09-10" />
-                            ~
-                            <InputDateNoCss value="2024-09-20" />
-                        </DoubleDateContainer>
-                    </FormFieldSingle>
-                    <Violet500BackgroundButton onClick={openModal}>지원하기</Violet500BackgroundButton>
-                </FormFieldColumn>
-                {isModalOpen && <ApplicantModal onClose={closeModal} />}
-                <FormFieldRow>
-                    <FormFieldSingle label={mode === 'study' ? '모집 현황' : '지원 현황'} className="recruitPeople">
-                        <InputTextNoCss value={mode === 'study' ? '스터디원 2/8' : '개발자 1/8'} />
-                    </FormFieldSingle>
-                    <FormFieldSingle label={mode === 'study' ? '지원 가능' : '지원 가능 개발자'} className="recruitSupport">
-                        <InputTextNoCss value={mode === 'study' ? '스터디원 6/8' : '개발자 7/8'} />
-                    </FormFieldSingle>
-                </FormFieldRow>
+        <>
+            <Exam />
+            <hr />
+            <InfoContainer>
+                {/* 정보 묶음 */}
+                <Violet500LineDiv>
+                    <FormFieldColumn>
+                        <FormFieldSingle label={"모임 기간"}>
+                            <DoubleDateContainer className="date">
+                                <InputDateNoCss value="2024-09-10" />
+                                ~
+                                <InputDateNoCss value="2024-09-20" />
+                            </DoubleDateContainer>
+                        </FormFieldSingle>
+                        <Violet500BackgroundButton onClick={openModal}>지원하기</Violet500BackgroundButton>
+                    </FormFieldColumn>
+                    {isModalOpen && <ApplicantModal onClose={closeModal} />}
+                    <FormFieldRow>
+                        <FormFieldSingle label={mode === 'study' ? '모집 현황' : '지원 현황'} className="recruitPeople">
+                            <InputTextNoCss value={mode === 'study' ? '스터디원 2/8' : '개발자 1/8'} />
+                        </FormFieldSingle>
+                        <FormFieldSingle label={mode === 'study' ? '지원 가능' : '지원 가능 개발자'} className="recruitSupport">
+                            <InputTextNoCss value={mode === 'study' ? '스터디원 6/8' : '개발자 7/8'} />
+                        </FormFieldSingle>
+                    </FormFieldRow>
 
-            </Violet500LineDiv>
-            {/*<HiddenFileInput*/}
-            {/*    id="thumbnail"*/}
-            {/*    type="file"*/}
-            {/*    accept="image/*"*/}
-            {/*    onChange={handleFileChange}*/}
-            {/*/>*/}
-            {/* 주제 설명 */}
-            <Violet500LineDiv>
-                <FormFieldRow>
-                    <FormFieldSingle label={"주제"} className="PostTitle">
-                        <InputTextNoCss value="인스타그램 클론 코딩 해보기" />
-                    </FormFieldSingle>
-                </FormFieldRow>
-                <TextAreaNoCss
-                    name="introduction"
-                    placeholder="모집에 대한 간단한 소개를 작성해주세요."
-                    value={
-                        "- 내용: 파이썬 기초를 공부할 사람 모집합니다.\n" +
-                        "- 매주 월, 수, 금 오후 8시부터 10시까지 진행됩니다.\n" +
-                        "- 총 8주 과정으로 진행하고 참가비 무료입니다.\n" +
-                        "- 관심있는 분들은 \"지원하기\"로 신청해주세요."
-                    }
-                    readOnly
-                />
-                <PostContent>
-                </PostContent>
-            </Violet500LineDiv>
+                </Violet500LineDiv>
+                {/*<HiddenFileInput*/}
+                {/*    id="thumbnail"*/}
+                {/*    type="file"*/}
+                {/*    accept="image/*"*/}
+                {/*    onChange={handleFileChange}*/}
+                {/*/>*/}
+                {/* 주제 설명 */}
+                <Violet500LineDiv>
+                    <FormFieldRow>
+                        <FormFieldSingle label={"주제"} className="PostTitle">
+                            <InputTextNoCss value="인스타그램 클론 코딩 해보기" />
+                        </FormFieldSingle>
+                    </FormFieldRow>
+                    <TextAreaNoCss
+                        name="introduction"
+                        placeholder="모집에 대한 간단한 소개를 작성해주세요."
+                        value={
+                            "- 내용: 파이썬 기초를 공부할 사람 모집합니다.\n" +
+                            "- 매주 월, 수, 금 오후 8시부터 10시까지 진행됩니다.\n" +
+                            "- 총 8주 과정으로 진행하고 참가비 무료입니다.\n" +
+                            "- 관심있는 분들은 \"지원하기\"로 신청해주세요."
+                        }
+                    />
+                    <PostContent>
+                    </PostContent>
+                </Violet500LineDiv>
 
-            {/* 최근 소식 */}
-            <RecentNewsSlider news={recentNews} />
+                {/* 최근 소식 */}
+                <RecentNewsSlider news={recentNews} />
 
-            {/* 질문 작성 영역 */}
-            <Violet500LineDiv>
-                <QuestionHeader>응원이나 궁금한 내용을 입력해주세요 !</QuestionHeader>
-                <QuestionForm
-                    newQuestion={newQuestion}
-                    setNewQuestion={setNewQuestion}
-                    handleQuestionSubmit={handleQuestionSubmit}
-                    showFileOptions={false}
-                />
-                {/* 질문 목록 */}
-                <QuestionList
-                    questions={questions}
-                    selectedQuestionId={selectedQuestionId}
-                    toggleComments={toggleComments}
-                    renderComments={renderComments}
-                    handleQuestionEdit={(id, text) => { }}
-                    handleQuestionDelete={(id) => { }}
-                    showFileOptions={false}
-                />
-            </Violet500LineDiv>
-        </InfoContainer>
+
+
+                {/* 질문 작성 영역 */}
+                <Violet500LineDiv>
+                    <FormFieldSingle label={"응원이나 궁금한 내용을 입력해주세요 !"} />
+                    <QuestionForm
+                        newQuestion={newQuestion}
+                        setNewQuestion={setNewQuestion}
+                        handleQuestionSubmit={handleQuestionSubmit}
+                        showFileOptions={false}
+                    />
+                    {/* 질문 목록 */}
+                    <QuestionList
+                        questions={questions}
+                        selectedQuestionId={selectedQuestionId}
+                        toggleComments={toggleComments}
+                        renderComments={renderComments}
+                        handleQuestionEdit={(id, text) => { }}
+                        handleQuestionDelete={(id) => { }}
+                        showFileOptions={false}
+                    />
+                </Violet500LineDiv>
+            </InfoContainer>
+        </>
     );
 };
 
