@@ -20,9 +20,9 @@ const FormFieldSingleWrapper = styled.div`
     }
 `;
 
-const FormFieldSingle = ({ label, label2, children, description }) => {
+const FormFieldSingle = ({ label, label2, children, style, description }) => {
     return (
-        <FormFieldSingleWrapper>
+        <FormFieldSingleWrapper style={style}>
             <FormLabelGroup>
                 <FormLabel>{label}</FormLabel>
                 {label2 && <FormLabel>{label2}</FormLabel>} {/* 2번째 라벨이 있으면 보임 */}

@@ -31,13 +31,14 @@ export const InputDateNoCssWrapper = styled(DatePicker)`
     }
 `;
 
-const InputDateNoCss = (onChange, onClick, disabled, value) => {
+const InputDateNoCss = (onChange, onClick, disabled, style, value) => {
     const [date, setDate] = useState(value || new Date());
     const [open, setOpen] = useState(false); // 날짜 선택기의 열림 상태
 
     return (
         <>
             <InputDateNoCssWrapper
+                style={style}
                 selected={date}
                 open={open}
                 onChange={onChange}

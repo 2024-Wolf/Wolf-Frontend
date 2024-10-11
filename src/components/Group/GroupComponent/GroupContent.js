@@ -309,6 +309,7 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
                 <FormFieldRow>
                     <FormFieldSingle label={"썸네일"} htmlFor="thumbnail">
                         <ImagePreview
+                            isEditing={true}
                             id="thumbnail"
                             name="thumbnail"
                             disabled={contentsType === 'viewing'}

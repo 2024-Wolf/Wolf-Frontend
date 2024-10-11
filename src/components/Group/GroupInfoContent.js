@@ -11,6 +11,7 @@ import InputTextNoCss from '../Input/InputTextNoCss';
 import InputDateNoCss from '../Input/InputDateNoCss';
 import RecentNewsSlider from '../Slider/RecentNewsSlider';
 import QuestionForm from "./Question/QuestionForm";
+import { matchRoutes } from 'react-router-dom';
 
 const GroupInfoContent = ({ mode }) => {
     const [questions, setQuestions] = useState([

@@ -116,7 +116,7 @@ export const FormFieldRow = styled.div`
 export const FormFieldColumn = styled.div`
     display: flex;
     justify-content: start;
-    gap: 10px;
+    gap: 20px;
     width: 100%;
     @media (max-width: 768px) {
         flex-direction: column-reverse;

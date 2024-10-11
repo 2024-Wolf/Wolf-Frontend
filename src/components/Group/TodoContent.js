@@ -5,13 +5,41 @@
 호환 오류 해결: index.js에서 strict모드(<React.StrictMode>)를 삭제
 */
 import styled from 'styled-components';
-import { TodoContainer, TodoHeader, ButtonGroupCenter, TodoTitle, TodoButton, ButtonGroupRight, ColumnContainer, Column, TodoItem, ModalContainer2, ModalTitle, Modaldescription, ModalInput, ModalInputDate, TodoPlus, ModalTaskInput, LinkInputTitle, LinkInputContainer, Input, StatusButton, CalendarIcon } from "../GlobalStyledComponents";
+import {
+  Violet500LineButton,
+  TodoContainer, TodoHeader, ButtonGroupCenter, TodoTitle, TodoButton, ButtonGroupRight, ColumnContainer, Column, TodoItem, ModalContainer2, ModalTitle, Modaldescription, ModalInput, ModalInputDate, TodoPlus, ModalTaskInput, LinkInputTitle, LinkInputContainer, Input, StatusButton, CalendarIcon
+} from "../GlobalStyledComponents";
 
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import InputText from '../Input/InputText';
+import StartEndDateButton from '../Button/StartEndDateButton';
+import Calendar from '../Calender';
+
+
+const CalendarContainer = styled.div`
+    padding: 20px;
+    width: 100%;
+    height: 120px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+    background-color: white;
+`;
+
+const CalendarContent = styled.div`
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    background-color: var(--black100);
+    padding: 5px;
+    border-radius: 5px;
+`;
 
 const TodoContent = () => {
   const [tasks, setTasks] = useState([]);
@@ -115,11 +143,27 @@ const TodoContent = () => {
       {/* Todo 상단 */}
       <TodoHeader>
         <TodoTitle>일정 리스트</TodoTitle>
-        <ButtonGroupCenter>
-          <TodoButton onClick={openModal}>일정 등록</TodoButton>
-        </ButtonGroupCenter>
+        <TodoButton onClick={openModal}>일정 등록</TodoButton>
       </TodoHeader>
-
+      {/* 캘린더 */}
+      <div>
+        <CalendarContainer>
+          <div style={{ fontWeight: 'bold' }}>전체 일정(내용 스크롤)</div>
+          <CalendarContent>
+            <div>123</div>
+            <div>123</div>
+            <div>123</div>
+            <div>123</div>
+            <div>123</div>
+            <div>123</div>
+            <div>123</div>
+            <div>123</div>
+            <div>123</div>
+            <div>123</div>
+          </CalendarContent>
+        </CalendarContainer>
+        <Calendar />
+      </div>
       {/* 일정 등록 모달 */}
       <TodoContainer>
         <Modal isOpen={modalIsOpen} onRequestClose={closeModal}>
@@ -129,44 +173,46 @@ const TodoContent = () => {
 
             {newSchedule.map((schedule, index) => (
               <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-                <ModalInput>
-                  <input
-                    type="text"
-                    value={schedule.task}
-                    onChange={(e) => handleNewScheduleChange(index, 'task', e.target.value)}
-                    placeholder="일정을 입력하세요"
-                    style={{ width: '100%', padding: '10px', fontSize: '16px' }}
-                  />
-                </ModalInput>
-                <ModalInputDate>
-                  <DatePicker
-                    selected={schedule.startDate}
-                    onChange={(dates) => {
-                      const [start, end] = dates;
-                      handleNewScheduleChange(index, 'startDate', start);
-                      handleNewScheduleChange(index, 'endDate', end);
-                    }}
-                    startDate={schedule.startDate}
-                    endDate={schedule.endDate}
-                    selectsRange
-                    placeholderText="시작 일자 - 종료 일자"
-                    style={{ width: '100%', padding: '10px', fontSize: '16px' }}
-                  />
-                  <CalendarIcon />
-                </ModalInputDate>
+                <InputText
+                  type="text"
+                  value={schedule.task}
+                  onChange={(e) => handleNewScheduleChange(index, 'task', e.target.value)}
+                  placeholder="일정을 입력하세요"
+                  style={{
+                    width: '100%', padding: '10px', fontSize: '14px',
+                    marginRight: '5px'
+                  }}
+                />
+                <StartEndDateButton
+                  selected={schedule.startDate}
+                  onChange={(dates) => {
+                    const [start, end] = dates;
+                    handleNewScheduleChange(index, 'startDate', start);
+                    handleNewScheduleChange(index, 'endDate', end);
+                  }}
+                  startDate={schedule.startDate}
+                  endDate={schedule.endDate}
+                  selectsRange
+                  placeholderText="시작 일자 - 종료 일자"
+                  style={{ width: '100%', padding: '10px', fontSize: '16px' }}
+                />
               </div>
             ))}
             <TodoPlus onClick={addScheduleField}>+</TodoPlus>
             <ButtonGroupRight>
-              <TodoButton onClick={handleScheduleSubmit}>등록</TodoButton>
-              <TodoButton onClick={closeModal}>취소</TodoButton>
+              <Violet500LineButton onClick={handleScheduleSubmit}>
+                등록
+              </Violet500LineButton>
+              <Violet500LineButton onClick={closeModal}>
+                취소
+              </Violet500LineButton>
             </ButtonGroupRight>
           </ModalContainer2>
         </Modal>
       </TodoContainer>
 
       {/* 일정 리스트 */}
-      <ul>
+      <div>
         {scheduleList.map((schedule, index) => (
           <li key={index} style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0' }}>
             {schedule.task} ({schedule.startDate?.toLocaleDateString()} ~ {schedule.endDate?.toLocaleDateString()})
@@ -176,11 +222,12 @@ const TodoContent = () => {
             </div>
           </li>
         ))}
-      </ul>
+      </div>
 
-      <ButtonGroupRight>
+      <TodoHeader>
+        <TodoTitle>할 일 리스트</TodoTitle>
         <TodoButton onClick={openTaskModal}>할 일 등록</TodoButton>
-      </ButtonGroupRight>
+      </TodoHeader>
 
       {/* 할 일 등록 모달 */}
       <Modal isOpen={isTaskModalOpen} onRequestClose={closeTaskModal}>
@@ -198,8 +245,12 @@ const TodoContent = () => {
           </ModalTaskInput>
 
           <ButtonGroupRight>
-            <TodoButton onClick={handleTaskSubmit}>{isEditingTask ? '수정 완료' : '등록'}</TodoButton>
-            <TodoButton onClick={closeTaskModal}>취소</TodoButton>
+            <Violet500LineButton onClick={handleTaskSubmit}>
+              {isEditingTask ? '수정 완료' : '등록'}
+            </Violet500LineButton>
+            <Violet500LineButton onClick={closeTaskModal}>
+              취소
+            </Violet500LineButton>
           </ButtonGroupRight>
         </ModalContainer2>
       </Modal>
