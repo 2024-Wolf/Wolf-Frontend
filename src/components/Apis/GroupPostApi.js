@@ -16,7 +16,7 @@ export function registerGroupPost(groupPost){
         optionalRequirements: groupPost.optional_requirements,
         targetMembers: groupPost.target_members,
         thumbnail: groupPost.thumbnail,
-        title: groupPost.title,
+        topic: groupPost.topic,
         description: groupPost.description,
         warning: groupPost.warning,
         challengeStatus: groupPost.challenge_status
