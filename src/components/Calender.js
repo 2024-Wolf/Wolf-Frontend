@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
 import styled from 'styled-components';
+import React, { useState, useEffect } from 'react';
+
 import ArrowLeftIcon from './Icon/ArrowLeftIcon';
 import ArrowRightIcon from './Icon/ArrowRightIcon';
 import CaretRightIcon from './Icon/CaretRightIcon';
 import CaretDownIcon from './Icon/CaretDownIcon';
-import { NoBackground } from './GlobalStyledComponents';
+import CancelIcon from './Icon/CancelIcon';
 
 const CalendarContainer = styled.div`
     width: 100%;
@@ -120,7 +121,6 @@ const IconContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 5px;
 `;
 
 const HeaderDate = styled.h2`
@@ -148,11 +148,11 @@ const ShowList = styled.div`
     cursor: pointer;
 
     &:hover {
-      color: var(--black600);
+      color: var(--violet500);
     }
 
     &:active {
-      color: var(--black600);
+      color: var(--violet500);
     }
 
   ${({ isActive }) => isActive && `
@@ -165,24 +165,64 @@ const ShowList = styled.div`
     }
     cursor: auto;
   `}
+`;
 
-
+const ListGroup = styled.li`
+    &::marker {
+        content: '✔'; /* 올바른 내용 설정 */
+        color: var(--blueViolet800); /* 색상 설정 */
+    }
+    line-height: 1.3;
+    dispaly: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
 `;
 
 
 
-const Calendar = (data) => {
+const Calendar = ({ data, handleEditSchedule, handleDeleteSchedule, ...props }) => {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(null);
     const [isShowSchedule, setIsShowSchedule] = useState(false);
     const [isShowAllSchedule, setIsShowAllSchedule] = useState(true);
+    const [schedules, setSchedules] = useState([]);
 
-    const [schedules, setSchedules] = useState([
-        { date: null, startDate: new Date('2024-10-15'), endDate: new Date('2024-10-16'), task: "회의" },
-        { date: null, startDate: new Date('2024-10-15'), endDate: new Date('2024-10-15'), task: "프로젝트 마감" },
-        { date: null, startDate: new Date('2024-10-20'), endDate: new Date('2024-10-20'), task: "출장" },
-    ]);
-    // const [schedules, setSchedules] = useState(data || [{}]);
+    // const [schedules, setSchedules] = useState([
+    //     { date: null, startDate: new Date('2024-10-15'), endDate: new Date('2024-10-16'), task: "회의" },
+    //     { date: null, startDate: new Date('2024-10-15'), endDate: new Date('2024-10-15'), task: "프로젝트 마감" },
+    //     { date: null, startDate: new Date('2024-10-20'), endDate: new Date('2024-10-20'), task: "출장" },
+    // ]);
+
+
+
+    const formatDateInKoreanTime = (date) => {
+        // 한글 데이터 포멧을 YYYY-MM-DD 형식으로 변환하고, 사용하기 편리한 UTC(협정 세계시) 형식을 사용함, 시간&분은 무시함
+        if (!date) return ''; // date가 undefined일 경우 빈 문자열 반환
+
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+        const day = String(date.getDate()).padStart(2, '0');
+
+        return `${year}-${month}-${day}`; // YYYY-MM-DD 형식으로 포맷팅
+    };
+
+    useEffect(() => {
+        if (Array.isArray(data)) {
+            const formattedSchedules = data.map(data => ({
+                ...data,
+                startDate: new Date(formatDateInKoreanTime(new Date(data.startDate))),
+                endDate: new Date(formatDateInKoreanTime(new Date(data.endDate))),
+            }));
+
+            setSchedules(formattedSchedules);
+        } else {
+            setSchedules([]);
+        }
+    }, [data]); // 처음 마운팅 될 때만 실행
+
+
 
     const handlePrevMonth = () => {
         setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1));
@@ -219,11 +259,9 @@ const Calendar = (data) => {
 
         for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
             const dateKey = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
-
             const hasSchedule = schedules.some(schedule => {
                 const startDate = new Date(schedule.startDate);
                 const endDate = new Date(schedule.endDate);
-
                 // dateKey가 startDate와 endDate 사이에 있는지 확인
                 return startDate <= new Date(dateKey) && new Date(dateKey) <= endDate;
             });
@@ -246,16 +284,16 @@ const Calendar = (data) => {
     const getSchedule = () => {
         if (selectedDate) {
             const eventList = schedules.filter(schedule => {
-                const scheduleStartDate = schedule.startDate.toISOString().split('T')[0];
-                const scheduleEndDate = schedule.endDate.toISOString().split('T')[0];
+                const scheduleStartDate = new Date(schedule.startDate).toISOString().split('T')[0];
+                const scheduleEndDate = new Date(schedule.endDate).toISOString().split('T')[0];
                 return selectedDate >= scheduleStartDate && selectedDate <= scheduleEndDate;
             });
 
 
             if (eventList.length > 0) {
                 return eventList.map((event, index) => (
-                    <li style={{ marginBottom: '5px' }} key={index}>
-                        {console.log()}
+                    <ListGroup style={{ margin: '2px' }} key={index}>
+                        &nbsp;
                         {event.task}
                         {(event.startDate.toISOString().split('T')[0]) == (event.endDate.toISOString().split('T')[0]) ?
                             <></> :
@@ -264,18 +302,31 @@ const Calendar = (data) => {
                                 ({event.startDate.toISOString().split('T')[0]} ~ {event.endDate.toISOString().split('T')[0]})
                             </span>
                         }
-                    </li>
+                        <button onClick={() => handleEditSchedule(index)}
+                            style={{
+                                fontSize: '16px'
+                            }}>✒️</button>
+                        <CancelIcon onClick={() => handleDeleteSchedule(index)}
+                            size={13}
+                            style={{
+                                width: '16px', height: '16px'
+                            }}
+                        ></CancelIcon>
+                    </ListGroup>
                 ));
             }
-            return <p>일정이 없습니다.</p>;
+            return <p style={{ margin: '2px' }}>일정이 없습니다.</p>;
         }
-        return <p>날짜를 선택해주세요</p>;
+        return <p style={{ margin: '2px' }}>날짜를 선택해주세요</p>;
     };
 
     const getAllSchedule = () => {
         if (schedules.length > 0) {
             return schedules.map((schedule, index) => (
-                <li style={{ marginBottom: '5px' }} key={index}>
+                <ListGroup style={{
+                    margin: '2px',
+                }} key={index}>
+                    &nbsp;
                     {schedule.task}
                     {(schedule.startDate.toISOString().split('T')[0]) == (schedule.endDate.toISOString().split('T')[0]) ?
                         <span style={{ fontSize: '12px', color: 'var(--black300)' }}>
@@ -285,7 +336,17 @@ const Calendar = (data) => {
                             &nbsp; ({schedule.startDate.toISOString().split('T')[0]} ~ {schedule.endDate.toISOString().split('T')[0]})
                         </span>
                     }
-                </li>
+                    <button onClick={() => handleEditSchedule(index)}
+                        style={{
+                            fontSize: '16px'
+                        }}>✒️</button>
+                    <CancelIcon onClick={() => handleDeleteSchedule(index)}
+                        size={13}
+                        style={{
+                            width: '16px', height: '16px'
+                        }}
+                    ></CancelIcon>
+                </ListGroup>
             ));
         }
         return <p>일정이 없습니다.</p>;
@@ -298,9 +359,9 @@ const Calendar = (data) => {
                 {/* 전체 일정 리스트 */}
                 {isShowAllSchedule ? (
                     <ShowList isActive={isShowAllSchedule}>
-                        <CaretDownIcon style={{ backgroundColor: 'transpose' }} />
-                        <h3 style={{ fontWeight: '700', cursor: 'default' }}>
-                            전체 일정
+                        <CaretDownIcon style={{ backgroundColor: 'transparent' }} />
+                        <h3 style={{ fontWeight: '700', color: 'var(--violet500)', cursor: 'default' }}>
+                            전체 일정 ({schedules.length || '0'})
                         </h3>
                     </ShowList>
                 ) : (
@@ -308,7 +369,7 @@ const Calendar = (data) => {
                         onClick={() => { setIsShowAllSchedule(true); setIsShowSchedule(false); }}>
                         <CaretRightIcon />
                         <h3>
-                            전체 일정
+                            전체 일정 ({schedules.length || '0'})
                         </h3>
                     </ShowList>
                 )}
@@ -320,19 +381,45 @@ const Calendar = (data) => {
                     </Schedule>
                 }
 
-                {/* 특정 날짜 일정 */}
+                {/* 특정 날짜 일정 리스트 */}
                 {isShowSchedule ? (
                     <ShowList isActive={isShowSchedule}>
-                        <CaretDownIcon style={{ cursor: 'auto', backgroundColor: 'transpose' }} />
-                        <h3 style={{ fontWeight: '700', cursor: 'default' }}>
-                            {selectedDate || ''} 일정
+                        <CaretDownIcon style={{ backgroundColor: 'transparent' }} />
+                        <h3 style={{ fontWeight: '700', color: 'var(--violet500)', cursor: 'default' }}>
+                            {selectedDate || ''} 일정 (
+                            {
+                                (() => {
+                                    // selectedDate가 유효한지 확인
+                                    if (!selectedDate) return '0';
+
+                                    const targetDate = new Date(selectedDate);
+                                    return schedules.filter(schedule =>
+                                        new Date(schedule.startDate) <= targetDate &&
+                                        targetDate <= new Date(schedule.endDate)
+                                    ).length || '0';
+                                })()
+                            }
+                            )
                         </h3>
                     </ShowList>
                 ) : (
                     <ShowList isActive={isShowSchedule} onClick={() => { setIsShowSchedule(true); setIsShowAllSchedule(false); }}>
                         <CaretRightIcon />
                         <h3>
-                            {selectedDate || ''} 일정
+                            {selectedDate || ''} 일정 (
+                            {
+                                (() => {
+                                    // selectedDate가 유효한지 확인
+                                    if (!selectedDate) return '0';
+
+                                    const targetDate = new Date(selectedDate);
+                                    return schedules.filter(schedule =>
+                                        new Date(schedule.startDate) <= targetDate &&
+                                        targetDate <= new Date(schedule.endDate)
+                                    ).length || '0';
+                                })()
+                            }
+                            )
                         </h3>
                     </ShowList>
                 )}

@@ -12,7 +12,7 @@ import {
   ModalTaskInput, LinkInputTitle, LinkInputContainer, Input, StatusButton
 } from "../GlobalStyledComponents";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import DatePicker from 'react-datepicker';
@@ -48,7 +48,7 @@ const CalendarContent = styled.div`
 // components/Group/TodoContent.js
 const ScheduleItem = styled.div`
     display: flex;
-    alignItems: center;
+    align-items: center;
     marginBottom: 10px;
     gap: 5px;
 `;
@@ -62,6 +62,12 @@ export const ModalContent = styled.form`
     gap: 10px;
 `;
 
+const dummyData = [
+  { date: null, startDate: new Date('2024-10-15'), endDate: new Date('2024-10-16'), task: "회의" },
+  { date: null, startDate: new Date('2024-10-15'), endDate: new Date('2024-10-15'), task: "프로젝트 마감" },
+  { date: null, startDate: new Date('2024-10-20'), endDate: new Date('2024-10-20'), task: "출장" },
+]
+
 const TodoContent = () => {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState('');
@@ -70,6 +76,7 @@ const TodoContent = () => {
   const [scheduleList, setScheduleList] = useState([]);
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
   const [isEditingTask, setIsEditingTask] = useState(false);
+  const [isEditingSchedule, setIsEditingSchedule] = useState(false);
   const [editingTaskIndex, setEditingTaskIndex] = useState(null);
   const [githubLink, setGithubLink] = useState('');
   const [figmaLink, setFigmaLink] = useState('');
@@ -86,7 +93,10 @@ const TodoContent = () => {
   };
 
   const addScheduleField = () => {
-    setNewSchedule([...newSchedule, { date: null, task: '' }]);
+    setNewSchedule(prevSchedule => [
+      ...prevSchedule,
+      { date: null, task: '' }
+    ]);
   };
 
   const delScheduleField = (index) => {
@@ -95,29 +105,45 @@ const TodoContent = () => {
 
 
   const handleScheduleSubmit = () => {
+    // 비어 있지 않은 일정만 필터링
     const nonEmptySchedules = newSchedule.filter(
       (schedule) => schedule.task.trim() !== '' && schedule.startDate && schedule.endDate
     );
     if (nonEmptySchedules.length > 0) {
+
       if (editingTaskIndex !== null) {
+        // 일정 수정 모드일 때
         const updatedList = [...scheduleList];
-        updatedList[editingTaskIndex] = nonEmptySchedules[0];
+        updatedList[editingTaskIndex] = {
+          ...updatedList[editingTaskIndex], // 기존 데이터 유지
+          ...nonEmptySchedules[0], // 새 데이터로 업데이트
+        };
         setScheduleList(updatedList);
+      } else if (isEditingSchedule) {
+        // 스케줄 수정 모드일 때
+        setScheduleList([...scheduleList]);
       } else {
+        // 새로운 일정 추가
         setScheduleList([...scheduleList, ...nonEmptySchedules]);
       }
-
-      setNewSchedule([{ date: null, task: '' }]);
-      setEditingTaskIndex(null);
-      closeModal();
+      // 상태 초기화
+      setNewSchedule([{ task: '', startDate: null, endDate: null }]); // 초기값 변경
+      closeModal(); // 모달 닫기
+      setEditingTaskIndex(null); // 일정 수정 모드 초기화
+      setIsEditingSchedule(false); // 스케줄 수정 모드 초기화
+    } else {
+      alert("일정 정보를 입력하세요.");
     }
   };
+
+
   const handleDeleteSchedule = (index) => {
     const updatedList = scheduleList.filter((_, i) => i !== index);
     setScheduleList(updatedList);
   };
 
   const handleEditSchedule = (index) => {
+    setIsEditingSchedule(true);
     const scheduleToEdit = scheduleList[index];
     setNewSchedule([scheduleToEdit]);
     openModal();
@@ -132,19 +158,27 @@ const TodoContent = () => {
   // 할 일 부분
   const handleTaskSubmit = () => {
     if (isEditingTask) {
-      const updatedTasks = [...tasks];
-      updatedTasks[editingTaskIndex].content = newTask;
-      setTasks(updatedTasks);
+      // 수정 모드일 경우
+      setTasks(prevTasks => {
+        const updatedTasks = [...prevTasks];
+        updatedTasks[editingTaskIndex].content = newTask;
+        return updatedTasks;
+      });
       setIsEditingTask(false);
       setEditingTaskIndex(null);
     } else {
+      // 추가 모드일 경우
       if (newTask.trim()) {
-        setTasks([{ id: tasks.length + 1, content: newTask, status: '기획 중' }, ...tasks]);
+        setTasks(prevTasks => [
+          { id: Date.now(), content: newTask, status: '기획 중' },
+          ...prevTasks
+        ]);
       }
     }
     setNewTask('');
     closeTaskModal();
   };
+
 
   const onDragEnd = (result) => {
     if (!result.destination) return;
@@ -170,6 +204,7 @@ const TodoContent = () => {
     openTaskModal();
   };
 
+
   return (
     <TodoContainer>
       {/* Todo 상단 */}
@@ -180,7 +215,7 @@ const TodoContent = () => {
 
       {/* 일정 등록 모달 */}
       <OpenModal onClose={closeModal} isModalOpen={modalIsOpen}>
-        <ModalTitle>일정 등록</ModalTitle>
+        <ModalTitle>{isEditingSchedule ? '일정 수정' : '일정 등록'}</ModalTitle>
         <Modaldescription>일정을 작성하고 등록버튼을 눌러주세요.</Modaldescription>
         <ModalContent>
           {newSchedule.map((schedule, index) => (
@@ -209,7 +244,11 @@ const TodoContent = () => {
                 style={{ width: '100%', padding: '10px', fontSize: '16px' }}
               />
               {newSchedule.length > 1 && (
-                <CancelIcon onClick={() => delScheduleField(index)}>삭제</CancelIcon>
+                <CancelIcon onClick={() => delScheduleField(index)}
+                  style={{
+                    width: '14px', height: '14px'
+                  }}
+                >삭제</CancelIcon>
               )}
             </ScheduleItem>
           ))}
@@ -221,29 +260,20 @@ const TodoContent = () => {
         </TodoPlus>
         <ButtonGroupRight>
           <Violet500LineButton onClick={handleScheduleSubmit}>
-            등록
+            {isEditingSchedule ? '수정' : '등록'}
           </Violet500LineButton>
-          <Violet500LineButton onClick={closeModal}>
+          <Violet500LineButton onClick={() => { closeModal(); setIsEditingSchedule(false); }}>
             취소
           </Violet500LineButton>
         </ButtonGroupRight>
       </OpenModal>
 
-      {/* 일정 리스트 */}
-      <div>
-        {scheduleList.map((schedule, index) => (
-          <li key={index} style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0' }}>
-            {schedule.task} ({schedule.startDate?.toLocaleDateString()} ~ {schedule.endDate?.toLocaleDateString()})
-            <div style={{ display: 'flex', gap: '10px' }}>
-              <button onClick={() => handleEditSchedule(index)}>✒️</button>
-              <button onClick={() => handleDeleteSchedule(index)}>X</button>
-            </div>
-          </li>
-        ))}
-      </div>
-
-      {/* 캘린더 */}
-      <Calendar />
+      {/* 캘린더 & 일정 리스트 */}
+      <Calendar
+        data={scheduleList} // 일정 목록 데이터
+        handleEditSchedule={handleEditSchedule} // 일정 수정 기능
+        handleDeleteSchedule={handleDeleteSchedule} // 일정 삭제 기능
+      />
 
       <TodoHeader>
         <TodoTitle>할 일 리스트</TodoTitle>
