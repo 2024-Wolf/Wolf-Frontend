@@ -162,8 +162,6 @@ const GroupInfoContent = ({ mode }) => {
                 {/* 최근 소식 */}
                 <RecentNewsSlider news={recentNews} />
 
-
-
                 {/* 질문 작성 영역 */}
                 <Violet500LineDiv>
                     <FormFieldSingle label={"응원이나 궁금한 내용을 입력해주세요 !"} />

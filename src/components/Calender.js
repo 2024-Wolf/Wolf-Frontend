@@ -2,16 +2,21 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import ArrowLeftIcon from './Icon/ArrowLeftIcon';
 import ArrowRightIcon from './Icon/ArrowRightIcon';
+import CaretRightIcon from './Icon/CaretRightIcon';
+import CaretDownIcon from './Icon/CaretDownIcon';
+import { NoBackground } from './GlobalStyledComponents';
 
 const CalendarContainer = styled.div`
     width: 100%;
+    height: 364.58px;
     margin: 20px auto;
-    border: 1px solid #ccc;
     border-radius: 8px;
     overflow: hidden;
     display: flex;
     flex-direction: row;
     background-color: white;
+    padding:20px;
+    gap:10px;
 
     @media (max-width: 768px) {
         flex-direction: column-reverse;
@@ -26,6 +31,13 @@ const Header = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 10px;
+`;
+
+const HeaderContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 `;
 
 const DaysOfWeek = styled.div`
@@ -85,9 +97,19 @@ const ScheduleIndicator = styled.div`
 
 const Schedule = styled.div`
     width: 100%;
-    margin: 20px;
+    height: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
+    background-color: var(--black100);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    overflow-y: scroll;
+`;
+
+const ScheduleContainer = styled.div`
+    width: 100%;
+    height: 100%;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
@@ -98,6 +120,7 @@ const IconContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 5px;
 `;
 
 const HeaderDate = styled.h2`
@@ -117,9 +140,43 @@ const TodayButton = styled.button`
     }
 `;
 
+const ShowList = styled.div`
+    display: flex;
+    gap: 5px;
+    width: 100%;
+    color: var(--black300);
+    cursor: pointer;
+
+    &:hover {
+      color: var(--black600);
+    }
+
+    &:active {
+      color: var(--black600);
+    }
+
+  ${({ isActive }) => isActive && `
+    &:hover {
+      color: var(--black300);
+    }
+
+    &:active {
+      color: var(--black300);
+    }
+    cursor: auto;
+  `}
+
+
+`;
+
+
+
 const Calendar = (data) => {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(null);
+    const [isShowSchedule, setIsShowSchedule] = useState(false);
+    const [isShowAllSchedule, setIsShowAllSchedule] = useState(true);
+
     const [schedules, setSchedules] = useState([
         { date: null, startDate: new Date('2024-10-15'), endDate: new Date('2024-10-16'), task: "회의" },
         { date: null, startDate: new Date('2024-10-15'), endDate: new Date('2024-10-15'), task: "프로젝트 마감" },
@@ -139,6 +196,7 @@ const Calendar = (data) => {
         const today = new Date();
         setCurrentDate(today);
         setSelectedDate(`${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`);
+        setIsShowSchedule(true); setIsShowAllSchedule(false);
     };
 
     const isToday = (dateKey) => {
@@ -174,7 +232,7 @@ const Calendar = (data) => {
                 <DayWrapper key={i}>
                     {hasSchedule && <ScheduleIndicator />}
                     <Day
-                        onClick={() => setSelectedDate(dateKey)}
+                        onClick={() => { setSelectedDate(dateKey); setIsShowSchedule(true); setIsShowAllSchedule(false); }}
                         isSelected={selectedDate === dateKey}
                         isToday={isToday(dateKey)}
                     >
@@ -193,9 +251,20 @@ const Calendar = (data) => {
                 return selectedDate >= scheduleStartDate && selectedDate <= scheduleEndDate;
             });
 
+
             if (eventList.length > 0) {
                 return eventList.map((event, index) => (
-                    <li style={{ marginBottom: '5px' }} key={index}>{event.task}</li>
+                    <li style={{ marginBottom: '5px' }} key={index}>
+                        {console.log()}
+                        {event.task}
+                        {(event.startDate.toISOString().split('T')[0]) == (event.endDate.toISOString().split('T')[0]) ?
+                            <></> :
+                            <span style={{ fontSize: '12px', color: 'var(--black300)' }}>
+                                &nbsp;
+                                ({event.startDate.toISOString().split('T')[0]} ~ {event.endDate.toISOString().split('T')[0]})
+                            </span>
+                        }
+                    </li>
                 ));
             }
             return <p>일정이 없습니다.</p>;
@@ -203,24 +272,85 @@ const Calendar = (data) => {
         return <p>날짜를 선택해주세요</p>;
     };
 
+    const getAllSchedule = () => {
+        if (schedules.length > 0) {
+            return schedules.map((schedule, index) => (
+                <li style={{ marginBottom: '5px' }} key={index}>
+                    {schedule.task}
+                    {(schedule.startDate.toISOString().split('T')[0]) == (schedule.endDate.toISOString().split('T')[0]) ?
+                        <span style={{ fontSize: '12px', color: 'var(--black300)' }}>
+                            &nbsp; ({schedule.startDate.toISOString().split('T')[0]})
+                        </span> :
+                        <span style={{ fontSize: '12px', color: 'var(--black300)' }}>
+                            &nbsp; ({schedule.startDate.toISOString().split('T')[0]} ~ {schedule.endDate.toISOString().split('T')[0]})
+                        </span>
+                    }
+                </li>
+            ));
+        }
+        return <p>일정이 없습니다.</p>;
+    };
+
 
     return (
         <CalendarContainer>
-            <Schedule>
-                <h3 style={{ fontSize: '', color: 'var(--black400)' }}>{selectedDate || ''} 일정</h3>
-                <div>
-                    {getSchedule()}
-                </div>
-            </Schedule>
+            <ScheduleContainer>
+                {/* 전체 일정 리스트 */}
+                {isShowAllSchedule ? (
+                    <ShowList isActive={isShowAllSchedule}>
+                        <CaretDownIcon style={{ backgroundColor: 'transpose' }} />
+                        <h3 style={{ fontWeight: '700', cursor: 'default' }}>
+                            전체 일정
+                        </h3>
+                    </ShowList>
+                ) : (
+                    <ShowList isActive={isShowAllSchedule}
+                        onClick={() => { setIsShowAllSchedule(true); setIsShowSchedule(false); }}>
+                        <CaretRightIcon />
+                        <h3>
+                            전체 일정
+                        </h3>
+                    </ShowList>
+                )}
+
+
+                {isShowAllSchedule &&
+                    <Schedule>
+                        {getAllSchedule()}
+                    </Schedule>
+                }
+
+                {/* 특정 날짜 일정 */}
+                {isShowSchedule ? (
+                    <ShowList isActive={isShowSchedule}>
+                        <CaretDownIcon style={{ cursor: 'auto', backgroundColor: 'transpose' }} />
+                        <h3 style={{ fontWeight: '700', cursor: 'default' }}>
+                            {selectedDate || ''} 일정
+                        </h3>
+                    </ShowList>
+                ) : (
+                    <ShowList isActive={isShowSchedule} onClick={() => { setIsShowSchedule(true); setIsShowAllSchedule(false); }}>
+                        <CaretRightIcon />
+                        <h3>
+                            {selectedDate || ''} 일정
+                        </h3>
+                    </ShowList>
+                )}
+                {isShowSchedule &&
+                    <Schedule>
+                        {getSchedule()}
+                    </Schedule>
+                }
+            </ScheduleContainer>
             <div>
                 <Header>
-                    <IconContainer>
+                    <HeaderContainer>
                         <HeaderDate>{`${currentDate.getFullYear()}년 ${String(currentDate.getMonth() + 1).padStart(2, '0')}월`}</HeaderDate>
                         <IconContainer>
                             <ArrowLeftIcon onClick={handlePrevMonth} aria-label="이전 달로 이동" />
                             <ArrowRightIcon onClick={handleNextMonth} aria-label="다음 달로 이동" />
                         </IconContainer>
-                    </IconContainer>
+                    </HeaderContainer>
                     <TodayButton onClick={handleToday} aria-label="오늘 날짜로 돌아가기">오늘</TodayButton>
                 </Header>
                 <DaysOfWeek>

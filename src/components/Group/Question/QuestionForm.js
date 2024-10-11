@@ -550,9 +550,7 @@ const Exam = ({ showFileOption }) => {
     const [newCommentFile, setNewCommentFile] = useState({}); // 각 댓글의 파일 상태
     const [commentFileURL, setCommentFileURL] = useState('');
 
-
     const currentUser = '사용자';
-
 
     const addQuestion = (question) => {
         if (question.text && question.text.trim()) {

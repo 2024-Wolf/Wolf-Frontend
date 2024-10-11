@@ -7,7 +7,9 @@
 import styled from 'styled-components';
 import {
   Violet500LineButton,
-  TodoContainer, TodoHeader, ButtonGroupCenter, TodoTitle, TodoButton, ButtonGroupRight, ColumnContainer, Column, TodoItem, ModalContainer2, ModalTitle, Modaldescription, ModalInput, ModalInputDate, TodoPlus, ModalTaskInput, LinkInputTitle, LinkInputContainer, Input, StatusButton, CalendarIcon
+  TodoContainer, TodoHeader, TodoTitle, TodoButton, ButtonGroupRight,
+  ColumnContainer, Column, TodoItem, ModalContainer2, ModalTitle, Modaldescription, TodoPlus,
+  ModalTaskInput, LinkInputTitle, LinkInputContainer, Input, StatusButton
 } from "../GlobalStyledComponents";
 
 import React, { useState } from 'react';
@@ -18,6 +20,8 @@ import 'react-datepicker/dist/react-datepicker.css';
 import InputText from '../Input/InputText';
 import StartEndDateButton from '../Button/StartEndDateButton';
 import Calendar from '../Calender';
+import CancelIcon from '../Icon/CancelIcon';
+import OpenModal from '../Modal/OpenModal'
 
 
 const CalendarContainer = styled.div`
@@ -39,6 +43,23 @@ const CalendarContent = styled.div`
     background-color: var(--black100);
     padding: 5px;
     border-radius: 5px;
+`;
+
+// components/Group/TodoContent.js
+const ScheduleItem = styled.div`
+    display: flex;
+    alignItems: center;
+    marginBottom: 10px;
+    gap: 5px;
+`;
+
+
+// components/Modal/ModalContainer.jsx
+export const ModalContent = styled.form`
+    display: flex;
+    flex-direction: column; 
+    overflow-y: scroll;
+    gap: 10px;
 `;
 
 const TodoContent = () => {
@@ -64,22 +85,33 @@ const TodoContent = () => {
     setNewTask('');
   };
 
-  // 일정 부분
   const addScheduleField = () => {
     setNewSchedule([...newSchedule, { date: null, task: '' }]);
   };
+
+  const delScheduleField = (index) => {
+    setNewSchedule(newSchedule.filter((_, i) => i !== index));
+  };
+
 
   const handleScheduleSubmit = () => {
     const nonEmptySchedules = newSchedule.filter(
       (schedule) => schedule.task.trim() !== '' && schedule.startDate && schedule.endDate
     );
     if (nonEmptySchedules.length > 0) {
-      setScheduleList([...scheduleList, ...nonEmptySchedules]);
+      if (editingTaskIndex !== null) {
+        const updatedList = [...scheduleList];
+        updatedList[editingTaskIndex] = nonEmptySchedules[0];
+        setScheduleList(updatedList);
+      } else {
+        setScheduleList([...scheduleList, ...nonEmptySchedules]);
+      }
+
       setNewSchedule([{ date: null, task: '' }]);
+      setEditingTaskIndex(null);
       closeModal();
     }
   };
-
   const handleDeleteSchedule = (index) => {
     const updatedList = scheduleList.filter((_, i) => i !== index);
     setScheduleList(updatedList);
@@ -145,71 +177,57 @@ const TodoContent = () => {
         <TodoTitle>일정 리스트</TodoTitle>
         <TodoButton onClick={openModal}>일정 등록</TodoButton>
       </TodoHeader>
-      {/* 캘린더 */}
-      <div>
-        <CalendarContainer>
-          <div style={{ fontWeight: 'bold' }}>전체 일정(내용 스크롤)</div>
-          <CalendarContent>
-            <div>123</div>
-            <div>123</div>
-            <div>123</div>
-            <div>123</div>
-            <div>123</div>
-            <div>123</div>
-            <div>123</div>
-            <div>123</div>
-            <div>123</div>
-            <div>123</div>
-          </CalendarContent>
-        </CalendarContainer>
-        <Calendar />
-      </div>
-      {/* 일정 등록 모달 */}
-      <TodoContainer>
-        <Modal isOpen={modalIsOpen} onRequestClose={closeModal}>
-          <ModalContainer2>
-            <ModalTitle>일정 등록</ModalTitle>
-            <Modaldescription>일정을 작성하고 등록버튼을 눌러주세요.</Modaldescription>
 
-            {newSchedule.map((schedule, index) => (
-              <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-                <InputText
-                  type="text"
-                  value={schedule.task}
-                  onChange={(e) => handleNewScheduleChange(index, 'task', e.target.value)}
-                  placeholder="일정을 입력하세요"
-                  style={{
-                    width: '100%', padding: '10px', fontSize: '14px',
-                    marginRight: '5px'
-                  }}
-                />
-                <StartEndDateButton
-                  selected={schedule.startDate}
-                  onChange={(dates) => {
-                    const [start, end] = dates;
-                    handleNewScheduleChange(index, 'startDate', start);
-                    handleNewScheduleChange(index, 'endDate', end);
-                  }}
-                  startDate={schedule.startDate}
-                  endDate={schedule.endDate}
-                  selectsRange
-                  placeholderText="시작 일자 - 종료 일자"
-                  style={{ width: '100%', padding: '10px', fontSize: '16px' }}
-                />
-              </div>
-            ))}
-            <TodoPlus onClick={addScheduleField}>+</TodoPlus>
-            <ButtonGroupRight>
-              <Violet500LineButton onClick={handleScheduleSubmit}>
-                등록
-              </Violet500LineButton>
-              <Violet500LineButton onClick={closeModal}>
-                취소
-              </Violet500LineButton>
-            </ButtonGroupRight>
-          </ModalContainer2>
-        </Modal>
-      </TodoContainer>
+      {/* 일정 등록 모달 */}
+      <OpenModal onClose={closeModal} isModalOpen={modalIsOpen}>
+        <ModalTitle>일정 등록</ModalTitle>
+        <Modaldescription>일정을 작성하고 등록버튼을 눌러주세요.</Modaldescription>
+        <ModalContent>
+          {newSchedule.map((schedule, index) => (
+            <ScheduleItem key={index}>
+              <InputText
+                type="text"
+                value={schedule.task}
+                onChange={(e) => handleNewScheduleChange(index, 'task', e.target.value)}
+                placeholder="일정을 입력하세요"
+                style={{
+                  fontSize: '14px', color: 'var(--black700)'
+                }}
+                required
+              />
+              <StartEndDateButton
+                selected={schedule.startDate}
+                onChange={(dates) => {
+                  const [start, end] = dates;
+                  handleNewScheduleChange(index, 'startDate', start);
+                  handleNewScheduleChange(index, 'endDate', end);
+                }}
+                startDate={schedule.startDate}
+                endDate={schedule.endDate}
+                selectsRange
+                placeholderText="시작 일자 - 종료 일자"
+                style={{ width: '100%', padding: '10px', fontSize: '16px' }}
+              />
+              {newSchedule.length > 1 && (
+                <CancelIcon onClick={() => delScheduleField(index)}>삭제</CancelIcon>
+              )}
+            </ScheduleItem>
+          ))}
+        </ModalContent>
+        <TodoPlus onClick={addScheduleField}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
+          </svg>
+        </TodoPlus>
+        <ButtonGroupRight>
+          <Violet500LineButton onClick={handleScheduleSubmit}>
+            등록
+          </Violet500LineButton>
+          <Violet500LineButton onClick={closeModal}>
+            취소
+          </Violet500LineButton>
+        </ButtonGroupRight>
+      </OpenModal>
 
       {/* 일정 리스트 */}
       <div>
@@ -224,36 +242,38 @@ const TodoContent = () => {
         ))}
       </div>
 
+      {/* 캘린더 */}
+      <Calendar />
+
       <TodoHeader>
         <TodoTitle>할 일 리스트</TodoTitle>
         <TodoButton onClick={openTaskModal}>할 일 등록</TodoButton>
       </TodoHeader>
 
       {/* 할 일 등록 모달 */}
-      <Modal isOpen={isTaskModalOpen} onRequestClose={closeTaskModal}>
-        <ModalContainer2>
-          <ModalTitle>{isEditingTask ? '할 일 수정' : '새로운 할 일 등록'}</ModalTitle>
-          <Modaldescription>할 일을 작성하고 {isEditingTask ? '수정 완료' : '등록'} 버튼을 눌러주세요.</Modaldescription>
-          <ModalTaskInput>
-            <input
-              type="text"
-              value={newTask}
-              onChange={(e) => setNewTask(e.target.value)}
-              placeholder="할 일을 입력하세요"
-              style={{ width: '100%', padding: '10px', fontSize: '16px' }}
-            />
-          </ModalTaskInput>
+      <OpenModal onClose={closeTaskModal} isModalOpen={isTaskModalOpen}>
+        <ModalTitle>{isEditingTask ? '할 일 수정' : '새로운 할 일 등록'}</ModalTitle>
+        <Modaldescription>할 일을 작성하고 {isEditingTask ? '수정 완료' : '등록'} 버튼을 눌러주세요.</Modaldescription>
+        <ModalTaskInput>
+          <input
+            type="text"
+            value={newTask}
+            onChange={(e) => setNewTask(e.target.value)}
+            placeholder="할 일을 입력하세요"
+            style={{ width: '100%', padding: '10px', fontSize: '16px' }}
+          />
+        </ModalTaskInput>
 
-          <ButtonGroupRight>
-            <Violet500LineButton onClick={handleTaskSubmit}>
-              {isEditingTask ? '수정 완료' : '등록'}
-            </Violet500LineButton>
-            <Violet500LineButton onClick={closeTaskModal}>
-              취소
-            </Violet500LineButton>
-          </ButtonGroupRight>
-        </ModalContainer2>
-      </Modal>
+        <ButtonGroupRight>
+          <Violet500LineButton onClick={handleTaskSubmit}>
+            {isEditingTask ? '수정 완료' : '등록'}
+          </Violet500LineButton>
+          <Violet500LineButton onClick={closeTaskModal}>
+            취소
+          </Violet500LineButton>
+        </ButtonGroupRight>
+      </OpenModal>
+
 
       {/* 드래그 앤 드롭 */}
       <DragDropContext onDragEnd={onDragEnd}>

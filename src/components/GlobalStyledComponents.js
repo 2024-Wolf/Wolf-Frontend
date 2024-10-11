@@ -1257,11 +1257,13 @@ export const ModalContainer2 = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 500px;
+  width: 70%;
   background-color: #fff;
   padding: 30px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   z-index: 1000;
+  max-height: 90%;
+  border-radius: 20px;
 `;
 
 // components/Group/GroupInfoModal/ApplicantConfirmModal.js, components/Group/GroupInfoModal/ApplicantModal.js
@@ -2270,15 +2272,17 @@ export const TodoItem = styled.div`
 export const ModalTitle = styled.h2`
   font-size: 20px;
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 `;
 
 // components/Group/TodoContent.js
 export const Modaldescription = styled.h4`
-  font-size: 10px;
+  font-size: 13px;
   color: #ccc;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 `;
+
+
 
 // components/Group/TodoContent.js
 export const ModalInput = styled.div`
@@ -2691,11 +2695,6 @@ export const ModalWrapper = styled.div`
     text-align: center;
 `;
 
-// components/Modal/ModalContainer.jsx
-export const ModalContent = styled.div`
-    display: flex;
-    flex-direction: column; 
-`;
 
 // components/Modal/ModalContainer.jsx
 export const CloseButton = styled.button`

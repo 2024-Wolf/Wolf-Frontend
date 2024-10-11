@@ -13,6 +13,7 @@ import Declaration from "../components/Declaration";
 import ProfileIcon from "../components/Icon/ProfileIcon";
 import FAQTab from "../components/Tab/FAQTab";
 import ReportButton from "../components/Button/ReportButton";
+import OpenModal from "../components/Modal/OpenModal";
 
 // pages/StudyPage.js
 const GroupCategory = styled.div`
