@@ -7,6 +7,7 @@ import SearchBar from "../components/MainPageComponents/SearchBar/SearchBar";
 import DateButton from "../components/Button/DateButton";
 import MainOptionButton from "../components/Button/MainOptionButton";
 import cards from "../components/Data/CardData";
+import { getGroupPosts, registerGroupPost, updateGroupPost } from "../components/Apis/GroupPostApi";
 
 // pages/Main.js
 export const SearchContainer = styled.div`
@@ -37,6 +38,7 @@ export const MainButtonContainer = styled.div`
     }
 `;
 
+
 const Main = () => {
     const banners = [
         { id: 1, imgUrl: "/banner/banner1.png" },
@@ -44,6 +46,10 @@ const Main = () => {
         { id: 3, imgUrl: "/banner/banner3.png" },
         { id: 4, imgUrl: "/banner/banner4.png" },
     ];
+
+    useEffect(() => {
+        getGroupPosts("all");
+    }, [])
 
     const categories = ["전체", "프로젝트", "스터디"];
     const [activeCategory, setActiveCategory] = useState('전체');
