@@ -1,29 +1,31 @@
 import styled from "styled-components";
-import { HeaderButton, NoBackgroundButton, Black200BackgroundHover } from "../GlobalStyledComponents";
+import {
+  HeaderButton,
+  NoBackgroundButton,
+  Black200BackgroundHover,
+} from "../GlobalStyledComponents";
 
 const HeaderLogginButtonWrapper = styled(NoBackgroundButton)`
-  ${HeaderButton}
   ${Black200BackgroundHover}
+  padding: 5px 32px;
+  @media (max-width: 320px) {
+    padding: 10px;
+    border: 1px solid var(--black300);
+  }
+
+  span:nth-child(1) {
+    @media (max-width: 320px) {
+      display: none;
+    }
+  }
+
+  span:nth-child(2) {
+    display: none;
 
     @media (max-width: 320px) {
-        padding: 10px;
-        border: 1px solid var(--black300);
+      display: flex;
     }
-
-
-    span:nth-child(1) {
-        @media (max-width: 320px) {
-            display: none;
-        }
-    }
-
-    span:nth-child(2) {
-        display: none;
-
-        @media (max-width: 320px) {
-            display: flex;
-        }
-    }
+  }
 `;
 
 const HeaderLogginButton = ({ onClick, children }) => {
@@ -45,6 +47,6 @@ const HeaderLogginButton = ({ onClick, children }) => {
       {children}
     </HeaderLogginButtonWrapper>
   );
-}
+};
 
 export default HeaderLogginButton;

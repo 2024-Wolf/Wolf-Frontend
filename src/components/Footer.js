@@ -1,7 +1,12 @@
-import styled from 'styled-components';
-import { CommonButton, NoBackground, fontColorHover } from "./GlobalStyledComponents";
+import styled from "styled-components";
+import {
+  CommonButton,
+  NoBackground,
+  fontColorHover,
+} from "./GlobalStyledComponents";
 
-import React from 'react';
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 // components/Footer.js
 export const FooterContainer = styled.footer`
@@ -63,7 +68,6 @@ export const FooterContent = styled.div`
   }
 `;
 
-
 // components/Footer.js
 export const FooterButton = styled.button`
   ${CommonButton}
@@ -72,7 +76,7 @@ export const FooterButton = styled.button`
   
   font-weight: 700;
   padding: 0px;
-  
+
   margin-right: 20px; // 모든 버튼의 오른쪽에 간격 설정
   &:last-child {
     margin-right: 0; // 마지막 버튼의 오른쪽 여백 제거
@@ -84,24 +88,34 @@ export const FooterButton = styled.button`
 `;
 
 function Footer(props) {
+  const navigate = useNavigate();
+
   return (
     <FooterContainer>
       <FooterLogo>WOLF</FooterLogo>
       <FooterContent>
         <FooterText>
-          지금2조 : 정명주, 강태현, 김한수, 박가현, 이정연, 허준혁<br />
-          Contact team.wolf.official@gmail.com<br />
+          지금2조 : 정명주, 강태현, 김한수, 박가현, 이정연, 허준혁
+          <br />
+          Contact team.wolf.official@gmail.com
+          <br />
           Copyright
         </FooterText>
         <FooterLinks>
-          <FooterButton onClick={() => alert('공지사항')}>공지사항</FooterButton>
-          <FooterButton onClick={() => alert('FAQ 게시판')}>FAQ 게시판</FooterButton>
-          <FooterButton onClick={() => alert('이용약관')}>이용약관</FooterButton>
+          <FooterButton onClick={() => alert("공지사항")}>
+            공지사항
+          </FooterButton>
+          <FooterButton onClick={() => navigate("faq")}>
+            FAQ 게시판
+          </FooterButton>
+          {/* <FooterButton onClick={() => alert("이용약관")}> */}
+          <FooterButton onClick={() => navigate("Tos")}>
+            이용약관
+          </FooterButton>
         </FooterLinks>
-
       </FooterContent>
     </FooterContainer>
   );
-};
+}
 
 export default Footer;

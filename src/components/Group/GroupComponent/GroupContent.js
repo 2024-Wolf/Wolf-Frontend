@@ -94,7 +94,6 @@ export const GroupInfoContainer = styled.div`
     }
 `;
 
-
 // components/Group/GroupComponent/GroupWritingContent.jsx
 export const Label = styled.div`
     width: 70px;

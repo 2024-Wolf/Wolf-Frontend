@@ -19,6 +19,7 @@ export const GroupInfoContainer = styled.form`
     min-width: auto;
     margin: 0px 15px;
     }
+    
 `;
 
 const CreateGroupPage = () => {

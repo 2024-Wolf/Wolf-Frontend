@@ -16,11 +16,11 @@ import {
 } from "../GlobalStyledComponents";
 
 import React, { useState } from "react";
-import ApplicantConfirmModal from "./GroupInfoModal/ApplicantConfirmModal";
 import GroupInfoContent from "./GroupComponent/GroupContent";
 import ProfileIcon from "../Icon/ProfileIcon";
 import FormFieldMultiple from "./GroupComponent/FormFieldMultiple";
 import InputText from "../Input/InputText";
+import ApplicantModal from "./GroupInfoModal/ApplicantModal";
 
 // 전체 div
 // components/Group/GroupManageContent.js
@@ -38,6 +38,14 @@ export const Container5 = styled(ContentsWrapper)`
     padding: 0 20px;
   }
 `;
+
+const dummyData = {
+  name: "강태현",
+  email: "example1@example.com",
+  role: "프론트엔드개발자",
+  reason: "열심히 할게요~",
+  portfolioLink: "https://github.com/2024-Wolf/Wolf-Frontend",
+};
 
 const GroupManageContent = (props) => {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -164,10 +172,12 @@ const GroupManageContent = (props) => {
             </MemberInfo>
           </>
         ))}
+
         {isModalOpen && selectedApplicant && (
-          <ApplicantConfirmModal
+          <ApplicantModal
             onClose={closeModal}
             applicant={selectedApplicant}
+            isView={true}
           />
         )}
       </ApplySection>
