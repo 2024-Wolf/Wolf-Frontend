@@ -7,6 +7,7 @@ import SearchBar from "../components/MainPageComponents/SearchBar/SearchBar";
 import DateButton from "../components/Button/DateButton";
 import MainOptionButton from "../components/Button/MainOptionButton";
 import cards from "../components/Data/CardData";
+import { getGroupPosts, registerGroupPost } from "../components/Apis/GroupPostApi";
 
 // pages/Main.js
 export const SearchContainer = styled.div`
@@ -37,7 +38,31 @@ export const MainButtonContainer = styled.div`
     }
 `;
 
+const groupPost = {
+    leader_user: 1,
+    type: 'STUDY',
+    start_date: new Date('2024-09-01T10:00:00'),
+    end_date: new Date('2024-12-01T10:00:00'),
+    recruit_start_date: new Date('2024-09-01T10:00:00'),
+    recruit_deadline_date: new Date('2024-09-15T10:00:00'),
+    short_intro: '새로운 스터디 그룹',
+    tag: "'#프론트엔드', '#리액트', '#초보환영1', '#초보환영2', '#초보환영3', '#초보환영4', '#초보환영5', '#초보환영6', '#초보환영7'",
+    optional_requirements: '경험자 우대',
+    target_members: 5,
+    thumbnail: 'http://example.com/thumb1',
+    name: '데이터 사이언스 스터디1',
+    title: '개발 및 연구 스터디1',
+    description: '데이터 분석 및 머신러닝을 배우는 그룹입니다.',
+    warning: '참여 시 사전 준비 필수',
+    challenge_status: '1',
+}
+
+
 const Main = () => {
+    useEffect(() => {
+        //registerGroupPost(groupPost);
+    }, [])
+
     const banners = [
         { id: 1, imgUrl: "/banner/banner1.png" },
         { id: 2, imgUrl: "/banner/banner2.png" },

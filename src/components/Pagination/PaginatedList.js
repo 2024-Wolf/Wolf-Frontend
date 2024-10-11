@@ -84,7 +84,6 @@ const PaginatedList = ({ data, renderItems, currentPage, setCurrentPage }) => {
     const goToLastPage = () => {
         setCurrentPage(pageCount);
     };
-    console.log(data);
 
     const startIndex = (currentPage - 1) * itemsPerPage;
     const currentItems = data.slice(startIndex, startIndex + itemsPerPage);
