@@ -5,27 +5,28 @@ import { BASE_URL, accessToken } from "./Common";
 export function registerGroupPost(groupPost){
     axios.post(`${BASE_URL}/post`, {
         name: groupPost.name,
-        leaderUser: groupPost.leaderUser,
+        leaderUser: groupPost.leader_user,
         type: groupPost.type,
-        startDate: groupPost.startDate,
-        endDate: groupPost.endDate,
-        recruitStartDate: groupPost.recruitStartDate,
-        recruitDeadlineDate: groupPost.recruitDeadlineDate,
-        shortIntro: groupPost.shortIntro,
+        startDate: groupPost.start_date,
+        endDate: groupPost.end_date,
+        recruitStartDate: groupPost.recruit_start_date,
+        recruitDeadlineDate: groupPost.recruit_deadline_date,
+        shortIntro: groupPost.short_intro,
         tag: groupPost.tag,
-        optionalRequirements: groupPost.optionalRequirements,
-        targetMembers: groupPost.targetMembers,
+        optionalRequirements: groupPost.optional_requirements,
+        targetMembers: groupPost.target_members,
         thumbnail: groupPost.thumbnail,
         title: groupPost.title,
         description: groupPost.description,
         warning: groupPost.warning,
-        challengeStatus: groupPost.challengeStatus
+        challengeStatus: groupPost.challenge_status
     },{
         headers: {
             Authorization: accessToken
         }
     })
     .then(function(response){
+        // 받은 데이터로 수행할 작업
         console.log(response);
     })
     .catch(function(error){
@@ -42,6 +43,7 @@ export function getGroupPosts(option){
         }
     })
     .then(function(response){
+        // 받은 데이터로 수행할 작업
         console.log(response);
     })
     .catch(function(error){
