@@ -9,7 +9,6 @@ const ArrowLeftIconWrapper = styled.button`
     height: auto;
     display: flex;
     align-items: center;
-    
     svg {
         width: 16px;
         height: 16px;

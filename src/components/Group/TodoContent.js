@@ -7,43 +7,22 @@
 import styled from 'styled-components';
 import {
   Violet500LineButton,
-  TodoContainer, TodoHeader, TodoTitle, TodoButton, ButtonGroupRight,
-  ColumnContainer, Column, TodoItem, ModalContainer2, ModalTitle, Modaldescription, TodoPlus,
-  ModalTaskInput, LinkInputTitle, LinkInputContainer, Input, StatusButton
+  TodoContainer, TodoHeader, TodoButton, ButtonGroupRight,
+  ColumnContainer, Column, TodoItem, ModalTitle, Modaldescription, TodoPlus,
+  LinkInputContainer, Input, TaskStatus
 } from "../GlobalStyledComponents";
 
-import React, { useState, useEffect } from 'react';
-import Modal from 'react-modal';
+import React, { useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import InputText from '../Input/InputText';
 import StartEndDateButton from '../Button/StartEndDateButton';
 import Calendar from '../Calender';
 import CancelIcon from '../Icon/CancelIcon';
-import OpenModal from '../Modal/OpenModal'
+import ModalForm from '../Modal/ModalForm'
+import DragNDrop from '../DragNDrop';
+import DeleteIcon from '../Icon/DeleteIcon'
 
-
-const CalendarContainer = styled.div`
-    padding: 20px;
-    width: 100%;
-    height: 120px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    gap:10px;
-    background-color: white;
-`;
-
-const CalendarContent = styled.div`
-    width: 100%;
-    height: 100%;
-    overflow-y: auto;
-    background-color: var(--black100);
-    padding: 5px;
-    border-radius: 5px;
-`;
 
 // components/Group/TodoContent.js
 const ScheduleItem = styled.div`
@@ -54,19 +33,29 @@ const ScheduleItem = styled.div`
 `;
 
 
-// components/Modal/ModalContainer.jsx
-export const ModalContent = styled.form`
-    display: flex;
-    flex-direction: column; 
-    overflow-y: scroll;
-    gap: 10px;
+// components/Group/TodoContent.js
+export const H3Title = styled.h3`
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--black800);
 `;
 
-const dummyData = [
-  { date: null, startDate: new Date('2024-10-15'), endDate: new Date('2024-10-16'), task: "회의" },
-  { date: null, startDate: new Date('2024-10-15'), endDate: new Date('2024-10-15'), task: "프로젝트 마감" },
-  { date: null, startDate: new Date('2024-10-20'), endDate: new Date('2024-10-20'), task: "출장" },
-]
+
+// components/Modal/ModalContainer.jsx
+export const ModalContent = styled.div`
+    display: flex;
+    flex-direction: column; 
+    padding:10px;
+    gap: 10px;
+    height: 100%;
+`;
+
+// components/Modal/ModalContainer.jsx
+export const ListGroup = styled.div`
+    display: flex;
+    flex-direction: column; 
+    gap: 15px;
+`;
 
 const TodoContent = () => {
   const [tasks, setTasks] = useState([]);
@@ -207,160 +196,187 @@ const TodoContent = () => {
 
   return (
     <TodoContainer>
-      {/* Todo 상단 */}
-      <TodoHeader>
-        <TodoTitle>일정 리스트</TodoTitle>
-        <TodoButton onClick={openModal}>일정 등록</TodoButton>
-      </TodoHeader>
+      <ListGroup>
+        {/* 일정 리스트 상단 */}
+        <TodoHeader>
+          <H3Title>일정 리스트</H3Title>
+          <TodoButton onClick={openModal}>일정 등록</TodoButton>
+        </TodoHeader>
 
-      {/* 일정 등록 모달 */}
-      <OpenModal onClose={closeModal} isModalOpen={modalIsOpen}>
-        <ModalTitle>{isEditingSchedule ? '일정 수정' : '일정 등록'}</ModalTitle>
-        <Modaldescription>일정을 작성하고 등록버튼을 눌러주세요.</Modaldescription>
-        <ModalContent>
-          {newSchedule.map((schedule, index) => (
-            <ScheduleItem key={index}>
-              <InputText
-                type="text"
-                value={schedule.task}
-                onChange={(e) => handleNewScheduleChange(index, 'task', e.target.value)}
-                placeholder="일정을 입력하세요"
-                style={{
-                  fontSize: '14px', color: 'var(--black700)'
-                }}
-                required
-              />
-              <StartEndDateButton
-                selected={schedule.startDate}
-                onChange={(dates) => {
-                  const [start, end] = dates;
-                  handleNewScheduleChange(index, 'startDate', start);
-                  handleNewScheduleChange(index, 'endDate', end);
-                }}
-                startDate={schedule.startDate}
-                endDate={schedule.endDate}
-                selectsRange
-                placeholderText="시작 일자 - 종료 일자"
-                style={{ width: '100%', padding: '10px', fontSize: '16px' }}
-              />
-              {newSchedule.length > 1 && (
-                <CancelIcon onClick={() => delScheduleField(index)}
-                  style={{
-                    width: '14px', height: '14px'
-                  }}
-                >삭제</CancelIcon>
-              )}
-            </ScheduleItem>
-          ))}
-        </ModalContent>
-        <TodoPlus onClick={addScheduleField}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
-          </svg>
-        </TodoPlus>
-        <ButtonGroupRight>
-          <Violet500LineButton onClick={handleScheduleSubmit}>
-            {isEditingSchedule ? '수정' : '등록'}
-          </Violet500LineButton>
-          <Violet500LineButton onClick={() => { closeModal(); setIsEditingSchedule(false); }}>
-            취소
-          </Violet500LineButton>
-        </ButtonGroupRight>
-      </OpenModal>
-
-      {/* 캘린더 & 일정 리스트 */}
-      <Calendar
-        data={scheduleList} // 일정 목록 데이터
-        handleEditSchedule={handleEditSchedule} // 일정 수정 기능
-        handleDeleteSchedule={handleDeleteSchedule} // 일정 삭제 기능
-      />
-
-      <TodoHeader>
-        <TodoTitle>할 일 리스트</TodoTitle>
-        <TodoButton onClick={openTaskModal}>할 일 등록</TodoButton>
-      </TodoHeader>
-
-      {/* 할 일 등록 모달 */}
-      <OpenModal onClose={closeTaskModal} isModalOpen={isTaskModalOpen}>
-        <ModalTitle>{isEditingTask ? '할 일 수정' : '새로운 할 일 등록'}</ModalTitle>
-        <Modaldescription>할 일을 작성하고 {isEditingTask ? '수정 완료' : '등록'} 버튼을 눌러주세요.</Modaldescription>
-        <ModalTaskInput>
-          <input
-            type="text"
-            value={newTask}
-            onChange={(e) => setNewTask(e.target.value)}
-            placeholder="할 일을 입력하세요"
-            style={{ width: '100%', padding: '10px', fontSize: '16px' }}
+        {/* 일정 등록 모달 */}
+        <ModalForm onClose={closeModal} isModalOpen={modalIsOpen} onSubmit={handleScheduleSubmit}>
+          <CancelIcon
+            style={{
+              position: "absolute",
+              top: "16px",
+              right: "16px",
+            }}
+            type='button'
+            onClick={() => { closeModal(); setIsEditingSchedule(false); setNewSchedule([{ task: '', startDate: null, endDate: null }]); }}
           />
-        </ModalTaskInput>
+          <ModalTitle>{isEditingSchedule ? '일정 수정' : '새로운 일정 등록'}</ModalTitle>
+          <Modaldescription>일정을 작성하고 {isEditingSchedule ? '수정' : '등록'} 버튼을 눌러주세요.</Modaldescription>
+          <ModalContent>
+            {newSchedule.map((schedule, index) => (
+              <ScheduleItem key={index}>
+                <InputText
+                  type="text"
+                  value={schedule.task}
+                  onChange={(e) => handleNewScheduleChange(index, 'task', e.target.value)}
+                  placeholder="일정을 입력하세요"
+                  style={{
+                    fontSize: '14px', color: 'var(--black700)'
+                  }}
+                  required
+                />
+                <StartEndDateButton
+                  selected={schedule.startDate}
+                  onChange={(dates) => {
+                    const [start, end] = dates;
+                    handleNewScheduleChange(index, 'startDate', start);
+                    handleNewScheduleChange(index, 'endDate', end);
+                  }}
+                  startDate={schedule.startDate}
+                  endDate={schedule.endDate}
+                  selectsRange
+                  placeholderText="시작 일자 - 종료 일자"
+                  style={{ width: '100%', padding: '10px', fontSize: '16px' }}
+                />
+                {newSchedule.length > 1 && (
+                  <DeleteIcon
+                    style={{
+                      width: '16px', height: '16px', color: 'var(--violet500)'
+                    }}
+                    type='button'
+                    onClick={() => {
+                      if (window.confirm("일정을 삭제하시겠습니까?")) {
+                        delScheduleField(index);
+                      }
+                    }}
+                  />
+                )}
+              </ScheduleItem>
+            ))}
+          </ModalContent>
+          <TodoPlus onClick={addScheduleField}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
+            </svg>
+          </TodoPlus>
+          <ButtonGroupRight>
+            <Violet500LineButton type='submit'>
+              {isEditingSchedule ? '수정' : '등록'}
+            </Violet500LineButton>
+          </ButtonGroupRight>
+        </ModalForm>
 
-        <ButtonGroupRight>
-          <Violet500LineButton onClick={handleTaskSubmit}>
-            {isEditingTask ? '수정 완료' : '등록'}
-          </Violet500LineButton>
-          <Violet500LineButton onClick={closeTaskModal}>
-            취소
-          </Violet500LineButton>
-        </ButtonGroupRight>
-      </OpenModal>
+        {/* 캘린더 & 일정 리스트 */}
+        <Calendar
+          data={scheduleList} // 일정 목록 데이터
+          handleEditSchedule={handleEditSchedule} // 일정 수정 기능
+          handleDeleteSchedule={handleDeleteSchedule} // 일정 삭제 기능
+        />
+      </ListGroup>
+
+      <DragNDrop />
+
+      <ListGroup>
+        <TodoHeader>
+          <H3Title>할 일 리스트</H3Title>
+          <TodoButton type='button' onClick={openTaskModal}>할 일 등록</TodoButton>
+        </TodoHeader>
+
+        {/* 할 일 등록 모달 */}
+        <ModalForm onClose={closeTaskModal} isModalOpen={isTaskModalOpen} onSubmit={handleTaskSubmit}>
+          <CancelIcon
+            style={{
+              position: "absolute",
+              top: "16px",
+              right: "16px",
+            }}
+            type='button'
+            onClick={closeTaskModal}
+          />
+          <ModalTitle>{isEditingTask ? '할 일 수정' : '새로운 할 일 등록'}</ModalTitle>
+          <Modaldescription>할 일을 작성하고 {isEditingTask ? '수정' : '등록'} 버튼을 눌러주세요.</Modaldescription>
+          <ModalContent>
+            <InputText
+              type="text"
+              value={newTask}
+              onChange={(e) => setNewTask(e.target.value)}
+              placeholder="할 일을 입력하세요"
+              style={{ width: '100%', padding: '10px', fontSize: '16px', marginBottom: '30px' }}
+            />
+          </ModalContent>
+
+          <ButtonGroupRight>
+            <Violet500LineButton type='submit'>
+              {isEditingTask ? '수정 완료' : '등록'}
+            </Violet500LineButton>
+          </ButtonGroupRight>
+        </ModalForm>
 
 
-      {/* 드래그 앤 드롭 */}
-      <DragDropContext onDragEnd={onDragEnd}>
-        <ColumnContainer>
-          {['기획 중', '진행 중', '완료'].map((status) => (
-            <Droppable droppableId={status} key={status}>
-              {(provided) => (
-                <Column ref={provided.innerRef} {...provided.droppableProps}>
-                  <StatusButton>{status}</StatusButton>
-                  {tasks
-                    .filter((task) => task.status === status)
-                    .map((task, index) => (
-                      <Draggable key={task.id} draggableId={String(task.id)} index={index}>
-                        {(provided) => (
-                          <TodoItem ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                              <span>{task.content}</span>
-                              <div style={{ display: 'flex', gap: '10px' }}>
-                                <button onClick={() => handleEditTask(index)}>✒️</button>
-                                <button onClick={() => handleDeleteTask(index)}>X</button>
+        {/* 드래그 앤 드롭 */}
+        <DragDropContext onDragEnd={onDragEnd}>
+          <ColumnContainer>
+            {['기획 중', '진행 중', '완료'].map((status) => (
+              <Droppable droppableId={status} key={status}>
+                {(provided) => (
+                  <Column ref={provided.innerRef} {...provided.droppableProps}>
+                    <TaskStatus>{status}</TaskStatus>
+                    {tasks
+                      .filter((task) => task.status == status)
+                      .map((task, index) => (
+                        <Draggable key={task.id} draggableId={String(task.id)} index={index}>
+                          {(provided) => (
+                            <TodoItem ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <span>{task.content}</span>
+                                <div style={{ display: 'flex', gap: '10px' }}>
+                                  <button onClick={() => handleEditTask(index)}>✒️</button>
+                                  <button onClick={() => handleDeleteTask(index)}>X</button>
+                                </div>
                               </div>
-                            </div>
-                          </TodoItem>
-                        )}
-                      </Draggable>
-                    ))}
-                  {provided.placeholder}
-                </Column>
-              )}
-            </Droppable>
-          ))}
-        </ColumnContainer>
-      </DragDropContext>
+                            </TodoItem>
+                          )}
+                        </Draggable>
+                      ))}
+                    {provided.placeholder}
+                  </Column>
+                )}
+              </Droppable>
+            ))}
+          </ColumnContainer>
+        </DragDropContext>
+      </ListGroup>
 
-      {/* Link Input */}
-      <LinkInputTitle>공유 링크</LinkInputTitle>
-      <LinkInputContainer>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Font_Awesome_5_brands_github.svg/800px-Font_Awesome_5_brands_github.svg.png" alt="GitHub" width="30" />
-        <Input
-          type="text"
-          placeholder="깃허브 주소를 입력하세요"
-          value={githubLink}
-          onChange={(e) => setGithubLink(e.target.value)}
-        />
-        <TodoButton onClick={() => alert(`깃허브 주소가 등록되었습니다: ${githubLink}`)}>등록</TodoButton>
-      </LinkInputContainer>
 
-      <LinkInputContainer>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg" alt="Figma" width="30" height="30" />
-        <Input
-          type="text"
-          placeholder="피그마 주소를 입력하세요"
-          value={figmaLink}
-          onChange={(e) => setFigmaLink(e.target.value)}
-        />
-        <TodoButton onClick={() => alert(`피그마 주소가 등록되었습니다: ${figmaLink}`)}>등록</TodoButton>
-      </LinkInputContainer>
+      <ListGroup>
+        {/* Link Input */}
+        <H3Title>공유 링크</H3Title>
+        <LinkInputContainer>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Font_Awesome_5_brands_github.svg/800px-Font_Awesome_5_brands_github.svg.png" alt="GitHub" width="30" />
+          <Input
+            type="text"
+            placeholder="깃허브 주소를 입력하세요"
+            value={githubLink}
+            onChange={(e) => setGithubLink(e.target.value)}
+          />
+          <TodoButton onClick={() => alert(`깃허브 주소가 등록되었습니다: ${githubLink}`)}>등록</TodoButton>
+        </LinkInputContainer>
+
+        <LinkInputContainer>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg" alt="Figma" width="30" height="30" />
+          <Input
+            type="text"
+            placeholder="피그마 주소를 입력하세요"
+            value={figmaLink}
+            onChange={(e) => setFigmaLink(e.target.value)}
+          />
+          <TodoButton onClick={() => alert(`피그마 주소가 등록되었습니다: ${figmaLink}`)}>등록</TodoButton>
+        </LinkInputContainer>
+      </ListGroup>
     </TodoContainer>
   );
 };

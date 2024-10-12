@@ -18,13 +18,14 @@ const FormFieldSingleWrapper = styled.div`
         flex-direction: column;
         align-items: start;
     }
+        
 `;
 
-const FormFieldSingle = ({ label, label2, children, style, description }) => {
+const FormFieldSingle = ({ label, label2, children, labelStyle, style, description }) => {
     return (
         <FormFieldSingleWrapper style={style}>
             <FormLabelGroup>
-                <FormLabel>{label}</FormLabel>
+                <FormLabel style={labelStyle}>{label}</FormLabel>
                 {label2 && <FormLabel>{label2}</FormLabel>} {/* 2번째 라벨이 있으면 보임 */}
             </FormLabelGroup>
             <FormChildrenGroup>

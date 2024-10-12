@@ -6,11 +6,12 @@ import ArrowRightIcon from './Icon/ArrowRightIcon';
 import CaretRightIcon from './Icon/CaretRightIcon';
 import CaretDownIcon from './Icon/CaretDownIcon';
 import CancelIcon from './Icon/CancelIcon';
+import DeleteIcon from './Icon/DeleteIcon';
+import { Hr } from './GlobalStyledComponents';
 
 const CalendarContainer = styled.div`
     width: 100%;
     height: 364.58px;
-    margin: 20px auto;
     border-radius: 8px;
     overflow: hidden;
     display: flex;
@@ -21,6 +22,7 @@ const CalendarContainer = styled.div`
 
     @media (max-width: 768px) {
         flex-direction: column-reverse;
+        height: 600px;
     }
     
     @media (max-width: 480px) {
@@ -34,6 +36,15 @@ const Header = styled.div`
     padding: 10px;
 `;
 
+const CalendarViewer = styled.div`
+    @media (max-width: 480px) {
+        min-width: 160.67px;
+        min-height: 321.25px;
+        overflow-x: auto;
+    }
+`;
+
+
 const HeaderContainer = styled.div`
     display: flex;
     align-items: center;
@@ -45,38 +56,88 @@ const DaysOfWeek = styled.div`
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     padding: 10px 10px 0 10px;
+
+      @media (max-width: 768px) {
+  }
+
+  @media (max-width: 300px) {
+    min-width: 228px;
+  }
 `;
 
 const DayOfWeek = styled.div`
     text-align: center;
     font-weight: bold;
     color: #333;
+    font-size: 16px;
+
+    @media (max-width: 768px) {
+        font-size: 15px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 14px;
+    }
 `;
 
 const Days = styled.div`
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     padding: 10px;
+    font-size: 16px;
+    min-height: 250px;
+
+    @media (max-width: 768px) {
+        font-size: 15px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 14px;
+    }
 `;
 
 const Day = styled.div`
-    padding: 13px;
-    text-align: center;
+    padding: 0px;
     cursor: pointer;
     border-radius: 50%;
     margin: 2px;
-    width:42px;
-    background-color: ${({ isSelected, isToday }) => (isSelected ? 'var(--violet300)' : isToday ? 'var(--violet200)' : 'transparent')};
+    width: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+    @media (max-width: 768px) {
+        width: 100%;
+        height: auto;
+        min-width: 30px;
+        max-width: 42px
+    }
+
+    @media (max-width: 580px) {
+        width: 32px;
+        max-height: 32px
+    }
+
+    @media (max-width: 480px) {
+        height: 25px;
+        min-width: 25px;
+        max-width: 25px
+    }
+
+
+    background-color: ${({ isSelected, istoday }) => (isSelected ? 'var(--violet300)' : istoday ? 'var(--violet200)' : 'transparent')};
     color: ${({ isSelected }) => (isSelected ? 'var(--violet700)' : '#000')};
     font-weight: ${({ isSelected }) => (isSelected ? 'bold' : '')};
 
     &:hover {
         background-color: ${({ isSelected }) => (isSelected ? 'var(--violet400)' : 'var(--violet200)')};
     }
+
 `;
 const DayWrapper = styled.div`
     position: relative;
-    widthL 100%;
+    width: 100%;
     display: flex;
     justify-content: center;
 `;
@@ -94,6 +155,20 @@ const ScheduleIndicator = styled.div`
     position: absolute;
     top: 8px;
     right: 8px;
+
+    @media (max-width: 768px) {
+
+    }
+
+    @media (max-width: 580px) {
+    top: 20%;
+    right: 20%;
+    }
+
+    @media (max-width: 480px) {
+    top: 4px;
+    right: 4px;
+    }
 `;
 
 const Schedule = styled.div`
@@ -115,6 +190,17 @@ const ScheduleContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 10px;
+
+    hr {
+        display: none;
+    }
+
+    @media (max-width: 768px) {
+        hr {
+            display: inline-block;
+        }
+    }
+
 `;
 
 const IconContainer = styled.div`
@@ -125,6 +211,16 @@ const IconContainer = styled.div`
 
 const HeaderDate = styled.h2`
     width: 90px;
+    font-size: 16px;
+    @media (max-width: 768px) {
+        font-size: 15px;
+        width: 85px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 14px;
+        width: 80px;
+    }
 `;
 
 const TodayButton = styled.button`
@@ -135,9 +231,11 @@ const TodayButton = styled.button`
     background-color: var(--violet600);
     color: white;
     font-size: 15px;
+    white-space: nowrap;
     &:hover {
         background-color: var(--violet700);
     }
+
 `;
 
 const ShowList = styled.div`
@@ -169,14 +267,13 @@ const ShowList = styled.div`
 
 const ListGroup = styled.li`
     &::marker {
-        content: '✔'; /* 올바른 내용 설정 */
-        color: var(--blueViolet800); /* 색상 설정 */
+        content: '✔';
+        color: var(--blueViolet800);
     }
     line-height: 1.3;
-    dispaly: flex;
-    gap: 10px;
-    align-items: center;
-    justify-content: center;
+display: table-cell; /* 테이블 셀로 설정 */
+  vertical-align: middle; /* 세로 중앙 정렬 */
+
 }
 `;
 
@@ -241,7 +338,7 @@ const Calendar = ({ data, handleEditSchedule, handleDeleteSchedule, ...props }) 
 
     const isToday = (dateKey) => {
         const today = new Date();
-        return dateKey === `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+        return dateKey == `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
     };
 
     const generateCalendar = () => {
@@ -271,9 +368,10 @@ const Calendar = ({ data, handleEditSchedule, handleDeleteSchedule, ...props }) 
                     {hasSchedule && <ScheduleIndicator />}
                     <Day
                         onClick={() => { setSelectedDate(dateKey); setIsShowSchedule(true); setIsShowAllSchedule(false); }}
-                        isSelected={selectedDate === dateKey}
-                        isToday={isToday(dateKey)}
+                        isSelected={selectedDate == dateKey}
+                        istoday={isToday(dateKey)}
                     >
+                        {hasSchedule && <ScheduleIndicator />}
                         {i}
                     </Day>
                 </DayWrapper>
@@ -302,16 +400,22 @@ const Calendar = ({ data, handleEditSchedule, handleDeleteSchedule, ...props }) 
                                 ({event.startDate.toISOString().split('T')[0]} ~ {event.endDate.toISOString().split('T')[0]})
                             </span>
                         }
+                        &nbsp;
                         <button onClick={() => handleEditSchedule(index)}
                             style={{
                                 fontSize: '16px'
                             }}>✒️</button>
-                        <CancelIcon onClick={() => handleDeleteSchedule(index)}
-                            size={13}
+                        <DeleteIcon
+                            onClick={() => {
+                                if (window.confirm("일정을 삭제하시겠습니까?")) {
+                                    handleDeleteSchedule(index);
+                                }
+                            }}
+                            size={15}
                             style={{
                                 width: '16px', height: '16px'
                             }}
-                        ></CancelIcon>
+                        />
                     </ListGroup>
                 ));
             }
@@ -336,16 +440,22 @@ const Calendar = ({ data, handleEditSchedule, handleDeleteSchedule, ...props }) 
                             &nbsp; ({schedule.startDate.toISOString().split('T')[0]} ~ {schedule.endDate.toISOString().split('T')[0]})
                         </span>
                     }
+                    &nbsp;
                     <button onClick={() => handleEditSchedule(index)}
                         style={{
                             fontSize: '16px'
                         }}>✒️</button>
-                    <CancelIcon onClick={() => handleDeleteSchedule(index)}
+                    <DeleteIcon
+                        onClick={() => {
+                            if (window.confirm("일정을 삭제하시겠습니까?")) {
+                                handleDeleteSchedule(index);
+                            }
+                        }}
                         size={13}
                         style={{
                             width: '16px', height: '16px'
                         }}
-                    ></CancelIcon>
+                    />
                 </ListGroup>
             ));
         }
@@ -356,6 +466,7 @@ const Calendar = ({ data, handleEditSchedule, handleDeleteSchedule, ...props }) 
     return (
         <CalendarContainer>
             <ScheduleContainer>
+                <Hr />
                 {/* 전체 일정 리스트 */}
                 {isShowAllSchedule ? (
                     <ShowList isActive={isShowAllSchedule}>
@@ -429,7 +540,7 @@ const Calendar = ({ data, handleEditSchedule, handleDeleteSchedule, ...props }) 
                     </Schedule>
                 }
             </ScheduleContainer>
-            <div>
+            <CalendarViewer>
                 <Header>
                     <HeaderContainer>
                         <HeaderDate>{`${currentDate.getFullYear()}년 ${String(currentDate.getMonth() + 1).padStart(2, '0')}월`}</HeaderDate>
@@ -452,7 +563,7 @@ const Calendar = ({ data, handleEditSchedule, handleDeleteSchedule, ...props }) 
                 <Days>
                     {generateCalendar()}
                 </Days>
-            </div>
+            </CalendarViewer>
         </CalendarContainer>
     );
 };

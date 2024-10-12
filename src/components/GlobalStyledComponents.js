@@ -2127,11 +2127,21 @@ export const MeetingDiv = styled.div`
 `;
 
 // components/Group/TodoContent.js
-export const TodoContainer = styled.div`
+export const TodoContainer = styled(ContentsWrapper)`
+  position: relative;
   width: 100%;
-  padding: 20px;
-  background-color: #f2f0ff;
-  border-radius: 8px;
+  padding: 20px 40px;
+  background: var(--violet100);
+
+  gap: 60px;
+
+  @media (max-width: 768px) {
+    padding: 15px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 10px;
+  }
 `;
 
 // components/Group/TodoContent.js
@@ -2139,7 +2149,6 @@ export const TodoHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
 `;
 
 // components/Group/TodoContent.js
@@ -2167,8 +2176,9 @@ export const TodoButton = styled.button`
 export const ColumnContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
-  background-color: #ffffff;
+  background-color: white;
+  border-radius: 8px;
+  background-color: white;
 `;
 
 // components/Group/TodoContent.js
@@ -2269,13 +2279,6 @@ export const ModalTaskInput = styled.div`
   }
 `;
 
-// components/Group/TodoContent.js
-export const LinkInputTitle = styled.h3`
-  font-size: 24px;
-  font-weight: bold;
-  margin-top: 50px;
-  color: #000000;
-`;
 
 // components/Group/TodoContent.js
 export const LinkInputContainer = styled.div`
@@ -2293,7 +2296,7 @@ export const Input = styled.input`
 `;
 
 // components/Group/TodoContent.js
-export const StatusButton = styled.div`
+export const TaskStatus = styled.div`
   background-color: #9787ff;
   color: white;
   padding: 15px 20px;
@@ -2552,6 +2555,7 @@ export const ItemCol = styled.div`
   flex-direction: column;
   gap: 5px;
   align-items: start;
+
 `;
 
 // components/Icon/RegularIcon.jsx

@@ -225,7 +225,7 @@ const GroupInfoContent = ({ mode }) => {
 
         {/* 질문 작성 영역 */}
         <Violet500LineDiv>
-          <FormFieldSingle label={"응원이나 궁금한 내용을 입력해주세요 !"} />
+          <FormFieldSingle label={"응원이나 궁금한 내용을 입력해주세요 !"} labelStyle={{ textWrap: 'wrap' }} />
           <QuestionForm
             showFileOption={false}
           // data={data} 데이터 연결 필요
