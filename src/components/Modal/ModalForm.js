@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 const ModalOverlay = styled.div`
     position: fixed;
@@ -50,8 +50,18 @@ export const ModalContainer = styled.form`
   }
 `;
 
-const ModalForm = ({ children, onClose, isModalOpen, onSubmit, style, ...props }) => {
+const ModalForm = ({ children, onClose, isModalOpen, onSubmit, focusRef, style, ...props }) => {
     const [isOverflow, setIsOverflow] = useState(false);
+
+    // 포커스 대상 useRef 설정하는 법, 부모에서 작성하고 focusRef에 전달하면 됨
+    // const inputRefs = useRef([]); // 여러 개의 ref를 저장할 배열
+    // const addInputRef = (el) => {
+    //     if (el && !inputRefs.current.includes(el)) {
+    //       inputRefs.current.push(el);
+    //     }
+    //   };
+    // <input ref={addInputRef} />
+
     // 아래는 부모에서 작성하고 onClose={closeModal}을 전달해줘야 함
     // const [isModalOpen, setIsModalOpen] = useState(false);
     // const openModal = () => {
@@ -61,6 +71,14 @@ const ModalForm = ({ children, onClose, isModalOpen, onSubmit, style, ...props }
     // const closeModal = () => {
     //     setIsModalOpen(false);
     // };
+
+    useEffect(() => {
+        if (isModalOpen) {
+            if (focusRef && focusRef.current) {
+                focusRef.current.focus();
+            }
+        }
+    }, [isModalOpen, focusRef]);
 
     useEffect(() => {
         const updateOverflow = () => {

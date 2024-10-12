@@ -21,7 +21,7 @@ const CalendarContainer = styled.div`
 
     @media (max-width: 768px) {
         flex-direction: column-reverse;
-        height: 600px;
+        height: 684px;
     }
     
     @media (max-width: 480px) {
@@ -166,11 +166,11 @@ const ScheduleIndicator = styled.div`
     }
 
     @media (max-width: 480px) {
-    top: 8%;
+    top: 5%;
     right: 16%;
     }
 
-    @media (max-width: 300px) {
+    @media (max-width: 340px) {
     top: 4%;
     right: 3%;
     }
@@ -186,6 +186,11 @@ const Schedule = styled.div`
     flex-direction: column;
     gap: 5px;
     overflow-y: scroll;
+
+    @media (max-width: 768px) {
+        max-height: 250px;
+    }
+
 `;
 
 const ScheduleContainer = styled.div`
@@ -276,6 +281,20 @@ const ListGroup = styled.li`
         color: var(--blueViolet800);
     }
     line-height: 1.3;
+
+    button {
+        display:none;
+    }
+    
+    &:hover button {
+        display: inline; /* 호버 시 버튼 표시 */
+    }
+
+    @media (max-width: 768px) {
+         button {
+        display:inline;
+    }
+    }
 }
 `;
 

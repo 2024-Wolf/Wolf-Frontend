@@ -13,7 +13,7 @@ import {
   ContentsWrapper
 } from "../GlobalStyledComponents";
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import 'react-datepicker/dist/react-datepicker.css';
 import InputText from '../Input/InputText';
@@ -155,6 +155,8 @@ const TodoContent = ({ github, figma }) => {
   const [isEditingTask, setIsEditingTask] = useState(false);
   const [isEditingSchedule, setIsEditingSchedule] = useState(false);
 
+  const inputRefs = useRef([]); // 여러 개의 ref를 저장할 배열
+
 
   const [githubLink, setGithubLink] = useState((DummyLinkData.find(link => link.name === 'GitHub').url) || '');
   const [figmaLink, setFigmaLink] = useState((DummyLinkData.find(link => link.name === 'Figma').url) || '');
@@ -163,6 +165,7 @@ const TodoContent = ({ github, figma }) => {
   const closeModal = () => setModalIsOpen(false);
 
   const openTaskModal = () => setIsTaskModalOpen(true);
+
   const closeTaskModal = () => {
     setIsTaskModalOpen(false);
     setIsEditingTask(false);
@@ -182,8 +185,10 @@ const TodoContent = ({ github, figma }) => {
   };
 
 
-  const handleScheduleSubmit = () => {
+  const handleScheduleSubmit = (event) => {
     // 비어 있지 않은 일정만 필터링
+    event.preventDefault();
+
     const nonEmptySchedules = newSchedule.filter(
       (schedule) => schedule.task.trim() !== '' && schedule.startDate && schedule.endDate
     );
@@ -364,7 +369,11 @@ const TodoContent = ({ github, figma }) => {
         </TodoHeader>
 
         {/* 일정 등록 모달 */}
-        <ModalForm onClose={closeModal} isModalOpen={modalIsOpen} onSubmit={handleScheduleSubmit}>
+        <ModalForm onClose={closeModal}
+          isModalOpen={modalIsOpen}
+          onSubmit={handleScheduleSubmit}
+          focusRef={inputRefs}
+        >
           <CancelIcon
             style={{
               position: "absolute",
@@ -380,15 +389,18 @@ const TodoContent = ({ github, figma }) => {
             {newSchedule.map((schedule, index) => (
               <ScheduleItem key={index}>
                 <InputText
+                  ref={inputRefs}
                   type="text"
-                  value={schedule.task}
-                  onChange={(e) => handleNewScheduleChange(index, 'task', e.target.value)}
+                  value={newSchedule[0].task}
+                  onChange={(e) => handleNewScheduleChange(0, 'task', e.target.value)}
                   placeholder="일정을 입력하세요"
                   style={{
-                    fontSize: '14px', color: 'var(--black700)'
+                    fontSize: '14px',
+                    color: 'var(--black700)',
                   }}
                   required
                 />
+
                 <StartEndDateButton
                   selected={schedule.startDate}
                   onChange={(dates) => {
@@ -449,7 +461,10 @@ const TodoContent = ({ github, figma }) => {
         </TodoHeader>
 
         {/* 할 일 등록 모달 */}
-        <ModalForm onClose={closeTaskModal} isModalOpen={isTaskModalOpen} onSubmit={handleTaskSubmit}>
+        <ModalForm onClose={closeTaskModal} isModalOpen={isTaskModalOpen}
+          onSubmit={handleTaskSubmit}
+          focusRef={inputRefs}
+        >
           <CancelIcon
             style={{
               position: "absolute",
@@ -463,6 +478,7 @@ const TodoContent = ({ github, figma }) => {
           <Modaldescription>할 일을 작성하고 {isEditingTask ? '수정' : '등록'} 버튼을 눌러주세요.</Modaldescription>
           <ModalContent>
             <InputText
+              ref={inputRefs}
               type="text"
               value={newTask}
               onChange={(e) => setNewTask(e.target.value)}
@@ -493,7 +509,7 @@ const TodoContent = ({ github, figma }) => {
                     }} />
                     <Column ref={provided.innerRef} {...provided.droppableProps}>
                       {/* '기획 중', '진행 중', '완료' 제목 */}
-                      <TaskStatus>{status} ({tasks.filter((task) => task.status === status).length})</TaskStatus>
+                      <TaskStatus>{status}</TaskStatus>
                       {/* 할 일 목록 리스트 */}
                       {tasks
                         .filter((task) => task.status === status)
