@@ -592,8 +592,9 @@ export const FormLabel = styled.label`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--black600);
+
 
   @media (max-width: 950px) {
     width: 100%;
@@ -689,15 +690,7 @@ export const Title3 = styled.h2`
   font-size: 12px;
 `;
 
-// components/Challenge/ChallengeDetail.js
-export const Title4 = styled.div`
-  width: 30%;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  margin: 0 auto;
-  font-size: 25px;
-`;
+
 
 // components/Challenge/ChallengeListItem.js
 export const Title5 = styled.div`

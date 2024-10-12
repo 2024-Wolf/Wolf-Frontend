@@ -193,31 +193,6 @@ const GroupInfoContent = ({ mode }) => {
               '- 관심있는 분들은 "지원하기"로 신청해주세요.'
             }
           />
-          <PostContent></PostContent>
-        </Violet500LineDiv>
-
-        {/* 최근 소식 */}
-        <RecentNewsSlider news={recentNews} />
-
-        {/* 주제 설명 */}
-        <Violet500LineDiv>
-          <FormFieldRow>
-            <FormFieldSingle label={"주제"} className="PostTitle">
-              <InputTextNoCss value="인스타그램 클론 코딩 해보기" />
-            </FormFieldSingle>
-          </FormFieldRow>
-          <TextAreaNoCss
-            name="introduction"
-            placeholder="모집에 대한 간단한 소개를 작성해주세요."
-            value={
-              "- 내용: 파이썬 기초를 공부할 사람 모집합니다.\n" +
-              "- 매주 월, 수, 금 오후 8시부터 10시까지 진행됩니다.\n" +
-              "- 총 8주 과정으로 진행하고 참가비 무료입니다.\n" +
-              "- 관심있는 분들은 \"지원하기\"로 신청해주세요."
-            }
-          />
-          <PostContent>
-          </PostContent>
         </Violet500LineDiv>
 
         {/* 최근 소식 */}
@@ -225,7 +200,14 @@ const GroupInfoContent = ({ mode }) => {
 
         {/* 질문 작성 영역 */}
         <Violet500LineDiv>
-          <FormFieldSingle label={"응원이나 궁금한 내용을 입력해주세요 !"} labelStyle={{ textWrap: 'wrap' }} />
+          <FormFieldSingle
+            FormLabelGroupStyle={{ width: '100%', marginTop: '10px' }}
+            labelStyle={{
+              width: '100%', textWrap: 'wrap', justifyContent: 'start',
+
+            }}
+            label={"응원이나 궁금한 내용을 입력해주세요 !"}
+          />
           <QuestionForm
             showFileOption={false}
           // data={data} 데이터 연결 필요

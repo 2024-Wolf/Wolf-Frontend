@@ -171,8 +171,18 @@ const ImagePreview = (({
         });
     };
 
-    const handleImageClick = (file) => {
-        setModalImage(URL.createObjectURL(file));
+
+
+    const handleImageClick = (image) => {
+
+        // 이미지가 Blob/File인지 URL인지 확인
+        if (typeof image === 'string') {
+            // URL인 경우
+            setModalImage(image);
+        } else if (image instanceof Blob || image instanceof File) {
+            // Blob/File인 경우
+            setModalImage(URL.createObjectURL(image));
+        }
         setIsImageModalOpen(true);
     };
 

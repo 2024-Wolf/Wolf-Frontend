@@ -236,7 +236,6 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
                     </FormTitle>
                     <ButtonGroupRight>
                         {contentsType === 'editing' ? (
-
                             <>
                                 {/* editing */}
                                 {/* 그룹 페이지 관리 탭 */}

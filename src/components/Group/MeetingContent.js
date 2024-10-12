@@ -122,7 +122,13 @@ const MeetingContent = ({ isMeetingStarted }) => {
         {isMeetingOpen && <MeetingPortal onClose={closeMeetingWindow} />}
       </MeetingDiv>
 
-      <FormFieldSingle label={"팀원들과 궁금한 내용을 나눠보세요 !"} />
+      <FormFieldSingle
+        FormLabelGroupStyle={{ width: '100%', marginTop: '0px' }}
+        labelStyle={{
+          width: '100%', textWrap: 'wrap', justifyContent: 'start',
+
+        }}
+        label={"팀원들과 궁금한 내용을 나눠보세요 !"} />
 
       <QuestionForm
         showFileOption={true}
