@@ -532,6 +532,10 @@ export const Violet500BackgroundButton = styled.button`
   ${Square}
   ${Violet500Background}
     ${Violet600BackgroundHover}
+
+  &:disabled {
+    background-color: #ccc; /* 비활성화 시 배경색 */
+  }
 `;
 
 export const Violet600BackgroundButton = styled.button`
@@ -2127,24 +2131,6 @@ export const MeetingDiv = styled.div`
 `;
 
 // components/Group/TodoContent.js
-export const TodoContainer = styled(ContentsWrapper)`
-  position: relative;
-  width: 100%;
-  padding: 20px 40px;
-  background: var(--violet100);
-
-  gap: 60px;
-
-  @media (max-width: 768px) {
-    padding: 15px;
-  }
-
-  @media (max-width: 480px) {
-    padding: 10px;
-  }
-`;
-
-// components/Group/TodoContent.js
 export const TodoHeader = styled.div`
   display: flex;
   justify-content: space-between;
@@ -2178,17 +2164,35 @@ export const ColumnContainer = styled.div`
   justify-content: space-between;
   background-color: white;
   border-radius: 8px;
-  background-color: white;
+  width: 100%;
+  flex-direction: row;
+  hr, hr:first-of-type {
+    display : none;
+  }
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    hr {
+      display: inline-block
+    }
+  }
 `;
 
 // components/Group/TodoContent.js
 export const Column = styled.div`
-  flex: 1;
-  background-color: #ffffff;
-  padding: 20px;
-  margin: 0 10px;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  padding: 10px;
   border-radius: 8px;
   min-height: 200px;
+  width: 33.3%;
+  gap: 10px;
+  color: var(--black600);
+
+  @media (max-width: 480px) {
+    width: 100%;
+  }
 `;
 
 // components/MyPageComponents/UserInfoContent.js
@@ -2205,11 +2209,26 @@ export const Column2 = styled.div`
 
 // components/Group/TodoContent.js
 export const TodoItem = styled.div`
-  background-color: #ffffff;
-  border: 1px solid #968aff;
-  padding: 10px;
-  margin-bottom: 10px;
+  background-color: white;
+  border: 1px solid var(--violet500);
   border-radius: 5px;
+  font-size: 15px;
+
+  display: flex;
+  flex-direction: row;
+  min-height: 35px;
+
+  width: 100%;
+  padding: 10px;
+  gap: 10px;
+
+  text-wrap: wrap;
+  word-break: break-all;
+  white-space: pre-wrap;
+
+    overflow: auto; /* 넘치는 부분 숨김 */
+    text-overflow: ellipsis; /* 생략 기호(...) 사용 */
+    line-height: 1.2; /* 줄 높이 설정 */
 `;
 
 // components/Group/TodoContent.js
@@ -2281,11 +2300,11 @@ export const ModalTaskInput = styled.div`
 
 
 // components/Group/TodoContent.js
-export const LinkInputContainer = styled.div`
+export const LinkInputForm = styled.form`
   display: flex;
-  align-items: center;
-  margin-top: 20px;
+  align-items: start;
   font-size: 14px;
+  gap: 10px;
 `;
 
 // components/Group/TodoContent.js
@@ -2297,15 +2316,16 @@ export const Input = styled.input`
 
 // components/Group/TodoContent.js
 export const TaskStatus = styled.div`
-  background-color: #9787ff;
-  color: white;
-  padding: 15px 20px;
-  border-radius: 10px;
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 18px;
-  width: 100%;
-`;
+    background-color: var(--violet500);
+    color: white;
+    padding: 10px;
+    border-radius: 7px;
+    text-align: center;
+    margin-bottom: 5px;
+    font-size: 16px;
+    width: 100%;
+    text-wrap: nowrap;
+  `;
 
 // components/Group/TodoContent.js
 export const CalendarIcon = styled.span`
@@ -2523,6 +2543,7 @@ export const ActionButtons = styled.div`
 
 export const Hr = styled.hr`
   border-bottom: 1px solid var(--black300);
+  width: 100%;
 `;
 
 // components/Group/Question/QuestionItem.jsx

@@ -5,7 +5,6 @@ import ArrowLeftIcon from './Icon/ArrowLeftIcon';
 import ArrowRightIcon from './Icon/ArrowRightIcon';
 import CaretRightIcon from './Icon/CaretRightIcon';
 import CaretDownIcon from './Icon/CaretDownIcon';
-import CancelIcon from './Icon/CancelIcon';
 import DeleteIcon from './Icon/DeleteIcon';
 import { Hr } from './GlobalStyledComponents';
 
@@ -154,20 +153,26 @@ const ScheduleIndicator = styled.div`
     background-color: var(--violet700);
     position: absolute;
     top: 8px;
-    right: 8px;
+    right: 7px;
 
     @media (max-width: 768px) {
-
+        top: 19%;
+        right: 30%;
     }
 
-    @media (max-width: 580px) {
-    top: 20%;
-    right: 20%;
+    @media (max-width: 600px) {
+    top: 10%;
+    right: 25%;
     }
 
     @media (max-width: 480px) {
-    top: 4px;
-    right: 4px;
+    top: 8%;
+    right: 16%;
+    }
+
+    @media (max-width: 300px) {
+    top: 4%;
+    right: 3%;
     }
 `;
 
@@ -271,9 +276,6 @@ const ListGroup = styled.li`
         color: var(--blueViolet800);
     }
     line-height: 1.3;
-display: table-cell; /* 테이블 셀로 설정 */
-  vertical-align: middle; /* 세로 중앙 정렬 */
-
 }
 `;
 
@@ -286,16 +288,10 @@ const Calendar = ({ data, handleEditSchedule, handleDeleteSchedule, ...props }) 
     const [isShowAllSchedule, setIsShowAllSchedule] = useState(true);
     const [schedules, setSchedules] = useState([]);
 
-    // const [schedules, setSchedules] = useState([
-    //     { date: null, startDate: new Date('2024-10-15'), endDate: new Date('2024-10-16'), task: "회의" },
-    //     { date: null, startDate: new Date('2024-10-15'), endDate: new Date('2024-10-15'), task: "프로젝트 마감" },
-    //     { date: null, startDate: new Date('2024-10-20'), endDate: new Date('2024-10-20'), task: "출장" },
-    // ]);
-
 
 
     const formatDateInKoreanTime = (date) => {
-        // 한글 데이터 포멧을 YYYY-MM-DD 형식으로 변환하고, 사용하기 편리한 UTC(협정 세계시) 형식을 사용함, 시간&분은 무시함
+        // 한글 시간 데이터 포멧을 YYYY-MM-DD 형식으로 변환하고 시간&분은 무시함, 사용하기 편리한 UTC(협정 세계시) 형식을 사용함
         if (!date) return ''; // date가 undefined일 경우 빈 문자열 반환
 
         const year = date.getFullYear();
@@ -338,7 +334,7 @@ const Calendar = ({ data, handleEditSchedule, handleDeleteSchedule, ...props }) 
 
     const isToday = (dateKey) => {
         const today = new Date();
-        return dateKey == `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+        return dateKey === `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
     };
 
     const generateCalendar = () => {
@@ -368,7 +364,7 @@ const Calendar = ({ data, handleEditSchedule, handleDeleteSchedule, ...props }) 
                     {hasSchedule && <ScheduleIndicator />}
                     <Day
                         onClick={() => { setSelectedDate(dateKey); setIsShowSchedule(true); setIsShowAllSchedule(false); }}
-                        isSelected={selectedDate == dateKey}
+                        isSelected={selectedDate === dateKey}
                         istoday={isToday(dateKey)}
                     >
                         {hasSchedule && <ScheduleIndicator />}
@@ -393,7 +389,7 @@ const Calendar = ({ data, handleEditSchedule, handleDeleteSchedule, ...props }) 
                     <ListGroup style={{ margin: '2px' }} key={index}>
                         &nbsp;
                         {event.task}
-                        {(event.startDate.toISOString().split('T')[0]) == (event.endDate.toISOString().split('T')[0]) ?
+                        {(event.startDate.toISOString().split('T')[0]) === (event.endDate.toISOString().split('T')[0]) ?
                             <></> :
                             <span style={{ fontSize: '12px', color: 'var(--black300)' }}>
                                 &nbsp;
@@ -403,7 +399,7 @@ const Calendar = ({ data, handleEditSchedule, handleDeleteSchedule, ...props }) 
                         &nbsp;
                         <button onClick={() => handleEditSchedule(index)}
                             style={{
-                                fontSize: '16px'
+                                fontSize: '15px'
                             }}>✒️</button>
                         <DeleteIcon
                             onClick={() => {
@@ -411,9 +407,9 @@ const Calendar = ({ data, handleEditSchedule, handleDeleteSchedule, ...props }) 
                                     handleDeleteSchedule(index);
                                 }
                             }}
-                            size={15}
+                            size={13}
                             style={{
-                                width: '16px', height: '16px'
+                                width: '13px', height: '13px'
                             }}
                         />
                     </ListGroup>
@@ -432,7 +428,7 @@ const Calendar = ({ data, handleEditSchedule, handleDeleteSchedule, ...props }) 
                 }} key={index}>
                     &nbsp;
                     {schedule.task}
-                    {(schedule.startDate.toISOString().split('T')[0]) == (schedule.endDate.toISOString().split('T')[0]) ?
+                    {(schedule.startDate.toISOString().split('T')[0]) === (schedule.endDate.toISOString().split('T')[0]) ?
                         <span style={{ fontSize: '12px', color: 'var(--black300)' }}>
                             &nbsp; ({schedule.startDate.toISOString().split('T')[0]})
                         </span> :
@@ -443,7 +439,7 @@ const Calendar = ({ data, handleEditSchedule, handleDeleteSchedule, ...props }) 
                     &nbsp;
                     <button onClick={() => handleEditSchedule(index)}
                         style={{
-                            fontSize: '16px'
+                            fontSize: '15px'
                         }}>✒️</button>
                     <DeleteIcon
                         onClick={() => {
@@ -453,7 +449,7 @@ const Calendar = ({ data, handleEditSchedule, handleDeleteSchedule, ...props }) 
                         }}
                         size={13}
                         style={{
-                            width: '16px', height: '16px'
+                            width: '13px', height: '13px'
                         }}
                     />
                 </ListGroup>

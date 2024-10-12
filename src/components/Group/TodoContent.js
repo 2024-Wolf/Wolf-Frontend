@@ -7,9 +7,10 @@
 import styled from 'styled-components';
 import {
   Violet500LineButton,
-  TodoContainer, TodoHeader, TodoButton, ButtonGroupRight,
+  TodoHeader, ButtonGroupRight,
   ColumnContainer, Column, TodoItem, ModalTitle, Modaldescription, TodoPlus,
-  LinkInputContainer, Input, TaskStatus
+  LinkInputForm, TaskStatus, Violet500BackgroundButton,
+  ContentsWrapper
 } from "../GlobalStyledComponents";
 
 import React, { useState } from 'react';
@@ -20,8 +21,9 @@ import StartEndDateButton from '../Button/StartEndDateButton';
 import Calendar from '../Calender';
 import CancelIcon from '../Icon/CancelIcon';
 import ModalForm from '../Modal/ModalForm'
-import DragNDrop from '../DragNDrop';
 import DeleteIcon from '../Icon/DeleteIcon'
+import ALinkText from '../Input/ALinkText'
+import RefreshIcon from '../Icon/RefreshIcon'
 
 
 // components/Group/TodoContent.js
@@ -35,9 +37,10 @@ const ScheduleItem = styled.div`
 
 // components/Group/TodoContent.js
 export const H3Title = styled.h3`
-  font-size: 24px;
+  font-size: 22px;
   font-weight: bold;
   color: var(--black800);
+  margin-left: 10px;
 `;
 
 
@@ -54,21 +57,107 @@ export const ModalContent = styled.div`
 export const ListGroup = styled.div`
     display: flex;
     flex-direction: column; 
-    gap: 15px;
+    gap: 20px;
 `;
 
-const TodoContent = () => {
-  const [tasks, setTasks] = useState([]);
+
+const DragHandle = styled.div`
+  cursor: grab;
+  height: auto;
+`;
+
+// components/Group/TodoContent.js
+export const TodoContainer = styled(ContentsWrapper)`
+  position: relative;
+  width: 100%;
+  padding: 30px 40px;
+  background: var(--violet100);
+  gap: 50px;
+
+  @media (max-width: 768px) {
+    padding: 20px 30px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 20px 10px;
+  }
+`;
+
+export const LinkButtonGroup = styled.div`
+  display: flex;
+  gap: 5px;
+
+`;
+
+export const LinkInputDirection = styled.div`
+    display: flex;
+    width: 100%;
+    align-items: start;
+    flex-direction: row;
+    gap: 10px;
+
+  @media (max-width: 768px) {
+    gap: 5px;
+    flex-direction: column;
+    align-items: end;
+  }
+
+  @media (max-width: 480px) {
+
+  }
+`;
+
+
+
+
+
+const DummyCalenderData = [
+  { date: null, startDate: new Date('2024-10-15'), endDate: new Date('2024-10-16'), task: "회의" },
+  { date: null, startDate: new Date('2024-10-15'), endDate: new Date('2024-10-15'), task: "프로젝트 마감" },
+  { date: null, startDate: new Date('2024-10-20'), endDate: new Date('2024-10-20'), task: "출장" },
+]
+
+const DummyTaskData = [
+  { content: "Task1", id: 1728734799700, status: "진행 중" },
+  { content: "Task2", id: 1728734804683, status: "기획 중" },
+  { content: "Task3", id: 1728734775936, status: "완료" },
+  { content: "Task4", id: 1728734790002, status: "기획 중" }
+];
+
+const DummyLinkData = [
+  {
+    imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Font_Awesome_5_brands_github.svg/800px-Font_Awesome_5_brands_github.svg.png',
+    name: 'GitHub',
+    url: 'https://github.com/2024-Wolf'
+  },
+  {
+    imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg',
+    name: 'Figma',
+    url: 'https://www.figma.com/design/rM1Gynrm58vcLKV0TnLQeB/Final-Project?node-id=0-1&node-type=canvas&t=BDG3dMm1HoLkkbv8-0'
+  }
+];
+
+const TodoContent = ({ github, figma }) => {
+  const [tasks, setTasks] = useState(DummyTaskData || []);
+  const [scheduleList, setScheduleList] = useState(DummyCalenderData || []);
+  const [links, setLinks] = useState(DummyLinkData || []);
+
   const [newTask, setNewTask] = useState('');
-  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [newSchedule, setNewSchedule] = useState([{ date: null, task: '' }]);
-  const [scheduleList, setScheduleList] = useState([]);
+  const [newLink, setNewLink] = useState({ imgSrc: '', name: '', url: '' });
+
+  const [editingTaskIndex, setEditingTaskIndex] = useState(null);
+  const [editingLinkIndex, setEditingLinkIndex] = useState(null);
+
+
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
   const [isEditingTask, setIsEditingTask] = useState(false);
   const [isEditingSchedule, setIsEditingSchedule] = useState(false);
-  const [editingTaskIndex, setEditingTaskIndex] = useState(null);
-  const [githubLink, setGithubLink] = useState('');
-  const [figmaLink, setFigmaLink] = useState('');
+
+
+  const [githubLink, setGithubLink] = useState((DummyLinkData.find(link => link.name === 'GitHub').url) || '');
+  const [figmaLink, setFigmaLink] = useState((DummyLinkData.find(link => link.name === 'Figma').url) || '');
 
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
@@ -193,6 +282,73 @@ const TodoContent = () => {
     openTaskModal();
   };
 
+  const handleGithubLinkSubmit = (event) => {
+    event.preventDefault(); // 폼 제출 및 이동 방지
+    alert(`깃허브 주소가 등록되었습니다: ${githubLink}`);
+  };
+
+  const handlefigmaLinkSubmit = (event) => {
+    event.preventDefault(); // 폼 제출 및 이동 방지
+
+    alert(`피그마 주소가 등록되었습니다: ${figmaLink}`);
+  };
+
+
+  // 링크 수정 시작
+  const editLinkStart = (index) => {
+    setEditingLinkIndex(index);
+    setNewLink(links[index]); // 수정할 링크 데이터를 newLink로 설정
+  };
+
+  // 링크 수정 완료
+  const editLinkFinish = (event) => {
+    event.preventDefault();
+    const updatedLinks = links.map((link, index) =>
+      index === editingLinkIndex ? newLink : link
+    );
+    setLinks(updatedLinks);
+    setEditingLinkIndex(null);
+    setNewLink({ name: '', url: '' }); // 입력 필드 초기화
+  };
+
+  // 링크 수정 취소
+  const editLinkCancel = (event) => {
+    event.preventDefault();
+    setEditingLinkIndex(null);
+    setNewLink({ name: '', url: '' }); // 입력 필드 초기화
+  };
+
+  // 링크 수정 초기화
+  const editLinkRefresh = (event) => {
+    event.preventDefault();
+
+    if (window.confirm("내용을 초기화 하시겠습니까?")) {
+      // 초기화 한다고 하면
+      const updatedLinks = links.map((link, index) => {
+        if (index === editingLinkIndex) {
+          return { ...link, url: '' };
+        }
+        return link;
+      });
+
+      setLinks(updatedLinks);
+      setEditingLinkIndex(null);
+      setNewLink({ name: '', url: '' });
+    } else {
+      return; // 초기화하지 않으면 함수 종료
+    }
+
+  };
+
+  // URL 유효성 검사
+  const isValidURL = (urlString) => {
+    try {
+      new URL(urlString);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  };
 
   return (
     <TodoContainer>
@@ -200,7 +356,11 @@ const TodoContent = () => {
         {/* 일정 리스트 상단 */}
         <TodoHeader>
           <H3Title>일정 리스트</H3Title>
-          <TodoButton onClick={openModal}>일정 등록</TodoButton>
+          <Violet500LineButton
+            type="button"
+            onClick={openModal}>
+            일정 등록
+          </Violet500LineButton>
         </TodoHeader>
 
         {/* 일정 등록 모달 */}
@@ -278,12 +438,14 @@ const TodoContent = () => {
         />
       </ListGroup>
 
-      <DragNDrop />
-
       <ListGroup>
         <TodoHeader>
           <H3Title>할 일 리스트</H3Title>
-          <TodoButton type='button' onClick={openTaskModal}>할 일 등록</TodoButton>
+          <Violet500LineButton
+            type="button"
+            onClick={openTaskModal}>
+            할 일 등록
+          </Violet500LineButton>
         </TodoHeader>
 
         {/* 할 일 등록 모달 */}
@@ -317,33 +479,65 @@ const TodoContent = () => {
         </ModalForm>
 
 
-        {/* 드래그 앤 드롭 */}
+        {/* 할일 리스트 드래그 앤 드롭 */}
         <DragDropContext onDragEnd={onDragEnd}>
           <ColumnContainer>
             {['기획 중', '진행 중', '완료'].map((status) => (
               <Droppable droppableId={status} key={status}>
                 {(provided) => (
-                  <Column ref={provided.innerRef} {...provided.droppableProps}>
-                    <TaskStatus>{status}</TaskStatus>
-                    {tasks
-                      .filter((task) => task.status == status)
-                      .map((task, index) => (
-                        <Draggable key={task.id} draggableId={String(task.id)} index={index}>
-                          {(provided) => (
-                            <TodoItem ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <span>{task.content}</span>
-                                <div style={{ display: 'flex', gap: '10px' }}>
-                                  <button onClick={() => handleEditTask(index)}>✒️</button>
-                                  <button onClick={() => handleDeleteTask(index)}>X</button>
+                  <>
+                    <hr style={{
+                      borderBottom: '1px solid var(--black300)',
+                      width: '90%',
+                      margin: '10px auto 0px auto',
+                    }} />
+                    <Column ref={provided.innerRef} {...provided.droppableProps}>
+                      {/* '기획 중', '진행 중', '완료' 제목 */}
+                      <TaskStatus>{status} ({tasks.filter((task) => task.status === status).length})</TaskStatus>
+                      {/* 할 일 목록 리스트 */}
+                      {tasks
+                        .filter((task) => task.status === status)
+                        .map((task, index) => (
+                          <Draggable key={task.id} draggableId={String(task.id)} index={index}>
+                            {(provided) => (
+                              <TodoItem ref={provided.innerRef} {...provided.draggableProps}>
+                                {/* 드래그 아이콘 */}
+                                <DragHandle {...provided.dragHandleProps}>☰</DragHandle>
+                                {/* 할 일 내용 */}
+                                <span style={{ width: '100%' }}>
+                                  {task.content}
+                                </span>
+                                <div style={{
+                                  display: 'flex',
+                                  justifyContent: 'center',
+                                  alignItems: 'start'
+
+                                }}>
+                                  {/* 수정 버튼 */}
+                                  <button onClick={() => handleEditTask(index)}
+                                    style={{
+                                      fontSize: '15px', backgroundColor: 'transparent'
+                                    }}>✒️</button>
+                                  {/* 삭제 버튼 */}
+                                  <DeleteIcon
+                                    onClick={() => {
+                                      if (window.confirm("할 일을 삭제하시겠습니까?")) {
+                                        handleDeleteTask(index);
+                                      }
+                                    }}
+                                    size={15}
+                                    style={{
+                                      width: '15px', height: '15px'
+                                    }}
+                                  />
                                 </div>
-                              </div>
-                            </TodoItem>
-                          )}
-                        </Draggable>
-                      ))}
-                    {provided.placeholder}
-                  </Column>
+                              </TodoItem>
+                            )}
+                          </Draggable>
+                        ))}
+                      {provided.placeholder}
+                    </Column>
+                  </>
                 )}
               </Droppable>
             ))}
@@ -351,31 +545,80 @@ const TodoContent = () => {
         </DragDropContext>
       </ListGroup>
 
-
       <ListGroup>
         {/* Link Input */}
         <H3Title>공유 링크</H3Title>
-        <LinkInputContainer>
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Font_Awesome_5_brands_github.svg/800px-Font_Awesome_5_brands_github.svg.png" alt="GitHub" width="30" />
-          <Input
-            type="text"
-            placeholder="깃허브 주소를 입력하세요"
-            value={githubLink}
-            onChange={(e) => setGithubLink(e.target.value)}
-          />
-          <TodoButton onClick={() => alert(`깃허브 주소가 등록되었습니다: ${githubLink}`)}>등록</TodoButton>
-        </LinkInputContainer>
-
-        <LinkInputContainer>
-          <img src="https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg" alt="Figma" width="30" height="30" />
-          <Input
-            type="text"
-            placeholder="피그마 주소를 입력하세요"
-            value={figmaLink}
-            onChange={(e) => setFigmaLink(e.target.value)}
-          />
-          <TodoButton onClick={() => alert(`피그마 주소가 등록되었습니다: ${figmaLink}`)}>등록</TodoButton>
-        </LinkInputContainer>
+        <div style={{ display: 'flex', width: '100%', gap: '10px', flexDirection: 'column' }}>
+          {links.map((link, index) => (
+            <LinkInputForm onSubmit={editLinkFinish} key={index}>
+              <span style={{
+                width: '30px', textAlign: 'center', marginTop: '4px'
+              }}>
+                <img
+                  src={link.imgSrc}
+                  alt={`${link.name}-img`}
+                  width="25"
+                  height="25" />
+              </span>
+              {editingLinkIndex === index ? (
+                <LinkInputDirection>
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      justifyContent: 'flex-start',
+                      width: '100%',
+                      flexDirection: 'column',
+                      gap: '3px'
+                    }}
+                  >
+                    <InputText
+                      style={{
+                        border: '2px solid var(--violet500)',
+                        fontSize: '14px',
+                        color: 'black'
+                      }}
+                      type="text"
+                      placeholder="링크를 입력하세요"
+                      value={newLink.url}
+                      onChange={(e) => setNewLink({ ...newLink, url: e.target.value })}
+                    />
+                    {!isValidURL(newLink.url) &&
+                      <span
+                        style={{
+                          fontSize: '12px', color: '#ED4E51', marginLeft: '5px'
+                        }}>
+                        유효한 링크를 입력하세요
+                      </span>}
+                  </div>
+                  <LinkButtonGroup>
+                    <RefreshIcon type="button" onClick={editLinkRefresh} />
+                    <Violet500LineButton type="button" onClick={editLinkCancel} >
+                      취소
+                    </Violet500LineButton>
+                    <Violet500BackgroundButton onClick={editLinkFinish} disabled={!isValidURL(newLink.url)}>
+                      완료
+                    </Violet500BackgroundButton>
+                  </LinkButtonGroup>
+                </LinkInputDirection>
+              ) : (
+                <>
+                  <ALinkText
+                    style={{ border: '2px solid rgba(255, 255, 255, 0)' }}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer">
+                    {link.url}
+                  </ALinkText>
+                  <Violet500LineButton onClick={() => editLinkStart(index)}>
+                    수정
+                  </Violet500LineButton>
+                </>
+              )}
+            </LinkInputForm>
+          ))
+          }
+        </div>
       </ListGroup>
     </TodoContainer>
   );
