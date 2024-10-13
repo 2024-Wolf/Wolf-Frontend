@@ -418,7 +418,7 @@ const Calendar = ({ data, handleEditSchedule, handleDeleteSchedule, ...props }) 
                         &nbsp;
                         <button onClick={() => handleEditSchedule(index)}
                             style={{
-                                fontSize: '15px'
+                                fontSize: '15px', backgroundColor: 'transparent'
                             }}>✒️</button>
                         <DeleteIcon
                             onClick={() => {
@@ -458,7 +458,7 @@ const Calendar = ({ data, handleEditSchedule, handleDeleteSchedule, ...props }) 
                     &nbsp;
                     <button onClick={() => handleEditSchedule(index)}
                         style={{
-                            fontSize: '15px'
+                            fontSize: '15px', backgroundColor: 'transparent'
                         }}>✒️</button>
                     <DeleteIcon
                         onClick={() => {

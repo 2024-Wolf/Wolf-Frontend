@@ -1,22 +1,19 @@
 
 import styled from "styled-components";
-import { Round, Black500Line, Black600BackgroundHover } from "../GlobalStyledComponents";
+import { Round, Violet500Line, Violet700BackgroundHover } from "../GlobalStyledComponents";
 import { useState } from "react";
 
 
 const FormCheckBoxButtonBlackLineWrapper = styled.button`
     ${Round}
-    ${Black500Line}
-
+    ${Violet500Line}
+    
     &:active {
         color: var(--violet000);
-        background-color: var(--black600);
-        border: 1px solid var(--black600);
+        background-color: var(--violet700);
     }
 
-
-
-      /* 선택 됐을 때 검은색 */
+    /* 선택 됐을 때 검은색 */
     ${({ checked }) =>
         checked &&
         `
@@ -26,13 +23,13 @@ const FormCheckBoxButtonBlackLineWrapper = styled.button`
     `}
 
     &:disabled {
-        background-color: ${({ checked }) => (checked ? "var(--black600)" : "var(--black200)")};
+        background-color: ${({ checked }) => (checked ? "var(--black600)" : "var(--violet200)")};
         color: ${({ checked }) => (checked ? "var(--violet000)" : "")};
     }
 `;
 
-const FormCheckBoxButtonBlackLine = ({ onChange, children, name, key, value, disabled }) => {
-    const [isChecked, setIsChecked] = useState(false);
+const FormCheckBoxButtonBlackLine = ({ onChange, children, checked, name, key, value, disabled }) => {
+    const [isChecked, setIsChecked] = useState(checked || false);
 
     const handleButtonClick = (e) => {
         if (!disabled) {

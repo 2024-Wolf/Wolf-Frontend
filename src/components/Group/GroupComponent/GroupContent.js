@@ -6,10 +6,8 @@ import FormFieldMultiple from "./FormFieldMultiple";
 import FormFieldSingle from "./FormFieldSingle";
 import DateButton from "../../Button/DateButton";
 import SelectButton from "../../Button/SelectButton";
-import { FormLabel, MemberInfo, FormFieldRow, FormTitle, ButtonGroupCenter, ButtonGroupRight, ButtonGroupWrap, DoubleDateContainer } from "../../GlobalStyledComponents";
+import { MemberInfo, FormFieldRow, FormTitle, ButtonGroupCenter, ButtonGroupRight, ButtonGroupWrap, DoubleDateContainer } from "../../GlobalStyledComponents";
 import InputText from "../../Input/InputText";
-import FormOptionButton from "../../Button/FormOptionButton";
-import InputFile from "../../Input/InputFile"
 import InputNumber from "../../Input/InputNumber"
 import TextArea from "../../Input/TextArea";
 import SaveButton from "../../Button/SaveButton";
@@ -17,10 +15,10 @@ import CancelButton from "../../Button/CancelButton";
 import EditButton from "../../Button/EditButton";
 import DeleteButton from "../../Button/DeleteButton";
 import CompleteButton from "../../Button/CompleteButton"
-import CancelIcon from "../../Icon/CancelIcon";
 import { useNavigate } from 'react-router-dom';
 import ProfileIcon from "../../Icon/ProfileIcon";
 import ImagePreview from "../../Img/ImagePreview";
+import FormCheckBoxButton from "../../Button/FormCheckBoxButton"
 
 // 사용자 이름
 // components/Group/GroupManageContent.js, components/Group/GroupComponent/GroupWritingContent.jsx
@@ -312,16 +310,19 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
                         description={"이메일, 지원직군, 지원사유는 필수값입니다. 정보를 많이 요청시, 지원율이 떨어집니다. 필수값만 지정해주세요! "}>
                         <ButtonGroupWrap>
                             {newGroupData.buttons.map((button, index) => (
-                                <FormOptionButton
-                                    name={button.label}
-                                    key={index}
-                                    clicked={button.clicked}
-                                    onClick={() => toggleButtonClick(index)}
-                                    disabled={contentsType === 'viewing'
+                                <FormCheckBoxButton
+                                    key={"button-" + index}
+                                    name="button"
+                                    value={button}
+                                    checked={button.clicked}
+                                    disabled={contentsType === 'viewing'}
+                                    onChange={(e) => {
+                                        console.log(toggleButtonClick(index));
+                                    }
                                     }
                                 >
                                     {button.label}
-                                </FormOptionButton>
+                                </FormCheckBoxButton>
                             ))}
                         </ButtonGroupWrap>
                     </FormFieldSingle>
