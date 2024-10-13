@@ -206,6 +206,10 @@ export const MemberInfo = styled.div`
     align-items: start;
     flex-direction: column;
     gap: 15px;
+    button {
+      max-width: 458px;
+      width: 100%;
+    }
   }
 
   @media (max-width: 480px) {

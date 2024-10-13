@@ -166,7 +166,7 @@ const GroupManageContent = (props) => {
                   <InputText value={user.date} readOnly />
                 </FormFieldMultiple>
               </FormFieldRow>
-              <Violet500BackgroundButton onClick={() => openModal(user)}>
+              <Violet500BackgroundButton onClick={() => openModal(user)} >
                 지원글 확인하기
               </Violet500BackgroundButton>
             </MemberInfo>
