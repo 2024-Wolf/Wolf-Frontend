@@ -37,16 +37,24 @@ export const ModalContainer = styled.form`
   min-height: 30%;
   overflow-y: ${(props) => (props.isOverflow ? 'auto' : 'none')}; // 조건부 overflow
 
+  @media (max-width: 1000px) {
+  max-width: 70%;
+  }
+
 @media (max-width: 768px) {
   max-width: 80%;
   }
 
-  @media (max-width: 480px) {
+@media (max-width: 560px) {
   max-width: 90%;
   }
 
-    @media (max-width: 300px) {
+  @media (max-width: 480px) {
   max-width: 95%;
+  }
+
+    @media (max-width: 410px) {
+  max-width: 99%;
   }
 `;
 

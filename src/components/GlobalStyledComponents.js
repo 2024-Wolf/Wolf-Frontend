@@ -432,6 +432,16 @@ export const blueViolet700BackgroundHover = css`
   }
 `;
 
+export const Black100BackgroundHover = css`
+  &:hover {
+    background-color: var(--black100);
+  }
+
+  &:active {
+    background-color: var(--black100);
+  }
+`;
+
 export const Black200BackgroundHover = css`
   &:hover {
     background-color: var(--black200);
@@ -554,7 +564,6 @@ export const Violet700BackgroundHover = css`
   &:hover {
     color: var(--violet000);
     background-color: var(--violet700);
-    border: 1px solid var(--black700);
   }
   &:active {
     color: var(--violet000);
@@ -625,6 +634,11 @@ export const RedLineButton = styled.button`
   &:active {
     background-color: #fad3d4;
   }
+`;
+export const Black500LineButton = styled.button`
+  ${Square}
+  ${Black500Line}
+    ${NoBackgroundHover}
 `;
 
 export const NoBackgroundButton = styled.button`
@@ -1195,35 +1209,6 @@ export const Button13 = styled.button`
   }
 `;
 
-// components/SignInContent/Components/OptionButton.jsx
-export const Button14 = styled.button`
-  min-width: calc(100% / ${({ buttonCount }) => buttonCount} - 15px);
-  border: 1px solid var(--violet500);
-  border-radius: 20px;
-  padding: 15px 10px;
-  background-color: ${({ selected }) =>
-    selected ? "var(--black700)" : "#fff"};
-  color: ${({ selected }) => (selected ? "#fff" : "var(--black500)")};
-  font-size: 14px;
-  margin: 5px;
-  transition: background-color 0.3s ease, color 0.3s ease;
-
-  &:hover {
-    background-color: var(--violet500);
-    color: #fff;
-  }
-
-  @media (max-width: 768px) {
-    padding: 10px 10px;
-    font-size: 12px;
-  }
-
-  @media (max-width: 480px) {
-    padding: 8px 8px;
-    font-size: 10px;
-  }
-`;
-
 // pages/StudyPage.js
 export const StudyDetails = styled.div`
   display: flex;
@@ -1438,13 +1423,6 @@ export const Description2 = styled.div`
   ${responsiveFontSize}
 `;
 
-// components/SignInContent/LoginContent.jsx
-export const Description3 = styled.div`
-  margin: 10px 0;
-  font-size: 15px;
-  line-height: 1.5;
-  color: var(--black800);
-`;
 
 // components/Declaration.js
 export const Form = styled.form`
@@ -1505,12 +1483,13 @@ export const TextArea6 = styled.textarea`
 `;
 
 // components/SignInContent/SecondProcessContent.jsx, components/SignInContent/ThirdProcessContent.jsx
-export const ButtonGroup3 = styled.div`
+export const OptionButtonGroup = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: center;
   gap: 10px;
   max-width: 100%;
+  align-items: center;
 `;
 
 // components/Declaration.js, components/MemberEvaluation.js
@@ -2395,6 +2374,70 @@ export const Modaldescription = styled.h4`
 `;
 
 
+export const Div = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  gap: 10px;
+  color: var(--black700);
+  width: 100%;
+  align-items: start;
+`;
+
+export const Row = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: end;
+  justify-content: start;
+`;
+
+export const ChangeColumn480px = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: start;
+  justify-content: start;
+
+  @media (max-width: 768px) {
+
+  }
+
+  @media (max-width: 480px) {
+      flex-direction: column;
+  }
+`;
+
+export const ChangeColumn768px = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: end;
+  justify-content: center;
+
+  @media (max-width: 768px) {
+      flex-direction: column;
+  }
+
+  @media (max-width: 480px) {
+
+  }
+`;
+
+export const Label = styled.label`
+    width: 100%;
+    min-width: auto;
+    justify-content: start;
+    font-size: 16px;
+    text-wrap: nowrap;
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    color: var(--black600);
+`;
 
 // components/Group/TodoContent.js
 export const ModalInput = styled.div`
@@ -2485,26 +2528,6 @@ export const CalendarIcon = styled.span`
   background-size: cover;
 `;
 
-// components/Group/GroupComponent/GroupWritingContent.jsx,
-// components/SignInContent/FirstProcessContent.jsx
-export const Row = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  margin: 10px 0;
-  gap: 20px;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  @media (max-width: 480px) {
-    flex-direction: column;
-    gap: 8px;
-  }
-`;
-
 // components/Group/GroupInfoModal/ApplicantConfirmModal.js, components/Group/GroupInfoModal/ApplicantModal.js,
 // components/MyPageComponents/UserInfoContent.js
 export const Row2 = styled.div`
@@ -2553,12 +2576,6 @@ export const SubTitle = styled.div`
   margin-bottom: 20px;
 `;
 
-// components/SignInContent/LoginContent.jsx
-export const SubTitle3 = styled.div`
-  margin: 20px 0;
-  font-size: 20px;
-  color: var(--black800);
-`;
 
 // components/Group/GroupInfoModal/ApplicantModal.js, components/Group/GroupInfoModal/ApplicantConfirmModal.js
 export const PortfolioRow = styled.div`
@@ -2881,23 +2898,7 @@ export const Line = styled.div`
   }
 `;
 
-// components/SignInContent/Components/StatusButton.jsx
-export const Line2 = styled.div`
-  width: 25px;
-  height: 2px;
-  background-color: var(--black500);
-  margin: 0 10px;
 
-  @media (max-width: 768px) {
-    width: 20px;
-    margin: 0 8px;
-  }
-
-  @media (max-width: 480px) {
-    width: 15px;
-    margin: 0 6px;
-  }
-`;
 
 // components/MyPageComponents/NotificationContent.js
 export const NotificationEvent = styled.div`
@@ -3061,64 +3062,6 @@ export const UpdateButton = styled(Button)`
   color: white;
 `;
 
-// components/SignInContent/Components/StatusButton.jsx
-export const CircleButton = styled.div`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: ${({ active }) =>
-    active ? "var(--violet400)" : "var(--black200)"};
-  color: ${({ active }) => (active ? "#fff" : "var(--black000)")};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  font-weight: bold;
-
-  @media (max-width: 768px) {
-    width: 30px;
-    height: 30px;
-    font-size: 16px;
-  }
-
-  @media (max-width: 480px) {
-    width: 25px;
-    height: 25px;
-    font-size: 12px;
-  }
-`;
-
-// components/SignInContent/Components/StatusButton.jsx
-export const StatusContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  @media (max-width: 768px) {
-    gap: 8px;
-  }
-
-  @media (max-width: 480px) {
-    gap: 5px;
-  }
-`;
-
-// components/SignInContent/Components/SubTitle.jsx
-export const SubTitleWrapper = styled.div`
-  white-space: pre-line;
-  font-size: 20px;
-  color: var(--black800);
-  line-height: 1.5;
-
-  @media (max-width: 768px) {
-    font-size: 18px;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 16px;
-  }
-`;
-
 // components/SignInContent/FirstProcessContent.jsx, components/SignInContent/FourthProcessContent.jsx
 export const InputWrapper = styled.div`
   width: 100%;
@@ -3130,19 +3073,21 @@ export const InputWrapper = styled.div`
 // components/SignInContent/FirstProcessContent.jsx
 export const ButtonWrapper = styled.div`
   display: flex;
-  align-items: center;
-  margin-bottom: 10px;
   margin-right: 5px;
   gap: 5px;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: end;
 `;
 
 // components/SignInContent/FirstProcessContent.jsx
 export const RadioButtonLabel = styled.label`
-  font-size: 16px;
+  font-size: 14px;
   color: var(--black800);
 
   @media (max-width: 768px) {
-    font-size: 14px;
+    font-size: 13px;
   }
 
   @media (max-width: 480px) {
@@ -3183,31 +3128,3 @@ export const ContentWrapper = styled.div`
   gap: 20px;
 `;
 
-// components/SignInContent/LoginContent.jsx
-export const LogoL = styled.div`
-  font-family: "Kavoon";
-  font-size: 96px;
-  font-weight: 700;
-  background-size: 100%;
-  margin: 0 auto;
-`;
-
-// components/SignInContent/LoginContent.jsx
-export const GoogleLoginButton = styled.button`
-  width: 100%;
-  height: 50px;
-  margin-top: 20px;
-  background: var(--black000);
-  border: 2px solid var(--black200);
-  border-radius: 10px;
-
-  &:hover {
-    background: var(--black200);
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-
-  &:active {
-    background: var(--black200);
-    transition: background-color 0.1s ease, color 0.1s ease;
-  }
-`;

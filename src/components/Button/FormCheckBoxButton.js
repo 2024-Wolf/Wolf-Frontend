@@ -4,7 +4,7 @@ import { Round, Violet500Line, Violet700BackgroundHover } from "../GlobalStyledC
 import { useState } from "react";
 
 
-const FormCheckBoxButtonBlackLineWrapper = styled.button`
+const FormCheckBoxButtonWrapper = styled.button`
     ${Round}
     ${Violet500Line}
     
@@ -28,7 +28,7 @@ const FormCheckBoxButtonBlackLineWrapper = styled.button`
     }
 `;
 
-const FormCheckBoxButtonBlackLine = ({ onChange, children, checked, name, key, value, disabled }) => {
+const FormCheckBoxButton = ({ style, onChange, children, checked, name, key, value, disabled }) => {
     const [isChecked, setIsChecked] = useState(checked || false);
 
     const handleButtonClick = (e) => {
@@ -46,7 +46,8 @@ const FormCheckBoxButtonBlackLine = ({ onChange, children, checked, name, key, v
     };
 
     return (
-        <FormCheckBoxButtonBlackLineWrapper
+        <FormCheckBoxButtonWrapper
+            style={style}
             type="button" key={key} checked={isChecked}
             onClick={handleButtonClick} disabled={disabled} >
             {children}
@@ -57,8 +58,8 @@ const FormCheckBoxButtonBlackLine = ({ onChange, children, checked, name, key, v
                 checked={isChecked}
                 style={{ display: 'none' }}
             />
-        </FormCheckBoxButtonBlackLineWrapper >
+        </FormCheckBoxButtonWrapper >
     );
 }
 
-export default FormCheckBoxButtonBlackLine;
+export default FormCheckBoxButton;

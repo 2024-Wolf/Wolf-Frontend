@@ -11,8 +11,8 @@ import {
   Modaldescription,
   ButtonGroupWrap,
   Violet500BackgroundButton,
-  RedLineButton,
-  BlueViolet600BackgroundButton,
+  RedLineButton, Label,
+  BlueViolet600BackgroundButton, ChangeColumn768px, Row, Div
 } from "../../GlobalStyledComponents";
 
 import React, { useState } from "react";
@@ -25,54 +25,6 @@ import ModalForm from "../../Modal/ModalForm";
 import FormFieldSingle from "../GroupComponent/FormFieldSingle";
 import FormCheckBoxButton from "../../Button/FormCheckBoxButtonBlackLine";
 import CopyButton from "../../Button/CopyButton";
-
-// components/Group/GroupInfoModal/ApplicantModal.js
-const Div = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  gap: 10px;
-  color: var(--black700);
-  width: 100%;
-  align-items: start;
-`;
-
-const Label = styled.label`
-    width: 100%;
-    min-width: auto;
-    justify-content: start;
-    font-size: 16px;
-    text-wrap: nowrap;
-    display: flex;
-    align-items: center;
-    font-weight: 600;
-    color: var(--black600);
-`;
-const Row = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: end;
-  justify-content: center;
-`;
-
-const ChangeColumn = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: end;
-  justify-content: center;
-
-  @media (max-width: 768px) {
-      flex-direction: column;
-  }
-
-  @media (max-width: 480px) {
-
-  }
-`;
 
 const initialGroupData = {
   groupType: "study",
@@ -225,15 +177,6 @@ const ApplicantModal = ({ onClose, onSubmit, applicant, isView }) => {
     }
   };
 
-  const handleCheckboxChange = (event) => {
-    const { value, checked } = event.target;
-    setCheckedDays((prev) =>
-      checked ? [...prev, value] : prev.filter((day) => day !== value)
-    );
-    setShowError(false);
-  };
-
-
   const handleCopy = () => {
     navigator.clipboard.writeText(modalData.portfolioLink) // 클립보드에 input 값 복사
       .then(() => {
@@ -286,7 +229,7 @@ const ApplicantModal = ({ onClose, onSubmit, applicant, isView }) => {
 
       <ModalContentWrapper>
         <ModalHeader>
-          <CategoryMainTitle>{isView ? (<>지원 글 확인하기</>) : (<>지원하기</>)}</CategoryMainTitle>
+          <CategoryMainTitle>{isView ? (<>지원글 확인하기</>) : (<>지원하기</>)}</CategoryMainTitle>
           <p style={{ fontSize: '20px', fontWeight: 'bold', color: 'var(--black900)' }}>파이널 프로젝트 - 지금 2조</p>
           {isView ? (
             <></>
@@ -314,7 +257,7 @@ const ApplicantModal = ({ onClose, onSubmit, applicant, isView }) => {
           />
         </Div>
 
-        <ChangeColumn>
+        <ChangeColumn768px>
           <Div>
             <Label>이메일</Label>
             <InputTextBlackLine
@@ -336,7 +279,7 @@ const ApplicantModal = ({ onClose, onSubmit, applicant, isView }) => {
                 style={{
                   fontSize: '13px', color: '#ED4E51'
                 }}>
-                직군을 선택하세요
+                지원직군을 선택하세요
               </span>
             }
             <SelectButtonBlackLine
@@ -357,7 +300,7 @@ const ApplicantModal = ({ onClose, onSubmit, applicant, isView }) => {
               <option value="designer">디자이너</option>
             </SelectButtonBlackLine>
           </Div>
-        </ChangeColumn>
+        </ChangeColumn768px>
 
         <Div>
           <Label>자기소개</Label>
@@ -394,13 +337,13 @@ const ApplicantModal = ({ onClose, onSubmit, applicant, isView }) => {
           />
         </Div>
         <Div>
-          <Label>참여가능 요일</Label>
+          <Label>참여 가능 요일</Label>
           {!isDayValid &&
             <span
               style={{
                 fontSize: '13px', color: '#ED4E51'
               }}>
-              하나 이상의 요일을 선택하세요
+              한 개 이상의 요일을 선택하세요
             </span>
           }
           <ButtonGroupWrap>
