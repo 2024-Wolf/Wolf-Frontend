@@ -8,6 +8,77 @@ export const QuestionItemContainer = styled.div`
   gap: 10px;
 `;
 
+export const CardMapingContainer = styled.div`
+    @media (max-width: 616px) {
+        display: flex;
+        width: 90%;
+        height: 300px;
+        border-radius: 10px;
+    }
+`;
+
+// components/Card/Card.jsx
+export const CardInfo = styled.div`
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 13px;
+    color: var(--black500);
+    margin-bottom: 10px;
+
+    span {
+        white-space: nowrap;
+        overflow: hidden; 
+        text-overflow: ellipsis; 
+    }
+`;
+
+// components/Card/Card.jsx
+export const CardTitle = styled.p`
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--black700);
+    text-align: left;
+    margin-bottom: 8px;
+
+    white-space: nowrap;
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+`;
+
+// components/Card/Card.jsx
+export const CardContainer = styled.div`
+    width: 250px;
+    height: 260px;
+    
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    border: 2px solid var(--black200);
+    border-radius: 30px;
+    background-color: #ffffff;
+    transition: transform 0.3s ease;
+    overflow: hidden;
+
+    &:hover {
+        transform: scale(1.03);
+        cursor: pointer;
+    }
+    
+    @media (max-width: 616px) {
+        width: 100%;
+        height: auto;
+        &:hover {
+            transform: scale(1.02);
+        }
+        border-radius: 10px;
+    }
+`;
+
+
+
 export const MainContents = styled.div`
   display: flex;
   justify-content: start;
@@ -69,7 +140,7 @@ export const FormChildrenGroup = styled.div`
 // components/Declaration.js, components/MemberEvaluation.js
 export const ButtonGroupWrap = styled.div`
   display: flex;
-  gap: 10px;
+  gap: 5px;
   width: 100%;
   justify-content: flex-start;
   flex-wrap: wrap;
@@ -110,14 +181,14 @@ export const FormFieldRow = styled.div`
 // components/Group/GroupComponent/GroupWritingContent.jsx,
 // components/SignInContent/FirstProcessContent.jsx
 export const FormFieldColumn = styled.div`
-  display: flex;
-  justify-content: start;
-  gap: 10px;
-  width: 100%;
-  @media (max-width: 768px) {
-    flex-direction: column-reverse;
-  }
 
+    display: flex;
+    justify-content: start;
+    gap: 20px;
+    width: 100%;
+    @media (max-width: 768px) {
+      flex-direction: column-reverse;
+  }
   @media (max-width: 480px) {
   }
 `;
@@ -135,6 +206,10 @@ export const MemberInfo = styled.div`
     align-items: start;
     flex-direction: column;
     gap: 15px;
+    button {
+      max-width: 458px;
+      width: 100%;
+    }
   }
 
   @media (max-width: 480px) {
@@ -248,6 +323,24 @@ export const Black500Line = css`
   }
 `;
 
+
+
+
+export const Violet200Line = css`
+  background: var(--violet200);
+  border: 1px solid var(--violet400);
+
+  &:disabled {
+    background-color: var(--violet200);
+  }
+  &[readonly] {
+    background-color: var(--violet200);
+  }
+`;
+
+
+
+
 export const Violet500Line = css`
   border: 1px solid var(--violet500);
   background-color: var(--violet000);
@@ -276,6 +369,7 @@ export const Violet500Line = css`
         color: var(--violet000);
         border: 1px solid var(--black700);
     `}
+    
 `;
 
 export const Violet300Background = css`
@@ -338,6 +432,16 @@ export const blueViolet700BackgroundHover = css`
   }
 `;
 
+export const Black100BackgroundHover = css`
+  &:hover {
+    background-color: var(--black100);
+  }
+
+  &:active {
+    background-color: var(--black100);
+  }
+`;
+
 export const Black200BackgroundHover = css`
   &:hover {
     background-color: var(--black200);
@@ -357,6 +461,31 @@ export const Black300BackgroundHover = css`
   &:active {
     background-color: var(--black300);
     color: var(--black000);
+  }
+`;
+
+export const Black600BackgroundHover = css`
+  &:hover {
+    color: var(--violet000);
+    background-color: var(--black600);
+    border: 1px solid var(--black600);
+  }
+
+  &:active {
+    color: var(--violet000);
+    background-color: var(--black600);
+    border: 1px solid var(--black600);
+  }
+`;
+
+export const Violet200LineHover = css`
+  &:hover {
+    background: var(--violet400);
+    border: 1px solid #8578d8;
+  }
+  &:active {
+    background: var(--violet400);
+    border: 1px solid #8578d8;
   }
 `;
 
@@ -435,7 +564,6 @@ export const Violet700BackgroundHover = css`
   &:hover {
     color: var(--violet000);
     background-color: var(--violet700);
-    border: 1px solid var(--black700);
   }
   &:active {
     color: var(--violet000);
@@ -485,6 +613,34 @@ export const Black200BackgroundButton = styled.button`
   ${Black200BackgroundHover}
 `;
 
+export const RedLineButton = styled.button`
+  ${Square}
+
+  color: #ED4E51;
+  border: 1px solid #ED4E51;
+  background-color: var(--violet000);
+
+  &:disabled {
+    background-color: #fad3d4;
+  }
+  &[readonly] {
+    background-color: #fad3d4;
+  }
+
+  &:hover {
+    background-color: #fad3d4;
+  }
+
+  &:active {
+    background-color: #fad3d4;
+  }
+`;
+export const Black500LineButton = styled.button`
+  ${Square}
+  ${Black500Line}
+    ${NoBackgroundHover}
+`;
+
 export const NoBackgroundButton = styled.button`
   ${Square}
   ${NoBackground}
@@ -510,11 +666,6 @@ export const Black300BackgroundButton = styled.button`
     ${blueViolet700BackgroundHover}
 `;
 
-export const BlueViolet600BackgroundButton = styled.button`
-  ${Square}
-  ${BlueViolet600Background}
-    ${BlueViolet800BackgroundHover}
-`;
 
 export const Violet100BackgroundButton = styled.button`
   ${Square}
@@ -532,6 +683,10 @@ export const Violet500BackgroundButton = styled.button`
   ${Square}
   ${Violet500Background}
     ${Violet600BackgroundHover}
+
+  &:disabled {
+    background-color: #ccc; /* 비활성화 시 배경색 */
+  }
 `;
 
 export const Violet600BackgroundButton = styled.button`
@@ -540,11 +695,41 @@ export const Violet600BackgroundButton = styled.button`
     ${Violet700BackgroundHover}
 `;
 
+
+export const BlueViolet600BackgroundButton = styled.button`
+  ${Square}
+  ${BlueViolet600Background}
+    ${BlueViolet800BackgroundHover}
+`;
+
 // RoundButton
 export const Violet500LineRoundButton = styled.button`
   ${Round}
   ${Violet500Line}
     ${Violet200BackgroundHover}
+`;
+
+export const Violet200LineSuqreButton = styled.button`
+  ${Square}
+  ${Violet200Line}
+  ${Violet200LineHover}
+`;
+
+export const Violet400LineRoundButton = styled.button`
+  ${Round}
+  ${Violet200Line}
+  ${Violet200LineHover}
+  color: var(--black700);
+  font-weight: 500;
+
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 14px;
+  margin-top: 20px;
 `;
 
 // -------------------------여기부터 버튼 끝------------------------------
@@ -588,8 +773,9 @@ export const FormLabel = styled.label`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--black600);
+
 
   @media (max-width: 950px) {
     width: 100%;
@@ -685,15 +871,7 @@ export const Title3 = styled.h2`
   font-size: 12px;
 `;
 
-// components/Challenge/ChallengeDetail.js
-export const Title4 = styled.div`
-  width: 30%;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  margin: 0 auto;
-  font-size: 25px;
-`;
+
 
 // components/Challenge/ChallengeListItem.js
 export const Title5 = styled.div`
@@ -718,8 +896,20 @@ export const Title5 = styled.div`
   }
 `;
 
+// pages/StudyPage.js
+export const CategoryMainTitle = styled.div`
+    background-color: var(--black500);
+    color: var(--black000);
+    border-radius: 20px;
+    font-size: 14px;
+    text-align: center;
+    padding: 10px 20px;
+    font-weight: bold;
+    text-wrap: nowrap;
+`;
+
 // components/Group/GroupInfoModal/ApplicantConfirmModal.js, components/Group/GroupInfoModal/ApplicantModal.js
-export const Title7 = styled.div`
+export const TitleDiv = styled.div`
   background-color: var(--black500);
   color: var(--black000);
   border-radius: 20px;
@@ -729,7 +919,7 @@ export const Title7 = styled.div`
   font-weight: bold;
   text-wrap: nowrap;
   margin-bottom: 5px;
-  align-self: center; /* ModalContainer 안에서 세로 가운데 정렬 */
+  width: 120px;
 `;
 
 // pages/Tabs.js FAQ에서 쓰는 탭으로 확인됨
@@ -819,9 +1009,9 @@ export const CategoryButton2 = styled.div`
     height: 50px;
     margin-bottom: 5px;
     background-color: ${({ selected }) =>
-      selected ? "var(--violet200)" : "var(--violet000)"};
+    selected ? "var(--violet200)" : "var(--violet000)"};
     border: ${({ selected }) =>
-      selected ? "2px solid var(--violet500)" : "none"};
+    selected ? "2px solid var(--violet500)" : "none"};
     border-radius: 50%;
     padding: 5px;
 
@@ -887,39 +1077,6 @@ export const Button2 = styled.button`
   &:hover {
     background-color: #8578d8;
     color: white;
-  }
-`;
-
-// components/Challenge/ChallengeListItem.js
-export const Button5 = styled.div`
-  margin: 0 auto;
-  padding: 8px 10px;
-  background: var(--violet200);
-  border: 1px solid var(--violet400);
-  border-radius: 5px;
-  cursor: pointer;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  color: var(--black700);
-  font-weight: 500;
-  font-size: 14px;
-
-  &:hover {
-    background: var(--violet400);
-    border: 1px solid #8578d8;
-  }
-
-  @media (max-width: 768px) {
-    padding: 6px 8px;
-    font-size: 12px;
-  }
-
-  @media (max-width: 480px) {
-    padding: 5px 6px;
-    font-size: 10px;
   }
 `;
 
@@ -1049,35 +1206,6 @@ export const Button13 = styled.button`
   @media (max-width: 480px) {
     padding: 8px 0;
     font-size: 12px;
-  }
-`;
-
-// components/SignInContent/Components/OptionButton.jsx
-export const Button14 = styled.button`
-  min-width: calc(100% / ${({ buttonCount }) => buttonCount} - 15px);
-  border: 1px solid var(--violet500);
-  border-radius: 20px;
-  padding: 15px 10px;
-  background-color: ${({ selected }) =>
-    selected ? "var(--black700)" : "#fff"};
-  color: ${({ selected }) => (selected ? "#fff" : "var(--black500)")};
-  font-size: 14px;
-  margin: 5px;
-  transition: background-color 0.3s ease, color 0.3s ease;
-
-  &:hover {
-    background-color: var(--violet500);
-    color: #fff;
-  }
-
-  @media (max-width: 768px) {
-    padding: 10px 10px;
-    font-size: 12px;
-  }
-
-  @media (max-width: 480px) {
-    padding: 8px 8px;
-    font-size: 10px;
   }
 `;
 
@@ -1241,22 +1369,33 @@ export const ModalContainer = styled.div`
   margin: 0 auto;
 `;
 
+
+// components/MemberEvaluation.js
+export const ModalContentWrapper = styled.div`
+  display: flex;
+  gap: 15px;
+  flex-direction: column;
+`;
+
+
 // components/Declaration.js, components/Group/TodoContent.js
 export const ModalContainer2 = styled.div`
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 500px;
+  width: 70%;
   background-color: #fff;
   padding: 30px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
+  z-index: 10000;
+  max-height: 90%;
+  border-radius: 20px;
 `;
 
 // components/Group/GroupInfoModal/ApplicantConfirmModal.js, components/Group/GroupInfoModal/ApplicantModal.js
 export const ModalContainer4 = styled.div`
-  z-index: 1000;
+  z-index: 10000;
   position: relative;
   width: 90%; /* 화면에 삐져나가는 문제 해결을 위해 너비를 %로 설정 */
   max-width: 700px;
@@ -1272,9 +1411,8 @@ export const ModalContainer4 = styled.div`
 
 // components/Declaration.js
 export const Description = styled.p`
-  font-size: 10px;
+  font-size: 14px;
   color: #666;
-  margin-bottom: 30px;
   text-align: center;
 `;
 
@@ -1285,13 +1423,6 @@ export const Description2 = styled.div`
   ${responsiveFontSize}
 `;
 
-// components/SignInContent/LoginContent.jsx
-export const Description3 = styled.div`
-  margin: 10px 0;
-  font-size: 15px;
-  line-height: 1.5;
-  color: var(--black800);
-`;
 
 // components/Declaration.js
 export const Form = styled.form`
@@ -1352,12 +1483,13 @@ export const TextArea6 = styled.textarea`
 `;
 
 // components/SignInContent/SecondProcessContent.jsx, components/SignInContent/ThirdProcessContent.jsx
-export const ButtonGroup3 = styled.div`
+export const OptionButtonGroup = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: center;
   gap: 10px;
   max-width: 100%;
+  align-items: center;
 `;
 
 // components/Declaration.js, components/MemberEvaluation.js
@@ -1525,15 +1657,17 @@ export const BackButton = styled.div`
 `;
 
 // components/Challenge/ChallengeList.js
-export const Category = styled.div`
-  height: 50px;
-  line-height: 50px;
-
+export const CategoryTitle = styled.div`
+  height: 60px;
+  line-height: 60px;
   width: 100%;
-  border-radius: 10px;
-
   font-size: 20px;
   font-weight: 500;
+  margin: 0;
+
+  position: sticky;
+  top: 0;
+  z-index: 500;
 `;
 
 // components/ChallengeModal/ChallengeApplyModal.js, components/ChallengeModal/ChallengePayCompleteModal.js,
@@ -1557,45 +1691,55 @@ export const Category3 = styled.div`
   align-self: center; /* ModalContainer 안에서 세로 가운데 정렬 */
 `;
 
-// components/Challenge/ChallengeList.js
-export const Items = styled.div`
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
+export const MainCardListContainer = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    gap: 27.5px;
+    align-items: center;
+    justify-content: start;
 
-  @media (max-width: 768px) {
-    margin: 0 auto;
-    gap: 10px;
-  }
-  @media (max-width: 480px) {
-    gap: 5px;
-  }
+    @media (max-width: 616px) {
+        width: 100%;
+        flex-wrap: nowrap;
+        flex-direction: column;
+        height: 100%;
+    }
 `;
 
-// components/Challenge/ChallengeListItem.js
-export const Top = styled.div`
-  width: 100%;
-  height: 45%;
-  font-family: "Kavoon", cursive;
-  font-size: 35px;
-  color: var(--black600);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+export const MainCardParentContainer = styled.div`
+    display: flex;
+    gap: 27.5px;
+    align-items: center;
+    justify-content: start;
+    width: 1360px;
+    margin: auto;
+    // 카드 가로 5개
 
-  @media (max-width: 768px) {
-    font-size: 28px;
-  }
+    @media (max-width: 1500px) {
+        width: 1084px;
+        // 카드 가로 4개
+    }
+        
+    @media (max-width: 1257px) {
+        width: 807px;
+        // 카드 가로 3개
+    }
 
-  @media (max-width: 480px) {
-    font-size: 24px;
-  }
+    @media (max-width: 964px) {
+        width: 530px;
+        // 카드 가로 2개
+    }
+
+    @media (max-width: 616px) {
+        width: 100%;
+        // 카드 가로 1개
+    }
 `;
 
 // components/Challenge/ChallengeListItem.js
 export const Bottom = styled.div`
   width: 100%;
+  height: 100%;
   padding: 10px;
 `;
 
@@ -1651,17 +1795,11 @@ export const ModalBody = styled.div`
 // components/ChallengeModal/ChallengeAuthModal.js, components/ChallengeModal/ChallengePayCompleteModal.js,
 // components/ChallengeModal/ChallengePayModal.js, components/ChallengeModal/ChallengeResultModal.js
 export const ModalBody2 = styled.div`
-  width: 90%;
-  margin-top: 10px;
-  font-size: 15px;
-  border-radius: 3px;
-  padding: 20px 10px;
-
-  color: #111111;
+  width: 100%;
   display: flex;
   justify-content: center;
   flex-direction: column;
-  height: auto;
+  gap: 10px;
 `;
 
 // components/ChallengeModal/ChallengeApplyModal.js, components/ChallengeModal/ChallengeAuthModal.js,
@@ -1782,10 +1920,13 @@ export const AuthButton = styled.div`
 // components/ChallengeModal/ChallengePayCompleteModal.js, components/ChallengeModal/ChallengePayModal.js
 // components/ChallengeModal/ChallengeResultModal.js
 export const ModalHeader = styled.div`
-  width: 90%;
-  height: 100px;
-  margin-top: 20px;
-  text-align: center;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 15px;
 `;
 
 // components/ChallengeModal/ChallengePayModal.js
@@ -1824,17 +1965,7 @@ export const ResultDetail = styled.div`
   padding: 25px 63px;
 `;
 
-// components/ChallengeModal/ChallengeResultModal.js
-export const Success = styled.div`
-  width: 50%;
-  height: 100%;
-`;
 
-// components/ChallengeModal/ChallengeResultModal.js
-export const Fail = styled.div`
-  width: 50%;
-  height: 100%;
-`;
 
 // components/MyPageComponents/UserInfoContent.js
 export const Wrapper3 = styled(ContentsWrapper)`
@@ -1845,12 +1976,14 @@ export const Wrapper3 = styled(ContentsWrapper)`
 
 // components/Group/ChallengeTab.js
 export const ChallengeLists = styled(ContentsWrapper)`
-  padding-top: 30px;
   padding-bottom: 30px;
   text-align: center;
   display: flex;
   flex-direction: column;
   gap: 40px;
+  @media (min-width: 1500px) {
+    border: none;
+  }
 `;
 
 // 전체 div 묶음
@@ -1876,7 +2009,7 @@ export const InfoContainer = styled(ContentsWrapper)`
 export const Violet500LineDiv = styled.div`
   ${Violet500Line}
   ${Square}
-    width: 100%;
+  width: 100%;
   display: flex;
   background-color: white;
   flex-direction: column;
@@ -2125,19 +2258,10 @@ export const MeetingDiv = styled.div`
 `;
 
 // components/Group/TodoContent.js
-export const TodoContainer = styled.div`
-  width: 100%;
-  padding: 20px;
-  background-color: #f2f0ff;
-  border-radius: 8px;
-`;
-
-// components/Group/TodoContent.js
 export const TodoHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
 `;
 
 // components/Group/TodoContent.js
@@ -2165,18 +2289,37 @@ export const TodoButton = styled.button`
 export const ColumnContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
-  background-color: #ffffff;
+  background-color: white;
+  border-radius: 8px;
+  width: 100%;
+  flex-direction: row;
+  hr, hr:first-of-type {
+    display : none;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    hr {
+      display: inline-block
+    }
+  }
 `;
 
 // components/Group/TodoContent.js
 export const Column = styled.div`
-  flex: 1;
-  background-color: #ffffff;
-  padding: 20px;
-  margin: 0 10px;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  padding: 10px;
   border-radius: 8px;
   min-height: 200px;
+  width: 33.3%;
+  gap: 10px;
+  color: var(--black600);
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 // components/MyPageComponents/UserInfoContent.js
@@ -2193,25 +2336,107 @@ export const Column2 = styled.div`
 
 // components/Group/TodoContent.js
 export const TodoItem = styled.div`
-  background-color: #ffffff;
-  border: 1px solid #968aff;
-  padding: 10px;
-  margin-bottom: 10px;
+  background-color: white;
+  border: 1px solid var(--violet500);
   border-radius: 5px;
+  font-size: 15px;
+
+  display: flex;
+  flex-direction: row;
+  min-height: 35px;
+
+  width: 100%;
+  padding: 10px;
+  gap: 10px;
+
+  text-wrap: wrap;
+  word-break: break-all;
+  white-space: pre-wrap;
+
+    overflow: auto; /* 넘치는 부분 숨김 */
+    text-overflow: ellipsis; /* 생략 기호(...) 사용 */
+    line-height: 1.2; /* 줄 높이 설정 */
 `;
 
 // components/Group/TodoContent.js
 export const ModalTitle = styled.h2`
   font-size: 20px;
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 `;
 
 // components/Group/TodoContent.js
 export const Modaldescription = styled.h4`
-  font-size: 10px;
-  color: #ccc;
-  margin-bottom: 30px;
+  font-size: 13px;
+  color: var(--black300);
+  margin-bottom: 20px;
+  text-wrap: wrap;
+`;
+
+
+export const Div = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  gap: 10px;
+  color: var(--black700);
+  width: 100%;
+  align-items: start;
+`;
+
+export const Row = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: end;
+  justify-content: start;
+`;
+
+export const ChangeColumn480px = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: start;
+  justify-content: start;
+
+  @media (max-width: 768px) {
+
+  }
+
+  @media (max-width: 480px) {
+      flex-direction: column;
+  }
+`;
+
+export const ChangeColumn768px = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: end;
+  justify-content: center;
+
+  @media (max-width: 768px) {
+      flex-direction: column;
+  }
+
+  @media (max-width: 480px) {
+
+  }
+`;
+
+export const Label = styled.label`
+    width: 100%;
+    min-width: auto;
+    justify-content: start;
+    font-size: 16px;
+    text-wrap: nowrap;
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    color: var(--black600);
 `;
 
 // components/Group/TodoContent.js
@@ -2265,20 +2490,13 @@ export const ModalTaskInput = styled.div`
   }
 `;
 
-// components/Group/TodoContent.js
-export const LinkInputTitle = styled.h3`
-  font-size: 24px;
-  font-weight: bold;
-  margin-top: 50px;
-  color: #000000;
-`;
 
 // components/Group/TodoContent.js
-export const LinkInputContainer = styled.div`
+export const LinkInputForm = styled.form`
   display: flex;
-  align-items: center;
-  margin-top: 20px;
+  align-items: start;
   font-size: 14px;
+  gap: 10px;
 `;
 
 // components/Group/TodoContent.js
@@ -2289,16 +2507,17 @@ export const Input = styled.input`
 `;
 
 // components/Group/TodoContent.js
-export const StatusButton = styled.div`
-  background-color: #9787ff;
-  color: white;
-  padding: 15px 20px;
-  border-radius: 10px;
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 18px;
-  width: 100%;
-`;
+export const TaskStatus = styled.div`
+    background-color: var(--violet500);
+    color: white;
+    border-radius: 7px;
+    text-align: center;
+    font-size: 17px;
+    width: 100%;
+    text-wrap: nowrap;
+    height: 50px;
+    line-height: 50px;
+  `;
 
 // components/Group/TodoContent.js
 export const CalendarIcon = styled.span`
@@ -2307,26 +2526,6 @@ export const CalendarIcon = styled.span`
   height: 20px;
   background-image: url("https://upload.wikimedia.org/wikipedia/commons/3/3a/Calendar_icon.svg");
   background-size: cover;
-`;
-
-// components/Group/GroupComponent/GroupWritingContent.jsx,
-// components/SignInContent/FirstProcessContent.jsx
-export const Row = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  margin: 10px 0;
-  gap: 20px;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  @media (max-width: 480px) {
-    flex-direction: column;
-    gap: 8px;
-  }
 `;
 
 // components/Group/GroupInfoModal/ApplicantConfirmModal.js, components/Group/GroupInfoModal/ApplicantModal.js,
@@ -2377,12 +2576,6 @@ export const SubTitle = styled.div`
   margin-bottom: 20px;
 `;
 
-// components/SignInContent/LoginContent.jsx
-export const SubTitle3 = styled.div`
-  margin: 20px 0;
-  font-size: 20px;
-  color: var(--black800);
-`;
 
 // components/Group/GroupInfoModal/ApplicantModal.js, components/Group/GroupInfoModal/ApplicantConfirmModal.js
 export const PortfolioRow = styled.div`
@@ -2516,6 +2709,7 @@ export const ActionButtons = styled.div`
 
 export const Hr = styled.hr`
   border-bottom: 1px solid var(--black300);
+  width: 100%;
 `;
 
 // components/Group/Question/QuestionItem.jsx
@@ -2548,6 +2742,7 @@ export const ItemCol = styled.div`
   flex-direction: column;
   gap: 5px;
   align-items: start;
+
 `;
 
 // components/Icon/RegularIcon.jsx
@@ -2585,7 +2780,7 @@ export const Overlay = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* 모달이 다른 요소 위에 나타나도록 */
+  z-index: 10000; /* 모달이 다른 요소 위에 나타나도록 */
 `;
 
 // components/Modal/ModalContainer.jsx
@@ -2703,23 +2898,7 @@ export const Line = styled.div`
   }
 `;
 
-// components/SignInContent/Components/StatusButton.jsx
-export const Line2 = styled.div`
-  width: 25px;
-  height: 2px;
-  background-color: var(--black500);
-  margin: 0 10px;
 
-  @media (max-width: 768px) {
-    width: 20px;
-    margin: 0 8px;
-  }
-
-  @media (max-width: 480px) {
-    width: 15px;
-    margin: 0 6px;
-  }
-`;
 
 // components/MyPageComponents/NotificationContent.js
 export const NotificationEvent = styled.div`
@@ -2883,64 +3062,6 @@ export const UpdateButton = styled(Button)`
   color: white;
 `;
 
-// components/SignInContent/Components/StatusButton.jsx
-export const CircleButton = styled.div`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: ${({ active }) =>
-    active ? "var(--violet400)" : "var(--black200)"};
-  color: ${({ active }) => (active ? "#fff" : "var(--black000)")};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  font-weight: bold;
-
-  @media (max-width: 768px) {
-    width: 30px;
-    height: 30px;
-    font-size: 16px;
-  }
-
-  @media (max-width: 480px) {
-    width: 25px;
-    height: 25px;
-    font-size: 12px;
-  }
-`;
-
-// components/SignInContent/Components/StatusButton.jsx
-export const StatusContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  @media (max-width: 768px) {
-    gap: 8px;
-  }
-
-  @media (max-width: 480px) {
-    gap: 5px;
-  }
-`;
-
-// components/SignInContent/Components/SubTitle.jsx
-export const SubTitleWrapper = styled.div`
-  white-space: pre-line;
-  font-size: 20px;
-  color: var(--black800);
-  line-height: 1.5;
-
-  @media (max-width: 768px) {
-    font-size: 18px;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 16px;
-  }
-`;
-
 // components/SignInContent/FirstProcessContent.jsx, components/SignInContent/FourthProcessContent.jsx
 export const InputWrapper = styled.div`
   width: 100%;
@@ -2952,19 +3073,21 @@ export const InputWrapper = styled.div`
 // components/SignInContent/FirstProcessContent.jsx
 export const ButtonWrapper = styled.div`
   display: flex;
-  align-items: center;
-  margin-bottom: 10px;
   margin-right: 5px;
   gap: 5px;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: end;
 `;
 
 // components/SignInContent/FirstProcessContent.jsx
 export const RadioButtonLabel = styled.label`
-  font-size: 16px;
+  font-size: 14px;
   color: var(--black800);
 
   @media (max-width: 768px) {
-    font-size: 14px;
+    font-size: 13px;
   }
 
   @media (max-width: 480px) {
@@ -3005,31 +3128,3 @@ export const ContentWrapper = styled.div`
   gap: 20px;
 `;
 
-// components/SignInContent/LoginContent.jsx
-export const LogoL = styled.div`
-  font-family: "Kavoon";
-  font-size: 96px;
-  font-weight: 700;
-  background-size: 100%;
-  margin: 0 auto;
-`;
-
-// components/SignInContent/LoginContent.jsx
-export const GoogleLoginButton = styled.button`
-  width: 100%;
-  height: 50px;
-  margin-top: 20px;
-  background: var(--black000);
-  border: 2px solid var(--black200);
-  border-radius: 10px;
-
-  &:hover {
-    background: var(--black200);
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-
-  &:active {
-    background: var(--black200);
-    transition: background-color 0.1s ease, color 0.1s ease;
-  }
-`;

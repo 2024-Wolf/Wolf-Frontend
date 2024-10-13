@@ -310,8 +310,8 @@ const Question = ({
                       questionEditFile
                         ? questionEditFileURL
                         : isEditFile
-                        ? ""
-                        : questionFileURL
+                          ? ""
+                          : questionFileURL
                     }
                     alt={questionEditFileURL ? "" : ""}
                     imageFile={question.file}
@@ -451,8 +451,8 @@ const Question = ({
                                     commentEditFile
                                       ? URL.createObjectURL(commentEditFile)
                                       : isEditFileComment[index]
-                                      ? ""
-                                      : URL.createObjectURL(comment.file)
+                                        ? ""
+                                        : URL.createObjectURL(comment.file)
                                   }
                                   alt={comment.file ? comment.file.name : ""}
                                   imageFile={comment.file}
@@ -561,7 +561,7 @@ const Question = ({
   );
 };
 
-const Exam = ({ showFileOption }) => {
+const QuestionForm = ({ showFileOption }) => {
   {
     /* 데이터 연결 필요 */
   }
@@ -572,28 +572,22 @@ const Exam = ({ showFileOption }) => {
   const [newCommentFile, setNewCommentFile] = useState({}); // 각 댓글의 파일 상태
   const [commentFileURL, setCommentFileURL] = useState("");
 
-  const currentUser = "사용자";
+  const currentUser = '사용자';
 
   const addQuestion = (question) => {
     if (question.text && question.text.trim()) {
-      setQuestions([
-        ...questions,
-        { ...question, id: questions.length + 1, comments: [] },
-      ]);
+      setQuestions([...questions, { ...question, id: questions.length + 1, comments: [] }]);
     }
   };
 
   const editQuestion = (questionId, updatedQuestion) => {
-    setQuestions(
-      questions.map((q) =>
-        q.id === questionId ? { ...q, ...updatedQuestion } : q
-      )
-    );
+    setQuestions(questions.map(q => (q.id === questionId ? { ...q, ...updatedQuestion } : q)));
   };
 
   const deleteQuestion = (questionId) => {
-    setQuestions(questions.filter((q) => q.id !== questionId));
+    setQuestions(questions.filter(q => q.id !== questionId));
   };
+
 
   const handleAddQuestion = (e) => {
     e.preventDefault();
@@ -607,10 +601,12 @@ const Exam = ({ showFileOption }) => {
         comments: [],
       };
       addQuestion(newQuestionObj);
-      setNewQuestion("");
+      setNewQuestion('');
       setNewQuestionFile(null);
     }
   };
+
+
 
   const handleCommentChange = (key, value) => {
     setNewComments((prev) => ({
@@ -618,6 +614,7 @@ const Exam = ({ showFileOption }) => {
       [key]: value,
     }));
   };
+
 
   const addComment = (questionId) => {
     const commentText = newComments[questionId];
@@ -631,69 +628,62 @@ const Exam = ({ showFileOption }) => {
         date: new Date().toLocaleDateString(),
         file: commentFile || null,
       };
-      setQuestions(
-        questions.map((q) =>
-          q.id === questionId
-            ? { ...q, comments: [...q.comments, newComment] }
-            : q
-        )
-      );
-      setNewComments((prev) => ({ ...prev, [questionId]: "" }));
+      setQuestions(questions.map(q =>
+        q.id === questionId ? { ...q, comments: [...q.comments, newComment] } : q
+      ));
+      setNewComments((prev) => ({ ...prev, [questionId]: '' }));
       setNewCommentFile((prev) => ({ ...prev, [questionId]: null }));
-      setCommentFileURL(""); // 파일 URL 초기화
+      setCommentFileURL(''); // 파일 URL 초기화
     }
   };
 
+
+
   const editComment = (questionId, commentIndex, updatedComment) => {
-    setQuestions(
-      questions.map((q) =>
-        q.id === questionId
-          ? {
-              ...q,
-              comments: q.comments.map((c, index) =>
-                index === commentIndex ? updatedComment : c
-              ),
-            }
-          : q
-      )
-    );
+    setQuestions(questions.map(q =>
+      q.id === questionId
+        ? {
+          ...q,
+          comments: q.comments.map((c, index) => (index === commentIndex ? updatedComment : c))
+        }
+        : q
+    ));
   };
 
   const deleteComment = (questionId, commentIndex) => {
-    setQuestions(
-      questions.map((q) =>
-        q.id === questionId
-          ? {
-              ...q,
-              comments: q.comments.filter((_, index) => index !== commentIndex),
-            }
-          : q
-      )
-    );
+    setQuestions(questions.map(q =>
+      q.id === questionId
+        ? {
+          ...q,
+          comments: q.comments.filter((_, index) => index !== commentIndex)
+        }
+        : q
+    ));
   };
   const handleEnterSubmit = (e, isChild = false) => {
     // alt + enter를 눌렀을 때 줄 바꿈 추가
-    if (e.altKey && e.key === "Enter") {
+    if (e.altKey && e.key === 'Enter') {
       e.preventDefault();
 
       if (isChild && e.target.name) {
         const key = e.target.name; // 댓글의 고유 키를 name 속성으로 가져옴
         setNewComments((prev) => ({
           ...prev,
-          [key]: (prev[key] || "") + "\n", // 줄 바꿈 추가
+          [key]: (prev[key] || '') + '\n', // 줄 바꿈 추가
         }));
       } else if (e.target) {
-        setNewQuestion((prev) => prev + "\n"); // 질문 줄 바꿈 추가
+        setNewQuestion((prev) => prev + '\n'); // 질문 줄 바꿈 추가
       }
       return;
     }
 
     // enter를 눌렀을 때 질문 또는 댓글 입력
-    if (e.key === "Enter" && !e.shiftKey) {
+    if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      e.target.form.dispatchEvent(new Event("submit", { bubbles: true }));
+      e.target.form.dispatchEvent(new Event('submit', { bubbles: true }));
     }
   };
+
 
   const handleQuestionFileChange = (file) => {
     if (file) {
@@ -705,6 +695,7 @@ const Exam = ({ showFileOption }) => {
     setNewQuestionFile(null); // 파일 삭제
   };
 
+
   const handleCommentFileChange = (file, questionId) => {
     if (file) {
       setNewCommentFile((prevFiles) => ({
@@ -713,6 +704,7 @@ const Exam = ({ showFileOption }) => {
       }));
     }
   };
+
 
   const handleCommentFileDelete = (questionId) => {
     setNewCommentFile((prevFiles) => {
@@ -727,8 +719,7 @@ const Exam = ({ showFileOption }) => {
       <FormContainer onSubmit={handleAddQuestion}>
         {/* [질문] 텍스트 입력창 */}
         <TextAreaBlackLine
-          placeholder={`enter 로 내용을 등록할 수 있습니다.\n(줄바꿈을 수행하고 싶다면 alt + enter 를 누르세요)\n`}
-          value={newQuestion}
+          placeholder={`enter 로 내용을 등록할 수 있습니다.\n(줄바꿈을 수행하고 싶다면 alt + enter 를 누르세요)\n`} value={newQuestion}
           onChange={(e) => setNewQuestion(e.target.value)}
           onKeyDown={(e) => handleEnterSubmit(e, false)}
           required
@@ -740,50 +731,48 @@ const Exam = ({ showFileOption }) => {
           isSubmitButtonAppear={true}
           onChange={(file) => handleQuestionFileChange(file)}
           onClick={() => handleQuestionFileDelete()}
+
         />
       </FormContainer>
 
       <Hr />
       {/* 질문 목록 */}
-      {questions.length === 0 ? (
-        <div
-          style={{
-            fontSize: "20px",
-            width: "100%",
-            fontSize: "15px",
-            textAlign: "center",
-            color: "var(--black200)",
-            padding: "20px 0px",
-          }}
-        >
-          이 그룹에는 질문이 아직 없습니다
-        </div>
-      ) : (
-        questions.map((item) => (
-          <Question
-            key={item.id}
-            question={item}
-            onEdit={editQuestion}
-            onDelete={deleteQuestion}
-            onCommentEdit={editComment}
-            onCommentDelete={deleteComment}
-            onAddComment={addComment}
-            newComments={newComments}
-            newCommentFile={newCommentFile[item.id] || null}
-            handleCommentChange={handleCommentChange}
-            handleEnterSubmit={handleEnterSubmit}
-            handleQuestionFileChange={handleQuestionFileChange}
-            handleQuestionFileDelete={handleQuestionFileDelete}
-            handleCommentFileChange={handleCommentFileChange}
-            handleCommentFileDelete={handleCommentFileDelete}
-            commentFileURL={commentFileURL}
-            setCommentFileURL={setCommentFileURL}
-            showFileOption={showFileOption}
-          />
-        ))
-      )}
+      {
+        questions.length === 0 ? (
+          <div style={{
+            fontSize: "20px", width: "100%", fontSize: "15px", textAlign: "center",
+            color: "var(--black200)", padding: "20px 0px",
+          }}>
+            이 그룹에는 질문이 아직 없습니다
+          </div>
+        ) : (
+          questions.map((item) => (
+            <Question
+              key={item.id}
+              question={item}
+              onEdit={editQuestion}
+              onDelete={deleteQuestion}
+              onCommentEdit={editComment}
+              onCommentDelete={deleteComment}
+              onAddComment={addComment}
+              newComments={newComments}
+              newCommentFile={newCommentFile[item.id] || null}
+              handleCommentChange={handleCommentChange}
+              handleEnterSubmit={handleEnterSubmit}
+              handleQuestionFileChange={handleQuestionFileChange}
+              handleQuestionFileDelete={handleQuestionFileDelete}
+              handleCommentFileChange={handleCommentFileChange}
+              handleCommentFileDelete={handleCommentFileDelete}
+              commentFileURL={commentFileURL}
+              setCommentFileURL={setCommentFileURL}
+              showFileOption={showFileOption}
+            />
+          ))
+
+        )
+      }
     </>
   );
 };
 
-export default Exam;
+export default QuestionForm;

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import {
-  StudyTitle, StudyDetails, LeaderText, Violet500LineSquareButton
+  StudyTitle, StudyDetails, LeaderText, CategoryMainTitle
 } from "../components/GlobalStyledComponents";
 
 import React, { useState } from "react";
@@ -14,17 +14,7 @@ import ProfileIcon from "../components/Icon/ProfileIcon";
 import FAQTab from "../components/Tab/FAQTab";
 import ReportButton from "../components/Button/ReportButton";
 
-// pages/StudyPage.js
-const GroupCategory = styled.div`
-    background-color: var(--black500);
-    color: var(--black000);
-    border-radius: 20px;
-    font-size: 14px;
-    text-align: center;
-    padding: 10px 20px;
-    font-weight: bold;
-    text-wrap: nowrap;
-`;
+
 
 // pages/StudyPage.js
 const GroupHeader = styled.div`
@@ -62,15 +52,11 @@ const GroupBody = styled.div`
   gap: 10px;
 `;
 
-const UserName = styled.span`
-
-`;
-
 
 // 상수로 카테고리 선언
 const TAB = {
   INFO: "정보",
-  TODO: "할일",
+  TODO: "할 일",
   CHALLENGE: "챌린지",
   MEETING: "회의",
   MANAGE: "관리",
@@ -98,7 +84,7 @@ const StudyPage = () => {
 
   const SelectedComponent = componentsMap[activeTab];
 
-  const handleMeetingStart = () => setIsMeetingStarted(true);
+  // const handleMeetingStart = () => setIsMeetingStarted(true);
 
   const openModal = () => {
     setModalOpen(true);
@@ -115,7 +101,7 @@ const StudyPage = () => {
       <GroupHeader>
         <GroupHeaderTop>
           <span className="hiddenSpan" />
-          <GroupCategory>{mode === "study" ? "스터디" : "프로젝트"}</GroupCategory>
+          <CategoryMainTitle>{mode === "study" ? "스터디" : "프로젝트"}</CategoryMainTitle>
           <ReportButton onClick={openModal} />
         </GroupHeaderTop>
         {isModalOpen && <Declaration onClose={closeModal} />}

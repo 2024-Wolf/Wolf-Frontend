@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Square, Violet500Line } from "../GlobalStyledComponents";
 
-import React from "react";
+import React, { forwardRef } from "react";
 
 // components/Input/InputText.jsx
 const InputTextWrapper = styled.input`
@@ -13,10 +13,10 @@ const InputTextWrapper = styled.input`
     text-overflow: ellipsis;
 `;
 
-const InputText = ({ ...props }) => {
+const InputText = forwardRef(({ ...props }, ref) => {
     return (
-        <InputTextWrapper {...props} />
+        <InputTextWrapper ref={ref} {...props} />
     );
-}
+});
 
 export default InputText;

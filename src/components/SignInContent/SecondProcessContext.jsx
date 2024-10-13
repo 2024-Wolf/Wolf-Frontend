@@ -1,11 +1,12 @@
 import styled from "styled-components";
-import { ContentWrapper, ButtonGroup3 } from "../GlobalStyledComponents";
+import { ContentWrapper, OptionButtonGroup, Violet500BackgroundButton, ModalContentWrapper, Row, Violet500LineButton } from "../GlobalStyledComponents";
 
 import React, { useState } from "react";
 import StatusButton from "./Components/StatusButton";
-import NextButton from "./Components/NextButton";
 import SubTitle from "./Components/SubTitle";
-import OptionButton from "./Components/OptionButton";
+import OptionButton from "../Button/OptionButton";
+import PreviousIcon from "../Icon/PreviousIcon";
+import FormCheckBoxButton from "../Button/FormCheckBoxButton"
 
 const options = [
     "사이드 프로젝트 팀빌딩 중이에요",
@@ -30,23 +31,36 @@ const SecondProcessContent = ({ onNext, onPrev }) => {
 
     return (
         <ContentWrapper>
-            <button onClick={onPrev}>이전</button>
             <StatusButton nowIndex={1} />
             <SubTitle title={"현재 상태를 알려주세요"} />
-            <ButtonGroup3>
-                {options.map((option, index) => (
-                    <OptionButton
-                        key={index}
-                        label={option}
-                        count={2}
-                        selected={selectedOptions.includes(option)}
-                        onClick={() => handleOptionClick(option)}
-                    />
-                ))}
-            </ButtonGroup3>
-            <NextButton onClick={onNext}>
-                다음
-            </NextButton>
+            <ModalContentWrapper>
+                <OptionButtonGroup>
+                    {options.map((option, index) => (
+                        <OptionButton
+                            key={index}
+                            label={option}
+                            count={2}
+                            selected={selectedOptions.includes(option)}
+                            onClick={() => handleOptionClick(option)}
+                        />
+                    ))}
+                </OptionButtonGroup>
+
+            </ModalContentWrapper>
+            <Row style={{ gap: "5px" }}>
+                <Violet500LineButton
+                    type="button"
+                    style={{ width: '100%' }}
+                    onClick={onPrev}>
+                    이전
+                </Violet500LineButton>
+                <Violet500BackgroundButton
+                    type="button"
+                    style={{ width: '100%' }}
+                    onClick={onNext}>
+                    다음
+                </Violet500BackgroundButton>
+            </Row>
         </ContentWrapper>
     )
 }

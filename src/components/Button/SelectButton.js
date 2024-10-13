@@ -18,10 +18,10 @@ const SelectButtonWrapper = styled.select`
     min-height: 35px;
 `;
 
-const SelectButton = ({ children, value, onChange, disabled, defaultValue }) => {
+const SelectButton = ({ style, children, value, onChange, disabled, defaultValue }) => {
 
     return (
-        <SelectButtonWrapper value={value} onChange={onChange} disabled={disabled} defaultValue={defaultValue}>
+        <SelectButtonWrapper style={style} value={value} onChange={onChange} disabled={disabled} defaultValue={defaultValue}>
             {children}
         </SelectButtonWrapper>
     );

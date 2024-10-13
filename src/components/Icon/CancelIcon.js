@@ -12,21 +12,17 @@ const CancelIconWrapper = styled.button`
     
 font-weight: 700;
   padding: 0px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 25px;
-  width: 25px;
+  height: 20px;
+  width: 20px;
 `;
 
-const CancelIcon = ({ ...props }) => {
+const CancelIcon = ({ style, size, ...props }) => {
   return (
-    <CancelIconWrapper type="button" {...props}>
+    <CancelIconWrapper style={style} size={size} type="button" {...props}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="25"
-        height="25"
+        width={size || "20"}
+        height={size || "20"}
         fill="currentColor"
         class="bi bi-x-lg"
         viewBox="0 0 16 16"

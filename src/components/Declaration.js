@@ -1,7 +1,11 @@
 import styled from 'styled-components';
-import { ModalContainer2, Title3, Description, Form, Select, TextArea, ButtonGroupCenter, SubmitButton, CancelButton } from "./GlobalStyledComponents";
+import { ModalContainer2, Title3, Description, Form, Select, ButtonGroupCenter, SubmitButton, CancelButton, ModalContentWrapper, ModalHeader, CategoryMainTitle, Violet500LineButton } from "./GlobalStyledComponents";
 
 import React, { useState } from 'react';
+import ModalForm from './Modal/ModalForm';
+import CancelIcon from './Icon/CancelIcon';
+import SelectButton from './Button/SelectButton';
+import TextArea from './Input/TextArea'
 
 const Declaration = ({ onSubmit, onClose }) => {
   const [reason, setReason] = useState('');
@@ -26,22 +30,31 @@ const Declaration = ({ onSubmit, onClose }) => {
   };
 
   return (
-    <ModalContainer2>
+    <ModalForm isModalOpen={true} onSubmit={handleSubmit}>
+      <CancelIcon
+        style={{
+          position: "absolute",
+          top: "16px",
+          right: "16px",
+        }}
+        type='button'
+        onClick={onClose}
+      />
+      <ModalContentWrapper>
+        <ModalHeader>
+          <CategoryMainTitle>신고하기</CategoryMainTitle>
+          <Description>
+            악의적이고 반복적인 신고는 회원정지 등의 제재 사유가 될 수 있습니다. 신중하게 작성해주세요!
+          </Description>
+        </ModalHeader>
 
-      <Title3>신고하기</Title3>
-
-      <Description>
-        악의적이고 반복적인 신고는 회원정지 등의 제재 사유가 될 수 있습니다. 신중하게 작성해주세요!
-      </Description>
-
-      {/* 신고 선택 목록 */}
-      <Form onSubmit={handleSubmit}>
-        <Select value={reason} onChange={(e) => setReason(e.target.value)} required>
+        {/* 신고 사유 */}
+        <SelectButton value={reason} onChange={(e) => setReason(e.target.value)} required>
           <option value="" disabled>신고 사유를 선택해주세요</option>
           <option value="부적절한 내용">부적절한 내용</option>
           <option value="사기">사기</option>
           <option value="스팸">스팸</option>
-        </Select>
+        </SelectButton>
 
         {/* 신고 내용 */}
         <TextArea
@@ -52,13 +65,11 @@ const Declaration = ({ onSubmit, onClose }) => {
           placeholder={!isFocused ? '신고 내용을 구체적으로 작성해주세요.' : ''}
           required
         />
-
-        <ButtonGroupCenter>
-          <SubmitButton type="submit">전송</SubmitButton>
-          <CancelButton type="button" onClick={onClose}>취소</CancelButton>
-        </ButtonGroupCenter>
-      </Form>
-    </ModalContainer2>
+        <Violet500LineButton type='submit' style={{ margin: '15px auto 0 auto' }}>
+          전송
+        </Violet500LineButton>
+      </ModalContentWrapper>
+    </ModalForm>
   );
 };
 

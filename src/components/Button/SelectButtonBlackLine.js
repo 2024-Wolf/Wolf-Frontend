@@ -3,7 +3,7 @@ import { Square, Black500Line } from "../GlobalStyledComponents";
 
 // components/Group/GroupComponent/GroupWritingContent.jsx
 // select 드롭다운 목록
-const SelectButtonWrapper = styled.select`
+const SelectButtonBlackLineWrapper = styled.select`
   ${Square}
   ${Black500Line}
 
@@ -17,7 +17,8 @@ const SelectButtonWrapper = styled.select`
   min-height: 35px;
 `;
 
-const SelectButton = ({
+const SelectButtonBlackLine = ({
+  style,
   children,
   value,
   onChange,
@@ -25,15 +26,16 @@ const SelectButton = ({
   defaultValue,
 }) => {
   return (
-    <SelectButtonWrapper
+    <SelectButtonBlackLineWrapper
+      style={style}
       value={value}
       onChange={onChange}
       disabled={disabled}
       defaultValue={defaultValue}
     >
       {children}
-    </SelectButtonWrapper>
+    </SelectButtonBlackLineWrapper>
   );
 };
 
-export default SelectButton;
+export default SelectButtonBlackLine;

@@ -6,10 +6,8 @@ import FormFieldMultiple from "./FormFieldMultiple";
 import FormFieldSingle from "./FormFieldSingle";
 import DateButton from "../../Button/DateButton";
 import SelectButton from "../../Button/SelectButton";
-import { FormLabel, MemberInfo, FormFieldRow, FormTitle, ButtonGroupCenter, ButtonGroupRight, ButtonGroupWrap, DoubleDateContainer } from "../../GlobalStyledComponents";
+import { MemberInfo, FormFieldRow, FormTitle, ButtonGroupCenter, ButtonGroupRight, ButtonGroupWrap, DoubleDateContainer } from "../../GlobalStyledComponents";
 import InputText from "../../Input/InputText";
-import FormOptionButton from "../../Button/FormOptionButton";
-import InputFile from "../../Input/InputFile"
 import InputNumber from "../../Input/InputNumber"
 import TextArea from "../../Input/TextArea";
 import SaveButton from "../../Button/SaveButton";
@@ -17,10 +15,10 @@ import CancelButton from "../../Button/CancelButton";
 import EditButton from "../../Button/EditButton";
 import DeleteButton from "../../Button/DeleteButton";
 import CompleteButton from "../../Button/CompleteButton"
-import CancelIcon from "../../Icon/CancelIcon";
 import { useNavigate } from 'react-router-dom';
 import ProfileIcon from "../../Icon/ProfileIcon";
 import ImagePreview from "../../Img/ImagePreview";
+import FormCheckBoxButton from "../../Button/FormCheckBoxButton"
 
 // 사용자 이름
 // components/Group/GroupManageContent.js, components/Group/GroupComponent/GroupWritingContent.jsx
@@ -164,8 +162,6 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
     };
 
     const [newGroupData, setNewGroupData] = useState(groupData ? { ...groupData } : initialGroupData);
-    const [selectedFiles, setSelectedFiles] = useState([]);
-    const allowedFormats = ['image/jpeg', 'image/png'];
 
     const handleInputChange = (field, value) => {
         setNewGroupData(prevState => ({
@@ -174,11 +170,6 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
         }));
     };
 
-    const handleDeleteFile = () => {
-        setSelectedFiles([]); // 선택된 파일 초기화
-        handleInputChange('fileName', ''); // 파일 이름 초기화
-        document.getElementById('thumbnail').value = ''; // input 파일 필드 초기화
-    };
 
     const deleteGroupHandler = () => {
         // eslint-disable-next-line no-restricted-globals
@@ -187,23 +178,6 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
             navigate("/");
         } else {
         }
-    };
-
-    const handleImgType = (event) => {
-        const files = Array.from(event.target.files);
-        const invalidFiles = files.filter(file => {
-            const isJfif = file.name.toLowerCase().endsWith('.jfif');
-            const isPjpeg = file.name.toLowerCase().endsWith('.pjpeg');
-            const isPjp = file.name.toLowerCase().endsWith('.pjp');
-            return !allowedFormats.includes(file.type) || isJfif || isPjpeg || isPjp;
-        });
-
-        if (invalidFiles.length > 0) {
-            alert('허용되지 않는 파일 형식입니다 (첨부 가능 형식: jpeg, jpg, png)');
-            return;
-        }
-
-        setSelectedFiles(files); // 파일 목록 업데이트
     };
 
     const toggleButtonClick = (index) => {
@@ -236,7 +210,6 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
                     </FormTitle>
                     <ButtonGroupRight>
                         {contentsType === 'editing' ? (
-
                             <>
                                 {/* editing */}
                                 {/* 그룹 페이지 관리 탭 */}
@@ -308,6 +281,7 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
                 <FormFieldRow>
                     <FormFieldSingle label={"썸네일"} htmlFor="thumbnail">
                         <ImagePreview
+                            isEditing={true}
                             id="thumbnail"
                             name="thumbnail"
                             disabled={contentsType === 'viewing'}
@@ -336,16 +310,19 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
                         description={"이메일, 지원직군, 지원사유는 필수값입니다. 정보를 많이 요청시, 지원율이 떨어집니다. 필수값만 지정해주세요! "}>
                         <ButtonGroupWrap>
                             {newGroupData.buttons.map((button, index) => (
-                                <FormOptionButton
-                                    name={button.label}
-                                    key={index}
-                                    clicked={button.clicked}
-                                    onClick={() => toggleButtonClick(index)}
-                                    disabled={contentsType === 'viewing'
+                                <FormCheckBoxButton
+                                    key={"button-" + index}
+                                    name="button"
+                                    value={button}
+                                    checked={button.clicked}
+                                    disabled={contentsType === 'viewing'}
+                                    onChange={(e) => {
+                                        console.log(toggleButtonClick(index));
+                                    }
                                     }
                                 >
                                     {button.label}
-                                </FormOptionButton>
+                                </FormCheckBoxButton>
                             ))}
                         </ButtonGroupWrap>
                     </FormFieldSingle>

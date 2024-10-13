@@ -1,19 +1,32 @@
 import styled from "styled-components";
-import { Overlay, ModalWrapper, ModalContent, CloseButton } from "../GlobalStyledComponents";
+import { Overlay, ModalWrapper, CloseButton } from "../GlobalStyledComponents";
 
 import React from "react";
 import MiniIcon from "../Icon/MiniIcon";
+import ModalForm from "./ModalForm";
+import CancelIcon from "../Icon/CancelIcon";
+
 
 const ModalContainer = ({ children, onClose }) => {
     return (
-        <Overlay onClick={onClose}>
-            <ModalWrapper onClick={(e) => e.stopPropagation()}>
-                <CloseButton onClick={onClose}>
-                    <MiniIcon src="CloseIcon.png" alt="closeBtn" />
-                </CloseButton>
-                <ModalContent>{children}</ModalContent>
-            </ModalWrapper>
-        </Overlay>
+        <ModalForm
+            isModalOpen={true}
+            containerStyle={{
+                paddingTop: '45px',
+                backgroundColor: 'var(--violet100)', textAlign: 'center'
+            }}
+            onClick={(e) => e.stopPropagation()}>
+            <CancelIcon
+                style={{
+                    position: "absolute",
+                    top: "16px",
+                    right: "16px",
+                }}
+                type='button'
+                onClick={onClose}
+            />
+            {children}
+        </ModalForm>
     );
 };
 

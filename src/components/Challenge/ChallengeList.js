@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Container2, Category, Items } from "../GlobalStyledComponents";
+import { CardMapingContainer, CategoryTitle, Items, MainCardParentContainer, MainCardListContainer } from "../GlobalStyledComponents";
 
 import React, { useState } from "react";
 import ChallengeListItem from "./ChallengeListItem";
@@ -7,10 +7,11 @@ import ChallengeApplyModal from "../ChallengeModal/ChallengeApplyModal";
 import ChallengeAuthModal from "../ChallengeModal/ChallengeAuthModal";
 import ChallengeResultModal from "../ChallengeModal/ChallengeResultModal";
 
+
 function ChallengeList(props) {
     const [modalOn, setModalOn] = useState(false);
 
-    let items = ['제목1입니다.제목1입니다.제목1입니다.', '제목2입니다.', '제목3입니다.', '제목4입니다.', '제목5입니다.'];
+    let items = ['제목1입니다.제목1입니다.제목1입니다.제목1입니다.제목1입니다.제목1입니다.제목1입니다.제목1입니다.제목1입니다.제목1입니다.제목1입니다.제목1입니다.제목1입니다.제목1입니다.', '제목2입니다.', '제목3입니다.', '제목4입니다.', '제목5입니다.'];
     let category;
     let background;
     let buttonText;
@@ -41,29 +42,34 @@ function ChallengeList(props) {
             break;
     }
 
-
-
     const handleDetailOpen = (e) => {
         props.clickFunc();
     }
 
     return (
-        <Container2>
+        <>
             {modalOn && <Modal clickFunc={() => setModalOn(!modalOn)} />}
-            <Category style={{ background: background }}>{category}</Category>
-            <Items>
-                {items.map((title, index) => (
-                    <ChallengeListItem
-                        title={title}
-                        clickFunc={() => setModalOn(!modalOn)}
-                        category={props.category}
-                        buttonText={buttonText}
-                        key={index}
-                        modalFunc={handleDetailOpen}
-                    />
-                ))}
-            </Items>
-        </Container2>
+
+            <div style={{ width: '100%', display: 'flex', gap: '15px', flexDirection: 'column' }}>
+                <CategoryTitle style={{ background: background }}>{category}</CategoryTitle>
+                <MainCardParentContainer>
+                    <MainCardListContainer>
+                        {items.map((title, index) => (
+                            <CardMapingContainer>
+                                <ChallengeListItem
+                                    title={title}
+                                    clickFunc={() => setModalOn(!modalOn)}
+                                    category={props.category}
+                                    buttonText={buttonText}
+                                    key={index}
+                                    modalFunc={handleDetailOpen}
+                                />
+                            </CardMapingContainer>
+                        ))}
+                    </MainCardListContainer>
+                </MainCardParentContainer>
+            </div>
+        </>
     )
 }
 

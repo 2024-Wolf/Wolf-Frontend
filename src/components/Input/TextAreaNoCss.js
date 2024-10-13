@@ -10,7 +10,7 @@ const TextAreaNoCssWrapper = styled.textarea`
   width: 100%;
   height: auto;
   resize: none;
-  line-height: 1.7;
+  line-height: 1.5;
   white-space: pre-wrap; // 줄바꿈 및 공백 유지
   overflow-wrap: break-word; // 브라우저 호환성 용어
   border: 2px solid rgba(255, 255, 255, 0);

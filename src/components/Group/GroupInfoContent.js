@@ -8,6 +8,7 @@ import {
   InfoContainer,
   PostContent,
   QuestionHeader,
+
 } from "../GlobalStyledComponents";
 
 import React, { useState } from "react";
@@ -20,6 +21,8 @@ import InputTextNoCss from "../Input/InputTextNoCss";
 import InputDateNoCss from "../Input/InputDateNoCss";
 import RecentNewsSlider from "../Slider/RecentNewsSlider";
 import QuestionForm from "./Question/QuestionForm";
+import { matchRoutes } from 'react-router-dom';
+import ImagePreview from "../Img/ImagePreview"
 
 const GroupInfoContent = ({ mode }) => {
   const [questions, setQuestions] = useState([
@@ -131,6 +134,12 @@ const GroupInfoContent = ({ mode }) => {
   return (
     <>
       <InfoContainer>
+
+        {/* 이미지가 있으면 여기에 넣으면 됨! */}
+        <ImagePreview
+          src="https://image.utoimage.com/preview/cp927958/2020/09/202009015931_500.jpg"
+          imageFile="https://image.utoimage.com/preview/cp927958/2020/09/202009015931_500.jpg" />
+
         {/* 정보 묶음 */}
         <Violet500LineDiv>
           <FormFieldColumn>
@@ -169,12 +178,14 @@ const GroupInfoContent = ({ mode }) => {
             </FormFieldSingle>
           </FormFieldRow>
         </Violet500LineDiv>
+
         {/*<HiddenFileInput*/}
         {/*    id="thumbnail"*/}
         {/*    type="file"*/}
         {/*    accept="image/*"*/}
         {/*    onChange={handleFileChange}*/}
         {/*/>*/}
+
         {/* 주제 설명 */}
         <Violet500LineDiv>
           <FormFieldRow>
@@ -192,7 +203,6 @@ const GroupInfoContent = ({ mode }) => {
               '- 관심있는 분들은 "지원하기"로 신청해주세요.'
             }
           />
-          <PostContent></PostContent>
         </Violet500LineDiv>
 
         {/* 최근 소식 */}
@@ -200,13 +210,20 @@ const GroupInfoContent = ({ mode }) => {
 
         {/* 질문 작성 영역 */}
         <Violet500LineDiv>
-          <FormFieldSingle label={"응원이나 궁금한 내용을 입력해주세요 !"} />
+          <FormFieldSingle
+            FormLabelGroupStyle={{ width: '100%', marginTop: '10px' }}
+            labelStyle={{
+              width: '100%', textWrap: 'wrap', justifyContent: 'start',
+
+            }}
+            label={"응원이나 궁금한 내용을 입력해주세요 !"}
+          />
           <QuestionForm
             showFileOption={false}
-            // data={data} 데이터 연결 필요
+          // data={data} 데이터 연결 필요
           />
         </Violet500LineDiv>
-      </InfoContainer>
+      </InfoContainer >
     </>
   );
 };
