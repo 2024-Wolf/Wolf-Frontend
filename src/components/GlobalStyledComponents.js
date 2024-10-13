@@ -604,6 +604,29 @@ export const Black200BackgroundButton = styled.button`
   ${Black200BackgroundHover}
 `;
 
+export const RedLineButton = styled.button`
+  ${Square}
+
+  color: #ED4E51;
+  border: 1px solid #ED4E51;
+  background-color: var(--violet000);
+
+  &:disabled {
+    background-color: #fad3d4;
+  }
+  &[readonly] {
+    background-color: #fad3d4;
+  }
+
+  &:hover {
+    background-color: #fad3d4;
+  }
+
+  &:active {
+    background-color: #fad3d4;
+  }
+`;
+
 export const NoBackgroundButton = styled.button`
   ${Square}
   ${NoBackground}

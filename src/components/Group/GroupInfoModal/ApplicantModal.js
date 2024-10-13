@@ -23,6 +23,7 @@ import {
   Modaldescription,
   ButtonGroupWrap,
   Violet500BackgroundButton,
+  RedLineButton,
 } from "../../GlobalStyledComponents";
 
 import React, { useState } from "react";
@@ -534,18 +535,19 @@ const ApplicantModal = ({ onClose, onSubmit, applicant, isView }) => {
         <ButtonContainer>
           {isView ? (
             <>
-              <Black200BackgroundButton
+              <Violet500LineButton
                 onClick={() => setButtonStatus("지원승인")}
                 type="submit"
               >
                 승인
-              </Black200BackgroundButton>
-              <Black200BackgroundButton
+              </Violet500LineButton>
+
+              <RedLineButton
                 onClick={() => setButtonStatus("지원거절")}
                 type="submit"
               >
                 거절
-              </Black200BackgroundButton>
+              </RedLineButton>
             </>
           ) : (
             <>
