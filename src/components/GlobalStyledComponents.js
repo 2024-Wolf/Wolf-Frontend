@@ -140,7 +140,7 @@ export const FormChildrenGroup = styled.div`
 // components/Declaration.js, components/MemberEvaluation.js
 export const ButtonGroupWrap = styled.div`
   display: flex;
-  gap: 10px;
+  gap: 5px;
   width: 100%;
   justify-content: flex-start;
   flex-wrap: wrap;
@@ -365,6 +365,7 @@ export const Violet500Line = css`
         color: var(--violet000);
         border: 1px solid var(--black700);
     `}
+    
 `;
 
 export const Violet300Background = css`
@@ -446,6 +447,20 @@ export const Black300BackgroundHover = css`
   &:active {
     background-color: var(--black300);
     color: var(--black000);
+  }
+`;
+
+export const Black600BackgroundHover = css`
+  &:hover {
+    color: var(--violet000);
+    background-color: var(--black600);
+    border: 1px solid var(--black600);
+  }
+
+  &:active {
+    color: var(--violet000);
+    background-color: var(--black600);
+    border: 1px solid var(--black600);
   }
 `;
 
@@ -2339,8 +2354,9 @@ export const ModalTitle = styled.h2`
 // components/Group/TodoContent.js
 export const Modaldescription = styled.h4`
   font-size: 13px;
-  color: #ccc;
+  color: var(--black300);
   margin-bottom: 20px;
+  text-wrap: wrap;
 `;
 
 

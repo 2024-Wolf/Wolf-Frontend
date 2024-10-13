@@ -164,8 +164,6 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
     };
 
     const [newGroupData, setNewGroupData] = useState(groupData ? { ...groupData } : initialGroupData);
-    const [selectedFiles, setSelectedFiles] = useState([]);
-    const allowedFormats = ['image/jpeg', 'image/png'];
 
     const handleInputChange = (field, value) => {
         setNewGroupData(prevState => ({
@@ -174,11 +172,6 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
         }));
     };
 
-    const handleDeleteFile = () => {
-        setSelectedFiles([]); // 선택된 파일 초기화
-        handleInputChange('fileName', ''); // 파일 이름 초기화
-        document.getElementById('thumbnail').value = ''; // input 파일 필드 초기화
-    };
 
     const deleteGroupHandler = () => {
         // eslint-disable-next-line no-restricted-globals
@@ -187,23 +180,6 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
             navigate("/");
         } else {
         }
-    };
-
-    const handleImgType = (event) => {
-        const files = Array.from(event.target.files);
-        const invalidFiles = files.filter(file => {
-            const isJfif = file.name.toLowerCase().endsWith('.jfif');
-            const isPjpeg = file.name.toLowerCase().endsWith('.pjpeg');
-            const isPjp = file.name.toLowerCase().endsWith('.pjp');
-            return !allowedFormats.includes(file.type) || isJfif || isPjpeg || isPjp;
-        });
-
-        if (invalidFiles.length > 0) {
-            alert('허용되지 않는 파일 형식입니다 (첨부 가능 형식: jpeg, jpg, png)');
-            return;
-        }
-
-        setSelectedFiles(files); // 파일 목록 업데이트
     };
 
     const toggleButtonClick = (index) => {

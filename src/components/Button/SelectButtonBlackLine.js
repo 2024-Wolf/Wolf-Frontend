@@ -18,6 +18,7 @@ const SelectButtonBlackLineWrapper = styled.select`
 `;
 
 const SelectButtonBlackLine = ({
+  style,
   children,
   value,
   onChange,
@@ -26,6 +27,7 @@ const SelectButtonBlackLine = ({
 }) => {
   return (
     <SelectButtonBlackLineWrapper
+      style={style}
       value={value}
       onChange={onChange}
       disabled={disabled}

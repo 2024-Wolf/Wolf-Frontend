@@ -245,7 +245,7 @@ function ChallengeResultModal(props) {
                 <ModalContentWrapper>
                     <ModalHeader>
                         <CategoryMainTitle>챌린지 결과확인</CategoryMainTitle>
-                        <p style={{ fontSize: '20px', fontWeight: 'bold' }}>기사 자격증 취득 챌린지</p>
+                        <p style={{ fontSize: '20px', fontWeight: 'bold', color: 'var(--black900)' }}>기사 자격증 취득 챌린지</p>
                     </ModalHeader>
 
                     {/* 챌린지 총 금액 */}

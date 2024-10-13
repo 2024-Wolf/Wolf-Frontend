@@ -34,7 +34,7 @@ function ChallengeAuthModal(props) {
             <ModalContentWrapper>
                 <ModalHeader>
                     <CategoryMainTitle>챌린지 인증하기</CategoryMainTitle>
-                    <p style={{ fontSize: '20px', fontWeight: 'bold' }}>기사 자격증 취득 챌린지</p>
+                    <p style={{ fontSize: '20px', fontWeight: 'bold', color: 'var(--black900)' }}>기사 자격증 취득 챌린지</p>
                 </ModalHeader>
 
                 <ModalBody2>
@@ -69,8 +69,6 @@ function ChallengeAuthModal(props) {
                         </FormFieldSingle>
                         <TextAreaNoCss
                             style={{ background: 'var(--violet500)', color: 'var(--violet000)' }}
-                            name="introduction"
-                            placeholder="모집에 대한 간단한 소개를 작성해주세요."
                             value={
                                 `매일 최소 1시간 이상 학습 시간을 확보해야 합니다.\n` +
                                 `정해진 기간 내에 자격증 시험에 응시하지 않으면 챌린지 불참으로 간주됩니다.\n` +
