@@ -1379,9 +1379,8 @@ export const ModalContainer4 = styled.div`
 
 // components/Declaration.js
 export const Description = styled.p`
-  font-size: 10px;
+  font-size: 14px;
   color: #666;
-  margin-bottom: 30px;
   text-align: center;
 `;
 
