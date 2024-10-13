@@ -8,6 +8,7 @@ import {
   InfoContainer,
   PostContent,
   QuestionHeader,
+
 } from "../GlobalStyledComponents";
 
 import React, { useState } from "react";
@@ -21,6 +22,7 @@ import InputDateNoCss from "../Input/InputDateNoCss";
 import RecentNewsSlider from "../Slider/RecentNewsSlider";
 import QuestionForm from "./Question/QuestionForm";
 import { matchRoutes } from 'react-router-dom';
+import ImagePreview from "../Img/ImagePreview"
 
 const GroupInfoContent = ({ mode }) => {
   const [questions, setQuestions] = useState([
@@ -132,6 +134,12 @@ const GroupInfoContent = ({ mode }) => {
   return (
     <>
       <InfoContainer>
+
+        {/* 이미지가 있으면 여기에 넣으면 됨! */}
+        <ImagePreview
+          src="https://image.utoimage.com/preview/cp927958/2020/09/202009015931_500.jpg"
+          imageFile="https://image.utoimage.com/preview/cp927958/2020/09/202009015931_500.jpg" />
+
         {/* 정보 묶음 */}
         <Violet500LineDiv>
           <FormFieldColumn>
@@ -170,12 +178,14 @@ const GroupInfoContent = ({ mode }) => {
             </FormFieldSingle>
           </FormFieldRow>
         </Violet500LineDiv>
+
         {/*<HiddenFileInput*/}
         {/*    id="thumbnail"*/}
         {/*    type="file"*/}
         {/*    accept="image/*"*/}
         {/*    onChange={handleFileChange}*/}
         {/*/>*/}
+
         {/* 주제 설명 */}
         <Violet500LineDiv>
           <FormFieldRow>

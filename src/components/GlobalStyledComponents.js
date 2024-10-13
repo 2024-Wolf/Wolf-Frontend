@@ -665,10 +665,7 @@ export const Violet400LineRoundButton = styled.button`
   align-items: center;
 
   font-size: 14px;
-
-  @media (max-width: 616px) {
-      margin-top: 20px;
-  }
+  margin-top: 20px;
 `;
 
 // -------------------------여기부터 버튼 끝------------------------------
@@ -1637,6 +1634,11 @@ export const CategoryTitle = styled.div`
   width: 100%;
   font-size: 20px;
   font-weight: 500;
+  margin: 0;
+
+  position: sticky;
+  top: 0;
+  z-index: 500;
 `;
 
 // components/ChallengeModal/ChallengeApplyModal.js, components/ChallengeModal/ChallengePayCompleteModal.js,
