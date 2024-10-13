@@ -108,9 +108,9 @@ const Day = styled.div`
 
     @media (max-width: 768px) {
         width: 100%;
-        height: auto;
         min-width: 30px;
-        max-width: 42px
+        max-width: 42px;
+        height: 40px;
     }
 
     @media (max-width: 580px) {
