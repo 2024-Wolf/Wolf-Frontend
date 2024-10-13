@@ -154,7 +154,7 @@ function ChallengeApplyModal(props) {
                             placeholder={'0원~30,000원'}
                             style={{ width: '100%', textAlign: 'start' }} />
                     </FormFieldSingle>
-                    <Violet500LineButton type='submit' style={{ margin: '0 auto' }}>
+                    <Violet500LineButton type='submit' style={{ margin: '15px auto 0 auto' }}>
                         신청하기
                     </Violet500LineButton>
                     {console.log('렌더링')}
