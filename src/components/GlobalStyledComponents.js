@@ -652,11 +652,6 @@ export const Black300BackgroundButton = styled.button`
     ${blueViolet700BackgroundHover}
 `;
 
-export const BlueViolet600BackgroundButton = styled.button`
-  ${Square}
-  ${BlueViolet600Background}
-    ${BlueViolet800BackgroundHover}
-`;
 
 export const Violet100BackgroundButton = styled.button`
   ${Square}
@@ -686,11 +681,24 @@ export const Violet600BackgroundButton = styled.button`
     ${Violet700BackgroundHover}
 `;
 
+
+export const BlueViolet600BackgroundButton = styled.button`
+  ${Square}
+  ${BlueViolet600Background}
+    ${BlueViolet800BackgroundHover}
+`;
+
 // RoundButton
 export const Violet500LineRoundButton = styled.button`
   ${Round}
   ${Violet500Line}
     ${Violet200BackgroundHover}
+`;
+
+export const Violet200LineSuqreButton = styled.button`
+  ${Square}
+  ${Violet200Line}
+  ${Violet200LineHover}
 `;
 
 export const Violet400LineRoundButton = styled.button`

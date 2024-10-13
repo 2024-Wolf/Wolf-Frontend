@@ -2,19 +2,7 @@ import styled from "styled-components";
 import axios from "axios";
 import {
   Black200BackgroundButton,
-  ModalBackground,
-  ModalContainer4,
-  TitleDiv,
-  Category3,
-  SubTitle,
-  PortfolioRow,
-  InputField,
-  SelectField,
-  TextArea3,
-  Button,
   ButtonContainer,
-  Row2,
-  NoticeDiv,
   ModalContentWrapper,
   ModalHeader,
   CategoryMainTitle,
@@ -24,6 +12,7 @@ import {
   ButtonGroupWrap,
   Violet500BackgroundButton,
   RedLineButton,
+  BlueViolet600BackgroundButton,
 } from "../../GlobalStyledComponents";
 
 import React, { useState } from "react";
@@ -34,9 +23,8 @@ import SelectButtonBlackLine from "../../Button/SelectButtonBlackLine";
 import TextAreaNoCss from "../../Input/TextAreaNoCss";
 import ModalForm from "../../Modal/ModalForm";
 import FormFieldSingle from "../GroupComponent/FormFieldSingle";
-import InputText from "../../Input/InputText";
-import FormOptionButton from "../../Button/FormOptionButton";
 import FormCheckBoxButton from "../../Button/FormCheckBoxButtonBlackLine";
+import CopyButton from "../../Button/CopyButton";
 
 // components/Group/GroupInfoModal/ApplicantModal.js
 const Div = styled.div`
@@ -149,17 +137,24 @@ const ApplicantModal = ({ onClose, onSubmit, applicant, isView }) => {
           alert('모든 양식을 입력하세요');
           if (modalData.day.length === 0) {
             setIsDayValid(false); // 요일 체크박스 안내멘트 출력
+          } else {
+            setIsDayValid(true); // 요일 체크박스 안내멘트 출력
           }
           if (modalData.role === '') {
             setIsSelectRoldValid(false); // 직군 선택 항목 안내멘트 출력
+          } else {
+            setIsSelectRoldValid(true); // 직군 선택 항목 안내멘트 출력
           }
           if (!linkButtonDisable) {
             setIsPortfolioTextValid(false);  // 포트폴리오 링크를 등록하라는 멘트 출력
+          } else {
+            setIsPortfolioTextValid(true);  // 포트폴리오 링크를 등록하라는 멘트 출력
           }
         } else {
           alert('지원하기 폼이 제출되었습니다');
           setIsDayValid(true);  // 유효성 검사 초기화
           setIsSelectRoldValid(true); // 유효성 검사 초기화
+
           try {
             const formData = new FormData();
             formData.append("name", modalData.name);
@@ -179,6 +174,8 @@ const ApplicantModal = ({ onClose, onSubmit, applicant, isView }) => {
             );
             // 성공 시 처리
             alert("지원하기 완료");
+            // 모달창 닫기
+            onClose();
           } catch (error) {
             // 에러 발생 시 처리
             console.error(
@@ -186,14 +183,19 @@ const ApplicantModal = ({ onClose, onSubmit, applicant, isView }) => {
               error.response ? error.response.data : error.message
             );
             alert("지원하기에 실패했습니다. 다시 시도해주세요.");
+
           }
         }
         break;
       case "지원승인":
         alert("지원승인");
+        // 모달창 닫기
+        onClose();
         break;
       case "지원거절":
         alert("지원거절");
+        // 모달창 닫기
+        onClose();
         break;
     }
   };
@@ -223,16 +225,24 @@ const ApplicantModal = ({ onClose, onSubmit, applicant, isView }) => {
     }
   };
 
-
-
-
-
   const handleCheckboxChange = (event) => {
     const { value, checked } = event.target;
     setCheckedDays((prev) =>
       checked ? [...prev, value] : prev.filter((day) => day !== value)
     );
     setShowError(false);
+  };
+
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(modalData.portfolioLink) // 클립보드에 input 값 복사
+      .then(() => {
+        alert('링크가 복사되었습니다');
+      })
+      .catch((err) => {
+        alert('링크 복사가 실패하였습니다');
+        console.error('복사 오류:', err);
+      });
   };
 
   // const toggleButtonClick = (index) => {
@@ -469,7 +479,7 @@ const ApplicantModal = ({ onClose, onSubmit, applicant, isView }) => {
             <InputTextBlackLine
               readOnly={isView}
               type="url"
-              placeholder="링크를 등록하asd세요"
+              placeholder="링크를 등록하세요"
               value={modalData.portfolioLink}
               onChange={(e) =>
                 setModalData((prev) => ({
@@ -481,9 +491,11 @@ const ApplicantModal = ({ onClose, onSubmit, applicant, isView }) => {
               required
             />
           </Div>
-
           {isView ? (
-            <></>
+            <>
+              <CopyButton onClick={handleCopy}>
+              </CopyButton>
+            </>
           ) : (
             linkButtonDisable ? (
               <>
@@ -535,12 +547,12 @@ const ApplicantModal = ({ onClose, onSubmit, applicant, isView }) => {
         <ButtonContainer>
           {isView ? (
             <>
-              <Violet500LineButton
+              <BlueViolet600BackgroundButton
                 onClick={() => setButtonStatus("지원승인")}
                 type="submit"
               >
                 승인
-              </Violet500LineButton>
+              </BlueViolet600BackgroundButton>
 
               <RedLineButton
                 onClick={() => setButtonStatus("지원거절")}
