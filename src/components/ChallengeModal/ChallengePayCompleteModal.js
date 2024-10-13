@@ -10,15 +10,6 @@ function ChallengePayCompleteModal(props) {
 
     return (
         <ModalForm isModalOpen={true} style={{ zIndex: '10002' }} >
-            <CancelIcon
-                style={{
-                    position: "absolute",
-                    top: "16px",
-                    right: "16px",
-                }}
-                type='button'
-                onClick={() => { props.clickFunc() }}
-            />
             <ModalContentWrapper>
                 <ModalHeader>
                     <CategoryMainTitle>챌린지 결제하기</CategoryMainTitle>

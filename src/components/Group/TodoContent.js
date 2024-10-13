@@ -64,6 +64,7 @@ export const ListGroup = styled.div`
 const DragHandle = styled.div`
   cursor: grab;
   height: auto;
+  font-size: 20px;
 `;
 
 // components/Group/TodoContent.js
@@ -508,13 +509,13 @@ const TodoContent = ({ github, figma }) => {
                                 {/* 드래그 아이콘 */}
                                 <DragHandle {...provided.dragHandleProps}>☰</DragHandle>
                                 {/* 할 일 내용 */}
-                                <span style={{ width: '100%' }}>
+                                <span style={{ width: '100%', marginTop: '4px' }}>
                                   {task.content}
                                 </span>
                                 <div style={{
                                   display: 'flex',
                                   justifyContent: 'center',
-                                  alignItems: 'start'
+                                  alignItems: 'start', marginTop: '4px'
 
                                 }}>
                                   {/* 수정 버튼 */}
@@ -531,7 +532,7 @@ const TodoContent = ({ github, figma }) => {
                                     }}
                                     size={15}
                                     style={{
-                                      width: '15px', height: '15px'
+                                      width: '15px', height: '15px', marginTop: '1px'
                                     }}
                                   />
                                 </div>
