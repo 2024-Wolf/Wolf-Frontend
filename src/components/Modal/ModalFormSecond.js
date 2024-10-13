@@ -13,11 +13,10 @@ const ModalOverlay = styled.div`
     justify-content: center;
     align-items: center;
     padding: 40px;
-    z-index: 10000;
+    z-index: 10001;
     flex-direction: column;
     gap: 5px;
 `;
-
 
 // components/Declaration.js, components/Group/TodoContent.js
 export const ModalContainer = styled.form`
@@ -50,7 +49,7 @@ export const ModalContainer = styled.form`
   }
 `;
 
-const ModalForm = ({ containerStyle, children, onClose, isModalOpen, onSubmit, focusRef, style, ...props }) => {
+const ModalFormSecond = ({ containerStyle, children, onClose, isModalOpen, onSubmit, focusRef, style, ...props }) => {
     const [isOverflow, setIsOverflow] = useState(false);
 
     // 포커스 대상 useRef 설정하는 법, 부모에서 작성하고 focusRef에 전달하면 됨
@@ -130,4 +129,4 @@ const ModalForm = ({ containerStyle, children, onClose, isModalOpen, onSubmit, f
     );
 };
 
-export default ModalForm;
+export default ModalFormSecond;

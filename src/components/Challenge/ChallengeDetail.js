@@ -23,7 +23,7 @@ export const ChallengeDetailContainer = styled.div`
   position: relative;
   justify-content: space-between;
   align-items: center;
-  padding: 0px 40px;
+  padding: 30px 40px;
   
   @media (max-width: 768px) {
     padding: 15px;

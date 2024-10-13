@@ -4,7 +4,7 @@ import {
   Black200BackgroundButton,
   ModalBackground,
   ModalContainer4,
-  Title7,
+  TitleDiv,
   Category3,
   SubTitle,
   PortfolioRow,
@@ -127,7 +127,7 @@ const ApplicantModal = ({ onClose, onSubmit, applicant, isView }) => {
     // 포트폴리오 링크 유효성 검사
     setIsValid(
       modalData.portfolioLink.startsWith("http://") ||
-        modalData.portfolioLink.startsWith("https://")
+      modalData.portfolioLink.startsWith("https://")
     );
     setIsPortfolioValid(isValid);
 
@@ -165,7 +165,7 @@ const ApplicantModal = ({ onClose, onSubmit, applicant, isView }) => {
           }}
           onClick={onClose}
         />
-        <Title7>프로젝트</Title7>
+        <TitleDiv>프로젝트</TitleDiv>
         <Category3>파이널 프로젝트 - 지금 2조</Category3>
 
         {isView ? (

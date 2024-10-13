@@ -1,25 +1,46 @@
 import styled from "styled-components";
-import { Container4, Modal, ModalHeader, Category2, ModalBody2, AuthOrganization, AuthCode, AuthWarning, ModalFooter, Buttons, CancelButton2, AuthButton } from "../GlobalStyledComponents";
+import {
+    CategoryMainTitle, Violet500LineDiv, ModalHeader, ModalBody2,
+    Violet500LineButton, ModalContentWrapper
+} from "../GlobalStyledComponents";
 
 import React from "react";
+import ModalForm from "../Modal/ModalForm";
+import CancelIcon from "../Icon/CancelIcon";
+import SelectButton from "../Button/SelectButton";
+import InputText from "../Input/InputText";
+import FormFieldSingle from "../Group/GroupComponent/FormFieldSingle";
+import TextAreaNoCss from "../Input/TextAreaNoCss";
 
 function ChallengeAuthModal(props) {
+
 
     const handleCancel = (e) => {
         props.clickFunc();
     }
 
     return (
-        <Container4>
-            <Modal>
+        <ModalForm isModalOpen={true}>
+            <CancelIcon
+                style={{
+                    position: "absolute",
+                    top: "16px",
+                    right: "16px",
+                }}
+                type='button'
+                onClick={handleCancel}
+            />
+
+            <ModalContentWrapper>
                 <ModalHeader>
-                    <Category2>챌린지 인증하기</Category2>
+                    <CategoryMainTitle>챌린지 인증하기</CategoryMainTitle>
+                    <p style={{ fontSize: '20px', fontWeight: 'bold' }}>기사 자격증 취득 챌린지</p>
                 </ModalHeader>
+
                 <ModalBody2>
-                    <p style={{ fontSize: '25px' }}>파이널 스터디 - 지금2조</p>
-                    <AuthOrganization>
-                        요청기관
-                        <select style={{ border: '1px solid #9787FF', width: '420px', height: '30px', float: 'right' }}>
+                    {/* 요청기관 */}
+                    <FormFieldSingle label={"요청기관"} FormLabelGroupStyle={{ marginTop: '0px' }}>
+                        <SelectButton style={{ width: '100%' }}>
                             <option>한국디자인진흥원</option>
                             <option>한국데이터산업진흥원</option>
                             <option>영화진흥위원회</option>
@@ -29,26 +50,41 @@ function ChallengeAuthModal(props) {
                             <option>한국광해광업공단</option>
                             <option>한국콘텐츠진흥원</option>
                             <option>한국산업인력공단</option>
-                        </select>
-                        <div style={{ clear: 'both' }}></div>
-                    </AuthOrganization>
-                    <AuthCode>
-                        자격증 번호
-                        <input style={{ border: '1px solid #9787FF', width: '420px', height: '30px', float: 'right' }} />
-                        <div style={{ clear: 'both' }}></div>
-                    </AuthCode>
-                    <AuthWarning>
-                        인증 시 유의사항
-                    </AuthWarning>
+                        </SelectButton>
+                    </FormFieldSingle>
+
+                    {/* 자격증 번호 */}
+                    <FormFieldSingle label={"자격증 번호"} FormLabelGroupStyle={{ marginTop: '0px' }}>
+                        <InputText />
+                    </FormFieldSingle>
+
+                    {/* 챌린지 인증시 유의사항 */}
+                    <Violet500LineDiv
+                        style={{ background: 'var(--violet500)', color: 'var(--violet000)', gap: '0px' }}
+                    >
+                        <FormFieldSingle
+                            labelStyle={{ color: 'var(--violet000)', minWidth: '80px' }}
+                            FormLabelGroupStyle={{ marginTop: '0px' }}
+                            label={"인증 시 유의사항"}>
+                        </FormFieldSingle>
+                        <TextAreaNoCss
+                            style={{ background: 'var(--violet500)', color: 'var(--violet000)' }}
+                            name="introduction"
+                            placeholder="모집에 대한 간단한 소개를 작성해주세요."
+                            value={
+                                `매일 최소 1시간 이상 학습 시간을 확보해야 합니다.\n` +
+                                `정해진 기간 내에 자격증 시험에 응시하지 않으면 챌린지 불참으로 간주됩니다.\n` +
+                                `진행 상황은 매주 반드시 공유해야 하며, 서로의 피드백을 존중해야 합니다.\n` +
+                                `자격증 취득을 위한 자료는 신뢰할 수 있는 출처에서 준비해야 합니다.\n`
+                            }
+                        />
+                    </Violet500LineDiv>
                 </ModalBody2>
-                <ModalFooter>
-                    <Buttons>
-                        <CancelButton2 onClick={handleCancel}>취소하기</CancelButton2>
-                        <AuthButton onClick={handleCancel}>인증하기</AuthButton>
-                    </Buttons>
-                </ModalFooter>
-            </Modal>
-        </Container4>
+                <Violet500LineButton type='button' onClick={handleCancel} style={{ margin: '0 auto' }}>
+                    인증하기
+                </Violet500LineButton>
+            </ModalContentWrapper>
+        </ModalForm>
     )
 }
 

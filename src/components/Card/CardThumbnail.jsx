@@ -27,7 +27,6 @@ export const CategoryContainer = styled.div`
         props.category === "스터디"
             ? 'var(--black600)'
             : 'var(--black600)'};
-    
 `;
 
 // components/Card/Category.jsx
@@ -46,13 +45,13 @@ export const CategoryTag = styled.span`
     left: 10px;
 `;
 
-const Category = ({ category }) => {
+const CardThumbnail = ({ style, category }) => {
     return (
-        <CategoryContainer category={category}>
+        <CategoryContainer style={style} category={category}>
             WOLF
-            <CategoryTag category={category}>{category}</CategoryTag>
+            {category && <CategoryTag category={category}>{category}</CategoryTag>}
         </CategoryContainer>
     );
 }
 
-export default Category;
+export default CardThumbnail;

@@ -287,18 +287,6 @@ const TodoContent = ({ github, figma }) => {
     openTaskModal();
   };
 
-  const handleGithubLinkSubmit = (event) => {
-    event.preventDefault(); // 폼 제출 및 이동 방지
-    alert(`깃허브 주소가 등록되었습니다: ${githubLink}`);
-  };
-
-  const handlefigmaLinkSubmit = (event) => {
-    event.preventDefault(); // 폼 제출 및 이동 방지
-
-    alert(`피그마 주소가 등록되었습니다: ${figmaLink}`);
-  };
-
-
   // 링크 수정 시작
   const editLinkStart = (index) => {
     setEditingLinkIndex(index);

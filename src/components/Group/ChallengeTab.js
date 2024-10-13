@@ -14,18 +14,21 @@ const ChallengeTab = () => {
   }
 
   return (
-    <ChallengeLists>
-      {detailOpen ?
-        <>
-          <ChallengeDetail clickFunc={handleDetail} />
-        </>
-        :
-        <>
-          <ChallengeList clickFunc={handleDetail} category="진행중" />
-          <ChallengeList clickFunc={handleDetail} category="완료" />
-          <ChallengeList clickFunc={handleDetail} category="진행 가능" />
-        </>}
-    </ChallengeLists>);
+    <>
+      <ChallengeLists>
+        {detailOpen ?
+          <>
+            <ChallengeDetail clickFunc={handleDetail} />
+          </>
+          :
+          <>
+            <ChallengeList clickFunc={handleDetail} category="진행중" />
+            <ChallengeList clickFunc={handleDetail} category="완료" />
+            <ChallengeList clickFunc={handleDetail} category="진행 가능" />
+          </>}
+      </ChallengeLists>
+    </>
+  );
 };
 
 export default ChallengeTab;
