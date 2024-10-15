@@ -219,26 +219,26 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
     setContentsType("viewing");
   };
 
-  //인원 총 합계
+  // 인원 총 합계
   const calculateTotalMemberCount = (recruitmentList) => {
     const total = recruitmentList.reduce(
       (total, item) => total + item.count,
       0
     );
 
-    if (total >= 9) {
+    // 10명 이상일 경우 경고 및 추가되지 않도록 조치
+    if (total >= 10) {
       alert("선택과 집중을 위해 인원은 10명 미만까지 받고 있습니다.");
-      return 9; // 9명 이상은 추가되지 않도록 제한
+      return total; // 여기선 총합을 그대로 반환
     }
 
-    return total;
+    return total; // 조건에 부합할 경우 총합 반환
   };
 
-  // 추가버튼
+  // 추가 버튼
   const addRecruitment = (e) => {
     e.preventDefault();
 
-    // 중복 검사
     const isDuplicate = newGroupData.recruitmentList.some(
       (item) =>
         item.job === newGroupData.selectedJob ||
@@ -250,7 +250,6 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
       return; // 중복일 경우 추가하지 않음
     }
 
-    // 직군과 인원 수가 유효한 경우
     if (newGroupData.selectedJob && newGroupData.selectedCount > 0) {
       const newRecruit = {
         job: newGroupData.selectedJob,
@@ -261,19 +260,19 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
         ...newGroupData.recruitmentList,
         newRecruit,
       ];
+
       const totalMemberCount = calculateTotalMemberCount(
         updatedRecruitmentList
       );
 
-      if (totalMemberCount > 9) {
-        alert("총 인원 수는 9명을 초과할 수 없습니다.");
-        return; // 9명 초과할 경우 추가하지 않음
+      if (totalMemberCount >= 10) {
+        return; // 총 인원 수가 10명을 초과할 수 없도록 처리
       }
 
       setNewGroupData((prevData) => ({
         ...prevData,
         recruitmentList: updatedRecruitmentList,
-        totalMemberCount: calculateTotalMemberCount(updatedRecruitmentList),
+        totalMemberCount: totalMemberCount, // 상태 업데이트
         selectedJob: "",
         selectedCount: 0,
       }));
