@@ -376,6 +376,7 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
 
   // 사용자 권한 변경 함수
   const handlePositionChange = (userId, newPosition) => {
+    //현재 모집장 확인
     const currentMasterId = memberState.find(
       (user) => user.position === "master"
     )?.id;
@@ -389,13 +390,14 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
     const updatedMembers = memberState.map((user) =>
       user.id === userId ? { ...user, position: newPosition } : user
     );
-    console.log("Updated members:", updatedMembers); // 상태가 제대로 업데이트되는지 확인
-    setMemberState(updatedMembers); // 상태 업데이트`
-  };
 
-  useEffect(() => {
-    console.log("Updated memberState:", memberState);
-  }, [memberState]);
+    setMemberState(updatedMembers); // 상태 업데이트
+
+    // 성공적으로 권한이 변경되었음을 알림
+    alert(
+      `권한이 성공적으로 변경되었습니다! ${newPosition}로 변경된 사용자 ID: ${userId}`
+    );
+  };
 
   return (
     <GroupInfoContentsWrapper>
@@ -803,7 +805,7 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
                     </FormFieldMultiple>
                     <FormFieldMultiple label={"권한"} className="roleSelect">
                       <SelectButton
-                        value={user.position}
+                        defaultValue={user.position}
                         disabled={contentsType === "viewing"}
                         onChange={(e) =>
                           handlePositionChange(user.id, e.target.value)
