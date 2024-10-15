@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import FormFieldMultiple from "./FormFieldMultiple";
 import FormFieldSingle from "./FormFieldSingle";
@@ -185,9 +185,7 @@ const JobCountInfo = styled.span`
 const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
   const [contentsType, setContentsType] = useState(contentType); // 상태 추가 ('writing', 'editing', 'viewing' 중 하나)
   const navigate = useNavigate();
-  //const [editIndex, setEditIndex] = useState(null); // 수정할 인덱스
-  //const [editJob, setEditJob] = useState(""); // 수정할 직군
-  //const [editCount, setEditCount] = useState(0); // 수정할 인원 수
+  const [memberState, setMemberState] = useState(memberData || []);
 
   const initialGroupData = {
     groupType: "study",
@@ -375,6 +373,29 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
       totalMemberCount: calculateTotalMemberCount(updatedRecruitmentList),
     }));
   };
+
+  // 사용자 권한 변경 함수
+  const handlePositionChange = (userId, newPosition) => {
+    const currentMasterId = memberState.find(
+      (user) => user.position === "master"
+    )?.id;
+
+    if (newPosition === "master" && currentMasterId) {
+      alert("이미 다른 사용자가 모집장입니다.");
+      return; // 새로운 모집장이 설정되지 않음
+    }
+
+    // 권한을 수정
+    const updatedMembers = memberState.map((user) =>
+      user.id === userId ? { ...user, position: newPosition } : user
+    );
+    console.log("Updated members:", updatedMembers); // 상태가 제대로 업데이트되는지 확인
+    setMemberState(updatedMembers); // 상태 업데이트`
+  };
+
+  useEffect(() => {
+    console.log("Updated memberState:", memberState);
+  }, [memberState]);
 
   return (
     <GroupInfoContentsWrapper>
@@ -742,7 +763,7 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
           required
         />
       </GroupInfoContainer>
-      {memberData && (
+      {memberState && (
         <>
           <hr style={{ border: "1px solid var(--black200)" }} />
           <GroupInfoContainer>
@@ -760,7 +781,7 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
               모임원 관리
             </FormTitle>
             <div>
-              {memberData?.map((user) => (
+              {memberState?.map((user) => (
                 <MemberInfo key={user.id}>
                   <ProfileIcon /*src="" alt=""*/ className="UserDetails">
                     {user.name}
@@ -782,8 +803,11 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
                     </FormFieldMultiple>
                     <FormFieldMultiple label={"권한"} className="roleSelect">
                       <SelectButton
-                        defaultValue={user.position}
+                        value={user.position}
                         disabled={contentsType === "viewing"}
+                        onChange={(e) =>
+                          handlePositionChange(user.id, e.target.value)
+                        }
                       >
                         <option value="master">모집장</option>
                         <option value="member">모집원</option>
