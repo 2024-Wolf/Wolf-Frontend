@@ -7,7 +7,7 @@ import SearchBar from "../components/MainPageComponents/SearchBar/SearchBar";
 import DateButton from "../components/Button/DateButton";
 import MainOptionButton from "../components/Button/MainOptionButton";
 import cards from "../components/Data/CardData";
-import { getGroupPosts, registerGroupPost } from "../components/Apis/GroupPostApi";
+import { getGroupPosts, updateGroupPost, registerGroupPost } from "../components/Apis/GroupPostApi";
 
 // pages/Main.js
 export const SearchContainer = styled.div`
@@ -60,7 +60,7 @@ const groupPost = {
 
 const Main = () => {
     useEffect(() => {
-        //registerGroupPost(groupPost);
+        updateGroupPost(groupPost);
     }, [])
 
     const banners = [
