@@ -14,6 +14,7 @@ import {
   ButtonGroupRight,
   ButtonGroupWrap,
   DoubleDateContainer,
+  Violet500LineButton,
 } from "../../GlobalStyledComponents";
 import InputText from "../../Input/InputText";
 import InputNumber from "../../Input/InputNumber";
@@ -135,6 +136,50 @@ const ImagePlaceholder = styled.div`
   width: 90%;
   gap: 10px;
   margin: 0 20px;
+`;
+
+const RecruitmentContainer = styled.div`
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 8px;
+`;
+
+const RecruitmentHeader = styled.h1`
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 15px;
+`;
+
+const RecruitmentItemWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  margin-bottom: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  background-color: #fff;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #f1f1f1;
+  }
+`;
+
+const JobCountInfo = styled.span`
+  display: flex;
+  align-items: center; // 중앙 정렬
+  font-weight: bold; // 두껍게 텍스트 스타일링
+  color: #6c63ff; // 직군에 사용할 색상
+  margin-right: 5px; // 직군과 인원 수 사이의 간격
+  border: 1px solid #eee;
+  margin: 0 auto;
+
+  /* 인원 수 스타일 */
+  span {
+    font-size: 14px; // 인원 수의 글자 크기
+    color: #555; // 색상
+  }
 `;
 
 const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
@@ -590,60 +635,67 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
                     <option value="8">8</option>
                   </SelectButton>
                 </FormFieldSingle>
-                <button onClick={addRecruitment}>추가하기</button>
+                <Violet500LineButton onClick={addRecruitment}>
+                  추가하기
+                </Violet500LineButton>
               </FormFieldRow>
             </>
           ) : (
             <></>
           )}
         </FormFieldRow>
-        {newGroupData.groupType === "project" && (
-          <div>
-            <h2>모집 직군 목록</h2>
-            {newGroupData.recruitmentList.length === 0 ? (
-              <p>추가된 모집 직군이 없습니다.</p>
-            ) : (
-              newGroupData.recruitmentList.map((item, index) => (
-                <div key={index}>
-                  {newGroupData.editIndex === index ? (
-                    <>
-                      <input
-                        type="number"
-                        value={newGroupData.editCount}
-                        onChange={(e) =>
-                          setNewGroupData((prevData) => ({
-                            ...prevData,
-                            editCount: Number(e.target.value),
-                          }))
-                        }
-                      />
-                      <button onClick={saveEdit}>저장</button>
-                      <button
-                        onClick={() =>
-                          setNewGroupData((prevData) => ({
-                            ...prevData,
-                            editIndex: null,
-                            editJob: "",
-                            editCount: 0,
-                          }))
-                        }
-                      >
-                        취소
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      {jobTitleMapping[item.job] || item.job} | {item.count}명
-                      <button onClick={() => startEdit(index)}>수정</button>
-                      <button onClick={() => deleteRecruitment(index)}>
-                        삭제
-                      </button>
-                    </>
-                  )}
-                </div>
-              ))
-            )}
-          </div>
+        {newGroupData.groupType === "project" &&
+        newGroupData.recruitmentList?.length > 0 ? (
+          <RecruitmentContainer>
+            <RecruitmentHeader>모집 직군 목록</RecruitmentHeader>
+            {newGroupData.recruitmentList.map((item, index) => (
+              <RecruitmentItemWrapper key={index}>
+                {newGroupData.editIndex === index ? (
+                  <>
+                    <input
+                      type="number"
+                      value={newGroupData.editCount}
+                      onChange={(e) =>
+                        setNewGroupData((prevData) => ({
+                          ...prevData,
+                          editCount: Number(e.target.value),
+                        }))
+                      }
+                    />
+                    <Violet500LineButton onClick={saveEdit}>
+                      저장
+                    </Violet500LineButton>
+                    <Violet500LineButton
+                      onClick={() =>
+                        setNewGroupData((prevData) => ({
+                          ...prevData,
+                          editIndex: null,
+                          editJob: "",
+                          editCount: 0,
+                        }))
+                      }
+                    >
+                      취소
+                    </Violet500LineButton>
+                  </>
+                ) : (
+                  <JobCountInfo>
+                    {jobTitleMapping[item.job] || item.job} | {item.count}명
+                    <Violet500LineButton onClick={() => startEdit(index)}>
+                      수정
+                    </Violet500LineButton>
+                    <Violet500LineButton
+                      onClick={() => deleteRecruitment(index)}
+                    >
+                      삭제
+                    </Violet500LineButton>
+                  </JobCountInfo>
+                )}
+              </RecruitmentItemWrapper>
+            ))}
+          </RecruitmentContainer>
+        ) : (
+          <p>추가된 모집 직군이 없습니다.</p>
         )}
       </GroupInfoContainer>
       <hr style={{ border: "1px solid var(--black200)" }} />
