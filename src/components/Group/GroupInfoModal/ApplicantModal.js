@@ -177,16 +177,7 @@ const ApplicantModal = ({ onClose, onSubmit, applicant, isView }) => {
     }
   };
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(modalData.portfolioLink) // 클립보드에 input 값 복사
-      .then(() => {
-        alert('링크가 복사되었습니다');
-      })
-      .catch((err) => {
-        alert('링크 복사가 실패하였습니다');
-        console.error('복사 오류:', err);
-      });
-  };
+
 
   // const toggleButtonClick = (index) => {
   //   setNewFormData(prevState => {
@@ -436,7 +427,7 @@ const ApplicantModal = ({ onClose, onSubmit, applicant, isView }) => {
           </Div>
           {isView ? (
             <>
-              <CopyButton onClick={handleCopy}>
+              <CopyButton copyTarget={modalData.portfolioLink}>
               </CopyButton>
             </>
           ) : (

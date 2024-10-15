@@ -88,6 +88,13 @@ export const ActionButtons = styled.div`
         font-size: 14px;
     }
 `;
+export const ModalOverlayImg = styled.img`
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 10px;
+`;
+
+
 
 const ImagePreview = (({
     children,
@@ -103,6 +110,9 @@ const ImagePreview = (({
     isSubmitButtonAppear,
     imageFile,
     questionId,
+    imgStyle,
+    ImagePlaceholderStyle,
+    ModalOverlayImgStyle,
     ...props // 나머지 props를 받을 수 있도록
 }
 ) => {
@@ -201,8 +211,11 @@ const ImagePreview = (({
                         gap: "5px",
                     }}>
                         {src ? (
-                            <ImagePlaceholder hasImage={true}>
+                            <ImagePlaceholder
+                                style={ImagePlaceholderStyle}
+                                hasImage={true}>
                                 <Image
+                                    style={imgStyle}
                                     src={src} // src는 미리 정의한 URL 또는 기본 이미지 URL
                                     alt={alt} // alt는 미리 정의한 설명
                                     onClick={() => { handleImageClick(imageFile) }} // 이미지 클릭 시 행동
@@ -229,16 +242,15 @@ const ImagePreview = (({
                             })
                         )}
 
-
                         {/* 이미지 모달 */}
                         {isImageModalOpen && (
                             <>
                                 <ModalOverlay onClick={() => setIsImageModalOpen(false)}>
                                     Click :  화면 종료
-                                    <img
+                                    <ModalOverlayImg
+                                        style={ModalOverlayImgStyle}
                                         alt="확대된 이미지"
                                         src={modalImage}
-                                        style={{ maxWidth: '90%', maxHeight: '90%', borderRadius: '10px' }}
                                     />
                                 </ModalOverlay>
                             </>

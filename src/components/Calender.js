@@ -238,7 +238,7 @@ const TodayButton = styled.button`
     padding: 5px 10px;
     border: none;
     border-radius: 5px;
-    background-color: var(--violet600);
+    background-color: var(--violet500);
     color: white;
     font-size: 15px;
     white-space: nowrap;

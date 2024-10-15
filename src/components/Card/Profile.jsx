@@ -26,10 +26,11 @@ export const ProfileImg = styled.img`
     border-radius: 50%;
 `;
 
-const Profile = ({ imgSrc, name }) => {
+const Profile = ({ imgSrc = "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png",
+    name, style, ProfileContainerStyle }) => {
     return (
-        <ProfileContainer>
-            <ProfileImg src={imgSrc} alt="profile" />
+        <ProfileContainer style={ProfileContainerStyle}>
+            <ProfileImg src={imgSrc} alt="profile" style={style} />
             <span>{name}</span>
         </ProfileContainer>
     );

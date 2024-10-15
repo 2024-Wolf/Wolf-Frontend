@@ -9,7 +9,7 @@ import {
   Violet500LineButton,
   TodoHeader, ButtonGroupRight,
   ColumnContainer, Column, TodoItem, ModalTitle, Modaldescription, TodoPlus,
-  LinkInputForm, TaskStatus, Violet500BackgroundButton,
+  LinkInputForm, TaskStatus, Violet400BackgroundButton,
   ContentsWrapper
 } from "../GlobalStyledComponents";
 
@@ -496,7 +496,7 @@ const TodoContent = ({ github, figma }) => {
                       width: '90%',
                       margin: '10px auto 0px auto',
                     }} />
-                    <Column ref={provided.innerRef} {...provided.droppableProps}>
+                    <Column ref={provided.innerRef} {...provided.droppableProps} style={{ padding: '10px', gap: '10px' }}>
                       {/* '기획 중', '진행 중', '완료' 제목 */}
                       <TaskStatus>{status}</TaskStatus>
                       {/* 할 일 목록 리스트 */}
@@ -601,9 +601,9 @@ const TodoContent = ({ github, figma }) => {
                     <Violet500LineButton type="button" onClick={editLinkCancel} >
                       취소
                     </Violet500LineButton>
-                    <Violet500BackgroundButton onClick={editLinkFinish} disabled={!isValidURL(newLink.url)}>
+                    <Violet400BackgroundButton onClick={editLinkFinish} disabled={!isValidURL(newLink.url)}>
                       완료
-                    </Violet500BackgroundButton>
+                    </Violet400BackgroundButton>
                   </LinkButtonGroup>
                 </LinkInputDirection>
               ) : (

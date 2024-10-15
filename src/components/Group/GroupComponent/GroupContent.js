@@ -6,7 +6,7 @@ import FormFieldMultiple from "./FormFieldMultiple";
 import FormFieldSingle from "./FormFieldSingle";
 import DateButton from "../../Button/DateButton";
 import SelectButton from "../../Button/SelectButton";
-import { MemberInfo, FormFieldRow, FormTitle, ButtonGroupCenter, ButtonGroupRight, ButtonGroupWrap, DoubleDateContainer } from "../../GlobalStyledComponents";
+import { MemberInfo, FormFieldRow, FormTitle, ButtonGroupCenter, ButtonGroupRight, ButtonGroupWrap, DoubleDateContainer, Violet500LineButton, ButtonGroupLeft } from "../../GlobalStyledComponents";
 import InputText from "../../Input/InputText";
 import InputNumber from "../../Input/InputNumber"
 import TextArea from "../../Input/TextArea";
@@ -19,6 +19,7 @@ import { useNavigate } from 'react-router-dom';
 import ProfileIcon from "../../Icon/ProfileIcon";
 import ImagePreview from "../../Img/ImagePreview";
 import FormCheckBoxButton from "../../Button/FormCheckBoxButton"
+import WithdrawalButton from "../../Button/WithdrawalButton";
 
 // 사용자 이름
 // components/Group/GroupManageContent.js, components/Group/GroupComponent/GroupWritingContent.jsx
@@ -170,16 +171,6 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
         }));
     };
 
-
-    const deleteGroupHandler = () => {
-        // eslint-disable-next-line no-restricted-globals
-        if (confirm("모임을 삭제하시겠습니까?")) {
-            alert("모임이 삭제되었습니다");
-            navigate("/");
-        } else {
-        }
-    };
-
     const toggleButtonClick = (index) => {
         setNewGroupData(prevState => {
             const newButtons = prevState.buttons.map((button, idx) =>
@@ -213,7 +204,17 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
                             <>
                                 {/* editing */}
                                 {/* 그룹 페이지 관리 탭 */}
-                                <span style={{ display: "flex", alignItems: "center", height: "35px", gap: "10px" }}>
+                                {/* editing */}
+                                {/* 그룹 페이지 관리 탭 */}
+                                <CancelButton
+                                    type="button"
+                                    style={{ width: '88.99px' }}
+                                    onClick={() => setContentsType('viewing')} />
+                                <SaveButton
+                                    type="button"
+                                    style={{ width: '88.99px' }}
+                                    onClick={handleSaveClick} />
+                                <span style={{ display: "flex", alignItems: "center", height: "35px", gap: "10px", width: '88.99px' }}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                         <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                                         <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
@@ -230,8 +231,6 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
                             <>
                                 {/* viewing */}
                                 <EditButton onClick={handleEditClick} />
-                                <DeleteButton onClick={deleteGroupHandler} />
-
                             </>
 
                         )}
@@ -491,17 +490,14 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
             <ButtonGroupCenter>
                 {contentsType === 'editing' ? (
                     <>
-                        {/* editing */}
-                        {/* 그룹 페이지 관리 탭 */}
-                        <SaveButton onClick={handleSaveClick} />
-                        <CancelButton onClick={() => setContentsType('viewing')} />
+
                     </>
                 ) : contentsType === 'writing' ? (
                     <>
                         {/* writing */}
                         {/* 팀원 모집하기 페이지 */}
-                        <CompleteButton />
-                        <CancelButton onClick={() => window.history.back()} />
+                        <CompleteButton type="submit" style={{ width: '88.99px' }} />
+                        <CancelButton onClick={() => window.history.back()} style={{ width: '88.99px' }} />
                     </>
                 ) : (
                     <>

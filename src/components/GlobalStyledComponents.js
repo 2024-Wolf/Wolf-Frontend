@@ -741,6 +741,7 @@ export const PageTitle = styled.h2`
   font-size: 26px;
   color: var(--black800);
   padding: 10px;
+  width: 100%;
 `;
 
 // components/Group/GroupComponent/GroupWritingContent.jsx
@@ -1492,21 +1493,6 @@ export const OptionButtonGroup = styled.div`
   align-items: center;
 `;
 
-// components/Declaration.js, components/MemberEvaluation.js
-export const CancelButton = styled.button`
-  background-color: white;
-  color: #8578d8;
-  border: 1px solid #8578d8;
-  border-radius: 5px;
-  padding: 8px 20px;
-  font-size: 12px;
-
-  &:hover {
-    background-color: #cec6ff;
-    color: white;
-  }
-`;
-
 // components/ChallengeModal/ChallengeApplyModal.js, components/ChallengeModal/ChallengeAuthModal.js,
 // components/ChallengeModal/ChallengePayCompleteModal.js, components/ChallengeModal/ChallengePayModal.js
 // components/ChallengeModal/ChallengeResultModal.js
@@ -1530,42 +1516,8 @@ export const CancelButton3 = styled(Button)`
   color: var(--violet800);
 `;
 
-// components/ActivityScore/ActivityScoreBar.jsx
-export const BarContainer = styled.div`
-  width: 100%;
-`;
 
-// components/ActivityScore/ActivityScoreBar.jsx
-export const BarWrapper = styled.div`
-  width: 100%;
-  background-color: #e0e0e0;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  margin: 10px 0;
-`;
 
-// components/ActivityScore/ActivityScoreBar.jsx
-export const BarFiller = styled.div`
-  background-color: var(--violet300);
-  width: ${(props) => props.width};
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  color: var(--black800);
-  border-radius: 5px 0 0 5px;
-  font-size: 14px;
-  font-weight: 500;
-  padding: 10px;
-`;
-
-// components/ActivityScore/ActivityScoreBar.jsx
-export const BarLabel = styled.span`
-  padding: 0 10px;
-  font-size: 16px;
-  color: var(--black800);
-`;
 
 // components/SignInContent/ThirdProcessContent.jsx
 export const CategoryWrapper2 = styled.div`
@@ -1970,7 +1922,7 @@ export const ResultDetail = styled.div`
 // components/MyPageComponents/UserInfoContent.js
 export const Wrapper3 = styled(ContentsWrapper)`
   gap: 20px;
-  padding: 50px 35px;
+padding: 30px 40px;
   ${responsivePadding}
 `;
 
@@ -2307,32 +2259,17 @@ export const ColumnContainer = styled.div`
 
 // components/Group/TodoContent.js
 export const Column = styled.div`
-  display: flex;
-  flex-direction: column;
-  background-color: white;
-  padding: 10px;
-  border-radius: 8px;
-  min-height: 200px;
-  width: 33.3%;
-  gap: 10px;
-  color: var(--black600);
-
-  @media (max-width: 768px) {
-    width: 100%;
-  }
-`;
-
-// components/MyPageComponents/UserInfoContent.js
-export const Column2 = styled.div`
   width: 48%;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
 
   @media (max-width: 768px) {
     width: 100%;
   }
 `;
+
+
 
 // components/Group/TodoContent.js
 export const TodoItem = styled.div`
@@ -2493,6 +2430,15 @@ export const ModalTaskInput = styled.div`
 
 // components/Group/TodoContent.js
 export const LinkInputForm = styled.form`
+  display: flex;
+  align-items: start;
+  font-size: 14px;
+  gap: 10px;
+`;
+
+
+// components/Group/TodoContent.js
+export const LinkInputDiv = styled.div`
   display: flex;
   align-items: start;
   font-size: 14px;
@@ -2890,11 +2836,11 @@ export const Line = styled.div`
   border-left: 1px dotted var(--black500);
 
   @media (max-width: 768px) {
-    left: 45px;
+    left: 53px;
   }
 
   @media (max-width: 480px) {
-    left: 35px;
+    left: 34px;
   }
 `;
 
@@ -2924,23 +2870,20 @@ export const EventMarker = styled.div`
   height: 8px;
   background-color: var(--black800);
   border-radius: 50%;
-
-  @media (max-width: 480px) {
-    width: 6px;
-    height: 6px;
-  }
 `;
 
 // components/MyPageComponents/NotificationContent.js
 export const EventContent = styled.div`
   border: 1px solid var(--violet400);
-  border-radius: 5px;
+  border-radius: 7px;
   background-color: white;
   width: 100%;
   padding: 15px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  min-height: 80px;
+  gap: 10px;
 
   @media (max-width: 768px) {
     padding: 10px;
@@ -2950,20 +2893,27 @@ export const EventContent = styled.div`
     flex-direction: column;
     align-items: flex-start;
     padding: 10px;
+    button {
+      width: 100%;
+    }
   }
 
   .title {
     display: flex;
     gap: 10px;
-    align-items: center;
+    align-items: end;
     margin-bottom: 10px;
+    justify-content: start;
+    text-wrap: nowrap;
+    flex-direction: row;
 
-    @media (max-width: 480px) {
-      margin-bottom: 5px;
+    @media (max-width: 270px) {
+      flex-direction: column;
+      align-items: start;
     }
   }
   .date {
-    font-size: 12px;
+    font-size: 14px;
     color: var(--black500);
   }
   strong {
@@ -2972,16 +2922,16 @@ export const EventContent = styled.div`
     font-weight: 600;
 
     @media (max-width: 480px) {
-      font-size: 14px;
+      font-size: 15px;
     }
   }
   p {
-    font-size: 14px;
+    font-size: 16px;
     color: var(--black800);
     margin: 5px 0;
 
     @media (max-width: 480px) {
-      font-size: 12px;
+      font-size: 15px;
     }
   }
 `;
@@ -3007,16 +2957,7 @@ export const EtcContentsWrapper = styled(ContentsWrapper3)`
   width: 100%;
 `;
 
-// components/MyPageComponents/UserInfoContent.js
-export const InputLabel = styled.label`
-  font-size: 18px;
-  font-weight: 500;
-  color: var(--black800);
 
-  @media (max-width: 480px) {
-    font-size: 16px;
-  }
-`;
 
 // components/SignInContent/FirstProcessContent.jsx, components/SignInContent/FourthProcessContent.jsx
 export const InputLabel2 = styled.div`
@@ -3037,13 +2978,18 @@ export const InputLabel2 = styled.div`
 `;
 
 // components/MyPageComponents/UserInfoContent.js
-export const ToggleBox = styled.input.attrs({ type: "select" })`
+export const ToggleBox = styled.select`
   background-color: var(--violet000);
   border: 1px solid var(--violet400);
   border-radius: 15px;
-  width: 150px;
+  width: auto;
   font-size: 16px;
+  text-align: center;
   color: var(--black800);
+  option {
+    font-size: 16px;
+    color: var(--black500);
+  }
 
   @media (max-width: 768px) {
     width: 100%;

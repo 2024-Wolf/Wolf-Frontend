@@ -8,10 +8,10 @@ const CompleteButtonWrapper = styled.button`
     ${Violet600BackgroundHover}
 `;
 
-const CompleteButton = ({ children, onClick }) => {
+const CompleteButton = ({ style, children, onClick }) => {
 
     return (
-        <CompleteButtonWrapper type="submit" onClick={onClick}>
+        <CompleteButtonWrapper type="submit" onClick={onClick} style={style}>
             등록
             {children}
         </CompleteButtonWrapper>

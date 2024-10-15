@@ -2,7 +2,7 @@ import axios from "axios";
 import { BASE_URL, accessToken } from "./Common";
 
 // 그룹 생성
-export function registerGroupPost(groupPost){
+export function registerGroupPost(groupPost) {
     axios.post(`${BASE_URL}/post`, {
         name: groupPost.name,
         leaderUser: groupPost.leader_user,
@@ -20,33 +20,33 @@ export function registerGroupPost(groupPost){
         description: groupPost.description,
         warning: groupPost.warning,
         challengeStatus: groupPost.challenge_status
-    },{
+    }, {
         headers: {
             Authorization: accessToken
         }
     })
-    .then(function(response){
-        // 받은 데이터로 수행할 작업
-        console.log(response);
-    })
-    .catch(function(error){
-        console.log(error);
-    });
+        .then(function (response) {
+            // 받은 데이터로 수행할 작업
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
 }
 
 // 그룹 조회
 // option = ("all", "study", "project")
-export function getGroupPosts(option){
-    axios.get(`${BASE_URL}/post/${option}`,{
-        headers:{
+export function getGroupPosts(option) {
+    axios.get(`${BASE_URL}/post/${option}`, {
+        headers: {
             Authorization: accessToken
         }
     })
-    .then(function(response){
-        // 받은 데이터로 수행할 작업
-        console.log(response);
-    })
-    .catch(function(error){
-        console.log(error);
-    });
+        .then(function (response) {
+            // 받은 데이터로 수행할 작업
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
 }
