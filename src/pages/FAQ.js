@@ -1,7 +1,5 @@
 import styled from 'styled-components';
-import { PageTitle, CommonButton } from "../components/GlobalStyledComponents";
-
-import FaqData from "../components/Data/FaqData";
+import { PageTitle } from "../components/GlobalStyledComponents";
 
 import ArrowDownIcon from '../components/Icon/ArrowDownIcon';
 import ArrowUpIcon from '../components/Icon/ArrowUpIcon';
@@ -78,41 +76,6 @@ export const FAQAnswer = styled.div`
     color: var(--black600);
 `;
 
-
-export const FAQTabs = styled.div`
-    display: flex;
-    justify-content: space-around;
-    margin: 0;
-    padding: 0;
-    border-bottom: 1px solid var(--black200);
-`;
-
-export const FAQTabButton = styled.button`
-    white-space: nowrap;
-    font-size: 18px;
-    width: auto;
-    text-align: center;
-    min-height: 50px;
-    background: none;
-    flex: 1;
-    outline: none;
-
-    color: ${(props) => (props.active ? 'var(--violet600)' : 'var(--black600)')};
-    background-color: ${(props) => (props.active ? '' : 'none')};
-    border-bottom: ${(props) => (props.active ? '2px solid var(--violet600)' : 'none')};
-
-    &:hover {
-        background-color: var(--black100);
-    }
-
-    @media (max-width: 768px) {
-        font-size: 17px;
-    }
-
-    @media (max-width: 480px) {
-        font-size: 16px;
-    }
-`;
 const FaqCategories = [
     { label: '계정', value: 'ACCOUNT' },
     { label: '스터디', value: 'STUDY' },
