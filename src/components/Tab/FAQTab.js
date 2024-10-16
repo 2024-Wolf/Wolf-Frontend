@@ -41,19 +41,19 @@ const FAQTabButton = styled.button`
 
 
 const FAQTab = ({ tab, activeTab, changeTab }) => {
-    return (
-        <FAQTabWrapper>
-            {tab.map((tab) => (
-                <FAQTabButton
-                    key={tab}
-                    active={activeTab === tab}
-                    onClick={() => changeTab(tab)}
-                >
-                    {tab}
-                </FAQTabButton>
-            ))}
-        </FAQTabWrapper>
-    );
+  return (
+    <FAQTabWrapper>
+      {tab.map((tab) => (
+        <FAQTabButton
+          key={tab}
+          active={activeTab === tab}
+          onClick={() => changeTab(tab)}
+        >
+          {tab}
+        </FAQTabButton>
+      ))}
+    </FAQTabWrapper>
+  );
 }
 
 export default FAQTab;

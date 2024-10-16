@@ -1,15 +1,16 @@
 import styled from "styled-components";
 import { PageTitle } from "../components/GlobalStyledComponents";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import UserInfoContent from "../components/MyPageComponents/UserInfoContent";
 import NotificationContent from "../components/MyPageComponents/NotificationContent";
 import ActivitiesContent from "../components/MyPageComponents/ActivitiesContent";
-
 import FAQTab from "../components/Tab/FAQTab";
-import Profile, { ProfileImg } from "../components/Card/Profile";
 import MyPageProfile from "../components/MyPageComponents/MyPageProfile";
 import ProfileImage from "../components/MyPageComponents/ProfileImage";
+
+
+import { isLoggedIn } from "../components/Apis/Common"
 
 // pages/MyPage.js
 const MyPageContainer = styled.div`
@@ -36,6 +37,12 @@ const MyPage = ({ contentType, whatTab = "계정" }) => {
     const [contentsType, setContentsType] = useState(contentType);
     // contentsType 상태 ('myselfEditing', 'strangerViewing', 'myselfViewing' 중 하나)
 
+    useEffect(() => {
+        const loggedIn = isLoggedIn(); // 로그인 상태 확인
+        console.log("로그인중이냐?: ", loggedIn); // 결과 출력
+    }, []);
+
+
     const renderTabContent = () => {
         switch (activeTab) {
             case "계정":
@@ -57,7 +64,10 @@ const MyPage = ({ contentType, whatTab = "계정" }) => {
     return (
         <>
             <MyPageContainer>
-                <PageTitle>마이페이지                </PageTitle>
+                <div>
+                    <h1>로그인 상태 확인</h1>
+                </div>
+                <PageTitle>마이페이지</PageTitle>
                 <MyPageProfile contentsType={contentsType} />
                 <ProfileImage />
 
