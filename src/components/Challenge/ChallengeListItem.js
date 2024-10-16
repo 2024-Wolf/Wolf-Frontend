@@ -1,9 +1,15 @@
 import styled from "styled-components";
-import { Violet400LineRoundButton, CardInfo, CardContainer, Top, Bottom, Title5, Date, Button5 } from "../GlobalStyledComponents";
+import { Violet400LineRoundButton, CardInfo, CardContainer, Bottom, } from "../GlobalStyledComponents";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import WebFont from "webfontloader";
 import CardThumbnail from "../Card/CardThumbnail";
+
+import ChallengeApplyModal from "../ChallengeModal/ChallengeApplyModal";
+import ChallengeAuthModal from "../ChallengeModal/ChallengeAuthModal";
+import ChallengeResultModal from "../ChallengeModal/ChallengeResultModal";
+import ChallengePayModal from "../ChallengeModal/ChallengePayModal";
+import ChallengePayCompleteModal from "../ChallengeModal/ChallengePayCompleteModal";
 
 export const ChallengeCardTitle = styled.p`
     font-size: 18px;
@@ -25,7 +31,41 @@ export const ChallengeCardTitle = styled.p`
 
 
 function ChallengeListItem(props) {
-    let topBgColor = props.category === "완료" ? "var(--black300)" : "var(--violet100)";
+    const [progressModalOn, setProressModalOn] = useState(false);
+
+    let topBgColor = props.item.status === "RESULT_CONFIRM" ? "var(--black300)" : "var(--violet100)";
+    let buttonText;
+
+    const ModalMap = {
+        "CERTIFICATION": ChallengeAuthModal,
+        "RESULT_CONFIRM": ChallengeResultModal,
+        "APPLY": ChallengeApplyModal,
+        "PARTICIPATE": ChallengePayModal,
+        "PAY": ChallengePayCompleteModal
+    }
+
+    switch(props.item.status){
+        case "PARTICIPATE":
+            buttonText = "참여하기";
+            break;
+        case "APPLY":
+            buttonText = "신청하기";
+            break;
+        case "PAY":
+            buttonText = "결제하기";
+            break;
+        case "RESULT_CONFIRM":
+            buttonText = "결과확인";
+            break;
+        case "CERTIFICATION":
+            buttonText = "인증하기"
+            break;
+        case "CERTIFICATION_COMPLETE":
+            buttonText = "인증완료"
+            break;
+        default:
+            break;
+    }
 
     // Kavoon font 불러오기
     useEffect(() => {
@@ -36,29 +76,41 @@ function ChallengeListItem(props) {
         });
     }, []);
 
-    const handleButton = (e) => {
+    function Modal(){
+        const ModalComponent = ModalMap[props.item.status];
+        return <ModalComponent item={props.item} cancel={() => setProressModalOn(false)} />;
+    }
+
+    function openProgressModal(e){
         e.stopPropagation();
-        props.clickFunc();
-    };
+        setProressModalOn(true);
+    }
+
+    function detailModalOn(){
+        props.setDetail(props.item);
+    }
 
     return (
         <>
-            <CardContainer
-                style={{ transform: 'none' }}
-                onClick={() => props.modalFunc()}>
-                <CardThumbnail style={{ backgroundColor: topBgColor }} />
-                <Bottom>
-                    <ChallengeCardTitle>{props.title}</ChallengeCardTitle>
-                    <CardInfo>
-                        <div>등록일 | 2024.09.15</div>
-                        <div>마감일 | 2024.12.15</div>
-                    </CardInfo>
-                    <Violet400LineRoundButton type="button" onClick={handleButton}>
-                        {props.buttonText}
-                    </Violet400LineRoundButton>
-                </Bottom>
-                {console.log('지금!', props)}
-            </CardContainer>
+            {progressModalOn ? Modal() : 
+                <div onClick={() => detailModalOn()}>
+                    <CardContainer
+                        style={{ transform: 'none' }}>
+                        <CardThumbnail style={{ backgroundColor: topBgColor }} />
+                        <Bottom>
+                            <ChallengeCardTitle>{props.item.challenge_title}</ChallengeCardTitle>
+                            <CardInfo>
+                                <div>등록일:{props.item.challenge_date.toLocaleDateString("en-CA")}</div>
+                                <div>마감일:{props.item.challenge_deadline.toLocaleDateString("en-CA")}</div>
+                            </CardInfo>
+                            <Violet400LineRoundButton onClick={openProgressModal} type="button" 
+                                disabled={props.item.status==="CERTIFICATION_COMPLETE" ? true : false}>
+                                {buttonText}
+                            </Violet400LineRoundButton>
+                        </Bottom>
+                    </CardContainer>
+                </div>
+            }    
         </>
     );
 }

@@ -1,5 +1,4 @@
-import styled from "styled-components";
-import { Container4, Modal, ModalHeader, Category2, ModalBody2, ModalFooter, Buttons, CancelButton2, PayButton, ModalContentWrapper, CategoryMainTitle, Violet500LineButton } from "../GlobalStyledComponents";
+import { ModalHeader, ModalContentWrapper, CategoryMainTitle, Violet500LineButton } from "../GlobalStyledComponents";
 
 import React, { useState } from "react";
 import ChallengePayCompleteModal from "./ChallengePayCompleteModal";
@@ -20,7 +19,7 @@ function ChallengePayModal(props) {
 
     return (
         <>
-            {completeModalOn && <ChallengePayCompleteModal clickFunc={props.clickFunc} />}
+            {completeModalOn && <ChallengePayCompleteModal clickFunc={props.cancel()} />}
             <ModalForm isModalOpen={true} onSubmit={handleSubmit} style={{ zIndex: '10001' }} >
                 <CancelIcon
                     style={{
