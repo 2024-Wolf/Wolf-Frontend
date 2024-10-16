@@ -7,7 +7,7 @@ import React from "react";
 const InputNumberWrapper = styled.input`
     ${Square}
     ${Violet500Line}
-    width: 45px;
+    width: 60px;
     padding: 5px 10px;
     text-align: center;
 `;
