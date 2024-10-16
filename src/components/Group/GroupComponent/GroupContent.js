@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import FormFieldMultiple from "./FormFieldMultiple";
 import FormFieldSingle from "./FormFieldSingle";
@@ -182,10 +182,9 @@ const JobCountInfo = styled.span`
   }
 `;
 
-const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
+const GroupContent = ({ contentType = "viewing", groupData }) => {
   const [contentsType, setContentsType] = useState(contentType); // 상태 추가 ('writing', 'editing', 'viewing' 중 하나)
   const navigate = useNavigate();
-  const [memberState, setMemberState] = useState(memberData || []);
 
   const initialGroupData = {
     groupType: "study",
@@ -204,7 +203,6 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
       { label: "포트폴리오 링크", clicked: false },
       { label: "자유기재", clicked: false },
     ],
-    totalMemberCount: 0,
     recruitmentList: [],
     selectedJob: "",
     selectedCount: "",
@@ -215,6 +213,8 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
     introduction: "",
     guidelines: "",
     fileName: "",
+    totalMemberCount: 0,
+    memberData: [],
   };
 
   const [newGroupData, setNewGroupData] = useState(
@@ -377,21 +377,21 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
   // 사용자 권한 변경 함수
   const handlePositionChange = (userId, newPosition) => {
     //현재 모집장 확인
-    const currentMasterId = memberState.find(
+    const currentMasterId = newGroupData.find(
       (user) => user.position === "master"
     )?.id;
 
     if (newPosition === "master" && currentMasterId) {
       alert("이미 다른 사용자가 모집장입니다.");
-      return; // 새로운 모집장이 설정되지 않음
+      return false; // 새로운 모집장이 설정되지 않음
     }
 
     // 권한을 수정
-    const updatedMembers = memberState.map((user) =>
+    const updatedMembers = newGroupData.map((user) =>
       user.id === userId ? { ...user, position: newPosition } : user
     );
 
-    setMemberState(updatedMembers); // 상태 업데이트
+    setNewGroupData(updatedMembers); // 상태 업데이트
 
     // 성공적으로 권한이 변경되었음을 알림
     alert(
@@ -553,7 +553,12 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
                   name="button"
                   value={button}
                   checked={button.clicked}
-                  disabled={contentsType === "viewing"}
+                  disabled={
+                    contentsType === "viewing" ||
+                    button.label === "이메일" ||
+                    button.label === "지원직군" ||
+                    button.label === "지원사유"
+                  }
                   onChange={(e) => {
                     console.log(toggleButtonClick(index));
                   }}
@@ -718,7 +723,7 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
             ))}
           </RecruitmentContainer>
         ) : (
-          <p>추가된 모집 직군이 없습니다.</p>
+          <></>
         )}
       </GroupInfoContainer>
       <hr style={{ border: "1px solid var(--black200)" }} />
@@ -765,8 +770,12 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
           required
         />
       </GroupInfoContainer>
-      {memberState && (
+      {contentType === "writing" ? (
+        <>{/* writing */}</>
+      ) : (
         <>
+          {/* viewing */}
+          {/* editing */}
           <hr style={{ border: "1px solid var(--black200)" }} />
           <GroupInfoContainer>
             <FormTitle>
@@ -775,7 +784,7 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
                 width="16"
                 height="16"
                 fill="currentColor"
-                class="bi bi-people-fill"
+                className="bi bi-people-fill"
                 viewBox="0 0 16 16"
               >
                 <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5" />
@@ -783,7 +792,8 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
               모임원 관리
             </FormTitle>
             <div>
-              {memberState?.map((user) => (
+              {console.log(newGroupData)}
+              {newGroupData.memberData.map((user) => (
                 <MemberInfo key={user.id}>
                   <ProfileIcon /*src="" alt=""*/ className="UserDetails">
                     {user.name}
@@ -818,6 +828,8 @@ const GroupContent = ({ contentType = "viewing", memberData, groupData }) => {
                   </FormFieldRow>
                 </MemberInfo>
               ))}
+              {/* recruitmentList가 정의되어 있는지와 배열인지 확인 */}
+              {Array.isArray(newGroupData.recruitmentList) ? <></> : <></>}
             </div>
           </GroupInfoContainer>
         </>
