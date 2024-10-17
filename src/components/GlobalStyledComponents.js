@@ -1385,6 +1385,7 @@ export const ModalContentWrapper = styled.div`
   display: flex;
   gap: 15px;
   flex-direction: column;
+  height: 100%;
 `;
 
 
@@ -1629,6 +1630,7 @@ export const CategoryTitle = styled.div`
   position: sticky;
   top: 0;
   z-index: 500;
+  border-radius: 0px 0px 5px 5px;
 `;
 
 // components/ChallengeModal/ChallengeApplyModal.js, components/ChallengeModal/ChallengePayCompleteModal.js,
@@ -1655,7 +1657,7 @@ export const Category3 = styled.div`
 export const MainCardListContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
-    gap: 27.5px;
+    gap: 17px;
     align-items: center;
     justify-content: start;
 
@@ -1672,22 +1674,22 @@ export const MainCardParentContainer = styled.div`
     gap: 27.5px;
     align-items: center;
     justify-content: start;
-    width: 1360px;
+    width: 1318px;
     margin: auto;
     // 카드 가로 5개
 
     @media (max-width: 1500px) {
-        width: 1084px;
+        width: 1051px;
         // 카드 가로 4개
     }
         
     @media (max-width: 1257px) {
-        width: 807px;
+        width: 784px;
         // 카드 가로 3개
     }
 
     @media (max-width: 964px) {
-        width: 530px;
+        width: 517px;
         // 카드 가로 2개
     }
 
@@ -1941,10 +1943,7 @@ export const ChallengeLists = styled(ContentsWrapper)`
   text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 40px;
-  @media (min-width: 1500px) {
-    border: none;
-  }
+  gap: 50px;
 `;
 
 // 전체 div 묶음

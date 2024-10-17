@@ -5,9 +5,9 @@ import ArrowDownIcon from '../components/Icon/ArrowDownIcon';
 import ArrowUpIcon from '../components/Icon/ArrowUpIcon';
 import PaginatedList from '../components/Pagination/PaginatedList';
 
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import FAQTab from "../components/Tab/FAQTab";
-import {getFaqByCategory} from "../components/Apis/FaqApi";
+import { getFaqByCategory } from "../components/Apis/FaqApi";
 
 const FAQContainer = styled.div`
     display: flex;
@@ -27,7 +27,7 @@ const FAQContent = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 5px;
 `;
 
 export const FAQList = styled.div`
@@ -77,11 +77,11 @@ export const FAQAnswer = styled.div`
 `;
 
 const FaqCategories = [
-    { label: '계정', value: 'ACCOUNT' },
-    { label: '스터디', value: 'STUDY' },
-    { label: '프로젝트', value: 'PROJECT' },
-    { label: '챌린지', value: 'CHALLENGE' },
-    { label: 'Etc', value: 'ETC' }
+  { label: '계정', value: 'ACCOUNT' },
+  { label: '스터디', value: 'STUDY' },
+  { label: '프로젝트', value: 'PROJECT' },
+  { label: '챌린지', value: 'CHALLENGE' },
+  { label: 'Etc', value: 'ETC' }
 ];
 
 const FAQ = () => {
@@ -124,9 +124,9 @@ const FAQ = () => {
         <FAQQuestion active={(openQuestion === index).toString()} onClick={() => toggleQuestion(index)}>
           <span>{faq.question}</span>
           {openQuestion === index ? (
-            <ArrowUpIcon isOpen={openQuestion === index}/>
+            <ArrowUpIcon isOpen={openQuestion === index} />
           ) : (
-            <ArrowDownIcon isOpen={openQuestion === index}/>
+            <ArrowDownIcon isOpen={openQuestion === index} />
           )}
         </FAQQuestion>
         {openQuestion === index && <FAQAnswer>{faq.answer}</FAQAnswer>}
