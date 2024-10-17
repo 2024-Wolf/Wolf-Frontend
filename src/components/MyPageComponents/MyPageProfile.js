@@ -22,8 +22,7 @@ const MyPageProfileWrapper = styled.div`
 
 const MyPageProfile = ({ contentsType, profileData }) => {
     const [selectedFile, setSelectedFile] = useState(null); // 사용자가 선택한 파일
-    const [previewUrl, setPreviewUrl] = useState(null);     // 미리보기 URL
-
+    const [profilePicture, setProfilePicture] = useState(profileData.profilePicture ? profileData.profilePicture : "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png");     // 미리보기 URL
 
     // 파일이 선택되었을 때 호출되는 함수
     const handleFileChange = (event) => {
@@ -34,7 +33,7 @@ const MyPageProfile = ({ contentsType, profileData }) => {
 
             // 파일 읽기가 완료되면 미리보기 URL 설정
             reader.onload = () => {
-                setPreviewUrl(reader.result);
+                setProfilePicture(reader.result);
             };
             reader.readAsDataURL(file);
         }
@@ -43,7 +42,7 @@ const MyPageProfile = ({ contentsType, profileData }) => {
     // 프로필 사진을 초기화하는 함수
     const handleReset = () => {
         setSelectedFile(null);
-        setPreviewUrl(null);
+        setProfilePicture(null);
     };
 
     // 서버로 전송하는 함수 (예시로 작성)
@@ -66,13 +65,14 @@ const MyPageProfile = ({ contentsType, profileData }) => {
 
     return (
         <MyPageProfileWrapper>
+            {console.log(profileData)}
             {contentsType == "strangerViewing" ? (<>
                 {/* strangerViewing */}
                 <ImagePreview
                     ImagePlaceholderStyle={{ margin: '0px' }}
                     imgStyle={{ width: '120px', height: '120px', borderRadius: '50%' }}
-                    src={profileData.profilePicture || "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"}
-                    imageFile={profileData.profilePicture || "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"}
+                    src={profilePicture}
+                    imageFile={profilePicture}
                 />
             </>) : (<>
                 {/* myselfViewing */}
@@ -81,8 +81,8 @@ const MyPageProfile = ({ contentsType, profileData }) => {
                     ProfileImgPlaceholderStyle={{ margin: '0px' }}
                     ProfileImgStyle={{ width: '120px', height: '120px', borderRadius: '50%' }}
                     isProfileImgEditButtonAppear={true}
-                    defaultImgSrc={profileData.profilePicture || "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"}
-                    imageFile={previewUrl ? previewUrl : "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"}
+                    defaultImgSrc={profilePicture}
+                    imageFile={profilePicture}
                     alt="Profile Preview"
                 />
             </>)}

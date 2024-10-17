@@ -9,7 +9,8 @@ import FAQTab from "../components/Tab/FAQTab";
 import MyPageProfile from "../components/MyPageComponents/MyPageProfile";
 
 import { getMyProfile } from '../components/Apis/UserApi';
-
+import LoadingSpiner from "../components/Loading/LoadingSpiner";
+import ErrorUI from "../components/Error/ErrorUI";
 
 // pages/MyPage.js
 const MyPageContainer = styled.div`
@@ -36,22 +37,39 @@ const MyPage = ({ contentType, whatTab = "계정" }) => {
     const [contentsType, setContentsType] = useState(contentType);
     // contentsType 상태 ('myselfEditing', 'strangerViewing', 'myselfViewing' 중 하나)
     const [profileData, setProfileData] = useState(null);
+
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchProfile = async () => {
             try {
+                setLoading(true);  // 로딩 상태 시작
+                setError(null);    // 에러 초기화
+
                 const data = await getMyProfile(); // getMyProfile 함수 호출
+
                 setProfileData(data.data); // 프로필 데이터 설정
             } catch (err) {
                 setError('프로필을 불러오는 데 실패했습니다.');
                 console.error(err);
+            } finally {
+                setLoading(false);  // 로딩 상태 종료
             }
         };
 
         fetchProfile(); // 프로필 데이터 가져오기
     }, []);
 
+    // 로딩 중 UI
+    if (loading) {
+        return <LoadingSpiner />;
+    }
+
+    // 에러 발생 UI
+    if (error) {
+        return <ErrorUI error={error} />;
+    }
 
     const renderTabContent = () => {
         switch (activeTab) {
@@ -70,30 +88,16 @@ const MyPage = ({ contentType, whatTab = "계정" }) => {
         setActiveTab(tab);
     };
 
-
-
     return (
         <>
             <MyPageContainer>
-                <div>
-                    {error && <p>{error}</p>}
-                    {profileData ? (
-                        <div>
-                            <h1>{profileData.name}</h1>
-                            <p>{profileData.email}</p>
-                            {/* 추가 프로필 정보 표시 */}
-                        </div>
-                    ) : (
-                        <p>로딩 중...</p>
-                    )}
-                </div>
                 <PageTitle>마이페이지</PageTitle>
                 <MyPageProfile contentsType={contentsType} profileData={profileData} />
                 <MyPageContent>
                     <FAQTab tab={["계정", "알림", "활동"]} activeTab={activeTab} changeTab={changeTab} />
                     {renderTabContent()}
                 </MyPageContent>
-            </MyPageContainer>
+            </MyPageContainer >
         </>
     );
 }

@@ -23,6 +23,7 @@ import CompleteButton from "../Button/CompleteButton";
 import SaveButton from "../Button/SaveButton";
 import CancelButton from "../Button/CancelButton";
 import CopyButton from "../Button/CopyButton";
+import InputNumber from "../Input/InputNumber"
 
 const DummyLinkData = [{
     github: {
@@ -37,7 +38,36 @@ const DummyLinkData = [{
     }
 }];
 
-const UserInfoContent = ({ contentsType, setContentsType, profileData }) => {
+const UserInfoContent = ({
+    contentsType,
+    setContentsType,
+    profileData
+}) => {
+    const [newProfileData, setNewProfileData] = useState({
+        id: 0,
+        nickname: "",
+        name: "",
+        email: "",
+        profilePicture: "",
+        activityMetric: {
+            totalStudyParticipation: 0,
+            memberExperienceCount: 0,
+            leaderExperienceCount: 0,
+            challengeSuccessCount: 0,
+            activityRatingGood: 0,
+            activityRatingSoso: 0,
+            activityRatingBad: 0
+        },
+        jobTitle: null,
+        organization: null,
+        experience: 0,
+        interests: null,
+        refundAccount: null,
+        introduction: null,
+        links: []
+    });
+
+
     const [isNickNamePossible, setIsNickNamePossible] = useState(false);
     const [isNickNameImpossible, setIsNickNameImpossible] = useState(false);
     const [links, setLinks] = useState(DummyLinkData || []);
@@ -45,82 +75,20 @@ const UserInfoContent = ({ contentsType, setContentsType, profileData }) => {
     const [editingLinkIndex, setEditingLinkIndex] = useState(null);
 
 
-    const [userInfo, setUserInfo] = useState({
-        name: profileData.name,
-        nickname: profileData.nickname,
-        account: profileData.refundAccount,
-        job: profileData.jobTitle,
-        company: profileData.organization,
-        career: profileData.experience,
-        introduce: profileData.introduction,
-        email: profileData.email,
+
+    const userLink = {
         github: {
             name: 'github',
             imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
-            url: profileData.links[0]
+            url: ''
         },
         figma: {
             name: 'figma',
             imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg',
-            url: profileData.links[1]
-        }
-    });
-
-    //     activityMetric
-    // 	activityRatingBad
-    // 	activityRatingGood
-    // 	activityRatingSoso
-    // 	challengeSuccessCount
-    // 	leaderExperienceCount
-    // 	memberExperienceCount
-    // 	totalStudyParticipation
-    // email
-    // experience
-    // id
-    // interests
-    // introduction
-    // jobTitle
-    // links
-    // name
-    // nickname
-    // organization
-    // profilePicture
-    // refundAccount
-
-    const handleNickName = (e) => {
-        e.preventDefault();
-
-        // 중복된 닉네임인지 검증하는 로직 구현이 필요함
-        if (true) {
-            // 닉네임 사용 가능
-            alert('사용 가능한 닉네임입니다')
-            setIsNickNamePossible(true);
-            setIsNickNameImpossible(false);
-
-        } else {
-            // 닉네임 사용 불가
-            alert('중복된 닉네임입니다')
-            setIsNickNameImpossible(true);
-            setIsNickNamePossible(false);
+            url: ''
         }
     };
 
-    const handleInputChange = (field, value) => {
-        setUserInfo(prev => ({
-            ...prev,
-            [field]: value
-        }));
-    };
-
-    const handleInputLinkChange = (field, value) => {
-        setUserInfo(prev => ({
-            ...prev,
-            [field]: {
-                ...prev[field],
-                url: value // URL만 업데이트
-            }
-        }));
-    };
 
     const handleEditClick = () => {
         setContentsType('myselfEditing');
@@ -140,18 +108,53 @@ const UserInfoContent = ({ contentsType, setContentsType, profileData }) => {
     };
 
 
+    const handleInputChange = (field, value) => {
+        setNewProfileData((prev) => ({
+            ...prev,
+            [field]: value
+        }));
+    };
+
+    const handleInputLinkChange = (field, value) => {
+        setNewProfileData(prev => ({
+            ...prev,
+            [field]: {
+                ...prev[field],
+                url: value // URL만 업데이트
+            }
+        }));
+    };
+
+    const handleNickName = (e) => {
+        e.preventDefault();
+
+        // 중복된 닉네임인지 검증하는 로직 구현이 필요함
+        if (true) {
+            // 닉네임 사용 가능
+            alert('사용 가능한 닉네임입니다')
+            setIsNickNamePossible(true);
+            setIsNickNameImpossible(false);
+
+        } else {
+            // 닉네임 사용 불가
+            alert('중복된 닉네임입니다')
+            setIsNickNameImpossible(true);
+            setIsNickNamePossible(false);
+        }
+    };
 
 
-    const InputField = ({ children, label, field }) => (
+    const InputField = ({ children, label, field, readOnly, onChange, type }) => (
         <>
             <Div>
                 <Label>{label}</Label>
                 <Row>
                     {children && children}
                     <InputText
-                        readOnly={!(contentsType === 'myselfEditing')}
-                        value={userInfo[field]}
-                        onChange={(e) => handleInputChange(field, e.target.value)}
+                        type={type ? type : 'text'}
+                        readOnly={readOnly ? readOnly : !(contentsType === 'myselfEditing')}
+                        value={newProfileData[field] ? `새${newProfileData[field]}` : `예전${profileData[field]}`} // value가 있을 때만 custom사용
+                        onChange={onChange ? onChange : (e) => handleInputChange(field, e.target.value)}
                     />
                 </Row>
             </Div>
@@ -172,7 +175,7 @@ const UserInfoContent = ({ contentsType, setContentsType, profileData }) => {
 
     const editLinkRefresh = (field) => {
         if (window.confirm("내용을 초기화 하시겠습니까?")) {
-            setUserInfo(prev => ({
+            setNewProfileData(prev => ({
                 ...prev,
                 [field]: {
                     ...prev[field],
@@ -253,9 +256,9 @@ const UserInfoContent = ({ contentsType, setContentsType, profileData }) => {
                             onClick={() => setContentsType('viewing')} />
                         {/* 수정 중 문구 */}
                         <span style={{ display: "flex", alignItems: "center", height: "35px", gap: "10px" }}>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil-square" viewBox="0 0 16 16">
                                 <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                                <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
                             </svg>
                             수정 중
                         </span>
@@ -278,8 +281,23 @@ const UserInfoContent = ({ contentsType, setContentsType, profileData }) => {
                     <SubTitle2>기본 정보</SubTitle2>
                     <ContentsRow>
                         <Column>
-                            <InputField label="이메일" field="email" />
-                            <InputField label="이름" field="name" />
+                            <Div>
+                                <Label>이메일</Label>
+                                <Row>
+                                    <InputText
+                                        type={'text'}
+                                        readOnly={!(contentsType === 'myselfEditing')}
+                                        value={newProfileData['email'] ? `${newProfileData['email']}` : `예전${profileData['email']}`} // value가 있을 때만 custom사용
+                                        onChange={(e) => handleInputChange('email', e.target.value)}
+                                    />
+                                </Row>
+                            </Div>
+                            <InputField
+                                label="이메일"
+                                field="email"
+                                type="email"
+                            />
+                            <InputField label="이름" field="name" readOnly={true} />
                         </Column>
                         <Column>
                             <Div>
@@ -343,7 +361,21 @@ const UserInfoContent = ({ contentsType, setContentsType, profileData }) => {
 
                     <InputField label="직무" field="job" />
                     <InputField label="소속" field="company" />
-                    <InputField label="경력" field="career" />
+                    <Div>
+                        <Label>경력</Label>
+                        <Row>
+                            <InputNumber
+                                readOnly={!(contentsType === 'myselfEditing')}
+                                style={{ textAlign: 'start' }}
+                                value={newProfileData['experience'] ? newProfileData['experience'] : profileData['experience']}
+                                onChange={handleInputChange}
+                                min={0}
+                                max={100}
+                                step={1} // 1단위로 증가/감소
+                            />
+                            <span style={{ height: '100%', lineHeight: '35px' }}>년</span>
+                        </Row>
+                    </Div>
                 </SubContentsWrapper>
             </ContentsRow >
 
@@ -352,14 +384,14 @@ const UserInfoContent = ({ contentsType, setContentsType, profileData }) => {
                 <Div>
                     <Label>자기 소개</Label>
                     <TextArea
-                        value={userInfo.introduce}
+                        value={newProfileData.introduce}
                         onChange={(e) => handleInputChange("introduce", e.target.value)}
                         disabled={!(contentsType === 'myselfEditing')}
                     />
                 </Div>
                 {/* LinkInput 컴포넌트 사용 */}
 
-                {[userInfo.github, userInfo.figma].map((link, index) => (
+                {[userLink.github, userLink.figma].map((link, index) => (
                     <LinkInputDiv key={index}>
                         <span style={{
                             width: '30px', textAlign: 'center', marginTop: '4px'
@@ -433,17 +465,19 @@ const UserInfoContent = ({ contentsType, setContentsType, profileData }) => {
                 ))
                 }
             </EtcContentsWrapper>
-            {contentsType === 'strangerViewing' ?
-                (<>
-                    {/* strangerViewing */}
-                </>)
-                : (<>
-                    {/* myselfEditing */}
-                    {/* myselfViewing */}
-                    <ButtonGroupLeft>
-                        <WithdrawalButton onClick={deleteUserHandler}>탈퇴하기</WithdrawalButton>
-                    </ButtonGroupLeft>
-                </>)}
+            {
+                contentsType === 'strangerViewing' ?
+                    (<>
+                        {/* strangerViewing */}
+                    </>)
+                    : (<>
+                        {/* myselfEditing */}
+                        {/* myselfViewing */}
+                        <ButtonGroupLeft>
+                            <WithdrawalButton onClick={deleteUserHandler}>탈퇴하기</WithdrawalButton>
+                        </ButtonGroupLeft>
+                    </>)
+            }
         </Wrapper3 >
     );
 };

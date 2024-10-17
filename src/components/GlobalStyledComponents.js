@@ -738,7 +738,7 @@ export const Violet400LineRoundButton = styled.button`
 export const PageTitle = styled.h2`
   text-wrap: nowrap;
   font-weight: bold;
-  font-size: 26px;
+  font-size: 30px;
   color: var(--black800);
   padding: 10px;
   width: 100%;
@@ -1314,8 +1314,10 @@ export const SubmitButton = styled.button`
 `;
 
 // components/Header.js
-export const DropdownContent = styled.div`
-  display: ${(props) => (props.isDropdownOpen ? "flex" : "none")};
+export const DropdownContent = styled.div.withConfig({
+    shouldForwardProp: (prop) => !['isDropdownOpen'].includes(prop),
+})`
+  display: ${({isDropdownOpen}) => (isDropdownOpen ? "flex" : "none")};
   position: absolute;
   min-width: 120px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);

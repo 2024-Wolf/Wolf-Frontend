@@ -3,7 +3,6 @@ import { Square, Violet500Line } from "../GlobalStyledComponents";
 
 import React from "react";
 
-
 const ALinkTextWrapper = styled.a`
     ${Square}
     ${Violet500Line}
@@ -23,22 +22,20 @@ const ALinkTextWrapper = styled.a`
         text-decoration: underline;
     }
 
-    ${({ isHasChildren }) => (isHasChildren ? `
+    ${({ hasChildren }) => (hasChildren ? `
         pointer-events: auto;
     ` : `
         pointer-events: none;
         color: var(--black400);
     `)}
-
 `;
 
-
 const ALinkText = ({ children, ...props }) => {
-    const isHasChildren = !!children && children.trim() !== ''; // children이 존재하면 true
+    const hasChildren = !!children && children.trim() !== ''; // children이 존재하면 true
 
     return (
-        <ALinkTextWrapper {...props} isHasChildren={isHasChildren}>
-            {isHasChildren ? children : '링크가 없습니다'}
+        <ALinkTextWrapper {...props} $hasChildren={hasChildren}>
+            {hasChildren ? children : '링크가 없습니다'}
         </ALinkTextWrapper>
     );
 }

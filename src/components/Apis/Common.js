@@ -1,3 +1,6 @@
+import { jwtDecode } from 'jwt-decode'; // 파일 상단에 추가
+
+
 export const BASE_URL = "http://localhost:8080/api/v1";
 export let accessToken = "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIyMyIsIlVzZXJSb2xlVHlwZSI6IlVTRVIiLCJpYXQiOjE3MjkxMjg1NDEsImV4cCI6MTcyOTU2MDU0MX0.BA-mX102mSD2K4pHmIBhYsrhLysQ3X4TrCkMp-05sMOS0gsVUrtn9nzm2EwqvyQ6";
 export let refreshToken = "Bearer eyJhbGciOiJIUzM4NCJ9.eyJleHAiOjE3Mjk3MzMzNDF9.gSK9P8Xj1Vds4cxIjX-0i1Zm9dlGuZgNpRWHqLxOTGWpq-48M2a64paKE4ahxjS6";
@@ -9,8 +12,6 @@ export function setAccessToken(token) {
 export function setRefreshToken(token) {
     refreshToken = "Bearer " + token;
 }
-
-
 
 export const isLoggedIn = () => {
     if (accessToken) {

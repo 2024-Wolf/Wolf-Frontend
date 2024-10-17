@@ -278,7 +278,7 @@ const ImagePreview = (({
                                     </ImagePlaceholder>
                                 );
                             }) : (<>
-                                <ImagePlaceholder
+                                {defaultImgSrc && (<ImagePlaceholder
                                     style={ProfileImgPlaceholderStyle}
                                     hasImage={true}>
                                     <Image
@@ -289,7 +289,7 @@ const ImagePreview = (({
                                     {isEditing && ( // 편집 모드일 때만 삭제 아이콘 표시
                                         <CancelIcon onClick={() => handleDeleteFile()} />
                                     )}
-                                </ImagePlaceholder>
+                                </ImagePlaceholder>)}
                             </>)
                         )}
                         {/* 프로필 이미지 편집일 경우 */}
@@ -356,7 +356,7 @@ const ImagePreview = (({
                         <ActionButtons>
                             <label>
                                 파일 선택&nbsp;
-                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" className="bi bi-upload" viewBox="0 0 16 16">
                                     <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
                                     <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708z" />
                                 </svg>

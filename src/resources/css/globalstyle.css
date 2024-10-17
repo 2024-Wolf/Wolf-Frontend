@@ -1,5 +1,5 @@
 /* 프리텐다드 폰트 */
-@import url('https://webfontworld.github.io/pretendard/Pretendard.css');
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
 /* 카본 폰트 */
 @import url('https://fonts.googleapis.com/css2?family=Kavoon&display=swap');
 
