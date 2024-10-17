@@ -11,7 +11,9 @@ const FAQTabWrapper = styled.div`
   width: 100%;
 `;
 
-const FAQTabButton = styled.button`
+const FAQTabButton = styled.button.withConfig({
+    shouldForwardProp: (prop) => prop !== 'active'
+})`
   white-space: nowrap;
   font-size: 18px;
   width: auto;
@@ -22,9 +24,9 @@ const FAQTabButton = styled.button`
   outline: none;
   border: 1px solid var(--black100);
 
-  color: ${(props) => (props.active ? 'var(--violet600)' : 'var(--black600)')};
-  background-color: ${(props) => (props.active ? '' : '')};
-  border-bottom: ${(props) => (props.active ? '2px solid var(--violet600)' : 'none')};
+  color: ${({active}) => (active === 'true' ? 'var(--violet600)' : 'var(--black600)')};
+  background-color: ${({active}) => (active === 'true' ? '' : '')};
+  border-bottom: ${({active}) => (active === 'true' ? '2px solid var(--violet600)' : 'none')};
 
   &:hover {
     background-color: var(--black100);
@@ -41,19 +43,19 @@ const FAQTabButton = styled.button`
 
 
 const FAQTab = ({ tab, activeTab, changeTab }) => {
-    return (
-        <FAQTabWrapper>
-            {tab.map((tab) => (
-                <FAQTabButton
-                    key={tab}
-                    active={activeTab === tab}
-                    onClick={() => changeTab(tab)}
-                >
-                    {tab}
-                </FAQTabButton>
-            ))}
-        </FAQTabWrapper>
-    );
+  return (
+    <FAQTabWrapper>
+      {tab.map((tab) => (
+        <FAQTabButton
+          key={tab}
+          active={(activeTab === tab).toString()}
+          onClick={() => changeTab(tab)}
+        >
+          {tab}
+        </FAQTabButton>
+      ))}
+    </FAQTabWrapper>
+  );
 }
 
 export default FAQTab;

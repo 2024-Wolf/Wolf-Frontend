@@ -49,7 +49,7 @@ function HeaderLogin({ isLoggedIn, openModal, offLogin, notifications, setNotifi
         if (!isLoggedIn) {
             openModal();
         } else {
-            const action = e.currentTarget.getAttribute('dataAction');
+            const action = e.currentTarget.getAttribute('data-action');
             if (action === 'bell') {
                 setIsDropdownOpen(false); // 드롭다운을 닫습니다.
                 setIsAlarmOpen(prev => !prev); // 알림창을 토글합니다.
@@ -101,7 +101,7 @@ function HeaderLogin({ isLoggedIn, openModal, offLogin, notifications, setNotifi
                     <UserWrapper>
                         {/* 프로필 아이콘 */}
                         <ProfileIcon
-                            dataAction="profile"
+                            data-action="profile"
                             onClick={handleClick}
                             src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
                             alt="Profile"
@@ -110,7 +110,7 @@ function HeaderLogin({ isLoggedIn, openModal, offLogin, notifications, setNotifi
                             {/* 드롭다운 아이콘 */}
                             <DropdownIcon
                                 onClick={handleClick}
-                                dataAction="dropdown"
+                                data-action="dropdown"
                                 width="16"
                                 height="16"
                                 fill="currentColor"

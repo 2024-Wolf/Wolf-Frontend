@@ -31,7 +31,7 @@ export const SliderContainer = styled.div`
 export const SliderInner = styled.div`
     display: flex;
     transition: transform 0.5s ease;
-    transform: ${({ position }) => `translateX(-${position}00%)`};
+    transform: ${({ $position }) => `translateX(-${$position}00%)`};
     height: 100%;
     width: 100%;
 `;
@@ -107,11 +107,9 @@ const BannerSlider = ({ images }) => {
             onTouchMove={handleMove}
             onTouchEnd={handleEnd}
         >
-            <SliderInner position={currentPosition}>
+            <SliderInner $position={currentPosition}>
                 {images.map((image, index) => (
-                    <>
-                        <Slide key={index} src={image.imgUrl} />
-                    </>
+                    <Slide key={`Slide-${index}`} src={image.imgUrl} />
                 ))
                 }
             </SliderInner >

@@ -13,6 +13,7 @@ import {
   DateStyle,
   Button6,
   ApplySection,
+  ButtonGroupLeft,
 } from "../GlobalStyledComponents";
 
 import React, { useState } from "react";
@@ -21,6 +22,8 @@ import ProfileIcon from "../Icon/ProfileIcon";
 import FormFieldMultiple from "./GroupComponent/FormFieldMultiple";
 import InputText from "../Input/InputText";
 import ApplicantModal from "./GroupInfoModal/ApplicantModal";
+import { Navigate } from "react-router-dom";
+import WithdrawalButton from "../Button/WithdrawalButton";
 
 // 전체 div
 // components/Group/GroupManageContent.js
@@ -130,6 +133,15 @@ const GroupManageContent = (props) => {
     setSelectedApplicant(null); // 모달 닫을 때 선택된 지원자 데이터 초기화
   };
 
+  const deleteGroupHandler = () => {
+    // eslint-disable-next-line no-restricted-globals
+    if (confirm("모임을 삭제하시겠습니까?")) {
+      alert("모임이 삭제되었습니다");
+      Navigate("/");
+    } else {
+    }
+  };
+
   return (
     <Container5>
       <Section>
@@ -146,7 +158,7 @@ const GroupManageContent = (props) => {
             width="16"
             height="16"
             fill="currentColor"
-            class="bi bi-person-fill-add"
+            className="bi bi-person-fill-add"
             viewBox="0 0 16 16"
           >
             <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0m-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
@@ -181,6 +193,10 @@ const GroupManageContent = (props) => {
           />
         )}
       </ApplySection>
+
+      <ButtonGroupLeft style={{ marginBottom: '30px' }}>
+        <WithdrawalButton onClick={deleteGroupHandler}>모임 삭제하기</WithdrawalButton>
+      </ButtonGroupLeft>
     </Container5>
   );
 };

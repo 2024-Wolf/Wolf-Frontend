@@ -1,11 +1,11 @@
 import styled from 'styled-components';
-import { LinkRowContainer, Button9 } from "../../GlobalStyledComponents";
+import { LinkRowContainer, Button9, Violet500LineButton } from "../../GlobalStyledComponents";
 
 import React from 'react';
 import InputText from "../InputText";
 import RegularIcon from "../../Icon/RegularIcon";
 
-const LinkInput = ({ iconSrc, iconAlt, inputValue, onInputChange }) => {
+const LinkInput = ({ iconSrc, iconAlt, inputValue, onInputChange, disabled }) => {
     return (
         <LinkRowContainer>
             <RegularIcon
@@ -15,8 +15,11 @@ const LinkInput = ({ iconSrc, iconAlt, inputValue, onInputChange }) => {
             <InputText
                 value={inputValue}
                 onChange={onInputChange}
+                disabled={disabled}
             />
-            <Button9 onClick={() => alert('주소가 등록되었습니다')}>등록</Button9>
+            <Violet500LineButton onClick={() => alert('주소가 등록되었습니다')}>
+                등록
+            </Violet500LineButton>
         </LinkRowContainer>
     );
 };

@@ -36,8 +36,8 @@ export const DotsContainer = styled.div`
 export const Dot = styled.div`
     width: 0.9em;
     height: 0.9em;
-    background-color: ${(props) =>
-        props.active ? "var(--black400)" : "var(--black200)"};
+    background-color: ${({ $active }) =>
+        $active ? "var(--black400)" : "var(--black200)"};
     border-radius: 50%;
     cursor: pointer;
 
@@ -61,7 +61,7 @@ const Dots = ({ images, currentPosition, goToSlide }) => {
             {images.map((image, index) => (
                 <Dot
                     key={index}
-                    active={index === currentPosition}
+                    $active={index === currentPosition}
                     onClick={() => goToSlide(index)}
                 />
             ))}
