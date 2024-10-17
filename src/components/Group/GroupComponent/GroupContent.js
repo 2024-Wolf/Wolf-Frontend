@@ -361,6 +361,8 @@ const GroupContent = ({ contentType = "viewing", groupData }) => {
     }
   };
 
+
+
   //삭제
   const deleteRecruitment = (index) => {
     const updatedRecruitmentList = newGroupData.recruitmentList.filter(
@@ -422,12 +424,16 @@ const GroupContent = ({ contentType = "viewing", groupData }) => {
               <>
                 {/* editing */}
                 {/* 그룹 페이지 관리 탭 */}
+                <SaveButton onClick={handleSaveClick} style={{ width: '88.99px' }} />
+                <CancelButton onClick={() => setContentsType("viewing")} style={{ width: '88.99px' }} />
+                {/* 수정 중 문구 */}
                 <span
                   style={{
                     display: "flex",
                     alignItems: "center",
                     height: "35px",
                     gap: "10px",
+                    width: '88.99px'
                   }}
                 >
                   <svg
@@ -456,7 +462,6 @@ const GroupContent = ({ contentType = "viewing", groupData }) => {
               <>
                 {/* viewing */}
                 <EditButton onClick={handleEditClick} />
-                <DeleteButton onClick={deleteGroupHandler} />
               </>
             )}
           </ButtonGroupRight>
@@ -712,11 +717,6 @@ const GroupContent = ({ contentType = "viewing", groupData }) => {
                     <Violet500LineButton onClick={() => startEdit(index)}>
                       수정
                     </Violet500LineButton>
-                    <Violet500LineButton
-                      onClick={() => deleteRecruitment(index)}
-                    >
-                      삭제
-                    </Violet500LineButton>
                   </JobCountInfo>
                 )}
               </RecruitmentItemWrapper>
@@ -840,8 +840,6 @@ const GroupContent = ({ contentType = "viewing", groupData }) => {
           <>
             {/* editing */}
             {/* 그룹 페이지 관리 탭 */}
-            <SaveButton onClick={handleSaveClick} />
-            <CancelButton onClick={() => setContentsType("viewing")} />
           </>
         ) : contentsType === "writing" ? (
           <>

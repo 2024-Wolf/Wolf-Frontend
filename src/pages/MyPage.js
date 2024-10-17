@@ -48,9 +48,10 @@ const MyPage = ({ contentType, whatTab = "계정" }) => {
                 setError(null);    // 에러 초기화
 
                 const dataProfile = await getMyProfile(); // getMyProfile 함수 호출
-                const dataAlarm = await getAlarms(); // getMyProfile 함수 호출
-
                 setProfileData(dataProfile.data); // 프로필 데이터 설정
+
+
+                const dataAlarm = await getAlarms(); // getMyProfile 함수 호출
                 setAlarmData(dataAlarm.data);
             } catch (err) {
                 setError('데이터를 불러오는 데 실패했습니다.');

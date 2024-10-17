@@ -11,7 +11,7 @@ const LoadingSpinerWrapper = styled.div`
         justify-content: center;
         flex-direction: column;
         align-items: center;
-        height: 100vh; /* 화면 중앙에 표시 */
+        height: 80vh; /* 화면 중앙에 표시 */
         width: 100%;
         gap: 10px;
     }

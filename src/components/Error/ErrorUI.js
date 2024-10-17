@@ -12,13 +12,13 @@ const ErrorUIWrapper = styled.div`
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        height: 100vh; /* 화면 중앙에 표시 */
-        color: #e74c3c; /* 에러 메시지를 빨간색으로 */
+        height: 80vh; 
+        color: #e74c3c;
         text-align: center;
     }
     
     .error-icon {
-        font-size: 3rem; /* 큰 사이즈의 경고 아이콘 */
+        font-size: 3rem;
     }
     
     .error-message {
