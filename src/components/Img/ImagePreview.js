@@ -35,7 +35,7 @@ const ModalOverlay = styled.div`
 `;
 
 const ImagePlaceholder = styled.div`
-    display: ${({$hasImage}) => ($hasImage ? 'flex' : 'none')};
+    display: ${({ $hasImage }) => ($hasImage ? 'flex' : 'none')};
     flex-direction: row;
     align-items: start;
     gap: 10px;
@@ -93,8 +93,8 @@ export const ActionButtons = styled.div`
 export const ProfileImgEditButton = styled.div`
     position: absolute;
     label {
-        width: 120px;
-        height: 120px;
+        width: 140px;
+        height: 140px;
         border-radius: 50%;
         cursor: pointer;
         display: flex;
@@ -113,7 +113,7 @@ export const ProfileImgEditButton = styled.div`
         
         svg {
             color: transparent;
-            height: 120px; 
+            height: 140px; 
             display: none;
         }
     }
@@ -231,6 +231,20 @@ const ImagePreview = (({
         setIsImageModalOpen(true);
     };
 
+    const handleContextMenu = (event) => {
+        event.preventDefault(); // 기본 컨텍스트 메뉴 방지
+        const confirmDelete = window.confirm("기본 이미지로 변경하시겠습니까?");
+
+        if (confirmDelete) {
+            handleDeleteFile();
+
+            if (onClick && typeof onClick === 'function') {
+                onClick();
+            } else {
+            }
+        }
+    };
+
     return (
         <>
             <ButtonRow style={style}>
@@ -296,7 +310,8 @@ const ImagePreview = (({
                         {isProfileImgEditButtonAppear &&
                             <>
                                 <ProfileImgEditButton>
-                                    <label>
+                                    <label
+                                        onContextMenu={handleContextMenu}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil-square" viewBox="0 0 16 16">
                                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                                             <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
@@ -306,7 +321,9 @@ const ImagePreview = (({
                                             accept="image/jpeg, image/png"
                                             className={className}
                                             name="fileInput"
-                                            onChange={handleInputFile}
+                                            onChange={(event) => {
+                                                handleInputFile(event); // 파일 입력 처리 함수 호출
+                                            }}
                                             style={{ display: "none" }}
                                         />
                                     </label>
