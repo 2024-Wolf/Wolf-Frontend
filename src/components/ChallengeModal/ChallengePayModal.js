@@ -1,19 +1,29 @@
 import { ModalHeader, ModalContentWrapper, CategoryMainTitle, Violet500LineButton } from "../GlobalStyledComponents";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ChallengePayCompleteModal from "./ChallengePayCompleteModal";
 import ModalForm from "../Modal/ModalForm";
 import CancelIcon from "../Icon/CancelIcon";
 import InputNumber from "../Input/InputNumber";
 import FormFieldSingle from "../Group/GroupComponent/FormFieldSingle";
+import { participateChallenge, payChallenge } from "../Apis/ChallengePostApi";
 
 
 function ChallengePayModal(props) {
 
     const [completeModalOn, setCompleteModalOn] = useState();
 
+    let groupPostId = 1;
+
+    useEffect(()=>{
+        if(props.item.status === "PARTICIPATE"){
+            participateChallenge(props.item.challengePostId, groupPostId, props.amount);
+        }
+    })
+
     const handleSubmit = (e) => {
         e.preventDefault(); // 기본 폼 제출 방지
+        payChallenge(props.item.challengePostId, groupPostId, props.amount, "Y");
         setCompleteModalOn(true); // 모달 열기
     };
 
@@ -28,12 +38,12 @@ function ChallengePayModal(props) {
                         right: "16px",
                     }}
                     type='button'
-                    onClick={() => { props.handlePay() }}
+                    onClick={() => { props.cancel() }}
                 />
                 <ModalContentWrapper>
                     <ModalHeader>
                         <CategoryMainTitle>챌린지 결제하기</CategoryMainTitle>
-                        <p style={{ fontSize: '20px', fontWeight: 'bold', color: 'var(--black900)' }}>기사 자격증 취득 챌린지</p>
+                        <p style={{ fontSize: '20px', fontWeight: 'bold', color: 'var(--black900)' }}>{props.item.title}</p>
                     </ModalHeader>
                     <FormFieldSingle
                         style={{ height: '100%' }}
@@ -41,7 +51,7 @@ function ChallengePayModal(props) {
                         <InputNumber
                             disabled
                             type="number"
-                            value={"0"}
+                            value={props.amount}
                             id="amount"
                             min="0"
                             max="30000"

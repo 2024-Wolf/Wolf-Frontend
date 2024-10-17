@@ -32,6 +32,7 @@ function ChallengeList(props) {
                             <CardMapingContainer key={item.challenge_post_id}>
                                 <ChallengeListItem
                                     item={item}
+                                    fetchChallenges={props.fetchChallenges}
                                     setDetail={props.setDetail}
                                 />
                             </CardMapingContainer>

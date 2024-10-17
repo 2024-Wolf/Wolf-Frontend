@@ -3,18 +3,40 @@ import {
     Violet500LineButton, ModalContentWrapper
 } from "../GlobalStyledComponents";
 
-import React from "react";
+import React, { useState } from "react";
 import ModalForm from "../Modal/ModalForm";
 import CancelIcon from "../Icon/CancelIcon";
 import SelectButton from "../Button/SelectButton";
 import InputText from "../Input/InputText";
 import FormFieldSingle from "../Group/GroupComponent/FormFieldSingle";
 import TextAreaNoCss from "../Input/TextAreaNoCss";
+import { certificatonCheck, verifyChallenge } from "../Apis/ChallengePostApi";
 
 function ChallengeAuthModal(props) {
+    const [inst, setInst] = useState("B490007");
+    const [name, setName] = useState("김한수");
+    const [code, setCode] = useState("23202110166Y");
 
+    let groupPostId = 1;
+    let status = "Y";
 
-    const handleCancel = (e) => {
+    const handleInst = (e) => {
+        setInst(e.target.value);
+    }
+
+    const handleName = (e) => {
+        setName(e.target.value);
+    }
+
+    const handleCode = (e) => {
+        setCode(e.target.value);
+    }
+
+    const handleCertification = (e) => {
+        e.preventDefault();
+
+        verifyChallenge(props.item.challengePostId, groupPostId, status, inst, name, code);
+
         props.cancel();
     }
 
@@ -27,34 +49,39 @@ function ChallengeAuthModal(props) {
                     right: "16px",
                 }}
                 type='button'
-                onClick={handleCancel}
+                onClick={() => props.cancel()}
             />
 
             <ModalContentWrapper>
                 <ModalHeader>
                     <CategoryMainTitle>챌린지 인증하기</CategoryMainTitle>
-                    <p style={{ fontSize: '20px', fontWeight: 'bold', color: 'var(--black900)' }}>기사 자격증 취득 챌린지</p>
+                    <p style={{ fontSize: '20px', fontWeight: 'bold', color: 'var(--black900)' }}>{props.item.title}</p>
                 </ModalHeader>
 
                 <ModalBody2>
                     {/* 요청기관 */}
                     <FormFieldSingle label={"요청기관"} FormLabelGroupStyle={{ marginTop: '0px' }}>
-                        <SelectButton style={{ width: '100%' }}>
-                            <option>한국디자인진흥원</option>
-                            <option>한국데이터산업진흥원</option>
-                            <option>영화진흥위원회</option>
-                            <option>대한상공회의소</option>
-                            <option>한국방송통신전파진흥원</option>
-                            <option>한국원자력안전기술원</option>
-                            <option>한국광해광업공단</option>
-                            <option>한국콘텐츠진흥원</option>
-                            <option>한국산업인력공단</option>
+                        <SelectButton value={inst} onChange={handleInst} style={{ width: '100%' }}>
+                            <option value={"B551365"}>한국디자인진흥원</option>
+                            <option value={"B553996"}>한국데이터산업진흥원</option>
+                            <option value={"B551004"}>영화진흥위원회</option>
+                            <option value={"B410015"}>대한상공회의소</option>
+                            <option value={"B552729"}>한국방송통신전파진흥원</option>
+                            <option value={"B550932"}>한국원자력안전기술원</option>
+                            <option value={"B554644"}>한국광해광업공단</option>
+                            <option value={"B552644"}>한국콘텐츠진흥원</option>
+                            <option value={"B490007"}>한국산업인력공단</option>
                         </SelectButton>
+                    </FormFieldSingle>
+
+                    {/* 이름 */}
+                    <FormFieldSingle label={"이름"} FormLabelGroupStyle={{ marginTop: '0px' }}>
+                        <InputText value={name} onChange={handleName} />
                     </FormFieldSingle>
 
                     {/* 자격증 번호 */}
                     <FormFieldSingle label={"자격증 번호"} FormLabelGroupStyle={{ marginTop: '0px' }}>
-                        <InputText />
+                        <InputText value={code} onChange={handleCode} />
                     </FormFieldSingle>
 
                     {/* 챌린지 인증시 유의사항 */}
@@ -77,7 +104,7 @@ function ChallengeAuthModal(props) {
                         />
                     </Violet500LineDiv>
                 </ModalBody2>
-                <Violet500LineButton type='button' onClick={handleCancel} style={{ margin: '0 auto' }}>
+                <Violet500LineButton type='button' onClick={handleCertification} style={{ margin: '0 auto' }}>
                     인증하기
                 </Violet500LineButton>
             </ModalContentWrapper>

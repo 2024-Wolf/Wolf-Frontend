@@ -41,7 +41,7 @@ function ChallengeListItem(props) {
         "RESULT_CONFIRM": ChallengeResultModal,
         "APPLY": ChallengeApplyModal,
         "PARTICIPATE": ChallengePayModal,
-        "PAY": ChallengePayCompleteModal
+        "PAY": ChallengePayModal
     }
 
     switch (props.item.status) {
@@ -76,9 +76,15 @@ function ChallengeListItem(props) {
         });
     }, []);
 
-    function Modal() {
+    function processModalOff(){
+        setProressModalOn(false);
+        props.fetchChallenges();
+    }
+
+    function Modal(){
+
         const ModalComponent = ModalMap[props.item.status];
-        return <ModalComponent item={props.item} cancel={() => setProressModalOn(false)} />;
+        return <ModalComponent item={props.item} amount={30000} cancel={processModalOff} />;
     }
 
     function openProgressModal(e) {
@@ -86,12 +92,15 @@ function ChallengeListItem(props) {
         setProressModalOn(true);
     }
 
-    function detailModalOn() {
+
+    function detailModalOn(){        
+
         props.setDetail(props.item);
     }
 
     return (
         <>
+
             {progressModalOn ? Modal() :
                 <CardContainer onClick={() => detailModalOn()}
                     style={{ transform: 'none' }}>
