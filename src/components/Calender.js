@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import ArrowLeftIcon from './Icon/ArrowLeftIcon';
 import ArrowRightIcon from './Icon/ArrowRightIcon';
@@ -10,7 +10,7 @@ import { Hr } from './GlobalStyledComponents';
 
 const CalendarContainer = styled.div`
     width: 100%;
-    height: 364.58px;
+    height: 390.58px;
     border-radius: 8px;
     overflow: hidden;
     display: flex;
@@ -41,6 +41,8 @@ const CalendarViewer = styled.div`
         min-height: 321.25px;
         overflow-x: auto;
     }
+  transition: transform 0.5s ease; /* 애니메이션 효과 */
+  transform: translateX(${({ $offset }) => $offset}px); /* 스와이프에 따른 이동 */
 `;
 
 
@@ -101,6 +103,7 @@ const Day = styled.div`
     border-radius: 50%;
     margin: 2px;
     width: 42px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -200,6 +203,9 @@ const ScheduleContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 10px;
+    background-color: white;
+    z-index: 1;
+    padding-right: 10px;
 
     hr {
         display: none;
@@ -369,6 +375,7 @@ const Calendar = ({ data, handleEditSchedule, handleDeleteSchedule, ...props }) 
             days.push(<Empty key={`prev-${i}`} />);
         }
 
+
         for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
             const dateKey = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
             const hasSchedule = schedules.some(schedule => {
@@ -394,6 +401,9 @@ const Calendar = ({ data, handleEditSchedule, handleDeleteSchedule, ...props }) 
         }
         return days;
     };
+
+
+
     const getSchedule = () => {
         if (selectedDate) {
             const eventList = schedules.filter(schedule => {
@@ -476,7 +486,31 @@ const Calendar = ({ data, handleEditSchedule, handleDeleteSchedule, ...props }) 
         }
         return <p>일정이 없습니다.</p>;
     };
+    const [offset, setOffset] = useState(0); // 애니메이션을 위한 오프셋
+    const touchStartX = useRef(0); // 터치 시작 위치 저장
 
+    const handleTouchStart = (e) => {
+        touchStartX.current = e.touches[0].clientX; // 터치 시작 위치
+    };
+
+    const handleTouchEnd = (e) => {
+        const touchEndX = e.changedTouches[0].clientX; // 터치 종료 위치
+        const deltaX = touchStartX.current - touchEndX;
+
+        // 왼쪽으로 스와이프 (다음 월)
+        if (deltaX > 50) {
+            setOffset(-100); // 다음 월로 이동하기 위한 오프셋 설정
+            setCurrentDate((prev) => new Date(prev.getFullYear(), prev.getMonth() + 1, 1));
+        }
+        // 오른쪽으로 스와이프 (이전 월)
+        else if (deltaX < -50) {
+            setOffset(100); // 이전 월로 이동하기 위한 오프셋 설정
+            setCurrentDate((prev) => new Date(prev.getFullYear(), prev.getMonth() - 1, 1));
+        }
+
+        // 애니메이션 끝나면 오프셋 초기화
+        setTimeout(() => setOffset(0), 500); // 애니메이션과 일치하도록 타임아웃 설정
+    };
 
     return (
         <CalendarContainer>
@@ -555,7 +589,11 @@ const Calendar = ({ data, handleEditSchedule, handleDeleteSchedule, ...props }) 
                     </Schedule>
                 }
             </ScheduleContainer>
-            <CalendarViewer>
+            <CalendarViewer
+                $offset={offset}
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
+            >
                 <Header>
                     <HeaderContainer>
                         <HeaderDate>{`${currentDate.getFullYear()}년 ${String(currentDate.getMonth() + 1).padStart(2, '0')}월`}</HeaderDate>
