@@ -379,6 +379,13 @@ export const Violet300Background = css`
 export const Violet400Background = css`
   background-color: var(--violet400);
   color: var(--violet000);
+
+    &:disabled {
+      background-color: var(--black400);
+  }
+  &[readonly] {
+    background-color: var(--black400);
+  }
 `;
 
 export const Violet500Background = css`

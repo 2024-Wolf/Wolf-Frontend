@@ -22,7 +22,7 @@ const ALinkTextWrapper = styled.a`
         text-decoration: underline;
     }
 
-    ${({ hasChildren }) => (hasChildren ? `
+    ${({ $hasChildren }) => ($hasChildren ? `
         pointer-events: auto;
     ` : `
         pointer-events: none;

@@ -8,7 +8,7 @@ import ActivitiesContent from "../components/MyPageComponents/ActivitiesContent"
 import FAQTab from "../components/Tab/FAQTab";
 import MyPageProfile from "../components/MyPageComponents/MyPageProfile";
 
-import { getMyProfile } from '../components/Apis/UserApi';
+import { getMyProfile, getAlarms } from '../components/Apis/UserApi';
 import LoadingSpiner from "../components/Loading/LoadingSpiner";
 import ErrorUI from "../components/Error/ErrorUI";
 
@@ -37,6 +37,7 @@ const MyPage = ({ contentType, whatTab = "계정" }) => {
     const [contentsType, setContentsType] = useState(contentType);
     // contentsType 상태 ('myselfEditing', 'strangerViewing', 'myselfViewing' 중 하나)
     const [profileData, setProfileData] = useState(null);
+    const [alarmData, setAlarmData] = useState(null);
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -47,11 +48,13 @@ const MyPage = ({ contentType, whatTab = "계정" }) => {
                 setLoading(true);  // 로딩 상태 시작
                 setError(null);    // 에러 초기화
 
-                const data = await getMyProfile(); // getMyProfile 함수 호출
+                const dataProfile = await getMyProfile(); // getMyProfile 함수 호출
+                const dataAlarm = await getAlarms(); // getMyProfile 함수 호출
 
-                setProfileData(data.data); // 프로필 데이터 설정
+                setProfileData(dataProfile.data); // 프로필 데이터 설정
+                setAlarmData(dataAlarm.data);
             } catch (err) {
-                setError('프로필을 불러오는 데 실패했습니다.');
+                setError('데이터를 불러오는 데 실패했습니다.');
                 console.error(err);
             } finally {
                 setLoading(false);  // 로딩 상태 종료
@@ -76,7 +79,7 @@ const MyPage = ({ contentType, whatTab = "계정" }) => {
             case "계정":
                 return <UserInfoContent contentsType={contentsType} setContentsType={setContentsType} profileData={profileData} />;
             case "알림":
-                return <NotificationContent />
+                return <NotificationContent alarmData={alarmData} />
             case "활동":
                 return <ActivitiesContent />
             default:

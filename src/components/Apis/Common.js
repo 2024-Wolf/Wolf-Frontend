@@ -2,8 +2,10 @@ import { jwtDecode } from 'jwt-decode'; // 파일 상단에 추가
 
 
 export const BASE_URL = "http://localhost:8080/api/v1";
-export let accessToken = "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIyMyIsIlVzZXJSb2xlVHlwZSI6IlVTRVIiLCJpYXQiOjE3MjkxMjg1NDEsImV4cCI6MTcyOTU2MDU0MX0.BA-mX102mSD2K4pHmIBhYsrhLysQ3X4TrCkMp-05sMOS0gsVUrtn9nzm2EwqvyQ6";
-export let refreshToken = "Bearer eyJhbGciOiJIUzM4NCJ9.eyJleHAiOjE3Mjk3MzMzNDF9.gSK9P8Xj1Vds4cxIjX-0i1Zm9dlGuZgNpRWHqLxOTGWpq-48M2a64paKE4ahxjS6";
+export let accessToken = "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIyMyIsIlVzZXJSb2xlVHlwZSI6IlVTRVIiLCJpYXQiOjE3MjkxOTQzNjIsImV4cCI6MTcyOTYyNjM2Mn0.WDFAfxXX7UnLDnx2RWcT37bYUOaPaX0fUgkz_xZ9jTnA4dl5lmm27pCM5b9hz8xQ";
+export let refreshToken = "Bearer eyJhbGciOiJIUzM4NCJ9.eyJleHAiOjE3Mjk3OTkxNjJ9.c6Sds9Ejr2BhCVT_7KUoqhWHk0c3Y3cpP5ihUY5KuvDfzDBaJ0F4ir6M8On90f35";
+
+
 
 export function setAccessToken(token) {
     accessToken = "Bearer " + token;

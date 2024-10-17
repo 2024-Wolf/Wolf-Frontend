@@ -84,7 +84,6 @@ const ActivityScoreBar = ({ activityMetricData }) => {
 
   return (
     <BarContainer>
-      {console.log(activityMetricData)}
       {scores.map((score, index) => (
         <BarWrapper key={index}>
           <BarText>{score.label}</BarText>
