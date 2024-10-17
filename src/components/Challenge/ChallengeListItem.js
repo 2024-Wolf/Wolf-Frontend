@@ -41,7 +41,7 @@ function ChallengeListItem(props) {
         "RESULT_CONFIRM": ChallengeResultModal,
         "APPLY": ChallengeApplyModal,
         "PARTICIPATE": ChallengePayModal,
-        "PAY": ChallengePayCompleteModal
+        "PAY": ChallengePayModal
     }
 
     switch(props.item.status){
@@ -76,9 +76,14 @@ function ChallengeListItem(props) {
         });
     }, []);
 
+    function processModalOff(){
+        setProressModalOn(false);
+        props.fetchChallenges();
+    }
+
     function Modal(){
         const ModalComponent = ModalMap[props.item.status];
-        return <ModalComponent item={props.item} cancel={() => setProressModalOn(false)} />;
+        return <ModalComponent item={props.item} amount={30000} cancel={processModalOff} />;
     }
 
     function openProgressModal(e){
@@ -86,7 +91,7 @@ function ChallengeListItem(props) {
         setProressModalOn(true);
     }
 
-    function detailModalOn(){
+    function detailModalOn(){        
         props.setDetail(props.item);
     }
 
@@ -98,10 +103,10 @@ function ChallengeListItem(props) {
                         style={{ transform: 'none' }}>
                         <CardThumbnail style={{ backgroundColor: topBgColor }} />
                         <Bottom>
-                            <ChallengeCardTitle>{props.item.challenge_title}</ChallengeCardTitle>
+                            <ChallengeCardTitle>{props.item.title}</ChallengeCardTitle>
                             <CardInfo>
-                                <div>등록일:{props.item.challenge_date.toLocaleDateString("en-CA")}</div>
-                                <div>마감일:{props.item.challenge_deadline.toLocaleDateString("en-CA")}</div>
+                                <div>등록일:{props.item.registrationDate}</div>
+                                <div>마감일:{props.item.deadline}</div>
                             </CardInfo>
                             <Violet400LineRoundButton onClick={openProgressModal} type="button" 
                                 disabled={props.item.status==="CERTIFICATION_COMPLETE" ? true : false}>

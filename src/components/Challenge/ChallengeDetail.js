@@ -4,12 +4,13 @@ import {
     Violet500BackgroundButton
 } from "../GlobalStyledComponents";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import FormFieldSingle from "../Group/GroupComponent/FormFieldSingle";
 import InputDateNoCss from '../Input/InputDateNoCss';
 import TextAreaNoCss from '../Input/TextAreaNoCss';
 import PreviousButton from '../Button/PreviousButton';
 import ImagePreview from '../Img/ImagePreview';
+import { getChallenge } from '../Apis/ChallengePostApi';
 
 export const ChallengeDetailContainer = styled.div`
   width: 100%;
@@ -64,6 +65,14 @@ const ChallengeDetailHeaderTop = styled.div`
 
 
 function ChallengeDetail(props) {
+    const [item, setItem] = useState({});
+
+    useEffect(()=>{
+        getChallenge(props.challengePostId)
+        .then(function(response){
+            setItem(response.data);
+        })
+    }, []);
 
     const prevClick = (e) => {
         e.stopPropagation();
@@ -74,7 +83,7 @@ function ChallengeDetail(props) {
         <ChallengeDetailContainer>
             <ChallengeDetailHeaderTop>
                 <span className="hiddenSpan" />
-                <ChallengeDetailTitle>{props.item.challenge_title}</ChallengeDetailTitle>
+                <ChallengeDetailTitle>{item.title}</ChallengeDetailTitle>
                 <PreviousButton prevClick={prevClick} />
             </ChallengeDetailHeaderTop>
             <ImagePreview
@@ -86,14 +95,14 @@ function ChallengeDetail(props) {
                 <FormFieldColumn>
                     <FormFieldSingle label={"챌린지 기간"}>
                         <DoubleDateContainer className="date">
-                            <InputDateNoCss value={props.item.challenge_date.toLocaleDateString("en-CA")} />
+                            <InputDateNoCss value={item.registrationDate} />
                             ~
-                            <InputDateNoCss value={props.item.challenge_deadline.toLocaleDateString("en-CA")} />
+                            <InputDateNoCss value={item.deadline} />
                         </DoubleDateContainer>
                     </FormFieldSingle>
-                    <Violet500BackgroundButton onClick={() => { alert('참가하기') }}>
+                    {/* {<Violet500BackgroundButton onClick={() => { alert('참가하기') }}>
                         참가하기
-                    </Violet500BackgroundButton>
+                    </Violet500BackgroundButton>} */}
                 </FormFieldColumn>
             </Violet500LineDiv>
             {/* 챌린지 내용 */}
@@ -106,7 +115,7 @@ function ChallengeDetail(props) {
                     name="introduction"
                     placeholder="모집에 대한 간단한 소개를 작성해주세요."
                     value={
-                        props.item.challenge_content
+                        item.content
                     }
                 />
             </Violet500LineDiv>
@@ -122,7 +131,7 @@ function ChallengeDetail(props) {
                     name="introduction"
                     placeholder="모집에 대한 간단한 소개를 작성해주세요."
                     value={
-                        props.item.challenge_award_content
+                        item.awardContent
                     }
                 />
             </Violet500LineDiv>
@@ -141,7 +150,7 @@ function ChallengeDetail(props) {
                     name="introduction"
                     placeholder="모집에 대한 간단한 소개를 작성해주세요."
                     value={
-                        props.item.challenge_manner
+                        item.manner
                     }
                 />
             </Violet500LineDiv>
