@@ -1,7 +1,7 @@
 import React, { useEffect, useState, forwardRef, useImperativeHandle, useRef } from 'react';
 import styled from 'styled-components';
 
-import { Violet500LineButton } from "../GlobalStyledComponents";
+import { CommonButton, NoBackground, fontColorHover, Violet500LineButton } from "../GlobalStyledComponents";
 
 
 import InputFile from '../Input/InputFile';
@@ -88,6 +88,37 @@ export const ActionButtons = styled.div`
         font-size: 14px;
     }
 `;
+
+// components/Group/Question/QuestionItem.jsx
+export const ProfileImgEditButton = styled.div`
+    position: absolute;
+    label {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        aligin-items: center;
+
+        &:hover, &:active  {
+            background-color: rgba(0, 0, 0, 0.05);
+            color: var(--black600);
+            transition: background-color 0.3s ease, color 0.3s ease, display 0.3s ease, color 0.3s ease;
+            svg { 
+                color: var(--black600);
+                display: block;
+            }
+        }
+        
+        svg {
+            color: transparent;
+            height: 120px; 
+            display: none;
+        }
+    }
+`;
+
 export const ModalOverlayImg = styled.img`
     max-width: 90%;
     max-height: 90%;
@@ -111,9 +142,13 @@ const ImagePreview = (({
     imageFile,
     questionId,
     imgStyle,
+    ProfileImgStyle,
     ImagePlaceholderStyle,
+    ProfileImgPlaceholderStyle,
     ModalOverlayImgStyle,
-    ...props // 나머지 props를 받을 수 있도록
+    isProfileImgEditButtonAppear,
+    defaultImgSrc,
+    ...props // 나머지 props
 }
 ) => {
 
@@ -225,11 +260,14 @@ const ImagePreview = (({
                                 )}
                             </ImagePlaceholder>
                         ) : (
-                            selectedImage.length > 0 && selectedImage.map((file) => {
+                            (selectedImage && selectedImage.length > 0) ? selectedImage.map((file) => {
                                 const fileURL = URL.createObjectURL(file);
                                 return (
-                                    <ImagePlaceholder key={file.name} hasImage={true}>
+                                    <ImagePlaceholder
+                                        style={ProfileImgPlaceholderStyle}
+                                        key={file.name} hasImage={true}>
                                         <Image
+                                            style={ProfileImgStyle}
                                             src={fileURL}
                                             alt={file.name} // 파일 이름을 alt로 사용
                                             onClick={() => { handleImageClick(file) }} // 이미지 클릭 시 행동
@@ -239,9 +277,42 @@ const ImagePreview = (({
                                         )}
                                     </ImagePlaceholder>
                                 );
-                            })
+                            }) : (<>
+                                <ImagePlaceholder
+                                    style={ProfileImgPlaceholderStyle}
+                                    hasImage={true}>
+                                    <Image
+                                        style={ProfileImgStyle}
+                                        src={defaultImgSrc}
+                                        alt={'defaultImg'} // 파일 이름을 alt로 사용
+                                    />
+                                    {isEditing && ( // 편집 모드일 때만 삭제 아이콘 표시
+                                        <CancelIcon onClick={() => handleDeleteFile()} />
+                                    )}
+                                </ImagePlaceholder>
+                            </>)
                         )}
-
+                        {/* 프로필 이미지 편집일 경우 */}
+                        {isProfileImgEditButtonAppear &&
+                            <>
+                                <ProfileImgEditButton>
+                                    <label>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil-square" viewBox="0 0 16 16">
+                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                            <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                                        </svg>
+                                        <input
+                                            type="file"
+                                            accept="image/jpeg, image/png"
+                                            className={className}
+                                            name="fileInput"
+                                            onChange={handleInputFile}
+                                            style={{ display: "none" }}
+                                        />
+                                    </label>
+                                </ProfileImgEditButton>
+                            </>
+                        }
                         {/* 이미지 모달 */}
                         {isImageModalOpen && (
                             <>

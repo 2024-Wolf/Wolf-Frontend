@@ -1,16 +1,15 @@
 import styled from "styled-components";
 import { PageTitle } from "../components/GlobalStyledComponents";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import UserInfoContent from "../components/MyPageComponents/UserInfoContent";
 import NotificationContent from "../components/MyPageComponents/NotificationContent";
 import ActivitiesContent from "../components/MyPageComponents/ActivitiesContent";
 import FAQTab from "../components/Tab/FAQTab";
 import MyPageProfile from "../components/MyPageComponents/MyPageProfile";
-import ProfileImage from "../components/MyPageComponents/ProfileImage";
 
+import { getMyProfile } from '../components/Apis/UserApi';
 
-import { isLoggedIn } from "../components/Apis/Common"
 
 // pages/MyPage.js
 const MyPageContainer = styled.div`
@@ -36,17 +35,28 @@ const MyPage = ({ contentType, whatTab = "계정" }) => {
     const [activeTab, setActiveTab] = useState(whatTab);
     const [contentsType, setContentsType] = useState(contentType);
     // contentsType 상태 ('myselfEditing', 'strangerViewing', 'myselfViewing' 중 하나)
+    const [profileData, setProfileData] = useState(null);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        const loggedIn = isLoggedIn(); // 로그인 상태 확인
-        console.log("로그인중이냐?: ", loggedIn); // 결과 출력
+        const fetchProfile = async () => {
+            try {
+                const data = await getMyProfile(); // getMyProfile 함수 호출
+                setProfileData(data.data); // 프로필 데이터 설정
+            } catch (err) {
+                setError('프로필을 불러오는 데 실패했습니다.');
+                console.error(err);
+            }
+        };
+
+        fetchProfile(); // 프로필 데이터 가져오기
     }, []);
 
 
     const renderTabContent = () => {
         switch (activeTab) {
             case "계정":
-                return <UserInfoContent contentsType={contentsType} setContentsType={setContentsType} />;
+                return <UserInfoContent contentsType={contentsType} setContentsType={setContentsType} profileData={profileData} />;
             case "알림":
                 return <NotificationContent />
             case "활동":
@@ -61,16 +71,24 @@ const MyPage = ({ contentType, whatTab = "계정" }) => {
     };
 
 
+
     return (
         <>
             <MyPageContainer>
                 <div>
-                    <h1>로그인 상태 확인</h1>
+                    {error && <p>{error}</p>}
+                    {profileData ? (
+                        <div>
+                            <h1>{profileData.name}</h1>
+                            <p>{profileData.email}</p>
+                            {/* 추가 프로필 정보 표시 */}
+                        </div>
+                    ) : (
+                        <p>로딩 중...</p>
+                    )}
                 </div>
                 <PageTitle>마이페이지</PageTitle>
-                <MyPageProfile contentsType={contentsType} />
-                <ProfileImage />
-
+                <MyPageProfile contentsType={contentsType} profileData={profileData} />
                 <MyPageContent>
                     <FAQTab tab={["계정", "알림", "활동"]} activeTab={activeTab} changeTab={changeTab} />
                     {renderTabContent()}

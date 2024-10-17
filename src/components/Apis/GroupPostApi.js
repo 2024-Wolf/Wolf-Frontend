@@ -35,8 +35,8 @@ export function registerGroupPost(groupPost) {
 }
 
 // 그룹 수정
-export function updateGroupPost(groupPost) {
-    axios.put(`${BASE_URL}/post`, {
+export function updateGroupPost(groupPost, postId) {
+    axios.put(`${BASE_URL}/post/{postId}`, {
         name: groupPost.name,
         leaderUser: groupPost.leader_user,
         type: groupPost.type,

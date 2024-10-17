@@ -79,15 +79,19 @@ const GroupManageContent = (props) => {
       { label: "자유기재", clicked: false },
     ],
     totalMemberCount: 0,
+    recruitmentList: [],
+    selectedJob: "",
+    selectedCount: "",
+    editIndex: null,
+    editJob: "",
+    editCount: "",
+    memberData: [
+      { id: 1, name: "강민철", role: "프론트엔드개발자", position: "모집장" },
+      { id: 2, name: "김영희", role: "백엔드개발자", position: "모집원" },
+      { id: 3, name: "이철수", role: "기획자", position: "모집장" },
+      { id: 4, name: "박민지", role: "프론트엔드개발자", position: "모집원" },
+    ],
   });
-
-  const memberData = [
-    { id: 1, name: "강민철", role: "프론트엔드개발자", position: "모집장" },
-    { id: 2, name: "김영희", role: "백엔드개발자", position: "모집원" },
-    { id: 3, name: "이철수", role: "기획자", position: "모집장" },
-    { id: 4, name: "박민지", role: "프론트엔드개발자", position: "모집원" },
-    // 다른 사용자 데이터 추가
-  ];
 
   const applicantData = [
     {
@@ -141,11 +145,7 @@ const GroupManageContent = (props) => {
   return (
     <Container5>
       <Section>
-        <GroupInfoContent
-          contentsType={"viewing"}
-          memberData={memberData}
-          groupData={groupData}
-        />
+        <GroupInfoContent contentsType={"viewing"} groupData={groupData} />
         {/* 모집직군 : 프로젝트시에만 보여짐
                       스터디는 총 모집 인원만 수정 가능
                       이미 모집이 완료된 인원 수는 줄일 수 없음. */}
@@ -178,7 +178,7 @@ const GroupManageContent = (props) => {
                   <InputText value={user.date} readOnly />
                 </FormFieldMultiple>
               </FormFieldRow>
-              <Violet500BackgroundButton onClick={() => openModal(user)} >
+              <Violet500BackgroundButton onClick={() => openModal(user)}>
                 지원글 확인하기
               </Violet500BackgroundButton>
             </MemberInfo>

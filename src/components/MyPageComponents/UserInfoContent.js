@@ -37,7 +37,7 @@ const DummyLinkData = [{
     }
 }];
 
-const UserInfoContent = ({ contentsType, setContentsType }) => {
+const UserInfoContent = ({ contentsType, setContentsType, profileData }) => {
     const [isNickNamePossible, setIsNickNamePossible] = useState(false);
     const [isNickNameImpossible, setIsNickNameImpossible] = useState(false);
     const [links, setLinks] = useState(DummyLinkData || []);
@@ -46,25 +46,46 @@ const UserInfoContent = ({ contentsType, setContentsType }) => {
 
 
     const [userInfo, setUserInfo] = useState({
-        name: "홍길동",
-        nickname: "nickname",
-        account: "account",
-        job: "job",
-        company: "company",
-        career: "career",
-        introduce: "안녕하세요 자기소개 입니다. 반갑습니다.",
-        email: "test@gmail.com",
+        name: profileData.name,
+        nickname: profileData.nickname,
+        account: profileData.refundAccount,
+        job: profileData.jobTitle,
+        company: profileData.organization,
+        career: profileData.experience,
+        introduce: profileData.introduction,
+        email: profileData.email,
         github: {
             name: 'github',
             imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
-            url: 'https://github.com/2024-Wolf'
+            url: profileData.links[0]
         },
         figma: {
             name: 'figma',
             imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg',
-            url: 'https://www.figma.com/design/rM1Gynrm58vcLKV0TnLQeB/Final-Project?node-id=0-1&node-type=canvas&t=BDG3dMm1HoLkkbv8-0'
+            url: profileData.links[1]
         }
     });
+
+    //     activityMetric
+    // 	activityRatingBad
+    // 	activityRatingGood
+    // 	activityRatingSoso
+    // 	challengeSuccessCount
+    // 	leaderExperienceCount
+    // 	memberExperienceCount
+    // 	totalStudyParticipation
+    // email
+    // experience
+    // id
+    // interests
+    // introduction
+    // jobTitle
+    // links
+    // name
+    // nickname
+    // organization
+    // profilePicture
+    // refundAccount
 
     const handleNickName = (e) => {
         e.preventDefault();

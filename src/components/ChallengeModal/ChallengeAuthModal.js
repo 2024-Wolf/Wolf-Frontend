@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import {
     CategoryMainTitle, Violet500LineDiv, ModalHeader, ModalBody2,
     Violet500LineButton, ModalContentWrapper
@@ -16,7 +15,7 @@ function ChallengeAuthModal(props) {
 
 
     const handleCancel = (e) => {
-        props.clickFunc();
+        props.cancel();
     }
 
     return (
