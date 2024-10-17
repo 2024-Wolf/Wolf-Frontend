@@ -8,6 +8,7 @@ import CancelIcon from '../Icon/CancelIcon';
 import FormFieldSingle from '../Group/GroupComponent/FormFieldSingle';
 import TextAreaNoCss from '../Input/TextAreaNoCss';
 import InputNumber from '../Input/InputNumber';
+import { registerChallenge } from '../Apis/ChallengePostApi';
 
 
 // components/ChallengeModal/ChallengeResultModal.js
@@ -62,12 +63,19 @@ function ChallengeApplyModal(props) {
     const [modalOn, setModalOn] = useState(false);
     const [amount, setAmount] = useState(null);
 
+    let groupPostId = 1;
+
     const handleCancel = (e) => {
         props.cancel();
     }
 
     const handleApply = (e) => {
         e.preventDefault();
+        if(amount === 0){
+            alert("챌린지 참가비를 입력해주세요!");
+            return;
+        }
+        registerChallenge(props.item.challengePostId, groupPostId, amount);
         setModalOn(!modalOn);
     }
 
@@ -90,7 +98,7 @@ function ChallengeApplyModal(props) {
 
     return (
         <>
-            {modalOn && <ChallengePayModal cancel={() => props.cancel()} handlePay={() => { setModalOn(!modalOn) }} />}
+            {modalOn && <ChallengePayModal item={props.item} amount={amount} cancel={() => props.cancel()} />}
             <ModalForm isModalOpen={true} onSubmit={handleApply}>
                 <CancelIcon
                     style={{
@@ -104,7 +112,7 @@ function ChallengeApplyModal(props) {
                 <ModalContentWrapper>
                     <ModalHeader>
                         <CategoryMainTitle>챌린지 신청하기</CategoryMainTitle>
-                        <p style={{ fontSize: '20px', fontWeight: 'bold', color: 'var(--black900)' }}>기사 자격증 취득 챌린지</p>
+                        <p style={{ fontSize: '20px', fontWeight: 'bold', color: 'var(--black900)' }}>{props.item.title}</p>
                     </ModalHeader>
                     <ApplyChallengeNotice>
                         <NoticeContent>
