@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Container4, Modal, ModalHeader, Category2, ModalBody, ModalFooter, ChallengeFee2, FeeInput, Buttons, CancelButton2, ApplyButton, ModalContentWrapper, CategoryMainTitle, Violet500LineDiv, Violet500LineButton } from "../GlobalStyledComponents";
+import { ModalHeader, ModalContentWrapper, CategoryMainTitle, Violet500LineButton } from "../GlobalStyledComponents";
 
 import React, { useState } from "react";
 import ChallengePayModal from "./ChallengePayModal";
@@ -7,7 +7,6 @@ import ModalForm from '../Modal/ModalForm';
 import CancelIcon from '../Icon/CancelIcon';
 import FormFieldSingle from '../Group/GroupComponent/FormFieldSingle';
 import TextAreaNoCss from '../Input/TextAreaNoCss';
-import InputText from '../Input/InputText';
 import InputNumber from '../Input/InputNumber';
 
 
@@ -64,7 +63,7 @@ function ChallengeApplyModal(props) {
     const [amount, setAmount] = useState(null);
 
     const handleCancel = (e) => {
-        props.clickFunc();
+        props.cancel();
     }
 
     const handleApply = (e) => {
@@ -91,7 +90,7 @@ function ChallengeApplyModal(props) {
 
     return (
         <>
-            {modalOn && <ChallengePayModal clickFunc={props.clickFunc} handlePay={() => { setModalOn(!modalOn) }} />}
+            {modalOn && <ChallengePayModal cancel={() => props.cancel()} handlePay={() => { setModalOn(!modalOn) }} />}
             <ModalForm isModalOpen={true} onSubmit={handleApply}>
                 <CancelIcon
                     style={{
@@ -157,7 +156,6 @@ function ChallengeApplyModal(props) {
                     <Violet500LineButton type='submit' style={{ margin: '15px auto 0 auto' }}>
                         신청하기
                     </Violet500LineButton>
-                    {console.log('렌더링')}
                 </ModalContentWrapper>
             </ModalForm>
         </>

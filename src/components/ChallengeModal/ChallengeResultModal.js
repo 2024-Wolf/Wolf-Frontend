@@ -1,18 +1,14 @@
 import styled, { keyframes } from "styled-components";
 import {
     ModalHeader,
-    CategoryMainTitle, Violet500LineDiv, ModalBody2,
+    CategoryMainTitle,
     ModalContentWrapper
 } from "../GlobalStyledComponents";
 
 import React from "react";
 import ModalForm from "../Modal/ModalForm";
 import CancelIcon from "../Icon/CancelIcon";
-import SelectButton from "../Button/SelectButton";
-import InputText from "../Input/InputText";
-import FormFieldSingle from "../Group/GroupComponent/FormFieldSingle";
 import TextAreaNoCss from "../Input/TextAreaNoCss";
-import InputTextNoCss from "../Input/InputTextNoCss";
 
 
 
@@ -227,7 +223,7 @@ export const AmountText = styled.div`
 function ChallengeResultModal(props) {
 
     const handleCancel = (e) => {
-        props.clickFunc();
+        props.cancel();
     }
 
     return (

@@ -1,8 +1,6 @@
-import styled from "styled-components";
-import { Container4, Modal, ModalHeader, Category2, ModalBody2, ModalFooter, Buttons, CancelButton2, ModalContentWrapper, CategoryMainTitle, Violet500LineButton } from "../GlobalStyledComponents";
+import { ModalHeader, ModalContentWrapper, CategoryMainTitle, Violet500LineButton } from "../GlobalStyledComponents";
 
 import React from "react";
-import CancelIcon from "../Icon/CancelIcon";
 import ModalForm from "../Modal/ModalForm";
 import TextAreaNoCss from "../Input/TextAreaNoCss";
 
@@ -28,7 +26,7 @@ function ChallengePayCompleteModal(props) {
 
             </p>
 
-            <Violet500LineButton type="button" onClick={() => { props.clickFunc() }}>
+            <Violet500LineButton type="button" onClick={() => { props.cancel() }}>
                 닫기
             </Violet500LineButton>
         </ModalForm>
