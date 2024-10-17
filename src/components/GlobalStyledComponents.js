@@ -1315,9 +1315,9 @@ export const SubmitButton = styled.button`
 
 // components/Header.js
 export const DropdownContent = styled.div.withConfig({
-    shouldForwardProp: (prop) => !['isDropdownOpen'].includes(prop),
+  shouldForwardProp: (prop) => !['isDropdownOpen'].includes(prop),
 })`
-  display: ${({isDropdownOpen}) => (isDropdownOpen ? "flex" : "none")};
+  display: ${({ isDropdownOpen }) => (isDropdownOpen ? "flex" : "none")};
   position: absolute;
   min-width: 120px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
@@ -2108,13 +2108,6 @@ export const ApplyInfo = styled.div`
   }
 `;
 
-// components/MyPageComponents/UserInfoContent.js
-export const SubTitle2 = styled.h2`
-  font-size: 24px;
-  font-weight: 500;
-  color: var(--black800);
-  ${responsiveFontSize}
-`;
 
 // 사용자 이미지
 // components/Group/GroupManageContent.js, components/Group/GroupComponent/GroupWritingContent.jsx
@@ -2518,10 +2511,17 @@ export const NoticeDiv = styled.div`
   color: white;
 `;
 
-// components/Group/GroupInfoModal/ApplicantModal.js
-export const SubTitle = styled.div`
+
+// compoents/MyPageComponents/UserInfoContent.js
+export const SubTitle = styled.h2`
   font-size: 14px;
-  margin-bottom: 20px;
+  font-weight: 500;
+  color: var(--violet600);
+  margin-bottom: 5px;
+
+  @media (max-width: 480px) {
+    font-size: 12px;
+  }
 `;
 
 

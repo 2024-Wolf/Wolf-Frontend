@@ -22,8 +22,16 @@ export const BarFiller = styled.div`
 export const BarLabel = styled.span`
   padding: 0 10px;
   color: var(--black800);
-    text-align: right;
-    width: 100%;
+  position: absolute;
+  right: 0px;
+
+  @media (min-width: 768px) and (max-width: 950px) {
+    display: none;
+  }
+
+  @media (max-width: 260px) {
+    display: none;
+  }
 `;
 
 // components/ActivityScore/ActivityScoreBar.jsx
@@ -32,7 +40,7 @@ export const BarContainer = styled.div`
   display:flex;
   flex-direction:column;
   gap: 5px;
-font-size: 14px;
+  font-size: 14px;
 `;
 
 // components/ActivityScore/ActivityScoreBar.jsx
@@ -41,7 +49,7 @@ export const BarText = styled.div`
   display:flex;
   flex-direction:column;
   gap: 5px;
-    position: absolute;
+  position: absolute;
   padding: 0 10px;
 `;
 
@@ -55,26 +63,37 @@ export const BarWrapper = styled.div`
   align-items: center;
   overflow: hidden;
   min-height: 35px;
+  position: relative;
+
 `;
 
-const ActivityScoreBar = () => {
-    const scores = [
-        { label: "좋았어요", percentage: 70 },
-        { label: "그저 그랬어요", percentage: 40 },
-        { label: "별로예요", percentage: 60 }
-    ];
+const ActivityScoreBar = ({ activityMetricData }) => {
 
-    return (
-        <BarContainer>
-            {scores.map((score, index) => (
-                <BarWrapper key={index}>
-                    <BarText>{score.label}</BarText>
-                    <BarFiller width={`${score.percentage}%`}></BarFiller>
-                    <BarLabel>{score.percentage}%</BarLabel>
-                </BarWrapper>
-            ))}
-        </BarContainer>
-    );
+  // const scores = [
+  //   { label: "좋았어요", percentage: activityMetricData.activityRatingGood },
+  //   { label: "그저 그랬어요", percentage: activityMetricData.activityRatingSoso },
+  //   { label: "별로예요", percentage: activityMetricData.activityRatingBad }
+  // ];  
+
+  const scores = [
+    { label: "좋았어요", percentage: 100 },
+    { label: "그저 그랬어요", percentage: 50 },
+    { label: "별로예요", percentage: 0 }
+  ];
+
+
+  return (
+    <BarContainer>
+      {console.log(activityMetricData)}
+      {scores.map((score, index) => (
+        <BarWrapper key={index}>
+          <BarText>{score.label}</BarText>
+          <BarFiller width={`${score.percentage}%`}></BarFiller>
+          <BarLabel>{score.percentage}%</BarLabel>
+        </BarWrapper>
+      ))}
+    </BarContainer>
+  );
 };
 
 export default ActivityScoreBar;

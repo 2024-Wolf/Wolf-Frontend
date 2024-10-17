@@ -1,11 +1,11 @@
 import styled, { css } from "styled-components";
 import {
-    ModalContentWrapper, ButtonGroupCenter, Div, Wrapper3, Row, ContentsRow, Column, Violet500BackgroundButton, SubContentsWrapper, EtcContentsWrapper,
-    SubTitle2, Label, Description2, ToggleBox, TextArea6, LinkRow, Button12, UpdateButton, CancelButton3, ButtonContainer,
-    LinkInputDiv, Violet400BackgroundButton, FormTitle, ButtonGroupRight, ButtonGroupLeft
+    ModalContentWrapper, Div, Wrapper3, Row, ContentsRow, Column, SubContentsWrapper, EtcContentsWrapper,
+    SubTitle, Label, LinkInputDiv, Violet400BackgroundButton, ButtonGroupRight, ButtonGroupLeft,
+    Hr
 } from "../GlobalStyledComponents";
 
-import React, { Children, useState } from "react";
+import React, { Children, useEffect, useState } from "react";
 import InputText from "../Input/InputText";
 import ActivityScoreBar from "../ActivityScore/ActivityScoreBar";
 import RegularIcon from "../Icon/RegularIcon";
@@ -25,13 +25,20 @@ import CancelButton from "../Button/CancelButton";
 import CopyButton from "../Button/CopyButton";
 import InputNumber from "../Input/InputNumber"
 
+
 const DummyLinkData = [{
     github: {
+        linkId: 0,
+        linkType: "VELOG",
+        linkUrl: "",
         imgSrc: 'https://cdn-icons-png.flaticon.com/512/25/25231.png',
         name: 'GitHub',
         url: 'https://github.com/2024-Wolf'
     },
     figma: {
+        linkId: 0,
+        linkType: "VELOG",
+        linkUrl: "",
         imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg',
         name: 'Figma',
         url: 'https://www.figma.com/design/rM1Gynrm58vcLKV0TnLQeB/Final-Project?node-id=0-1&node-type=canvas&t=BDG3dMm1HoLkkbv8-0'
@@ -43,30 +50,33 @@ const UserInfoContent = ({
     setContentsType,
     profileData
 }) => {
-    const [newProfileData, setNewProfileData] = useState({
-        id: 0,
-        nickname: "",
-        name: "",
-        email: "",
-        profilePicture: "",
-        activityMetric: {
-            totalStudyParticipation: 0,
-            memberExperienceCount: 0,
-            leaderExperienceCount: 0,
-            challengeSuccessCount: 0,
-            activityRatingGood: 0,
-            activityRatingSoso: 0,
-            activityRatingBad: 0
-        },
-        jobTitle: null,
-        organization: null,
-        experience: 0,
-        interests: null,
-        refundAccount: null,
-        introduction: null,
-        links: []
-    });
 
+    const [newUserLinks, setNewUserLinks] = useState([
+        {
+            linkId: 0,
+            linkType: "GITHUB",
+            linkUrl: ""
+        },
+        {
+            linkId: 0,
+            linkType: "FIGMA",
+            linkUrl: ""
+        },
+        {
+            linkId: 0,
+            linkType: "NOTION",
+            linkUrl: ""
+        },
+        {
+            linkId: 0,
+            linkType: "VELOG",
+            linkUrl: ""
+        }
+    ]);
+
+    const [newProfileData, setNewProfileData] = useState(profileData);
+
+    const [isEditing, setIsEditing] = useState(false);
 
     const [isNickNamePossible, setIsNickNamePossible] = useState(false);
     const [isNickNameImpossible, setIsNickNameImpossible] = useState(false);
@@ -95,7 +105,14 @@ const UserInfoContent = ({
     };
 
     const handleSaveClick = () => {
+        setIsEditing(false); // 편집 종료
         setContentsType('myselfViewing');
+    };
+
+    const handleCancelClick = () => {
+        setIsEditing(false); // 편집 종료
+        setContentsType('myselfViewing');
+        setNewProfileData(profileData); // 수정 전의 DB 정보로 초기화
     };
 
     const deleteUserHandler = () => {
@@ -109,6 +126,8 @@ const UserInfoContent = ({
 
 
     const handleInputChange = (field, value) => {
+        setIsEditing(true); // 수정 시작
+
         setNewProfileData((prev) => ({
             ...prev,
             [field]: value
@@ -144,18 +163,12 @@ const UserInfoContent = ({
     };
 
 
-    const InputField = ({ children, label, field, readOnly, onChange, type }) => (
+    const InputField = ({ children, label }) => (
         <>
             <Div>
                 <Label>{label}</Label>
                 <Row>
-                    {children && children}
-                    <InputText
-                        type={type ? type : 'text'}
-                        readOnly={readOnly ? readOnly : !(contentsType === 'myselfEditing')}
-                        value={newProfileData[field] ? `새${newProfileData[field]}` : `예전${profileData[field]}`} // value가 있을 때만 custom사용
-                        onChange={onChange ? onChange : (e) => handleInputChange(field, e.target.value)}
-                    />
+                    {children}
                 </Row>
             </Div>
         </>
@@ -253,7 +266,7 @@ const UserInfoContent = ({
                         <CancelButton
                             type="button"
                             style={{ width: '88.99px' }}
-                            onClick={() => setContentsType('viewing')} />
+                            onClick={handleCancelClick} />
                         {/* 수정 중 문구 */}
                         <span style={{ display: "flex", alignItems: "center", height: "35px", gap: "10px" }}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -278,38 +291,58 @@ const UserInfoContent = ({
             </ButtonGroupRight>
             <ContentsRow>
                 <SubContentsWrapper>
-                    <SubTitle2>기본 정보</SubTitle2>
+                    <div>
+                        <SubTitle>기본 정보</SubTitle>
+                        <Hr />
+                    </div>
                     <ContentsRow>
                         <Column>
+                            <Div>
+                                <Label>이름</Label>
+                                <Row>
+                                    <InputText
+                                        type="text"
+                                        readOnly={true}
+                                        value={isEditing ? newProfileData["name"] : profileData["name"]}
+                                        onChange={(e) => handleInputChange('name', e.target.value)}
+                                    />
+                                </Row>
+                            </Div>
                             <Div>
                                 <Label>이메일</Label>
                                 <Row>
                                     <InputText
-                                        type={'text'}
+                                        type="email"
                                         readOnly={!(contentsType === 'myselfEditing')}
-                                        value={newProfileData['email'] ? `${newProfileData['email']}` : `예전${profileData['email']}`} // value가 있을 때만 custom사용
+                                        value={isEditing ? newProfileData["email"] : profileData["email"]}
                                         onChange={(e) => handleInputChange('email', e.target.value)}
                                     />
                                 </Row>
                             </Div>
-                            <InputField
-                                label="이메일"
-                                field="email"
-                                type="email"
-                            />
-                            <InputField label="이름" field="name" readOnly={true} />
                         </Column>
                         <Column>
                             <Div>
                                 <Label>활동 점수</Label>
-                                <ActivityScoreBar />
+                                <Row>
+                                    <ActivityScoreBar activityMetricData={profileData.activityMetric} />
+                                </Row>
                             </Div>
                         </Column>
                     </ContentsRow>
                     <ModalContentWrapper style={{ gap: '5px' }}>
                         <Div style={{ gap: '2px' }}>
                             <Row>
-                                <InputField label="닉네임" field="nickname" />
+                                <Div>
+                                    <Label>닉네임</Label>
+                                    <Row>
+                                        <InputText
+                                            type="text"
+                                            readOnly={!(contentsType === 'myselfEditing')}
+                                            value={isEditing ? newProfileData["nickname"] : profileData["nickname"]}
+                                            onChange={(e) => handleInputChange('nickname', e.target.value)}
+                                        />
+                                    </Row>
+                                </Div>
                                 {contentsType === 'myselfEditing' ? (<>
                                     {/* myselfEditing */}
                                     <Violet400BackgroundButton
@@ -328,7 +361,8 @@ const UserInfoContent = ({
                             {renderNicknameNotice()}
                         </Div>
                         <Div>
-                            <InputField label="환불 계좌" field="account">
+                            <Label>환불 계좌</Label>
+                            <Row>
                                 <SelectButton
                                     style={{
                                         pointerEvents: contentsType === 'myselfEditing' ? '' : 'none',
@@ -351,24 +385,53 @@ const UserInfoContent = ({
                                     <option value="jeju">제주은행</option>
                                     <option value="creditunion">신협중앙회</option>
                                 </SelectButton>
-                            </InputField>
+                                <InputText
+                                    type="text"
+                                    readOnly={!(contentsType === 'myselfEditing')}
+                                    value={isEditing ? newProfileData["refundAccount"] : profileData["refundAccount"]}
+                                    onChange={(e) => handleInputChange('refundAccount', e.target.value)}
+                                />
+                            </Row>
                         </Div>
                     </ModalContentWrapper>
                 </SubContentsWrapper>
 
                 <SubContentsWrapper>
-                    <SubTitle2>경력 정보</SubTitle2>
-
-                    <InputField label="직무" field="job" />
-                    <InputField label="소속" field="company" />
+                    <div>
+                        <SubTitle>경력 정보</SubTitle>
+                        <Hr />
+                    </div>
+                    <Div>
+                        <Label>직무</Label>
+                        <Row>
+                            <InputText
+                                type="text"
+                                readOnly={!(contentsType === 'myselfEditing')}
+                                value={isEditing ? newProfileData["jobTitle"] : profileData["jobTitle"]}
+                                onChange={(e) => handleInputChange('jobTitle', e.target.value)}
+                            />
+                        </Row>
+                    </Div>
+                    <Div>
+                        <Label>소속</Label>
+                        <Row>
+                            <InputText
+                                type="text"
+                                readOnly={!(contentsType === 'myselfEditing')}
+                                value={isEditing ? newProfileData["organization"] : profileData["organization"]}
+                                onChange={(e) => handleInputChange('organization', e.target.value)}
+                            />
+                        </Row>
+                    </Div>
                     <Div>
                         <Label>경력</Label>
+
                         <Row>
                             <InputNumber
-                                readOnly={!(contentsType === 'myselfEditing')}
                                 style={{ textAlign: 'start' }}
-                                value={newProfileData['experience'] ? newProfileData['experience'] : profileData['experience']}
-                                onChange={handleInputChange}
+                                readOnly={!(contentsType === 'myselfEditing')}
+                                value={isEditing ? newProfileData['experience'] : profileData['experience']}
+                                onChange={(e) => handleInputChange('experience', e.target.value)}
                                 min={0}
                                 max={100}
                                 step={1} // 1단위로 증가/감소
@@ -380,16 +443,20 @@ const UserInfoContent = ({
             </ContentsRow >
 
             <EtcContentsWrapper>
-                <SubTitle2>기타 정보</SubTitle2>
+                <div>
+                    <SubTitle>기타 정보</SubTitle>
+                    <Hr />
+                </div>
                 <Div>
                     <Label>자기 소개</Label>
-                    <TextArea
-                        value={newProfileData.introduce}
-                        onChange={(e) => handleInputChange("introduce", e.target.value)}
-                        disabled={!(contentsType === 'myselfEditing')}
-                    />
+                    <Row>
+                        <TextArea
+                            value={isEditing ? newProfileData['introduce'] : profileData['introduce']}
+                            onChange={(e) => handleInputChange("introduce", e.target.value)}
+                            disabled={!(contentsType === 'myselfEditing')}
+                        />
+                    </Row>
                 </Div>
-                {/* LinkInput 컴포넌트 사용 */}
 
                 {[userLink.github, userLink.figma].map((link, index) => (
                     <LinkInputDiv key={index}>
@@ -426,7 +493,6 @@ const UserInfoContent = ({
                                             placeholder="링크를 입력하세요"
                                             value={link.url}
                                             onChange={(e) => handleInputLinkChange(link.name, e.target.value)}
-                                        // onChange={(e) => setNewLink({ ...newLink, url: e.target.value })}
                                         />
                                         {!isValidURL(link.url) &&
                                             <span

@@ -35,7 +35,7 @@ const ModalOverlay = styled.div`
 `;
 
 const ImagePlaceholder = styled.div`
-    display: ${(props) => (props.hasImage ? 'flex' : 'none')};
+    display: ${({$hasImage}) => ($hasImage ? 'flex' : 'none')};
     flex-direction: row;
     align-items: start;
     gap: 10px;
@@ -248,7 +248,7 @@ const ImagePreview = (({
                         {src ? (
                             <ImagePlaceholder
                                 style={ImagePlaceholderStyle}
-                                hasImage={true}>
+                                $hasImage={true}>
                                 <Image
                                     style={imgStyle}
                                     src={src} // src는 미리 정의한 URL 또는 기본 이미지 URL
@@ -265,7 +265,7 @@ const ImagePreview = (({
                                 return (
                                     <ImagePlaceholder
                                         style={ProfileImgPlaceholderStyle}
-                                        key={file.name} hasImage={true}>
+                                        key={file.name} $hasImage={true}>
                                         <Image
                                             style={ProfileImgStyle}
                                             src={fileURL}
@@ -280,7 +280,7 @@ const ImagePreview = (({
                             }) : (<>
                                 {defaultImgSrc && (<ImagePlaceholder
                                     style={ProfileImgPlaceholderStyle}
-                                    hasImage={true}>
+                                    $hasImage={true}>
                                     <Image
                                         style={ProfileImgStyle}
                                         src={defaultImgSrc}
