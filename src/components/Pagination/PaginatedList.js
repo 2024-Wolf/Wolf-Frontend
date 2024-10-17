@@ -40,6 +40,14 @@ const ArrowButton = styled.button`
     }
 `;
 
+const NoCurrentItem = styled.div`
+    width: 100%;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
 const PaginatedList = ({ data, renderItems, currentPage, setCurrentPage }) => {
     const [itemsPerPage, setItemsPerPage] = useState(20);  // 보여줄 아이템 개수
     const [maxPageNumbersToShow, setMaxPageNumbersToShow] = useState(10); // 보여줄 페이지 번호 개수
@@ -94,53 +102,60 @@ const PaginatedList = ({ data, renderItems, currentPage, setCurrentPage }) => {
 
     return (
         <>
-            {renderItems(currentItems)}
-            <PaginationContainer>
-                {/* 첫 페이지 버튼 */}
-                <ArrowButton onClick={goToFirstPage} disabled={currentPage === 1} aria-label="First page">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chevron-bar-left" viewBox="0 0 16 16">
-                        <path fillRule="evenodd" d="M11.854 3.646a.5.5 0 0 1 0 .708L8.207 8l3.647 3.646a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708 0M4.5 1a.5.5 0 0 0-.5.5v13a.5.5 0 0 0 1 0v-13a.5.5 0 0 0-.5-.5" />
-                    </svg>
-                </ArrowButton>
+            {currentItems.length > 0 ? (
+                <>
+                    {renderItems(currentItems)}
+                    <PaginationContainer>
+                        {/* 첫 페이지 버튼 */}
+                        <ArrowButton onClick={goToFirstPage} disabled={currentPage === 1} aria-label="First page">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chevron-bar-left" viewBox="0 0 16 16">
+                                <path fillRule="evenodd" d="M11.854 3.646a.5.5 0 0 1 0 .708L8.207 8l3.647 3.646a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708 0M4.5 1a.5.5 0 0 0-.5.5v13a.5.5 0 0 0 1 0v-13a.5.5 0 0 0-.5-.5" />
+                            </svg>
+                        </ArrowButton>
 
-                {/* 이전 페이지 버튼 */}
-                <ArrowButton onClick={goToPreviousPage} disabled={currentPage === 1} aria-label="Previous page">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chevron-double-left" viewBox="0 0 16 16">
-                        <path fillRule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
-                        <path fillRule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
-                    </svg>
-                </ArrowButton>
+                        {/* 이전 페이지 버튼 */}
+                        <ArrowButton onClick={goToPreviousPage} disabled={currentPage === 1} aria-label="Previous page">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chevron-double-left" viewBox="0 0 16 16">
+                                <path fillRule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                                <path fillRule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                            </svg>
+                        </ArrowButton>
 
-                {/* 페이지 번호 버튼 */}
-                {Array.from({ length: endPage - startPage + 1 }, (_, index) => {
-                    const pageNumber = startPage + index;
-                    return (
-                        <PageButton
-                            key={pageNumber}
-                            onClick={() => handlePageChange(pageNumber)}
-                            $active={currentPage === pageNumber}
-                            aria-label={`Go to page ${pageNumber}`}
-                        >
-                            {pageNumber}
-                        </PageButton>
-                    );
-                })}
+                        {/* 페이지 번호 버튼 */}
+                        {Array.from({ length: endPage - startPage + 1 }, (_, index) => {
+                            const pageNumber = startPage + index;
+                            return (
+                                <PageButton
+                                    key={pageNumber}
+                                    onClick={() => handlePageChange(pageNumber)}
+                                    $active={currentPage === pageNumber}
+                                    aria-label={`Go to page ${pageNumber}`}
+                                >
+                                    {pageNumber}
+                                </PageButton>
+                            );
+                        })}
 
-                {/* 다음 페이지 버튼 */}
-                <ArrowButton onClick={goToNextPage} disabled={currentPage >= pageCount} aria-label="Next page">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chevron-double-right" viewBox="0 0 16 16">
-                        <path fillRule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708" />
-                        <path fillRule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708" />
-                    </svg>
-                </ArrowButton>
+                        {/* 다음 페이지 버튼 */}
+                        <ArrowButton onClick={goToNextPage} disabled={currentPage >= pageCount} aria-label="Next page">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chevron-double-right" viewBox="0 0 16 16">
+                                <path fillRule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708" />
+                                <path fillRule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708" />
+                            </svg>
+                        </ArrowButton>
 
-                {/* 마지막 페이지 버튼 */}
-                <ArrowButton onClick={goToLastPage} disabled={currentPage >= pageCount} aria-label="Last page">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chevron-bar-right" viewBox="0 0 16 16">
-                        <path fillRule="evenodd" d="M4.146 3.646a.5.5 0 0 0 0 .708L7.793 8l-3.647 3.646a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708 0M11.5 1a.5.5 0 0 1 .5.5v13a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 .5-.5" />
-                    </svg>
-                </ArrowButton>
-            </PaginationContainer>
+                        {/* 마지막 페이지 버튼 */}
+                        <ArrowButton onClick={goToLastPage} disabled={currentPage >= pageCount} aria-label="Last page">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chevron-bar-right" viewBox="0 0 16 16">
+                                <path fillRule="evenodd" d="M4.146 3.646a.5.5 0 0 0 0 .708L7.793 8l-3.647 3.646a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708 0M11.5 1a.5.5 0 0 1 .5.5v13a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 .5-.5" />
+                            </svg>
+                        </ArrowButton>
+                    </PaginationContainer>
+                </>
+            ) : (
+                <NoCurrentItem>표시할 내용이 없습니다</NoCurrentItem>
+            )}
+
         </>
     );
 };
