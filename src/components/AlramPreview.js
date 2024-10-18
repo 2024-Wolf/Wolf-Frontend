@@ -15,8 +15,10 @@ export const AlramFooter = styled.div`
   }
 `;
 
-export const AlarmModalContainer = styled.div`
-  display: ${props => (props.isAlarmOpen ? 'fixed' : 'none')};
+export const AlarmModalContainer = styled.div.withConfig({
+    shouldForwardProp: (prop) => prop !== 'isAlarmOpen',
+})`
+  display: ${({isAlarmOpen}) => (isAlarmOpen ? 'fixed' : 'none')};
   position: absolute;
   min-width: 350px;
   max-width: 90vw; /* 최대 너비 조정 */

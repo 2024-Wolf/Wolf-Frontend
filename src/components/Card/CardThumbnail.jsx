@@ -19,20 +19,20 @@ export const CategoryContainer = styled.div`
     font: 32px Kavoon, sans-serif;
     text-decoration: none;
 
-    background-color: ${(props) =>
-        props.category === "스터디"
+    background-color: ${({ $category }) =>
+        $category === "스터디"
             ? 'var(--violet100)'
             : 'var(--violet200)'};
-    color: ${(props) =>
-        props.category === "스터디"
+    color: ${({ $category }) =>
+        $category === "스터디"
             ? 'var(--black600)'
             : 'var(--black600)'};
 `;
 
 // components/Card/Category.jsx
 export const CategoryTag = styled.span`
-    background-color: ${(props) =>
-        props.category === "스터디"
+    background-color: ${({ $category }) =>
+        $category === "스터디"
             ? 'var(--black500)'
             : 'var(--black500)'};
     color: var(--black000);
@@ -47,9 +47,9 @@ export const CategoryTag = styled.span`
 
 const CardThumbnail = ({ style, category }) => {
     return (
-        <CategoryContainer style={style} category={category}>
+        <CategoryContainer style={style} $category={category}>
             WOLF
-            {category && <CategoryTag category={category}>{category}</CategoryTag>}
+            {category && <CategoryTag $category={category}>{category}</CategoryTag>}
         </CategoryContainer>
     );
 }

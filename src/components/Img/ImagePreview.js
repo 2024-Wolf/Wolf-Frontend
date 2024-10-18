@@ -1,7 +1,7 @@
 import React, { useEffect, useState, forwardRef, useImperativeHandle, useRef } from 'react';
 import styled from 'styled-components';
 
-import { Violet500LineButton } from "../GlobalStyledComponents";
+import { CommonButton, NoBackground, fontColorHover, Violet500LineButton } from "../GlobalStyledComponents";
 
 
 import InputFile from '../Input/InputFile';
@@ -35,7 +35,7 @@ const ModalOverlay = styled.div`
 `;
 
 const ImagePlaceholder = styled.div`
-    display: ${(props) => (props.hasImage ? 'flex' : 'none')};
+    display: ${({ $hasImage }) => ($hasImage ? 'flex' : 'none')};
     flex-direction: row;
     align-items: start;
     gap: 10px;
@@ -89,6 +89,44 @@ export const ActionButtons = styled.div`
     }
 `;
 
+// components/Group/Question/QuestionItem.jsx
+export const ProfileImgEditButton = styled.div`
+    position: absolute;
+    label {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        aligin-items: center;
+
+        &:hover, &:active  {
+            background-color: rgba(0, 0, 0, 0.05);
+            color: var(--black600);
+            transition: background-color 0.3s ease, color 0.3s ease, display 0.3s ease, color 0.3s ease;
+            svg { 
+                color: var(--black600);
+                display: block;
+            }
+        }
+        
+        svg {
+            color: transparent;
+            height: 140px; 
+            display: none;
+        }
+    }
+`;
+
+export const ModalOverlayImg = styled.img`
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 10px;
+`;
+
+
+
 const ImagePreview = (({
     children,
     src,
@@ -103,7 +141,14 @@ const ImagePreview = (({
     isSubmitButtonAppear,
     imageFile,
     questionId,
-    ...props // 나머지 props를 받을 수 있도록
+    imgStyle,
+    ProfileImgStyle,
+    ImagePlaceholderStyle,
+    ProfileImgPlaceholderStyle,
+    ModalOverlayImgStyle,
+    isProfileImgEditButtonAppear,
+    defaultImgSrc,
+    ...props // 나머지 props
 }
 ) => {
 
@@ -186,6 +231,20 @@ const ImagePreview = (({
         setIsImageModalOpen(true);
     };
 
+    const handleContextMenu = (event) => {
+        event.preventDefault(); // 기본 컨텍스트 메뉴 방지
+        const confirmDelete = window.confirm("기본 이미지로 변경하시겠습니까?");
+
+        if (confirmDelete) {
+            handleDeleteFile();
+
+            if (onClick && typeof onClick === 'function') {
+                onClick();
+            } else {
+            }
+        }
+    };
+
     return (
         <>
             <ButtonRow style={style}>
@@ -201,8 +260,11 @@ const ImagePreview = (({
                         gap: "5px",
                     }}>
                         {src ? (
-                            <ImagePlaceholder hasImage={true}>
+                            <ImagePlaceholder
+                                style={ImagePlaceholderStyle}
+                                $hasImage={true}>
                                 <Image
+                                    style={imgStyle}
                                     src={src} // src는 미리 정의한 URL 또는 기본 이미지 URL
                                     alt={alt} // alt는 미리 정의한 설명
                                     onClick={() => { handleImageClick(imageFile) }} // 이미지 클릭 시 행동
@@ -212,11 +274,14 @@ const ImagePreview = (({
                                 )}
                             </ImagePlaceholder>
                         ) : (
-                            selectedImage.length > 0 && selectedImage.map((file) => {
+                            (selectedImage && selectedImage.length > 0) ? selectedImage.map((file) => {
                                 const fileURL = URL.createObjectURL(file);
                                 return (
-                                    <ImagePlaceholder key={file.name} hasImage={true}>
+                                    <ImagePlaceholder
+                                        style={ProfileImgPlaceholderStyle}
+                                        key={file.name} $hasImage={true}>
                                         <Image
+                                            style={ProfileImgStyle}
                                             src={fileURL}
                                             alt={file.name} // 파일 이름을 alt로 사용
                                             onClick={() => { handleImageClick(file) }} // 이미지 클릭 시 행동
@@ -226,19 +291,54 @@ const ImagePreview = (({
                                         )}
                                     </ImagePlaceholder>
                                 );
-                            })
+                            }) : (<>
+                                {defaultImgSrc && (<ImagePlaceholder
+                                    style={ProfileImgPlaceholderStyle}
+                                    $hasImage={true}>
+                                    <Image
+                                        style={ProfileImgStyle}
+                                        src={defaultImgSrc}
+                                        alt={'defaultImg'} // 파일 이름을 alt로 사용
+                                    />
+                                    {isEditing && ( // 편집 모드일 때만 삭제 아이콘 표시
+                                        <CancelIcon onClick={() => handleDeleteFile()} />
+                                    )}
+                                </ImagePlaceholder>)}
+                            </>)
                         )}
-
-
+                        {/* 프로필 이미지 편집일 경우 */}
+                        {isProfileImgEditButtonAppear &&
+                            <>
+                                <ProfileImgEditButton>
+                                    <label
+                                        onContextMenu={handleContextMenu}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil-square" viewBox="0 0 16 16">
+                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                            <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                                        </svg>
+                                        <input
+                                            type="file"
+                                            accept="image/jpeg, image/png"
+                                            className={className}
+                                            name="fileInput"
+                                            onChange={(event) => {
+                                                handleInputFile(event); // 파일 입력 처리 함수 호출
+                                            }}
+                                            style={{ display: "none" }}
+                                        />
+                                    </label>
+                                </ProfileImgEditButton>
+                            </>
+                        }
                         {/* 이미지 모달 */}
                         {isImageModalOpen && (
                             <>
                                 <ModalOverlay onClick={() => setIsImageModalOpen(false)}>
                                     Click :  화면 종료
-                                    <img
+                                    <ModalOverlayImg
+                                        style={ModalOverlayImgStyle}
                                         alt="확대된 이미지"
                                         src={modalImage}
-                                        style={{ maxWidth: '90%', maxHeight: '90%', borderRadius: '10px' }}
                                     />
                                 </ModalOverlay>
                             </>
@@ -273,7 +373,7 @@ const ImagePreview = (({
                         <ActionButtons>
                             <label>
                                 파일 선택&nbsp;
-                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" className="bi bi-upload" viewBox="0 0 16 16">
                                     <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
                                     <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708z" />
                                 </svg>

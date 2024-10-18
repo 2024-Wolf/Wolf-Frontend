@@ -4,7 +4,7 @@ import React from "react";
 import ChallengeListItem from "./ChallengeListItem";
 
 
-function ChallengeList(props) {   
+function ChallengeList(props) {
     let category;
     let background;
 
@@ -26,20 +26,20 @@ function ChallengeList(props) {
     return (
         <div style={{ width: '100%', display: 'flex', gap: '15px', flexDirection: 'column' }}>
             <CategoryTitle style={{ background: background }}>{category}</CategoryTitle>
-                <MainCardParentContainer>
-                    <MainCardListContainer>
-                        {props.list.map((item) => (
-                            <CardMapingContainer key={item.challenge_post_id}>
-                                <ChallengeListItem
-                                    groupPostId={props.groupPostId} 
-                                    item={item}
-                                    fetchChallenges={props.fetchChallenges}
-                                    setDetail={props.setDetail}
-                                />
-                            </CardMapingContainer>
-                        ))}
-                    </MainCardListContainer>
-                </MainCardParentContainer>
+            <MainCardParentContainer>
+                <MainCardListContainer>
+                    {props.list.map((item) => (
+                        <CardMapingContainer key={item.challenge_post_id}>
+                            <ChallengeListItem
+                                groupPostId={props.groupPostId} 
+                                item={item}
+                                fetchChallenges={props.fetchChallenges}
+                                setDetail={props.setDetail}
+                            />
+                        </CardMapingContainer>
+                    ))}
+                </MainCardListContainer>
+            </MainCardParentContainer>
         </div>
     )
 }

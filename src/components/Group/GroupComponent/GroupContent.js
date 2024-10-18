@@ -361,6 +361,8 @@ const GroupContent = ({ contentType = "viewing", groupData }) => {
     }
   };
 
+
+
   //삭제
   const deleteRecruitment = (index) => {
     const updatedRecruitmentList = newGroupData.recruitmentList.filter(
@@ -409,7 +411,7 @@ const GroupContent = ({ contentType = "viewing", groupData }) => {
               width="16"
               height="16"
               fill="currentColor"
-              class="bi bi-house-fill"
+              className="bi bi-house-fill"
               viewBox="0 0 16 16"
             >
               <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293z" />
@@ -422,12 +424,16 @@ const GroupContent = ({ contentType = "viewing", groupData }) => {
               <>
                 {/* editing */}
                 {/* 그룹 페이지 관리 탭 */}
+                <SaveButton onClick={handleSaveClick} style={{ width: '88.99px' }} />
+                <CancelButton onClick={() => setContentsType("viewing")} style={{ width: '88.99px' }} />
+                {/* 수정 중 문구 */}
                 <span
                   style={{
                     display: "flex",
                     alignItems: "center",
                     height: "35px",
                     gap: "10px",
+                    width: '88.99px'
                   }}
                 >
                   <svg
@@ -435,12 +441,12 @@ const GroupContent = ({ contentType = "viewing", groupData }) => {
                     width="16"
                     height="16"
                     fill="currentColor"
-                    class="bi bi-pencil-square"
+                    className="bi bi-pencil-square"
                     viewBox="0 0 16 16"
                   >
                     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                     <path
-                      fill-rule="evenodd"
+                      fillRule="evenodd"
                       d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
                     />
                   </svg>
@@ -456,7 +462,6 @@ const GroupContent = ({ contentType = "viewing", groupData }) => {
               <>
                 {/* viewing */}
                 <EditButton onClick={handleEditClick} />
-                <DeleteButton onClick={deleteGroupHandler} />
               </>
             )}
           </ButtonGroupRight>
@@ -531,7 +536,7 @@ const GroupContent = ({ contentType = "viewing", groupData }) => {
             width="16"
             height="16"
             fill="currentColor"
-            class="bi bi-file-earmark-person-fill"
+            className="bi bi-file-earmark-person-fill"
             viewBox="0 0 16 16"
           >
             <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0M9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1M11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0m2 5.755V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-.245S4 12 8 12s5 1.755 5 1.755" />
@@ -673,7 +678,7 @@ const GroupContent = ({ contentType = "viewing", groupData }) => {
           )}
         </FormFieldRow>
         {newGroupData.groupType === "project" &&
-        newGroupData.recruitmentList?.length > 0 ? (
+          newGroupData.recruitmentList?.length > 0 ? (
           <RecruitmentContainer>
             <RecruitmentHeader>모집 직군 목록</RecruitmentHeader>
             {newGroupData.recruitmentList.map((item, index) => (
@@ -712,11 +717,6 @@ const GroupContent = ({ contentType = "viewing", groupData }) => {
                     <Violet500LineButton onClick={() => startEdit(index)}>
                       수정
                     </Violet500LineButton>
-                    <Violet500LineButton
-                      onClick={() => deleteRecruitment(index)}
-                    >
-                      삭제
-                    </Violet500LineButton>
                   </JobCountInfo>
                 )}
               </RecruitmentItemWrapper>
@@ -734,7 +734,7 @@ const GroupContent = ({ contentType = "viewing", groupData }) => {
             width="16"
             height="16"
             fill="currentColor"
-            class="bi bi-megaphone-fill"
+            className="bi bi-megaphone-fill"
             viewBox="0 0 16 16"
           >
             <path d="M13 2.5a1.5 1.5 0 0 1 3 0v11a1.5 1.5 0 0 1-3 0zm-1 .724c-2.067.95-4.539 1.481-7 1.656v6.237a25 25 0 0 1 1.088.085c2.053.204 4.038.668 5.912 1.56zm-8 7.841V4.934c-.68.027-1.399.043-2.008.053A2.02 2.02 0 0 0 0 7v2c0 1.106.896 1.996 1.994 2.009l.496.008a64 64 0 0 1 1.51.048m1.39 1.081q.428.032.85.078l.253 1.69a1 1 0 0 1-.983 1.187h-.548a1 1 0 0 1-.916-.599l-1.314-2.48a66 66 0 0 1 1.692.064q.491.026.966.06" />
@@ -840,8 +840,6 @@ const GroupContent = ({ contentType = "viewing", groupData }) => {
           <>
             {/* editing */}
             {/* 그룹 페이지 관리 탭 */}
-            <SaveButton onClick={handleSaveClick} />
-            <CancelButton onClick={() => setContentsType("viewing")} />
           </>
         ) : contentsType === "writing" ? (
           <>

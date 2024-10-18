@@ -12,9 +12,9 @@ const InputNumberWrapper = styled.input`
     text-align: center;
 `;
 
-const InputNumber = ({ style, ...props }) => {
+const InputNumber = ({ style, readOnly, ...props }) => {
     return (
-        <InputNumberWrapper style={style} {...props} type="number" />
+        <InputNumberWrapper readOnly={readOnly} style={style} {...props} type="number" />
     );
 }
 

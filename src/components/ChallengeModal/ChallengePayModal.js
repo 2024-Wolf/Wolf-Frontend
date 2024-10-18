@@ -43,7 +43,9 @@ function ChallengePayModal(props) {
                         <CategoryMainTitle>챌린지 결제하기</CategoryMainTitle>
                         <p style={{ fontSize: '20px', fontWeight: 'bold', color: 'var(--black900)' }}>{props.item.title}</p>
                     </ModalHeader>
-                    <FormFieldSingle label={"인당 참가비"} FormLabelGroupStyle={{ marginTop: '0px' }}>
+                    <FormFieldSingle
+                        style={{ height: '100%' }}
+                        label={"인당 참가비"} FormLabelGroupStyle={{ marginTop: '0px' }}>
                         <InputNumber
                             disabled
                             type="number"

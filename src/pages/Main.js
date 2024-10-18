@@ -117,10 +117,10 @@ const Main = () => {
                             <DateButton
                                 value={searchDate}
                                 onChange={handleSearchDate}
-                                isChanged={isChanged}
+                                $isChanged={isChanged}
                                 setIsChanged={setIsChanged}
                             />
-                            <MainOptionButton onClick={handleOptionButtonClick} isOptionActive={isOptionActive}>
+                            <MainOptionButton onClick={handleOptionButtonClick} $isOptionActive={isOptionActive}>
                                 모집 중만 보기
                             </MainOptionButton>
                         </MainButtonContainer>
