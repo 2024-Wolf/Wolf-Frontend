@@ -83,7 +83,7 @@ function ChallengeListItem(props) {
 
     function Modal(){
         const ModalComponent = ModalMap[props.item.status];
-        return <ModalComponent item={props.item} amount={30000} cancel={processModalOff} />;
+        return <ModalComponent groupPostId={props.groupPostId}  item={props.item} amount={30000} cancel={processModalOff} />;
     }
 
     function openProgressModal(e){

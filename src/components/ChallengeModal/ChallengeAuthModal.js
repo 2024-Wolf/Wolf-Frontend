@@ -3,7 +3,7 @@ import {
     Violet500LineButton, ModalContentWrapper
 } from "../GlobalStyledComponents";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ModalForm from "../Modal/ModalForm";
 import CancelIcon from "../Icon/CancelIcon";
 import SelectButton from "../Button/SelectButton";
@@ -17,8 +17,11 @@ function ChallengeAuthModal(props) {
     const [name, setName] = useState("김한수");
     const [code, setCode] = useState("23202110166Y");
 
-    let groupPostId = 1;
     let status = "Y";
+
+    useEffect(()=>{
+        certificatonCheck(inst, name, code);
+    })
 
     const handleInst = (e) => {
         setInst(e.target.value);
@@ -35,7 +38,7 @@ function ChallengeAuthModal(props) {
     const handleCertification = (e) => {
         e.preventDefault();
 
-        verifyChallenge(props.item.challengePostId, groupPostId, status, inst, name, code);
+        verifyChallenge(props.item.challengePostId, props.groupPostId, status, inst, name, code);
 
         props.cancel();
     }

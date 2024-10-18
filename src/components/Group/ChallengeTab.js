@@ -6,7 +6,7 @@ import ChallengeList from "../Challenge/ChallengeList"
 import ChallengeDetail from "../Challenge/ChallengeDetail";
 import { getChallenges } from "../Apis/ChallengePostApi";
 
-const ChallengeTab = () => {
+const ChallengeTab = (props) => {
   const [detailModalOn, setDetailModalOn] = useState(false);
   const [item, setItem] = useState();
 
@@ -14,16 +14,15 @@ const ChallengeTab = () => {
   const [now, setNow] = useState([]);
   const [after, setAfter] = useState([]);
 
-  let groupId = 1;
 
   // 챌린지 목록 불러오기 함수
   async function fetchChallenges(){
     // 진행 가능한 챌린지
     try {
       const responses = await Promise.all([
-        getChallenges(groupId, "APPLY"),
-        getChallenges(groupId, "PAY"),
-        getChallenges(groupId, "PARTICIPATE")
+        getChallenges(props.groupPostId, "APPLY"),
+        getChallenges(props.groupPostId, "PAY"),
+        getChallenges(props.groupPostId, "PARTICIPATE")
       ]);
 
       // 각 응답에서 챌린지 배열을 추출하고, 빈 배열은 제외
@@ -40,7 +39,7 @@ const ChallengeTab = () => {
     }
 
     // 완료된 챌린지
-    getChallenges(groupId, "RESULT_CONFIRM")
+    getChallenges(props.groupPostId, "RESULT_CONFIRM")
     .then(function(response){
       if(response.data.challenges.length > 0) setAfter(response.data.challenges);
     })
@@ -48,8 +47,8 @@ const ChallengeTab = () => {
     // 진행중인 챌린지
     try {
       const responses = await Promise.all([
-        getChallenges(groupId, "CERTIFICATION"),
-        getChallenges(groupId, "CERTIFICATION_COMPLETE")
+        getChallenges(props.groupPostId, "CERTIFICATION"),
+        getChallenges(props.groupPostId, "CERTIFICATION_COMPLETE")
       ]);
 
       // 각 응답에서 챌린지 배열을 추출하고, 빈 배열은 제외
@@ -81,9 +80,9 @@ const ChallengeTab = () => {
       <ChallengeLists>
         {detailModalOn ? <ChallengeDetail challengePostId={item.challengePostId} prevClick={() => setDetailModalOn(false)} /> : 
         <>
-          <ChallengeList list={now} fetchChallenges={fetchChallenges} category="진행중" setDetail={setDetailItem} />
-          <ChallengeList list={after} fetchChallenges={fetchChallenges} category="완료" setDetail={setDetailItem} />
-          <ChallengeList list={before} fetchChallenges={fetchChallenges} category="진행 가능" setDetail={setDetailItem} />
+          <ChallengeList groupPostId={props.groupPostId} list={now} fetchChallenges={fetchChallenges} category="진행중" setDetail={setDetailItem} />
+          <ChallengeList groupPostId={props.groupPostId} list={after} fetchChallenges={fetchChallenges} category="완료" setDetail={setDetailItem} />
+          <ChallengeList groupPostId={props.groupPostId} list={before} fetchChallenges={fetchChallenges} category="진행 가능" setDetail={setDetailItem} />
         </>
         }
       </ChallengeLists>

@@ -31,7 +31,7 @@ const App = () => {
       <MainContents>
         <Routes>
           <Route path="/" element={<Main />} /> {/* 메인 페이지 */}
-          <Route path="/post" element={<StudyPage />} /> {/* 스터디 페이지 */}
+          <Route path="/post/:postId" element={<StudyPage />} /> {/* 스터디 페이지 */}
           <Route path="/faq" element={<FAQ />} /> {/* FAQ 페이지 */}
           <Route path="/user" element={<MyPage />} /> {/* 마이페이지 */}
           <Route path="/write" element={<CreateGroupPage />} />{" "}
@@ -40,8 +40,6 @@ const App = () => {
           {/* 이용약관 페이지 */}
           <Route path="/user/:userId" component={<MyPage />} />{" "}
           {/* 마이페이지 */}
-          <Route path="/post/:postId" component={<StudyPage />} />{" "}
-          {/* 스터디 페이지 */}
         </Routes>
       </MainContents>
       <Footer />

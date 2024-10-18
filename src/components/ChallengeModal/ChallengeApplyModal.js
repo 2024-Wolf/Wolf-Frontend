@@ -63,8 +63,6 @@ function ChallengeApplyModal(props) {
     const [modalOn, setModalOn] = useState(false);
     const [amount, setAmount] = useState(null);
 
-    let groupPostId = 1;
-
     const handleCancel = (e) => {
         props.cancel();
     }
@@ -75,7 +73,7 @@ function ChallengeApplyModal(props) {
             alert("챌린지 참가비를 입력해주세요!");
             return;
         }
-        registerChallenge(props.item.challengePostId, groupPostId, amount);
+        registerChallenge(props.item.challengePostId, props.groupPostId, amount);
         setModalOn(!modalOn);
     }
 

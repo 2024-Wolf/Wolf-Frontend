@@ -86,7 +86,8 @@ export function payChallenge(challengePostId, groupPostId, amount, status){
         payStatus: status
     },{
         headers: {
-            Authorization: accessToken
+            Authorization: accessToken,
+            
         }
     })
     .then(function(response){
@@ -122,11 +123,12 @@ export async function verifyChallenge(challengePostId, groupPostId, status, cert
 // 정부24 자격증 진위확인 api(작업 중)
 export async function certificatonCheck(inst, name, code){
 
-    return await axios.post("https://www.gov.kr/mw/NisCertificateConfirmExecute.do", {
-            reqtInstCode: inst,
-            reqtUserName: name,
-            ctftNo: code
-        }, {
+    const requestData = new URLSearchParams();
+    requestData.append('reqtInstCode', inst);
+    requestData.append('reqtUserName', name);
+    requestData.append('ctftNo', code);
+
+    return await axios.post("https://cors-anywhere.herokuapp.com/https://www.gov.kr/mw/NisCertificateConfirmExecute.do", requestData,{
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
