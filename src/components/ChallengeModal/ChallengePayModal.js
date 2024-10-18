@@ -13,23 +13,21 @@ function ChallengePayModal(props) {
 
     const [completeModalOn, setCompleteModalOn] = useState();
 
-    let groupPostId = 1;
-
     useEffect(()=>{
         if(props.item.status === "PARTICIPATE"){
-            participateChallenge(props.item.challengePostId, groupPostId, props.amount);
+            participateChallenge(props.item.challengePostId, props.groupPostId, props.amount);
         }
     })
 
     const handleSubmit = (e) => {
         e.preventDefault(); // 기본 폼 제출 방지
-        payChallenge(props.item.challengePostId, groupPostId, props.amount, "Y");
+        payChallenge(props.item.challengePostId, props.groupPostId, props.amount, "Y");
         setCompleteModalOn(true); // 모달 열기
     };
 
     return (
         <>
-            {completeModalOn && <ChallengePayCompleteModal clickFunc={props.cancel()} />}
+            {completeModalOn && <ChallengePayCompleteModal item={props.item} clickFunc={props.cancel()} />}
             <ModalForm isModalOpen={true} onSubmit={handleSubmit} style={{ zIndex: '10001' }} >
                 <CancelIcon
                     style={{

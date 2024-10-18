@@ -31,6 +31,7 @@ function ChallengeList(props) {
                     {props.list.map((item) => (
                         <CardMapingContainer key={item.challenge_post_id}>
                             <ChallengeListItem
+                                groupPostId={props.groupPostId} 
                                 item={item}
                                 fetchChallenges={props.fetchChallenges}
                                 setDetail={props.setDetail}
