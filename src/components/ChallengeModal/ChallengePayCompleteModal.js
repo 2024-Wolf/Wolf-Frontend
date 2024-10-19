@@ -11,7 +11,7 @@ function ChallengePayCompleteModal(props) {
             <ModalContentWrapper>
                 <ModalHeader>
                     <CategoryMainTitle>챌린지 결제하기</CategoryMainTitle>
-                    <p style={{ fontSize: '20px', fontWeight: 'bold', color: 'var(--black900)' }}>기사 자격증 취득 챌린지</p>
+                    <p style={{ fontSize: '20px', fontWeight: 'bold', color: 'var(--black900)' }}>props.item.title</p>
                 </ModalHeader>
             </ModalContentWrapper>
 

@@ -16,7 +16,7 @@ const MainCardList = ({ category, data }) => {
     const navigate = useNavigate();
 
     const handleCardClick = (id) => {
-        navigate(`/post`); // 카드 ID에 따라 그룹 페이지로 이동 -> navigate(`/post/${id}`)
+        navigate(`/post/${id}`); // 카드 ID에 따라 그룹 페이지로 이동 -> navigate(`/post/${id}`)
     };
 
     const filteredData = category === '전체' ? data : data.filter(card => card.category === category);

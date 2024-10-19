@@ -13,6 +13,7 @@ import Declaration from "../components/Declaration";
 import ProfileIcon from "../components/Icon/ProfileIcon";
 import FAQTab from "../components/Tab/FAQTab";
 import ReportButton from "../components/Button/ReportButton";
+import { useParams } from "react-router-dom";
 
 
 
@@ -68,6 +69,7 @@ const StudyPage = () => {
 
   const mode = "project"; // "study" 또는 "project"
 
+  const { postId } = useParams();
 
   const changeTab = (tab) => {
     setActiveTab(tab);
@@ -128,7 +130,7 @@ const StudyPage = () => {
           activeTab === TAB.MEETING ? (
             <MeetingContent isMeetingStarted={isMeetingStarted} />
           ) : (
-            <SelectedComponent />
+            <SelectedComponent groupPostId={postId}/>
           )
         }
         {/*</div>*/}
