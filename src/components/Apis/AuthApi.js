@@ -22,7 +22,7 @@ export const login = async (idToken, fcmToken) => {
 //fcmToken 저장 함수
 export const saveFcmToken = async (fcmToken) => {
     try {
-        const response = await axios.post(`${BASE_URL}/auth/fcm-token`,
+        const response = await axios.post(`${BASE_URL}/auth/fcm`,
           { fcmToken }, // 본문 데이터
           {
               headers: {

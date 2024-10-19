@@ -59,7 +59,6 @@ function Header({ isLoggedIn, onLogin, offLogin, notifications, setNotifications
       console.log("알림 권한 상태:", permission);
 
       if (permission === "granted") {
-        console.log("알림 권한이 허용되었습니다.");
         const fcmToken = await getToken(messaging, { vapidKey: process.env.REACT_APP_FIREBASE_VAPID_KEY });
 
         if (fcmToken) {
@@ -74,10 +73,10 @@ function Header({ isLoggedIn, onLogin, offLogin, notifications, setNotifications
         alert("알림 권한이 거부되었습니다. 브라우저 설정에서 알림 권한을 허용해 주세요.");
 
         // 만약 설정 페이지로 유도하고 싶다면 안내 메시지와 함께 링크를 제공할 수 있음
-        const settingsUrl = "chrome://settings/content/notifications";
-        if (window.confirm("알림 권한을 허용하려면 브라우저 설정 페이지로 이동하시겠습니까?")) {
-          window.open(settingsUrl);
-        }
+        // const settingsUrl = "chrome://settings/content/notifications";
+        // if (window.confirm("알림 권한을 허용하려면 브라우저 설정 페이지로 이동하시겠습니까?")) {
+        //   window.open(settingsUrl);
+        // }
       }
     } catch (error) {
       console.error("FCM 토큰 요청 또는 저장 중 오류 발생:", error);
@@ -103,9 +102,6 @@ function Header({ isLoggedIn, onLogin, offLogin, notifications, setNotifications
               setCurrentStep(2);
             }
             if (response.data.loginFlag === "LOGIN") {
-              // 로그인 성공 후 추가 작업
-              //FCM 권한 요청
-              //FCM 토큰 저장
               // FCM 권한 요청
               requestFcmPermissionAndSaveToken().then(r => console.log(r));
               closeModal();  // 로그인 완료 후 모달 닫기

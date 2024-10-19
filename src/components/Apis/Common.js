@@ -1,12 +1,36 @@
+import Cookies from 'js-cookie';
+
 export const BASE_URL = "http://localhost:8080/api/v1";
 
-export let accessToken = "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiVXNlclJvbGVUeXBlIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzI5MjA0MTc1LCJleHAiOjE3Mjk2MzYxNzV9.lOSmRMHLQkaCYEXzeOYHAWuX9SVoojEwI-qc-xIXxVu9_se2TB0HoliMpZEpeocD";
+export let accessToken = "Bearer " + getAccessToken();
 export let refreshToken = "Bearer eyJhbGciOiJIUzM4NCJ9.eyJleHAiOjE3Mjk1NTUyMzd9.1AEDIEFB17TtGliNB7Zf7LaxZpf9brJHuk3xTM2psfxlac0Ow9s1dfOHCsxyE8Bi";
 
+// Access Token을 로컬 스토리지에 저장
 export function setAccessToken(token) {
-    accessToken = "Bearer " + token;
+    localStorage.setItem('accessToken', "Bearer " + token);
 }
 
+// Refresh Token을 쿠키에 저장
 export function setRefreshToken(token) {
-    refreshToken = "Bearer " + token;
+    Cookies.set('refreshToken', "Bearer " + token, { expires: 7, path: '/' });
+}
+
+// Access Token 가져오기 (로컬 스토리지에서)
+export function getAccessToken() {
+    return localStorage.getItem('accessToken');
+}
+
+// Refresh Token 가져오기 (쿠키에서)
+export function getRefreshToken() {
+    return Cookies.get('refreshToken');
+}
+
+// Access Token 제거
+export function removeAccessToken() {
+    localStorage.removeItem('accessToken');
+}
+
+// Refresh Token 제거
+export function removeRefreshToken() {
+    Cookies.remove('refreshToken', { path: '/' });
 }
