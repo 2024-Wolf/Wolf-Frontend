@@ -6,6 +6,8 @@ import ModalContainer from './Modal/ModalContainer';
 import HeaderCreateGroupButton from './Button/HeaderCreateGroupButton';
 import HeaderFaqButton from './Button/HeaderFaqButton';
 import SignInSteps from './SignInContent/SignInSteps';
+import Cookies from "js-cookie";
+import {googleLogin} from "./Apis/AuthApi";
 
 export const HeaderContainer = styled.header`
   margin: auto;
@@ -46,6 +48,37 @@ function Header({ isLoggedIn, onLogin, offLogin, notifications, setNotifications
 
   const nextStep = () => setCurrentStep(prev => prev + 1);
   const prevStep = () => setCurrentStep(prev => Math.max(prev - 1, 1));
+
+  useEffect(() => {
+    // Google 로그인 후 결과를 처리하는 리스너 등록
+    window.addEventListener('message', (event) => {
+      if (event.origin === window.origin && event.data.type === 'id-token') {
+        const { idToken } = event.data;
+
+        // ID 토큰을 가지고 로그인 작업 수행
+        googleLogin(idToken)
+          .then((response) => {
+            const { accessToken, refreshToken } = response.data.tokenResponse;
+
+            // 토큰 저장
+            localStorage.setItem('accessToken', accessToken);
+            Cookies.set('refreshToken', refreshToken);
+
+            if (response.data.loginFlag === "LOGIN") {
+              console.log("로그인 성공");
+              // 로그인 성공 후 추가 작업
+            }
+          })
+          .catch((error) => {
+            console.error('로그인 실패:', error);
+          });
+      }
+    });
+
+    return () => {
+      window.removeEventListener('message', () => {});
+    };
+  }, []);
 
   return (
     <HeaderContainer>

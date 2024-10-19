@@ -84,34 +84,6 @@ export const GoogleLoginButton = styled.button`
 `;
 
 const LoginContent = ({ onNext , redirectUrl}) => {
-  // 알림 권한을 요청하는 함수
-  const requestNotificationPermission = async () => {
-    try {
-      const permission = await Notification.requestPermission();
-      if (permission === 'granted') {
-        console.log('알림 권한이 허용되었습니다.');
-        return true;
-      } else {
-        console.log('알림 권한이 거부되었습니다.');
-        return false;
-      }
-    } catch (error) {
-      console.error('알림 권한 요청 중 오류 발생:', error);
-      return false;
-    }
-  };
-
-
-  const requestFcmToken = async () => {
-    try {
-      const fcmToken = await getToken(messaging, { vapidKey: process.env.REACT_APP_FIREBASE_VAPID_KEY });
-      console.log('FCM Token:', fcmToken);
-      return fcmToken;
-    } catch (error) {
-      console.error('FCM 토큰 요청 실패:', error);
-      return null;
-    }
-  };
 
   const handleGoogleLogin = () => {
     const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
@@ -139,31 +111,15 @@ const LoginContent = ({ onNext , redirectUrl}) => {
     }
 
     const pollTimer = window.setInterval(() => {
+      console.log('popup.location.href:', popup.location.href);
       if (popup.location.href.includes('#')) {
         try {
           // 팝업에서 실행되는 코드
           const params = new URLSearchParams(popup.location.hash.substring(1)); // URL의 hash에서 토큰 추출
           const idToken = params.get("id_token");
-          console.log('idToken:', idToken);
 
           if (idToken) {
-            googleLogin(idToken)
-              .then((response) => {
-                console.log('구글 로그인 성공:', response);
-                if(response.data.tokenResponse.accessToken) {
-                  // 어디에 저장 ?
-                }
-                if(response.data.tokenResponse.refreshToken) {
-                  // 어디에 저장 ?
-                }
-                if(response.data.loginFlag === "LOGIN") {
-                  onNext();
-                }
-              })
-              .catch((error) => {
-                console.error('구글 로그인 실패:', error);
-              });
-            // 팝업 창 닫기
+            popup.opener.postMessage({ type: 'id-token', idToken }, redirectUrl);
             popup.close();
           }
         } catch (error) {
