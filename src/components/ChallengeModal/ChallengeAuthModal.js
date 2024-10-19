@@ -17,6 +17,44 @@ function ChallengeAuthModal(props) {
     const [name, setName] = useState("김한수");
     const [code, setCode] = useState("23202110166Y");
 
+
+    const [reqtInstCode, setReqtInstCode] = useState('');
+    const [reqtUserName, setReqtUserName] = useState('');
+    const [ctftNo, setCtftNo] = useState('');
+    const [responseData, setResponseData] = useState(null);
+    const [error, setError] = useState(null);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const requestData = new URLSearchParams();
+        requestData.append('reqtInstCode', reqtInstCode);
+        requestData.append('reqtUserName', reqtUserName);
+        requestData.append('ctftNo', ctftNo);
+
+        try {
+            const response = await fetch('http://localhost:4000/https://www.gov.kr/mw/NisCertificateConfirmExecute.do', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                },
+                body: requestData.toString(),
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.text();
+            setResponseData(data);
+            setError(null);
+        } catch (err) {
+            setError(err.message);
+            setResponseData(null);
+        }
+    };
+
+
     let groupPostId = 1;
     let status = "Y";
 
@@ -41,7 +79,7 @@ function ChallengeAuthModal(props) {
     }
 
     return (
-        <ModalForm isModalOpen={true}>
+        <ModalForm isModalOpen={true} onSubmit={handleSubmit}>
             <CancelIcon
                 style={{
                     position: "absolute",
@@ -61,7 +99,7 @@ function ChallengeAuthModal(props) {
                 <ModalBody2>
                     {/* 요청기관 */}
                     <FormFieldSingle label={"요청기관"} FormLabelGroupStyle={{ marginTop: '0px' }}>
-                        <SelectButton value={inst} onChange={handleInst} style={{ width: '100%' }}>
+                        <SelectButton value={reqtInstCode} onChange={(e) => setReqtInstCode(e.target.value)} style={{ width: '100%' }}>
                             <option value={"B551365"}>한국디자인진흥원</option>
                             <option value={"B553996"}>한국데이터산업진흥원</option>
                             <option value={"B551004"}>영화진흥위원회</option>
@@ -76,14 +114,15 @@ function ChallengeAuthModal(props) {
 
                     {/* 이름 */}
                     <FormFieldSingle label={"이름"} FormLabelGroupStyle={{ marginTop: '0px' }}>
-                        <InputText value={name} onChange={handleName} />
+                        <InputText value={reqtUserName} onChange={(e) => setReqtUserName(e.target.value)}
+                        />
                     </FormFieldSingle>
 
                     {/* 자격증 번호 */}
                     <FormFieldSingle label={"자격증 번호"} FormLabelGroupStyle={{ marginTop: '0px' }}>
-                        <InputText value={code} onChange={handleCode} />
+                        <InputText value={ctftNo} onChange={(e) => setCtftNo(e.target.value)}
+                        />
                     </FormFieldSingle>
-
                     {/* 챌린지 인증시 유의사항 */}
                     <Violet500LineDiv
                         style={{ background: 'var(--violet500)', color: 'var(--violet000)', gap: '0px' }}
@@ -104,10 +143,17 @@ function ChallengeAuthModal(props) {
                         />
                     </Violet500LineDiv>
                 </ModalBody2>
-                <Violet500LineButton type='button' onClick={handleCertification} style={{ margin: '0 auto' }}>
+                <Violet500LineButton type='submit' style={{ margin: '0 auto' }}>
                     인증하기
                 </Violet500LineButton>
             </ModalContentWrapper>
+            {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+            {responseData && (
+                <div>
+                    <h2>응답 결과:</h2>
+                    <pre>{responseData}</pre>
+                </div>
+            )}
         </ModalForm>
     )
 }

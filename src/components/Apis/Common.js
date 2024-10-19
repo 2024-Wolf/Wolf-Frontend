@@ -1,7 +1,7 @@
 export const BASE_URL = "http://localhost:8080/api/v1";
 
-export let accessToken = "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIyMyIsIlVzZXJSb2xlVHlwZSI6IlVTRVIiLCJpYXQiOjE3MjkyMDc1MTcsImV4cCI6MTcyOTYzOTUxN30.Vk-ZQ-S1K10omFBT6l5I8vUSRELwWZcYOw7SpFPynXmUOFpMv9zuXiBpx1e_98pj";
-export let refreshToken = "Bearer eyJhbGciOiJIUzM4NCJ9.eyJleHAiOjE3Mjk4MTIzMTd9.7htonRa_RUKMg7xF6eA8nl2eV3NhMs-FkoMUwBJd4rdOuL4qanmcu60DLHiN3JNH";
+export let accessToken = "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiVXNlclJvbGVUeXBlIjoiVVNFUiIsImlhdCI6MTcyOTMxODY4NCwiZXhwIjoxNzI5NzUwNjg0fQ.pyE6rSfTVz5s-HhSXwQlO0Sl7qoSgZPf94O9nTwb-INUstgRzeydLTvDjkDs5wB2"
+export let refreshToken = "Bearer eyJhbGciOiJIUzM4NCJ9.eyJleHAiOjE3Mjk5MjM0ODR9.S_lUZJ2TcfFSgadgmoEieL8ujbxmtrRDBEcpksNPYKhpkEdO7aOnvwoS0aow8wSv"
 
 export function setAccessToken(token) {
     accessToken = "Bearer " + token;
