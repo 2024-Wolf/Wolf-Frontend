@@ -232,14 +232,16 @@ const ImagePreview = (({
 
     const handleContextMenu = (event) => {
         event.preventDefault(); // 기본 컨텍스트 메뉴 방지
-        const confirmDelete = window.confirm("기본 이미지로 변경하시겠습니까?");
+        if (!disabled) {
+            const confirmDelete = window.confirm("기본 이미지로 변경하시겠습니까?");
 
-        if (confirmDelete) {
-            handleDeleteFile();
+            if (confirmDelete) {
+                handleDeleteFile();
 
-            if (onClick && typeof onClick === 'function') {
-                onClick();
-            } else {
+                if (onClick && typeof onClick === 'function') {
+                    onClick();
+                } else {
+                }
             }
         }
     };

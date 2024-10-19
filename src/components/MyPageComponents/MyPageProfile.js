@@ -97,7 +97,7 @@ const MyPageProfile = ({ contentsType, profileData }) => {
                 <form
                     id='uploadForm'
                     method="post" encType="multipart/form-data" action="/user"
-                    onClick={() => alert('사진 수정 기능은 업데이트 예정입니다')}
+                    onClick={() => alert('사진 수정 기능은 업데이트 예정입니다')} // 프로필 업로드 기능이 미구현되어서 안내 멘트 설정해둠
                 >
                     <ImagePreview
                         disabled={true} // 프로필 업로드 기능이 미구현되어서 disabled로 설정해둠
