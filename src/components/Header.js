@@ -52,27 +52,32 @@ function Header({ isLoggedIn, onLogin, offLogin, notifications, setNotifications
   const prevStep = () => setCurrentStep(prev => Math.max(prev - 1, 1));
 
   const requestFcmPermissionAndSaveToken = async () => {
+    console.log("FCM 권한 요청 시작");
     try {
       // 알림 권한 요청
       const permission = await Notification.requestPermission();
+      console.log("알림 권한 상태:", permission);
 
       if (permission === "granted") {
         console.log("알림 권한이 허용되었습니다.");
-
-        // FCM 토큰 요청
         const fcmToken = await getToken(messaging, { vapidKey: process.env.REACT_APP_FIREBASE_VAPID_KEY });
 
         if (fcmToken) {
           console.log("FCM 토큰:", fcmToken);
-
-          // FCM 토큰 서버에 저장
           await saveFcmToken(fcmToken);
           console.log("FCM 토큰이 서버에 저장되었습니다.");
         } else {
           console.log("FCM 토큰을 가져올 수 없습니다.");
         }
-      } else {
-        console.log("알림 권한이 거부되었습니다.");
+      } else if (permission === "denied") {
+        // 사용자에게 브라우저 설정에서 권한을 허용하라는 안내를 띄움
+        alert("알림 권한이 거부되었습니다. 브라우저 설정에서 알림 권한을 허용해 주세요.");
+
+        // 만약 설정 페이지로 유도하고 싶다면 안내 메시지와 함께 링크를 제공할 수 있음
+        const settingsUrl = "chrome://settings/content/notifications";
+        if (window.confirm("알림 권한을 허용하려면 브라우저 설정 페이지로 이동하시겠습니까?")) {
+          window.open(settingsUrl);
+        }
       }
     } catch (error) {
       console.error("FCM 토큰 요청 또는 저장 중 오류 발생:", error);
@@ -84,7 +89,6 @@ function Header({ isLoggedIn, onLogin, offLogin, notifications, setNotifications
     window.addEventListener('message', (event) => {
       if (event.origin === window.origin && event.data.type === 'id-token') {
         const { idToken } = event.data;
-
         // ID 토큰을 가지고 로그인 작업 수행
         googleLogin(idToken)
           .then((response) => {
@@ -99,7 +103,6 @@ function Header({ isLoggedIn, onLogin, offLogin, notifications, setNotifications
               setCurrentStep(2);
             }
             if (response.data.loginFlag === "LOGIN") {
-              console.log("로그인 성공");
               // 로그인 성공 후 추가 작업
               //FCM 권한 요청
               //FCM 토큰 저장

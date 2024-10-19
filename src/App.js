@@ -10,6 +10,7 @@ import Footer from "./components/Footer";
 import { MainContents } from "../src/components/GlobalStyledComponents";
 import AlarmData from "./components/Data/AlarmData";
 import Tos from "./pages/TermsOfService";
+import RedirectPage from "./pages/RedirectPage";
 
 const App = () => {
   // 로그인 상태 및 알림 데이터 관리
@@ -40,6 +41,8 @@ const App = () => {
           {/* 이용약관 페이지 */}
           <Route path="/user/:userId" component={<MyPage />} />{" "}
           {/* 마이페이지 */}
+
+          <Route path="/redirect" element={<RedirectPage />} />
         </Routes>
       </MainContents>
       <Footer />

@@ -83,7 +83,7 @@ const LoginContent = ({ redirectUrl}) => {
 
   const handleGoogleLogin = () => {
     const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
-    const redirectUri = redirectUrl;  // 리디렉션 URL
+    const redirectUri = 'http://localhost:3000/redirect';
     const scope = 'openid profile email';
     const responseType = 'id_token';  // ID 토큰 직접 받아오기
     const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=${responseType}&scope=${encodeURIComponent(scope)}&nonce=YOUR_NONCE`;
@@ -107,25 +107,10 @@ const LoginContent = ({ redirectUrl}) => {
     }
 
     const pollTimer = window.setInterval(() => {
-      try {
-        // 팝업에서 실행되는 코드
-        const params = new URLSearchParams(popup.location.hash.substring(1)); // URL의 hash에서 토큰 추출
-        const idToken = params.get("id_token");
-
-        if (idToken) {
-          popup.opener.postMessage({ type: 'id-token', idToken }, redirectUrl);
-          popup.close();
-        }
-      } catch (error) {
-        console.error("Error accessing popup location:", error);
-        popup.close();
-      }
-
       if (popup.closed) {
         window.clearInterval(pollTimer);
         window.location.href = redirectUrl || '/';
       }
-
     }, 500);
   };
 
