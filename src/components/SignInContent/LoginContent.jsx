@@ -126,48 +126,62 @@ const LoginContent = ({ onNext , redirectUrl}) => {
     const left = (window.innerWidth - width) / 2;
     const top = (window.innerHeight - height) / 2;
 
+    // 팝업 열기
     const popup = window.open(
       authUrl,
       'GoogleLogin',
       `width=${width},height=${height},top=${top},left=${left}`
     );
 
+    if (!popup) {
+      console.error("팝업이 차단되었습니다. 브라우저 설정을 확인하세요.");
+      return;
+    }
+
     const pollTimer = window.setInterval(() => {
-      try {
-        if (popup.location.href.includes('#')) {
-          const params = new URLSearchParams(popup.location.hash.substring(1)); // hash에서 # 제거
-          const idToken = params.get('id_token'); // id_token 추출
-          console.log('ID token:', idToken);
+      if (popup.location.href.includes('#')) {
+        try {
+          // 팝업에서 실행되는 코드
+          const params = new URLSearchParams(popup.location.hash.substring(1)); // URL의 hash에서 토큰 추출
+          const idToken = params.get("id_token");
+          console.log('idToken:', idToken);
+
           if (idToken) {
-            // 로그인 성공 후
             googleLogin(idToken)
-              .then((data) => {
-                console.log('로그인 성공:', data);
-                // 로그인 성공 후 추가 작업
+              .then((response) => {
+                console.log('구글 로그인 성공:', response);
+                if(response.data.tokenResponse.accessToken) {
+                  // 어디에 저장 ?
+                }
+                if(response.data.tokenResponse.refreshToken) {
+                  // 어디에 저장 ?
+                }
+                if(response.data.loginFlag === "LOGIN") {
+                  onNext();
+                }
               })
               .catch((error) => {
-                console.error('로그인 실패:', error);
-                console.error('로그인 실패:', error);
-                window.clearInterval(pollTimer); // 실패 시에도 타이머 제거
-                popup.close(); // 팝업 닫기
+                console.error('구글 로그인 실패:', error);
               });
-            window.clearInterval(pollTimer);
+            // 팝업 창 닫기
             popup.close();
           }
+        } catch (error) {
+          console.error("Error accessing popup location:", error);
+          popup.close();
         }
-      } catch (e) {
-        // 팝업 창의 location 접근이 허용되지 않은 경우 (CORS 문제 등)
-        console.error('Error accessing popup location:', e);
       }
+
       if (popup.closed) {
         window.clearInterval(pollTimer);
+        window.location.href = redirectUrl || '/';
       }
+
     }, 500);
-    // onNext();
-  }
+  };
 
 
-    return (
+  return (
         <>
             <LogoL>Wolf</LogoL>
             <LoginSubTitle>WOLF에 오신것을 환영합니다.</LoginSubTitle>
