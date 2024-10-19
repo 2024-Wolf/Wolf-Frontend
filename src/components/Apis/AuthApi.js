@@ -19,16 +19,29 @@ export const login = async (idToken, fcmToken) => {
     }
 };
 
+//fcmToken 저장 함수
+export const saveFcmToken = async (fcmToken) => {
+    try {
+        const response = await axios.post(`${BASE_URL}/auth/fcm-token`,
+          { fcmToken }, // 본문 데이터
+          {
+              headers: {
+                  Authorization: accessToken
+              }
+          }
+        );
+        return response.data; // fcmToken 저장 성공 시 데이터 반환
+    } catch (error) {
+        console.error('fcmToken 저장 실패:', error);
+        throw error; // 오류 발생 시 예외를 발생시킴
+    }
+};
+
 // 구글 로그인 함수
-export const googleLogin = async (idToken, fcmToken) => {
+export const googleLogin = async (idToken) => {
     try {
         const response = await axios.post(`${BASE_URL}/auth/google`,
-            { idToken, fcmToken }, // 본문 데이터
-            {
-                headers: {
-                    Authorization: accessToken
-                }
-            }
+            { idToken }
         );
         return response.data; // 로그인 성공 시 데이터 반환
     } catch (error) {

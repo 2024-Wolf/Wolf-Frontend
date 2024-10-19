@@ -84,6 +84,24 @@ export const GoogleLoginButton = styled.button`
 `;
 
 const LoginContent = ({ onNext , redirectUrl}) => {
+  // 알림 권한을 요청하는 함수
+  const requestNotificationPermission = async () => {
+    try {
+      const permission = await Notification.requestPermission();
+      if (permission === 'granted') {
+        console.log('알림 권한이 허용되었습니다.');
+        return true;
+      } else {
+        console.log('알림 권한이 거부되었습니다.');
+        return false;
+      }
+    } catch (error) {
+      console.error('알림 권한 요청 중 오류 발생:', error);
+      return false;
+    }
+  };
+
+
   const requestFcmToken = async () => {
     try {
       const fcmToken = await getToken(messaging, { vapidKey: process.env.REACT_APP_FIREBASE_VAPID_KEY });
@@ -121,19 +139,20 @@ const LoginContent = ({ onNext , redirectUrl}) => {
           const idToken = params.get('id_token'); // id_token 추출
           console.log('ID token:', idToken);
           if (idToken) {
-            // FCM 토큰 요청
-            const fcmToken = requestFcmToken();
-            // googleLogin(idToken, fcmToken)
-            //   .then((data) => {
-            //     console.log('로그인 성공:', data);
-            //     // 로그인 성공 후 추가 작업
-            //   })
-            //   .catch((error) => {
-            //     console.error('로그인 실패:', error);
-            //   });
-
-            popup.close();
+            // 로그인 성공 후
+            googleLogin(idToken)
+              .then((data) => {
+                console.log('로그인 성공:', data);
+                // 로그인 성공 후 추가 작업
+              })
+              .catch((error) => {
+                console.error('로그인 실패:', error);
+                console.error('로그인 실패:', error);
+                window.clearInterval(pollTimer); // 실패 시에도 타이머 제거
+                popup.close(); // 팝업 닫기
+              });
             window.clearInterval(pollTimer);
+            popup.close();
           }
         }
       } catch (e) {
@@ -142,10 +161,9 @@ const LoginContent = ({ onNext , redirectUrl}) => {
       }
       if (popup.closed) {
         window.clearInterval(pollTimer);
-        // window.location.href = redirectUrl || '/';
       }
     }, 500);
-    onNext();
+    // onNext();
   }
 
 
