@@ -1,10 +1,6 @@
 import styled from "styled-components";
 
 import React from "react";
-import {googleLogin} from "../Apis/AuthApi";
-import { getToken } from 'firebase/messaging';
-import { messaging } from '../firebase-config';
-
 
 // components/SignInContent/LoginContent.jsx
 export const LogoL = styled.div`
@@ -83,7 +79,7 @@ export const GoogleLoginButton = styled.button`
   }
 `;
 
-const LoginContent = ({ onNext , redirectUrl}) => {
+const LoginContent = ({ redirectUrl}) => {
 
   const handleGoogleLogin = () => {
     const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;

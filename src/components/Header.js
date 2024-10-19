@@ -64,9 +64,15 @@ function Header({ isLoggedIn, onLogin, offLogin, notifications, setNotifications
             localStorage.setItem('accessToken', accessToken);
             Cookies.set('refreshToken', refreshToken);
 
+            if(response.data.loginFlag === "SIGNUP") {
+              // 회원가입 프로세스 진행
+              setCurrentStep(2);
+            }
             if (response.data.loginFlag === "LOGIN") {
               console.log("로그인 성공");
               // 로그인 성공 후 추가 작업
+              closeModal();  // 로그인 완료 후 모달 닫기
+              onLogin();  // 부모 컴포넌트에 로그인 상태 업데이트
             }
           })
           .catch((error) => {
