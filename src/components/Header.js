@@ -18,7 +18,7 @@ export const HeaderContainer = styled.header`
   align-items: center;
   padding: 30px 35px;
   background: var(--black000);
-  box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.07);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.07);
   max-width: 1500px;
   width: 100%;
 `;
