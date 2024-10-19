@@ -7,7 +7,9 @@ import HeaderCreateGroupButton from './Button/HeaderCreateGroupButton';
 import HeaderFaqButton from './Button/HeaderFaqButton';
 import SignInSteps from './SignInContent/SignInSteps';
 import Cookies from "js-cookie";
-import {googleLogin} from "./Apis/AuthApi";
+import {googleLogin, saveFcmToken} from "./Apis/AuthApi";
+import {getToken} from "firebase/messaging";
+import {messaging} from "./firebase-config";
 
 export const HeaderContainer = styled.header`
   margin: auto;
@@ -49,6 +51,34 @@ function Header({ isLoggedIn, onLogin, offLogin, notifications, setNotifications
   const nextStep = () => setCurrentStep(prev => prev + 1);
   const prevStep = () => setCurrentStep(prev => Math.max(prev - 1, 1));
 
+  const requestFcmPermissionAndSaveToken = async () => {
+    try {
+      // 알림 권한 요청
+      const permission = await Notification.requestPermission();
+
+      if (permission === "granted") {
+        console.log("알림 권한이 허용되었습니다.");
+
+        // FCM 토큰 요청
+        const fcmToken = await getToken(messaging, { vapidKey: process.env.REACT_APP_FIREBASE_VAPID_KEY });
+
+        if (fcmToken) {
+          console.log("FCM 토큰:", fcmToken);
+
+          // FCM 토큰 서버에 저장
+          await saveFcmToken(fcmToken);
+          console.log("FCM 토큰이 서버에 저장되었습니다.");
+        } else {
+          console.log("FCM 토큰을 가져올 수 없습니다.");
+        }
+      } else {
+        console.log("알림 권한이 거부되었습니다.");
+      }
+    } catch (error) {
+      console.error("FCM 토큰 요청 또는 저장 중 오류 발생:", error);
+    }
+  };
+
   useEffect(() => {
     // Google 로그인 후 결과를 처리하는 리스너 등록
     window.addEventListener('message', (event) => {
@@ -71,6 +101,10 @@ function Header({ isLoggedIn, onLogin, offLogin, notifications, setNotifications
             if (response.data.loginFlag === "LOGIN") {
               console.log("로그인 성공");
               // 로그인 성공 후 추가 작업
+              //FCM 권한 요청
+              //FCM 토큰 저장
+              // FCM 권한 요청
+              requestFcmPermissionAndSaveToken().then(r => console.log(r));
               closeModal();  // 로그인 완료 후 모달 닫기
               onLogin();  // 부모 컴포넌트에 로그인 상태 업데이트
             }

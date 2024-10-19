@@ -107,21 +107,18 @@ const LoginContent = ({ redirectUrl}) => {
     }
 
     const pollTimer = window.setInterval(() => {
-      console.log('popup.location.href:', popup.location.href);
-      if (popup.location.href.includes('#')) {
-        try {
-          // 팝업에서 실행되는 코드
-          const params = new URLSearchParams(popup.location.hash.substring(1)); // URL의 hash에서 토큰 추출
-          const idToken = params.get("id_token");
+      try {
+        // 팝업에서 실행되는 코드
+        const params = new URLSearchParams(popup.location.hash.substring(1)); // URL의 hash에서 토큰 추출
+        const idToken = params.get("id_token");
 
-          if (idToken) {
-            popup.opener.postMessage({ type: 'id-token', idToken }, redirectUrl);
-            popup.close();
-          }
-        } catch (error) {
-          console.error("Error accessing popup location:", error);
+        if (idToken) {
+          popup.opener.postMessage({ type: 'id-token', idToken }, redirectUrl);
           popup.close();
         }
+      } catch (error) {
+        console.error("Error accessing popup location:", error);
+        popup.close();
       }
 
       if (popup.closed) {
