@@ -42,7 +42,7 @@ const App = () => {
           <Route path="/user/:userId" component={<MyPage />} />{" "}
           {/* 마이페이지 */}
 
-          <Route path="/redirect" element={<RedirectPage />} />
+          <Route path="/google/callback" element={<RedirectPage />} />
         </Routes>
       </MainContents>
       <Footer />

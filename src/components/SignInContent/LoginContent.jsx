@@ -83,7 +83,8 @@ const LoginContent = ({ redirectUrl}) => {
 
   const handleGoogleLogin = () => {
     const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
-    const redirectUri = 'http://localhost:3000/redirect';
+    const redirectUri = 'http://localhost:3000/google/callback';
+    console.log("redirectUri", redirectUri);
     const scope = 'openid profile email';
     const responseType = 'id_token';  // ID 토큰 직접 받아오기
     const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=${responseType}&scope=${encodeURIComponent(scope)}&nonce=YOUR_NONCE`;
@@ -102,16 +103,8 @@ const LoginContent = ({ redirectUrl}) => {
     );
 
     if (!popup) {
-      console.error("팝업이 차단되었습니다. 브라우저 설정을 확인하세요.");
-      return;
+      alert("팝업이 차단되었습니다. 브라우저 설정을 확인하세요.");
     }
-
-    const pollTimer = window.setInterval(() => {
-      if (popup.closed) {
-        window.clearInterval(pollTimer);
-        window.location.href = redirectUrl || '/';
-      }
-    }, 500);
   };
 
 
