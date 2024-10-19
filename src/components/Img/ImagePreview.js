@@ -6,7 +6,6 @@ import { CommonButton, NoBackground, fontColorHover, Violet500LineButton } from 
 
 import InputFile from '../Input/InputFile';
 import CancelIcon from '../Icon/CancelIcon';
-import { eventWrapper } from '@testing-library/user-event/dist/utils';
 
 const Image = styled.img`
     object-fit: cover;
@@ -148,6 +147,7 @@ const ImagePreview = (({
     ModalOverlayImgStyle,
     isProfileImgEditButtonAppear,
     defaultImgSrc,
+    disabled,
     ...props // 나머지 props
 }
 ) => {
@@ -191,6 +191,7 @@ const ImagePreview = (({
             onChange(e.target.files[0]);
         } else {
         }
+
     };
 
 
@@ -216,8 +217,6 @@ const ImagePreview = (({
         });
     };
 
-
-
     const handleImageClick = (image) => {
 
         // 이미지가 Blob/File인지 URL인지 확인
@@ -233,14 +232,16 @@ const ImagePreview = (({
 
     const handleContextMenu = (event) => {
         event.preventDefault(); // 기본 컨텍스트 메뉴 방지
-        const confirmDelete = window.confirm("기본 이미지로 변경하시겠습니까?");
+        if (!disabled) {
+            const confirmDelete = window.confirm("기본 이미지로 변경하시겠습니까?");
 
-        if (confirmDelete) {
-            handleDeleteFile();
+            if (confirmDelete) {
+                handleDeleteFile();
 
-            if (onClick && typeof onClick === 'function') {
-                onClick();
-            } else {
+                if (onClick && typeof onClick === 'function') {
+                    onClick();
+                } else {
+                }
             }
         }
     };
@@ -251,14 +252,16 @@ const ImagePreview = (({
                 {/* 파일 미리보기 표시 */}
                 {/* 조건부 렌더링: children이 없을 때만 렌더링 */}
                 {!isNoCssUploadButtonAppear && (
-                    <div style={{
-                        display: 'flex',
-                        whiteSpace: 'nowrap',
-                        textOverflow: 'ellipsis',
-                        width: "100%",
-                        justifyContent: 'end',
-                        gap: "5px",
-                    }}>
+                    <div
+                        style={{
+                            display: 'flex',
+                            whiteSpace: 'nowrap',
+                            textOverflow: 'ellipsis',
+                            width: "100%",
+                            justifyContent: 'end',
+                            gap: "5px",
+                        }}>
+
                         {src ? (
                             <ImagePlaceholder
                                 style={ImagePlaceholderStyle}
@@ -270,7 +273,7 @@ const ImagePreview = (({
                                     onClick={() => { handleImageClick(imageFile) }} // 이미지 클릭 시 행동
                                 />
                                 {isEditing && ( // 편집 모드일 때만 삭제 아이콘 표시
-                                    <CancelIcon onClick={() => handleDeleteFile()} />
+                                    <CancelIcon type='button' onClick={() => handleDeleteFile()} />
                                 )}
                             </ImagePlaceholder>
                         ) : (
@@ -287,7 +290,7 @@ const ImagePreview = (({
                                             onClick={() => { handleImageClick(file) }} // 이미지 클릭 시 행동
                                         />
                                         {isEditing && ( // 편집 모드일 때만 삭제 아이콘 표시
-                                            <CancelIcon onClick={() => handleDeleteFile()} />
+                                            <CancelIcon type='button' onClick={() => handleDeleteFile()} />
                                         )}
                                     </ImagePlaceholder>
                                 );
@@ -301,34 +304,32 @@ const ImagePreview = (({
                                         alt={'defaultImg'} // 파일 이름을 alt로 사용
                                     />
                                     {isEditing && ( // 편집 모드일 때만 삭제 아이콘 표시
-                                        <CancelIcon onClick={() => handleDeleteFile()} />
+                                        <CancelIcon type='button' onClick={() => handleDeleteFile()} />
                                     )}
                                 </ImagePlaceholder>)}
                             </>)
                         )}
                         {/* 프로필 이미지 편집일 경우 */}
                         {isProfileImgEditButtonAppear &&
-                            <>
-                                <ProfileImgEditButton>
-                                    <label
-                                        onContextMenu={handleContextMenu}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil-square" viewBox="0 0 16 16">
-                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                                            <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
-                                        </svg>
-                                        <input
-                                            type="file"
-                                            accept="image/jpeg, image/png"
-                                            className={className}
-                                            name="fileInput"
-                                            onChange={(event) => {
-                                                handleInputFile(event); // 파일 입력 처리 함수 호출
-                                            }}
-                                            style={{ display: "none" }}
-                                        />
-                                    </label>
-                                </ProfileImgEditButton>
-                            </>
+                            <ProfileImgEditButton>
+                                <label
+                                    onContextMenu={handleContextMenu}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil-square" viewBox="0 0 16 16">
+                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                        <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                                    </svg>
+                                    <input
+                                        disabled={disabled}
+                                        type="file"
+                                        accept="image/jpeg, image/png"
+                                        className={className}
+                                        name="fileInput"
+                                        onChange={(event) => handleInputFile(event)}
+                                        style={{ display: "none" }}
+                                    />
+                                </label>
+                            </ProfileImgEditButton>
+
                         }
                         {/* 이미지 모달 */}
                         {isImageModalOpen && (

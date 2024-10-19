@@ -842,6 +842,16 @@ export const ContentsWrapper = styled.div`
   border: 1px solid var(--violet300);
 `;
 
+// components/TabContentsWrapper.jsx
+export const ContentsWrapperForm = styled.form`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: var(--violet000);
+  border: 1px solid var(--violet300);
+`;
+
 // components/MyPageComponents/UserInfoContent.js
 export const ContentsWrapper3 = styled.div`
   background-color: white;
@@ -1931,9 +1941,9 @@ export const ResultDetail = styled.div`
 
 
 // components/MyPageComponents/UserInfoContent.js
-export const Wrapper3 = styled(ContentsWrapper)`
+export const WrapperForm = styled(ContentsWrapperForm)`
   gap: 20px;
-padding: 30px 40px;
+  padding: 30px 40px;
   ${responsivePadding}
 `;
 

@@ -16,9 +16,9 @@ export const AlramFooter = styled.div`
 `;
 
 export const AlarmModalContainer = styled.div.withConfig({
-    shouldForwardProp: (prop) => prop !== 'isAlarmOpen',
+  shouldForwardProp: (prop) => prop !== 'isAlarmOpen',
 })`
-  display: ${({isAlarmOpen}) => (isAlarmOpen ? 'fixed' : 'none')};
+  display: ${({ isAlarmOpen }) => (isAlarmOpen ? 'fixed' : 'none')};
   position: absolute;
   min-width: 350px;
   max-width: 90vw; /* 최대 너비 조정 */
@@ -107,9 +107,20 @@ export const OtherAlramItem = styled(AlramItem)`
   }
 `;
 
-const AlramPreview = ({ notifications, isAlarmOpen, onNotificationClick }) => {
+const AlramPreview = ({ notifications, isAlarmOpen, onNotificationClick, alarmsPreviewData, profileData }) => {
   const [unreadCount, setUnreadCount] = useState(0);
   const navigate = useNavigate();
+
+  const [newAlarmsPreview, setNewAlarmsPreview] = useState(
+    alarmsPreviewData ? alarmsPreviewData.map(data => ({
+      alertContent: data?.alertContent || '',
+      alertLink: data?.alertLink || '',
+      alertTime: data?.alertTime || '',
+    })) : [{
+      alertContent: '',
+      alertLink: '',
+      alertTime: '',
+    }]);
 
   useEffect(() => {
     const unread = notifications.filter(notification => notification.is_read === '0').length;

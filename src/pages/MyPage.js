@@ -11,6 +11,7 @@ import MyPageProfile from "../components/MyPageComponents/MyPageProfile";
 import { getMyProfile, getAlarms } from '../components/Apis/UserApi';
 import LoadingSpiner from "../components/Loading/LoadingSpiner";
 import ErrorUI from "../components/Error/ErrorUI";
+import { useParams } from 'react-router-dom';
 
 // pages/MyPage.js
 const MyPageContainer = styled.div`
@@ -40,6 +41,7 @@ const MyPage = ({ contentType, whatTab = "계정" }) => {
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const { userId } = useParams(); // URL에서 userId를 가져옴
 
     useEffect(() => {
         const fetchProfile = async () => {

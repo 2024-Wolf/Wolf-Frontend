@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import {
-    ModalContentWrapper, Div, Wrapper3, Row, ContentsRow, Column, SubContentsWrapper, EtcContentsWrapper,
+    ModalContentWrapper, Div, WrapperForm, Row, ContentsRow, Column, SubContentsWrapper, EtcContentsWrapper,
     SubTitle, Label, LinkInputDiv, Violet400BackgroundButton, ButtonGroupRight, ButtonGroupLeft,
     Hr
 } from "../GlobalStyledComponents";
@@ -33,63 +33,45 @@ const UserInfoContent = ({
 }) => {
     const navigate = useNavigate();
 
-    const [newUserLinks, setNewUserLinks] = useState([
-        {
-            Id: 0,
-            linkType: "GITHUB",
-            linkUrl: profileData.links.filter(link => link.linkType === "GITHUB")[0] ?
-                profileData.links.filter(link => link.linkType === "GITHUB")[0]?.linkUrl
-                : "",
-            linkSvg: GlobalSvg.github('25px')
-        },
-        {
-            Id: 0,
-            linkType: "FIGMA",
-            linkUrl: profileData.links.filter(link => link.linkType === "FIGMA")[0] ?
-                profileData.links.filter(link => link.linkType === "FIGMA")[0]?.linkUrl
-                : "",
-            linkSvg: GlobalSvg.figma('25px')
-        },
-        {
-            Id: 0,
-            linkType: "NOTION",
-            linkUrl: profileData.links.filter(link => link.linkType === "NOTION")[0] ?
-                profileData.links.filter(link => link.linkType === "NOTION")[0]?.linkUrl
-                : "",
-            linkSvg: GlobalSvg.notion('25px')
-        },
-        {
-            Id: 0,
-            linkType: "VELOG",
-            linkUrl: profileData.links.filter(link => link.linkType === "VELOG")[0] ?
-                profileData.links.filter(link => link.linkType === "VELOG")[0]?.linkUrl
-                : "",
-            linkSvg: GlobalSvg.velog('25px')
-        }
-    ]);
-
     const [newProfileData, setNewProfileData] = useState(profileData);
 
-    useEffect(() => {
+    const linkTypes = ["github", "figma", "notion", "velog"];
+
+    const [newUserLinks, setNewUserLinks] = useState(
+        linkTypes.map(linkType => {
+            const linkData = profileData.links.find(data => data.linkType === linkType) || {};
+
+            const linkObject = {
+                linkType: linkType,
+                linkUrl: linkData.linkUrl || "",
+                linkSvg: GlobalSvg[linkType.toLowerCase()]('25px') // 대문자를 소문자로 변환하여 사용
+            };
+
+            // linkId가 존재할 경우에만 linkId 속성을 추가
+            if (linkData.linkId) {
+                linkObject.linkId = linkData.linkId;
+            }
+
+            return linkObject;
+        })
+    );
+
+    useEffect(() => { // 링크 초기 값을 설정함
+
         setNewProfileData(prev => ({
             ...prev,
-            links: newUserLinks.map(({ linkType, linkUrl }, index) => ({
-                Id: newProfileData.id, // 각 링크의 고유 ID를 설정
+            links: newUserLinks.map(({ linkId, linkType, linkUrl }) => ({
+                linkId,
                 linkType,
                 linkUrl: linkUrl,
             }))
         }));
     }, []);
 
-
-
-
-    const [isEditing, setIsEditing] = useState(false);
+    const [isEditing, setIsEditing] = useState(false); // 편집중인지의 상태
 
     const [isNickNamePossible, setIsNickNamePossible] = useState(false);
     const [isNickNameImpossible, setIsNickNameImpossible] = useState(false);
-    const [newLink, setNewLink] = useState({ imgSrc: '', name: '', url: '' });
-    const [editingLinkIndex, setEditingLinkIndex] = useState(null);
 
 
 
@@ -97,15 +79,86 @@ const UserInfoContent = ({
         setContentsType('myselfEditing');
     };
 
-    const handleSaveClick = () => {
-        setIsEditing(false); // 편집 종료
-        setContentsType('myselfViewing');
+    const handleSaveClick = async (e) => {
+        e.preventDefault();
+
+        // 링크를 수정했는데, 저장하려고 할 경우 : 모든 배열이 true가 아님
+        // 링크를 수정했고, 저장도 되었을 경우 : 모든 배열이 true임
+        const boolArray = linkTypes.map(linkType => {
+            const isSaved = Boolean(newProfileData.links.find(data => data.linkType == linkType).linkUrl) ==
+                Boolean(newUserLinks.find(data => data.linkType == linkType).linkUrl)
+            return isSaved;
+        })
+
+
+        // 모든 요소가 true인지 확인
+        if (boolArray.every(value => value === true)) {
+            setIsEditing(false); // 편집 종료
+            setContentsType('myselfViewing');
+
+            // 최종적인 폼 제출 진행
+            try {
+                const result = await postMyProfile(newProfileData);
+
+                // 상태 코드가 200-299 범위인지 확인
+                if (result.status < 200 || result.status >= 300) {
+                    throw new Error('네트워크 오류');
+                }
+
+                alert("회원 정보가 수정되었습니다");
+                window.location.reload(); // 페이지 새로 고침
+
+            } catch (error) {
+                // setError('회원 정보 삭제 실패');
+                console.error(error);
+            } finally {
+                // setIsLoading(false);
+            }
+        } else {
+            // false 인덱스 찾기
+            const falseIndexes = boolArray
+                .map((value, index) => (value === false ? index : -1)) // false일 때 인덱스 저장
+                .filter(index => index !== -1); // -1을 제외한 인덱스만 필터링
+
+            const linkNames = falseIndexes.map(index => linkTypes[index]); // false 인덱스에 해당하는 이름 가져오기
+            alert(`수정한 ${linkNames.join(", ")} 링크를 등록해주세요!`);
+        }
+
+
+
     };
 
     const handleCancelClick = () => {
+        const resetProfileData = () => {
+            setNewProfileData(profileData); // 수정 전의 DB 정보로 초기화
+            setNewUserLinks( // 링크 정보도 초기화
+                linkTypes.map(linkType => {
+                    const linkData = profileData.links.find(data => data.linkType === linkType) || {};
+
+                    const linkObject = {
+                        linkType: linkType,
+                        linkUrl: linkData.linkUrl || "",
+                        linkSvg: GlobalSvg[linkType.toLowerCase()]('25px') // 대문자를 소문자로 변환하여 사용
+                    };
+
+                    // linkId가 존재할 경우에만 linkId 속성을 추가
+                    if (linkData.linkId) {
+                        linkObject.linkId = linkData.linkId;
+                    }
+
+                    return linkObject;
+                })
+            );
+        };
+
+        // eslint-disable-next-line no-restricted-globals
+        if (isEditing && !confirm("변경 사항이 있습니다. 취소하시겠습니까?")) {
+            return; // 사용자가 취소를 선택하면 함수 종료
+        }
+
         setIsEditing(false); // 편집 종료
         setContentsType('myselfViewing');
-        setNewProfileData(profileData); // 수정 전의 DB 정보로 초기화
+        resetProfileData();
     };
 
     const deleteUserHandler = async () => {
@@ -159,19 +212,16 @@ const UserInfoContent = ({
             setIsNickNamePossible(false);
         }
     };
-    // newUserLinks.links.filter(link => link.linkType === linkType)[0]
 
     const handleInputLinkChange = (targetLinkType, value) => {
         setIsEditing(true); // 수정 시작
 
-
         // 바꾼 value 값으로 다시 넣어줌
-        setNewProfileData(prev => ({
-            ...prev,
-            links: prev.links.map(link =>
+        setNewUserLinks(prevLinks =>
+            prevLinks.map(link =>
                 link.linkType === targetLinkType ? { ...link, linkUrl: value } : link
             )
-        }));
+        );
     };
 
 
@@ -190,10 +240,18 @@ const UserInfoContent = ({
     const editLinkRefresh = (targetLinkType) => {
         if (window.confirm("내용을 초기화 하시겠습니까?")) {
             // 내용을 초기화 함
+            setNewUserLinks(prevLinks =>
+                prevLinks.map(link =>
+                    link.linkType === targetLinkType ? { ...link, linkUrl: '' } : link
+                )
+            );
+
             setNewProfileData(prev => ({
                 ...prev,
                 links: prev.links.map(link =>
-                    link.linkType === targetLinkType ? { ...link, linkUrl: '' } : link
+                    link.linkType === targetLinkType ? {
+                        ...link, linkUrl: ''
+                    } : link
                 )
             }));
 
@@ -202,69 +260,19 @@ const UserInfoContent = ({
         }
     };
 
-    // 링크 수정 취소
-    const editLinkCancel = (event) => {
-        event.preventDefault();
-        setEditingLinkIndex(null);
-        setNewLink({ name: '', url: '' }); // 입력 필드 초기화
-    };
-
-    const testData = {
-        id: newProfileData.id,
-        nickname: newProfileData.nickname,
-        name: newProfileData.name,
-        jobTitle: newProfileData.jobTitle,
-        organization: newProfileData.organization,
-        experience: newProfileData.experience,
-        interests: newProfileData.interests,
-        refundAccount: newProfileData.refundAccount,
-        introduction: newProfileData.introduction,
-        links: [
-            {
-                id: 0,
-                linkType: "GITHUB",
-                linkUrl: ""
-            },
-            {
-                id: 0,
-                linkType: "FIGMA",
-                linkUrl: ""
-            },
-            {
-                id: 0,
-                linkType: "NOTION",
-                linkUrl: ""
-            },
-            {
-                id: 0,
-                linkType: "VELOG",
-                linkUrl: ""
-            }
-        ]
-    }
-
-    console.log(newProfileData.links)
     // 링크 수정 완료
-    const editLinkFinish = async (event) => {
-        event.preventDefault();
+    const editLinkFinish = (targetLinkType) => {
+        setNewProfileData(prev => ({
+            ...prev,
+            links: prev.links.map(link =>
+                link.linkType === targetLinkType ? {
+                    ...link, linkUrl: newUserLinks.filter(data => data.linkType === `${targetLinkType}`)[0]?.linkUrl
+                } : link
+            )
+        }));
 
-        // setIsLoading(true);
-        // setError(null); // 이전 에러 초기화
-
-
-        try {
-            // newProfileData를 함수에 전달하여 API 호출
-            const result = await postMyProfile(testData);
-            alert('링크 등록 성공:', result);
-        } catch (error) {
-            // setError('프로필 수정 실패');
-            console.error(error);
-        } finally {
-            // setIsLoading(false);
-        }
-
+        alert('링크를 등록했습니다');
     };
-
 
     const renderNicknameNotice = () => {
         return (
@@ -290,25 +298,16 @@ const UserInfoContent = ({
         )
     };
 
-
-    // 링크 수정 시작
-    const editLinkStart = (index) => {
-        setEditingLinkIndex(index);
-        // setNewLink(links[index]); // 수정할 링크 데이터를 newLink로 설정
-    };
-
     return (
-        <Wrapper3>
-            {GlobalSvg.apple}
+        <WrapperForm onSubmit={handleSaveClick} method="post" action="/user">
             <ButtonGroupRight>
                 {contentsType === 'myselfEditing' ? (
                     <>
                         {/* myselfEditing */}
                         {/* 저장 버튼 */}
                         <SaveButton
-                            type="button"
-                            style={{ width: '88.99px' }}
-                            onClick={handleSaveClick} />
+                            type="submit"
+                            style={{ width: '88.99px' }} />
                         {/* 취소 버튼 */}
                         <CancelButton
                             type="button"
@@ -345,24 +344,31 @@ const UserInfoContent = ({
                     <ContentsRow>
                         <Column>
                             <Div>
-                                <Label>이름</Label>
-                                <Row>
-                                    <InputText
-                                        type="text"
-                                        readOnly={true}
-                                        value={isEditing ? newProfileData["name"] : profileData["name"]}
-                                        onChange={(e) => handleInputChange('name', e.target.value)}
-                                    />
-                                </Row>
-                            </Div>
-                            <Div>
                                 <Label>이메일</Label>
                                 <Row>
                                     <InputText
                                         type="email"
-                                        readOnly={!(contentsType === 'myselfEditing')}
-                                        value={isEditing ? newProfileData["email"] : profileData["email"]}
+                                        readOnly={true}
+                                        placeholder="이메일은 필수값입니다"
+                                        value={isEditing ?
+                                            (newProfileData["email"] ? newProfileData["email"] : "") :
+                                            (profileData["email"] ? profileData["email"] : "")}
                                         onChange={(e) => handleInputChange('email', e.target.value)}
+                                    />
+                                </Row>
+                            </Div>
+                            <Div>
+                                <Label>이름</Label>
+                                <Row>
+                                    <InputText
+                                        type="text"
+                                        placeholder="이름을 입력해주세요"
+                                        readOnly={!(contentsType === 'myselfEditing')}
+                                        value={isEditing ?
+                                            (newProfileData["name"] ? newProfileData["name"] : "") :
+                                            (profileData["name"] ? profileData["name"] : "")}
+                                        onChange={(e) => handleInputChange('name', e.target.value)}
+                                        required
                                     />
                                 </Row>
                             </Div>
@@ -384,9 +390,13 @@ const UserInfoContent = ({
                                     <Row>
                                         <InputText
                                             type="text"
+                                            placeholder="닉네임을 입력해주세요"
                                             readOnly={!(contentsType === 'myselfEditing')}
-                                            value={isEditing ? newProfileData["nickname"] : profileData["nickname"]}
+                                            value={isEditing ?
+                                                (newProfileData["nickname"] ? newProfileData["nickname"] : "") :
+                                                (profileData["nickname"] ? profileData["nickname"] : "")}
                                             onChange={(e) => handleInputChange('nickname', e.target.value)}
+                                            required
                                         />
                                     </Row>
                                 </Div>
@@ -434,8 +444,11 @@ const UserInfoContent = ({
                                 </SelectButton>
                                 <InputText
                                     type="text"
+                                    placeholder="환불 계좌를 입력해주세요"
                                     readOnly={!(contentsType === 'myselfEditing')}
-                                    value={isEditing ? newProfileData["refundAccount"] : profileData["refundAccount"]}
+                                    value={isEditing ?
+                                        (newProfileData["refundAccount"] ? newProfileData["refundAccount"] : "") :
+                                        (profileData["refundAccount"] ? profileData["refundAccount"] : "")}
                                     onChange={(e) => handleInputChange('refundAccount', e.target.value)}
                                 />
                             </Row>
@@ -452,9 +465,12 @@ const UserInfoContent = ({
                         <Label>직무</Label>
                         <Row>
                             <InputText
+                                placeholder="직무를 입력하세요"
                                 type="text"
                                 readOnly={!(contentsType === 'myselfEditing')}
-                                value={isEditing ? newProfileData["jobTitle"] : profileData["jobTitle"]}
+                                value={isEditing ?
+                                    (newProfileData["jobTitle"] ? newProfileData["jobTitle"] : "") :
+                                    (profileData["jobTitle"] ? profileData["jobTitle"] : "")}
                                 onChange={(e) => handleInputChange('jobTitle', e.target.value)}
                             />
                         </Row>
@@ -464,8 +480,11 @@ const UserInfoContent = ({
                         <Row>
                             <InputText
                                 type="text"
+                                placeholder="소속을 입력하세요"
                                 readOnly={!(contentsType === 'myselfEditing')}
-                                value={isEditing ? newProfileData["organization"] : profileData["organization"]}
+                                value={isEditing ?
+                                    (newProfileData["organization"] ? newProfileData["organization"] : "") :
+                                    (profileData["organization"] ? profileData["organization"] : "")}
                                 onChange={(e) => handleInputChange('organization', e.target.value)}
                             />
                         </Row>
@@ -475,9 +494,12 @@ const UserInfoContent = ({
 
                         <Row>
                             <InputNumber
-                                style={{ textAlign: 'start' }}
+                                placeholder="경력"
+                                style={{ textAlign: 'start', }}
                                 readOnly={!(contentsType === 'myselfEditing')}
-                                value={isEditing ? newProfileData['experience'] : profileData['experience']}
+                                value={isEditing ?
+                                    (newProfileData["experience"] ? newProfileData["experience"] : "") :
+                                    (profileData["experience"] ? profileData["experience"] : "")}
                                 onChange={(e) => handleInputChange('experience', e.target.value)}
                                 min={0}
                                 max={100}
@@ -498,7 +520,11 @@ const UserInfoContent = ({
                     <Label>자기 소개</Label>
                     <Row>
                         <TextArea
-                            value={isEditing ? newProfileData['introduction'] : profileData['introduction']}
+                            placeholder="자기 소개를 입력해주세요"
+                            value={isEditing ?
+                                (newProfileData["introduction"] ? newProfileData["introduction"] : "WOLF에서 함께 성장하고 새로운 도전에 나서고 싶습니다!") :
+                                (profileData["introduction"] ? profileData["introduction"]
+                                    : 'WOLF에서 함께 성장하고 새로운 도전에 나서고 싶습니다!')}
                             onChange={(e) => handleInputChange("introduction", e.target.value)}
                             disabled={!(contentsType === 'myselfEditing')}
                         />
@@ -535,18 +561,16 @@ const UserInfoContent = ({
                                             type="text"
                                             placeholder="링크를 입력하세요"
                                             value={isEditing ?
-                                                newProfileData.links.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl :
-                                                (profileData.links.filter(link => link.linkType === `${link.linkType}`)[0] ?
-                                                    profileData.links.filter(link => link.linkType === `${link.linkType}`)[0]?.linkUrl :
+                                                newUserLinks.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl :
+                                                (profileData.links.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl ?
+                                                    profileData.links.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl :
                                                     "")}
                                             onChange={(e) => handleInputLinkChange(link.linkType, e.target.value)}
                                         />
-                                        {/* {console.log('newUserLinks.links', newUserLinks)} */}
-
                                         {!isValidURL(isEditing ?
-                                            newProfileData.links.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl :
-                                            (profileData.links.filter(link => link.linkType === `${link.linkType}`)[0] ?
-                                                profileData.links.filter(link => link.linkType === `${link.linkType}`)[0]?.linkUrl :
+                                            newUserLinks.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl :
+                                            (profileData.links.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl ?
+                                                profileData.links.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl :
                                                 "")) &&
                                             <span
                                                 style={{
@@ -558,11 +582,12 @@ const UserInfoContent = ({
                                     <LinkButtonGroup>
                                         <RefreshIcon type="button" onClick={() => editLinkRefresh(link.linkType)} />
                                         <Violet400BackgroundButton
-                                            onClick={editLinkFinish}
+                                            type="button"
+                                            onClick={() => editLinkFinish(link.linkType)}
                                             disabled={!isValidURL(isEditing ?
-                                                newProfileData.links.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl :
-                                                (profileData.links.filter(link => link.linkType === `${link.linkType}`)[0] ?
-                                                    profileData.links.filter(link => link.linkType === `${link.linkType}`)[0]?.linkUrl :
+                                                newUserLinks.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl :
+                                                (profileData.links.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl ?
+                                                    profileData.links.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl :
                                                     ""))}>
                                             등록
                                         </Violet400BackgroundButton>
@@ -576,17 +601,17 @@ const UserInfoContent = ({
                                 {/* 링크 보기 모드 */}
                                 <ALinkText
                                     style={{ border: '2px solid rgba(255, 255, 255, 0)' }}
-                                    href={(profileData.links.filter(link => link.linkType === `${link.linkType}`)[0] ?
-                                        profileData.links.filter(link => link.linkType === `${link.linkType}`)[0]?.linkUrl :
+                                    href={(profileData.links.filter(data => data.linkType === `${link.linkType}`)[0] ?
+                                        profileData.links.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl :
                                         "")}
                                     target="_blank"
                                     rel="noopener noreferrer">
-                                    {(profileData.links.filter(link => link.linkType === `${link.linkType}`)[0] ?
-                                        profileData.links.filter(link => link.linkType === `${link.linkType}`)[0]?.linkUrl :
+                                    {(profileData.links.filter(data => data.linkType === `${link.linkType}`)[0] ?
+                                        profileData.links.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl :
                                         "")}
                                 </ALinkText>
-                                <CopyButton copyTarget={(profileData.links.filter(link => link.linkType === `${link.linkType}`)[0] ?
-                                    profileData.links.filter(link => link.linkType === `${link.linkType}`)[0]?.linkUrl :
+                                <CopyButton copyTarget={(profileData.links.filter(data => data.linkType === `${link.linkType}`)[0] ?
+                                    profileData.links.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl :
                                     "")}>
                                 </CopyButton>
                             </>
@@ -609,7 +634,7 @@ const UserInfoContent = ({
                         </ButtonGroupLeft>
                     </>)
             }
-        </Wrapper3 >
+        </WrapperForm >
     );
 };
 

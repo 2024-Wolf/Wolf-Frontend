@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React, {useEffect, useState} from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import HeaderLogin from './HeaderComponents/HeaderLogin';
 import ModalContainer from './Modal/ModalContainer';
@@ -7,9 +7,9 @@ import HeaderCreateGroupButton from './Button/HeaderCreateGroupButton';
 import HeaderFaqButton from './Button/HeaderFaqButton';
 import SignInSteps from './SignInContent/SignInSteps';
 import Cookies from "js-cookie";
-import {googleLogin, saveFcmToken} from "./Apis/AuthApi";
-import {getToken} from "firebase/messaging";
-import {messaging} from "./firebase-config";
+import { googleLogin, saveFcmToken } from "./Apis/AuthApi";
+import { getToken } from "firebase/messaging";
+import { messaging } from "./firebase-config";
 
 export const HeaderContainer = styled.header`
   margin: auto;
@@ -31,11 +31,10 @@ export const HeaderLogo = styled.a`
   text-decoration: none;
 `;
 
-function Header({ isLoggedIn, onLogin, offLogin, notifications, setNotifications }) {
+function Header({ isLoggedIn, onLogin, offLogin }) {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
-  const [redirectUrl, setRedirectUrl] = useState(null);
 
   const openModal = () => {
     // 현재 URL을 저장해둠
@@ -97,7 +96,7 @@ function Header({ isLoggedIn, onLogin, offLogin, notifications, setNotifications
             localStorage.setItem('accessToken', accessToken);
             Cookies.set('refreshToken', refreshToken);
 
-            if(response.data.loginFlag === "SIGNUP") {
+            if (response.data.loginFlag === "SIGNUP") {
               // 회원가입 프로세스 진행
               setCurrentStep(2);
             }
@@ -115,7 +114,7 @@ function Header({ isLoggedIn, onLogin, offLogin, notifications, setNotifications
     });
 
     return () => {
-      window.removeEventListener('message', () => {});
+      window.removeEventListener('message', () => { });
     };
   }, []);
 
@@ -129,8 +128,6 @@ function Header({ isLoggedIn, onLogin, offLogin, notifications, setNotifications
           isLoggedIn={isLoggedIn}
           openModal={openModal}
           offLogin={offLogin}
-          notifications={notifications}
-          setNotifications={setNotifications} // setNotifications 전달
         />
       </div>
       {/* 로그인/회원가입 모달 */}
