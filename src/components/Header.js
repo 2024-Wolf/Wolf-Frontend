@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import HeaderLogin from './HeaderComponents/HeaderLogin';
 import ModalContainer from './Modal/ModalContainer';
@@ -31,10 +31,11 @@ export const HeaderLogo = styled.a`
   text-decoration: none;
 `;
 
-function Header({ isLoggedIn, onLogin, offLogin }) {
+function Header({ isLoggedIn, onLogin, offLogin, notifications, setNotifications }) {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
+  const [redirectUrl, setRedirectUrl] = useState(null);
 
   const openModal = () => {
     // 현재 URL을 저장해둠
