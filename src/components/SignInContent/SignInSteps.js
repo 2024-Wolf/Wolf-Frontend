@@ -6,9 +6,9 @@ import SecondProcessContext from "./SecondProcessContext";
 import ThirdProcessContent from "./ThirdProcessContent";
 import FourthProcessContent from "./FourthProcessContent";
 
-const SignInSteps = ({ currentStep, nextStep, prevStep, onLogin, closeModal }) => {
+const SignInSteps = ({ redirectUrl, currentStep, nextStep, prevStep, onLogin, closeModal }) => {
     const steps = [
-        <LoginContent onNext={nextStep} />,
+        <LoginContent onNext={nextStep} redirectUrl={redirectUrl}/>,
         <FirstProcessContent onNext={nextStep} onPrev={prevStep} />,
         <SecondProcessContext onNext={nextStep} onPrev={prevStep} />,
         <ThirdProcessContent onNext={nextStep} onPrev={prevStep} />,

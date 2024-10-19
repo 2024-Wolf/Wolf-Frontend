@@ -1,6 +1,9 @@
 import styled from "styled-components";
 
 import React from "react";
+import {googleLogin} from "../Apis/AuthApi";
+import { getToken } from 'firebase/messaging';
+import { messaging } from '../firebase-config';
 
 
 // components/SignInContent/LoginContent.jsx
@@ -80,13 +83,71 @@ export const GoogleLoginButton = styled.button`
   }
 `;
 
-const LoginContent = ({ onNext }) => {
-    const handleGoogleLogin = () => {
-        // Google 로그인 처리 로직 추가
-        console.log(onNext);
-        // 이후 다음 단계 진행
-        onNext();
-    };
+const LoginContent = ({ onNext , redirectUrl}) => {
+  const requestFcmToken = async () => {
+    try {
+      const fcmToken = await getToken(messaging, { vapidKey: process.env.REACT_APP_FIREBASE_VAPID_KEY });
+      console.log('FCM Token:', fcmToken);
+      return fcmToken;
+    } catch (error) {
+      console.error('FCM 토큰 요청 실패:', error);
+      return null;
+    }
+  };
+
+  const handleGoogleLogin = () => {
+    const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+    const redirectUri = redirectUrl;  // 리디렉션 URL
+    const scope = 'openid profile email';
+    const responseType = 'id_token';  // ID 토큰 직접 받아오기
+    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=${responseType}&scope=${encodeURIComponent(scope)}&nonce=YOUR_NONCE`;
+
+    // 팝업으로 OAuth 동의 화면 열기
+    const width = 500;
+    const height = 600;
+    const left = (window.innerWidth - width) / 2;
+    const top = (window.innerHeight - height) / 2;
+
+    const popup = window.open(
+      authUrl,
+      'GoogleLogin',
+      `width=${width},height=${height},top=${top},left=${left}`
+    );
+
+    const pollTimer = window.setInterval(() => {
+      try {
+        if (popup.location.href.includes('#')) {
+          const params = new URLSearchParams(popup.location.hash.substring(1)); // hash에서 # 제거
+          const idToken = params.get('id_token'); // id_token 추출
+          console.log('ID token:', idToken);
+          if (idToken) {
+            // FCM 토큰 요청
+            const fcmToken = requestFcmToken();
+            // googleLogin(idToken, fcmToken)
+            //   .then((data) => {
+            //     console.log('로그인 성공:', data);
+            //     // 로그인 성공 후 추가 작업
+            //   })
+            //   .catch((error) => {
+            //     console.error('로그인 실패:', error);
+            //   });
+
+            popup.close();
+            window.clearInterval(pollTimer);
+          }
+        }
+      } catch (e) {
+        // 팝업 창의 location 접근이 허용되지 않은 경우 (CORS 문제 등)
+        console.error('Error accessing popup location:', e);
+      }
+      if (popup.closed) {
+        window.clearInterval(pollTimer);
+        // window.location.href = redirectUrl || '/';
+      }
+    }, 500);
+    onNext();
+  }
+
 
     return (
         <>
