@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import HeaderLogin from './HeaderComponents/HeaderLogin';
 import ModalContainer from './Modal/ModalContainer';
@@ -27,10 +27,11 @@ export const HeaderLogo = styled.a`
   text-decoration: none;
 `;
 
-function Header({ isLoggedIn, onLogin, offLogin, notifications, setNotifications }) {
+function Header({ isLoggedIn, onLogin, offLogin }) {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
+
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => {
@@ -51,8 +52,6 @@ function Header({ isLoggedIn, onLogin, offLogin, notifications, setNotifications
           isLoggedIn={isLoggedIn}
           openModal={openModal}
           offLogin={offLogin}
-          notifications={notifications}
-          setNotifications={setNotifications} // setNotifications 전달
         />
       </div>
       {/* 로그인/회원가입 모달 */}
