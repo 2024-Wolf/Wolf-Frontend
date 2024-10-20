@@ -13,7 +13,7 @@ import RedirectPage from "./pages/RedirectPage";
 
 const App = () => {
   // 로그인 상태 및 알림 데이터 관리
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const onLogin = () => setIsLoggedIn(true);
   const offLogin = () => setIsLoggedIn(false);
@@ -36,7 +36,7 @@ const App = () => {
           <Route path="/user/my" element={<MyPage />} /> {/* 마이페이지 */}
           <Route path="/user/:userId" component={<MyPage />} /> {/* 마이페이지 */}
           <Route path="/post/:postId" component={<StudyPage />} /> {/* 스터디 페이지 */}
-
+          <Route path="/google/callback" element={<RedirectPage />} />
         </Routes>
       </MainContents>
       <Footer />
