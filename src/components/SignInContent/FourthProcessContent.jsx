@@ -8,7 +8,7 @@ import NextButton from "./Components/NextButton";
 import SubTitle from "./Components/SubTitle";
 import PreviousIcon from "../Icon/PreviousIcon";
 
-const FourthProcessContent = ({ onPrev, onClose, onLogin }) => {
+const FourthProcessContent = ({ onPrev, onClose, onLogin, handleInputChange, handleInputReset }) => {
     const [isNickNamePossible, setIsNickNamePossible] = useState(false);
     const [isNickNameImpossible, setIsNickNameImpossible] = useState(false);
 
@@ -81,7 +81,14 @@ const FourthProcessContent = ({ onPrev, onClose, onLogin }) => {
                 <Violet500LineButton
                     type="button"
                     style={{ width: '100%' }}
-                    onClick={onPrev}>
+                    onClick={() => {
+                        if (window.confirm('이전으로 이동하면 입력 정보가 초기화 됩니다.\n진행하시겠습니까?')) {
+                            onPrev();
+                            handleInputReset('jobTitle');
+                            handleInputReset('experience');
+                            handleInputReset('organization');
+                        }
+                    }}>
                     이전
                 </Violet500LineButton>
                 <Violet500BackgroundButton

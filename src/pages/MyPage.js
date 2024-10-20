@@ -97,12 +97,19 @@ const MyPage = ({ contentType, whatTab = "계정" }) => {
         <>
             <MyPageContainer>
                 {/* 제목 */}
-                <PageTitle>마이페이지</PageTitle>
+                {contentsType === 'strangerViewing' ? (<>
+                    <PageTitle>유저 정보</PageTitle>
+                </>) : (<>
+                    <PageTitle>마이페이지</PageTitle>
+                </>)}
+
                 {/* 프로필 사진 */}
                 <MyPageProfile contentsType={contentsType} profileData={profileData} />
                 {/* 컨텐츠 */}
                 <MyPageContent>
-                    <FAQTab tab={["계정", "알림", "활동"]} activeTab={activeTab} changeTab={changeTab} />
+                    {contentsType === 'strangerViewing' ? (<></>) : (<>
+                        <FAQTab tab={["계정", "알림", "활동"]} activeTab={activeTab} changeTab={changeTab} />
+                    </>)}
                     {renderTabContent()}
                 </MyPageContent>
             </MyPageContainer >

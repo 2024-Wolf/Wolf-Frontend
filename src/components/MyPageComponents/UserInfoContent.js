@@ -275,25 +275,28 @@ const UserInfoContent = ({
 
     const renderNicknameNotice = () => {
         return (
-            <div style={{ height: '16px' }}>
-                {/* {!isButtonDisable && } */}
-                {isNickNamePossible &&
-                    <span
-                        style={{
-                            fontSize: '13px', color: 'var(--blueViolet700)'
-                        }}>
-                        사용 가능한 닉네임입니다
-                    </span>
-                }
-                {isNickNameImpossible &&
-                    <span
-                        style={{
-                            fontSize: '13px', color: '#ED4E51'
-                        }}>
-                        사용 불가능한 닉네임입니다
-                    </span>
-                }
-            </div>
+            <>
+                {(isNickNamePossible || isNickNameImpossible) && <div style={{ height: '16px' }}>
+                    {/* {!isButtonDisable && } */}
+                    {isNickNamePossible &&
+                        <span
+                            style={{
+                                fontSize: '13px', color: 'var(--blueViolet700)'
+                            }}>
+                            사용 가능한 닉네임입니다
+                        </span>
+                    }
+                    {isNickNameImpossible &&
+                        <span
+                            style={{
+                                fontSize: '13px', color: '#ED4E51'
+                            }}>
+                            사용 불가능한 닉네임입니다
+                        </span>
+                    }
+                </div>}
+            </>
+
         )
     };
 
@@ -340,47 +343,7 @@ const UserInfoContent = ({
                         <SubTitle>기본 정보</SubTitle>
                         <Hr />
                     </div>
-                    <ContentsRow>
-                        <Column>
-                            <Div>
-                                <Label>이메일</Label>
-                                <Row>
-                                    <InputText
-                                        type="email"
-                                        readOnly={true}
-                                        placeholder="이메일은 필수값입니다"
-                                        value={isEditing ?
-                                            (newProfileData["email"] ? newProfileData["email"] : "") :
-                                            (profileData["email"] ? profileData["email"] : "")}
-                                        onChange={(e) => handleInputChange('email', e.target.value)}
-                                    />
-                                </Row>
-                            </Div>
-                            <Div>
-                                <Label>이름</Label>
-                                <Row>
-                                    <InputText
-                                        type="text"
-                                        placeholder="이름을 입력해주세요"
-                                        readOnly={!(contentsType === 'myselfEditing')}
-                                        value={isEditing ?
-                                            (newProfileData["name"] ? newProfileData["name"] : "") :
-                                            (profileData["name"] ? profileData["name"] : "")}
-                                        onChange={(e) => handleInputChange('name', e.target.value)}
-                                        required
-                                    />
-                                </Row>
-                            </Div>
-                        </Column>
-                        <Column>
-                            <Div>
-                                <Label>활동 점수</Label>
-                                <Row>
-                                    <ActivityScoreBar activityMetricData={profileData.activityMetric} />
-                                </Row>
-                            </Div>
-                        </Column>
-                    </ContentsRow>
+
                     <ModalContentWrapper style={{ gap: '5px' }}>
                         <Div style={{ gap: '2px' }}>
                             <Row>
@@ -416,43 +379,93 @@ const UserInfoContent = ({
                             {/* 중복 검사 후 코멘트 출력 */}
                             {renderNicknameNotice()}
                         </Div>
-                        <Div>
-                            <Label>환불 계좌</Label>
-                            <Row>
-                                <SelectButton
-                                    style={{
-                                        pointerEvents: contentsType === 'myselfEditing' ? '' : 'none',
-                                        backgroundColor: contentsType === 'myselfEditing' ? '' : 'var(--violet200)' // 비활성화 색상
-                                    }}
-                                >
-                                    <option value="kb">국민은행</option>
-                                    <option value="shinhan">신한은행</option>
-                                    <option value="hana">하나은행</option>
-                                    <option value="woori">우리은행</option>
-                                    <option value="nh">농협은행</option>
-                                    <option value="ibk">기업은행</option>
-                                    <option value="sc">SC제일은행</option>
-                                    <option value="kbank">케이뱅크</option>
-                                    <option value="toss">토스뱅크</option>
-                                    <option value="busan">부산은행</option>
-                                    <option value="gwangju">광주은행</option>
-                                    <option value="daegu">대구은행</option>
-                                    <option value="jeonbuk">전북은행</option>
-                                    <option value="jeju">제주은행</option>
-                                    <option value="creditunion">신협중앙회</option>
-                                </SelectButton>
-                                <InputText
-                                    type="text"
-                                    placeholder="환불 계좌를 입력해주세요"
-                                    readOnly={!(contentsType === 'myselfEditing')}
-                                    value={isEditing ?
-                                        (newProfileData["refundAccount"] ? newProfileData["refundAccount"] : "") :
-                                        (profileData["refundAccount"] ? profileData["refundAccount"] : "")}
-                                    onChange={(e) => handleInputChange('refundAccount', e.target.value)}
-                                />
-                            </Row>
-                        </Div>
+
+                        {contentsType === 'strangerViewing' ? (<>
+                        </>) : (<>
+
+                            <Div>
+                                <Label>환불 계좌</Label>
+                                <Row>
+                                    <SelectButton
+                                        style={{
+                                            pointerEvents: contentsType === 'myselfEditing' ? '' : 'none',
+                                            backgroundColor: contentsType === 'myselfEditing' ? '' : 'var(--violet200)' // 비활성화 색상
+                                        }}
+                                    >
+                                        <option value="kb">국민은행</option>
+                                        <option value="shinhan">신한은행</option>
+                                        <option value="hana">하나은행</option>
+                                        <option value="woori">우리은행</option>
+                                        <option value="nh">농협은행</option>
+                                        <option value="ibk">기업은행</option>
+                                        <option value="sc">SC제일은행</option>
+                                        <option value="kbank">케이뱅크</option>
+                                        <option value="toss">토스뱅크</option>
+                                        <option value="busan">부산은행</option>
+                                        <option value="gwangju">광주은행</option>
+                                        <option value="daegu">대구은행</option>
+                                        <option value="jeonbuk">전북은행</option>
+                                        <option value="jeju">제주은행</option>
+                                        <option value="creditunion">신협중앙회</option>
+                                    </SelectButton>
+                                    <InputText
+                                        type="text"
+                                        placeholder="환불 계좌를 입력해주세요"
+                                        readOnly={!(contentsType === 'myselfEditing')}
+                                        value={isEditing ?
+                                            (newProfileData["refundAccount"] ? newProfileData["refundAccount"] : "") :
+                                            (profileData["refundAccount"] ? profileData["refundAccount"] : "")}
+                                        onChange={(e) => handleInputChange('refundAccount', e.target.value)}
+                                    />
+                                </Row>
+                            </Div>
+                        </>)}
                     </ModalContentWrapper>
+                    <ContentsRow>
+                        <Column>
+                            {contentsType === 'strangerViewing' ? (<>
+                            </>) : (<>
+                                <Div>
+                                    <Label>이메일</Label>
+                                    <Row>
+                                        <InputText
+                                            type="email"
+                                            readOnly={true}
+                                            placeholder="이메일은 필수값입니다"
+                                            value={isEditing ?
+                                                (newProfileData["email"] ? newProfileData["email"] : "") :
+                                                (profileData["email"] ? profileData["email"] : "")}
+                                            onChange={(e) => handleInputChange('email', e.target.value)}
+                                        />
+                                    </Row>
+                                </Div>
+                            </>)}
+
+                            <Div>
+                                <Label>이름</Label>
+                                <Row>
+                                    <InputText
+                                        type="text"
+                                        placeholder="이름을 입력해주세요"
+                                        readOnly={!(contentsType === 'myselfEditing')}
+                                        value={isEditing ?
+                                            (newProfileData["name"] ? newProfileData["name"] : "") :
+                                            (profileData["name"] ? profileData["name"] : "")}
+                                        onChange={(e) => handleInputChange('name', e.target.value)}
+                                        required
+                                    />
+                                </Row>
+                            </Div>
+                        </Column>
+                        <Column>
+                            <Div>
+                                <Label>활동 점수</Label>
+                                <Row>
+                                    <ActivityScoreBar activityMetricData={profileData.activityMetric} />
+                                </Row>
+                            </Div>
+                        </Column>
+                    </ContentsRow>
                 </SubContentsWrapper>
 
                 <SubContentsWrapper>

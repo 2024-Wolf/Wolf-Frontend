@@ -7,6 +7,8 @@ import DropdownIcon from '../Icon/DropdownIcon';
 import AlramPreview from '../AlramPreview';
 import HeaderLogginButton from "../Button/HeaderLogginButton";
 import { getMyProfile, getAlarmsPreview } from '../Apis/UserApi';
+import { removeAccessToken, removeRefreshToken } from '../Apis/Common';
+
 
 export const UserProfileContainer = styled.div`
   display: flex;
@@ -188,6 +190,8 @@ function HeaderLogin({ isLoggedIn, openModal, offLogin }) {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
+
+
 
     return (
         <>

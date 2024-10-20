@@ -1,18 +1,19 @@
 // components/SignInSteps.js
-import React from 'react';
+import React, { useState } from 'react';
 import LoginContent from "./LoginContent";
 import FirstProcessContent from "./FirstProcessContent";
 import SecondProcessContext from "./SecondProcessContext";
 import ThirdProcessContent from "./ThirdProcessContent";
 import FourthProcessContent from "./FourthProcessContent";
 
-const SignInSteps = ({ redirectUrl, currentStep, nextStep, prevStep, onLogin, closeModal }) => {
+const SignInSteps = ({ redirectUrl, currentStep, nextStep, prevStep, onLogin, closeModal, handleInputChange, handleInputReset }) => {
+
     const steps = [
-        <LoginContent redirectUrl={redirectUrl}/>,
-        <FirstProcessContent onNext={nextStep} onPrev={prevStep} />,
-        <SecondProcessContext onNext={nextStep} onPrev={prevStep} />,
-        <ThirdProcessContent onNext={nextStep} onPrev={prevStep} />,
-        <FourthProcessContent onPrev={prevStep} onClose={closeModal} onLogin={onLogin} />
+        <LoginContent redirectUrl={redirectUrl} />,
+        <FirstProcessContent onNext={nextStep} onPrev={prevStep} handleInputChange={handleInputChange} handleInputReset={handleInputReset} />,
+        <SecondProcessContext onNext={nextStep} onPrev={prevStep} handleInputChange={handleInputChange} handleInputReset={handleInputReset} />,
+        <ThirdProcessContent onNext={nextStep} onPrev={prevStep} handleInputChange={handleInputChange} handleInputReset={handleInputReset} />,
+        <FourthProcessContent onPrev={prevStep} onClose={closeModal} handleInputChange={handleInputChange} handleInputReset={handleInputReset} onLogin={onLogin} />
     ];
 
     return steps[currentStep - 1];

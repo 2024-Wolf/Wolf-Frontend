@@ -33,8 +33,8 @@ const App = () => {
           <Route path="/user" element={<MyPage />} /> {/* 마이페이지 */}
           <Route path="/write" element={<CreateGroupPage />} /> {/* 글쓰기 페이지 */}
           <Route path="/tos" element={<Tos />} /> {/* 이용약관 페이지 */}
-          <Route path="/user/my" element={<MyPage />} /> {/* 마이페이지 */}
-          <Route path="/user/:userId" component={<MyPage />} /> {/* 마이페이지 */}
+          <Route path="/user/my" element={<MyPage />} /> {/* 마이페이지-내가볼때 */}
+          <Route path="/user/:userId" component={<MyPage />} /> {/* 마이페이지-남이볼때 */}
           <Route path="/post/:postId" component={<StudyPage />} /> {/* 스터디 페이지 */}
           <Route path="/google/callback" element={<RedirectPage />} />
         </Routes>

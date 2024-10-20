@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { ModalContentWrapper, ContentWrapper, OptionButtonGroup, CategoryWrapper2, CategoryButton2, Violet500BackgroundButton, Violet500LineButton, Row } from "../GlobalStyledComponents";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import StatusButton from "./Components/StatusButton";
 import NextButton from "./Components/NextButton";
 import SubTitle from "./Components/SubTitle";
@@ -14,6 +14,7 @@ const categories = [
     { label: "디자인", imgSrc: "/skillCategory/design.png" },
     { label: "마케팅", imgSrc: "/skillCategory/marketing.png" },
 ];
+
 const options = [
     {
         category: "개발",
@@ -35,26 +36,46 @@ const options = [
 
 
 
-const ThirdProcessContent = ({ onNext, onPrev }) => {
-    const [selectedOptions, setSelectedOptions] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState(options[0].category);
+const ThirdProcessContent = ({ onNext, onPrev, handleInputChange, handleInputReset, signupInfo }) => {
+    // 카테고리별로 선택된 옵션을 저장하는 객체 상태
+    const [selectedOptionsByCategory, setSelectedOptionsByCategory] = useState({
+        개발: [],
+        기획: [],
+        디자인: [],
+        마케팅: []
+    });
+
+    const [selectedCategory, setSelectedCategory] = useState(options[0].category); // 초기 카테고리 설정
 
     const handleOptionClick = (option) => {
-        setSelectedOptions((prevSelectedOptions) =>
-            prevSelectedOptions.includes(option) ?
-                prevSelectedOptions.filter((item) => item !== option) // 이미 선택된 버튼이면 해제
-                :
-                [...prevSelectedOptions, option] // 선택되지 않은 버튼이면 추가
-        );
-    }
+        setSelectedOptionsByCategory((prevOptions) => {
+            const currentOptions = prevOptions[selectedCategory];
+            const updatedOptions = currentOptions.includes(option)
+                ? currentOptions.filter((item) => item !== option) // 이미 선택된 옵션이면 해제
+                : [...currentOptions, option]; // 선택되지 않은 옵션이면 추가
+
+            return {
+                ...prevOptions,
+                [selectedCategory]: updatedOptions
+            };
+        });
+    };
 
     const handleCategoryClick = (label) => {
         setSelectedCategory(label);
     };
 
+    useEffect(() => {
+        handleInputChange('interests', [{
+            개발: selectedOptionsByCategory.개발,
+            기획: selectedOptionsByCategory.기획,
+            디자인: selectedOptionsByCategory.디자인,
+            마케팅: selectedOptionsByCategory.마케팅
+        }]);
+    }, [selectedOptionsByCategory, signupInfo]);
+
     return (
         <ContentWrapper>
-
             <StatusButton nowIndex={2} />
             <SubTitle title={"관심이 있거나 보유하고 있는 스킬을 선택해주세요"} />
             <ModalContentWrapper>
@@ -76,10 +97,9 @@ const ThirdProcessContent = ({ onNext, onPrev }) => {
                             key={index}
                             label={skill}
                             count={3}
-                            selected={selectedOptions.includes(skill)}
+                            selected={selectedOptionsByCategory[selectedCategory].includes(skill)}
                             onClick={() => handleOptionClick(skill)}
                         />
-
                     )) || []}
                 </OptionButtonGroup>
             </ModalContentWrapper>
@@ -87,7 +107,14 @@ const ThirdProcessContent = ({ onNext, onPrev }) => {
                 <Violet500LineButton
                     type="button"
                     style={{ width: '100%' }}
-                    onClick={onPrev}>
+                    onClick={() => {
+                        if (window.confirm('이전으로 이동하면 입력 정보가 초기화 됩니다.\n진행하시겠습니까?')) {
+                            onPrev();
+                            handleInputReset('jobTitle');
+                            handleInputReset('experience');
+                            handleInputReset('organization');
+                        }
+                    }}>
                     이전
                 </Violet500LineButton>
                 <Violet500BackgroundButton
@@ -98,7 +125,7 @@ const ThirdProcessContent = ({ onNext, onPrev }) => {
                 </Violet500BackgroundButton>
             </Row>
         </ContentWrapper>
-    )
-}
+    );
+};
 
 export default ThirdProcessContent;

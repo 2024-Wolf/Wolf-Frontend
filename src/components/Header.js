@@ -34,8 +34,46 @@ export const HeaderLogo = styled.a`
 function Header({ isLoggedIn, onLogin, offLogin, notifications, setNotifications }) {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(2);
   const [redirectUrl, setRedirectUrl] = useState(null);
+
+  // 회원가입 정보를 저장하는 useState
+  const [signupInfo, setSignupInfo] = useState({
+    jobTitle: "",
+    organization: "",
+    experience: 0,
+    interests: "",
+    nickname: ""
+  });
+
+  useEffect(() => {
+    console.log(signupInfo);
+  }, [signupInfo, setSignupInfo])
+
+
+  // 회원가입 정보 업데이트 함수
+  const handleInputChange = (field, value) => {
+    setSignupInfo((prev) => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  // 회원가입 정보 업데이트 함수
+  const handleInputAddChange = (field, value) => {
+    setSignupInfo((prev) => ({
+      ...prev,
+      [field]: prev[field] ? [...prev[field], ...value] : [...value] // 기존 값에 추가
+    }));
+  };
+
+  // 회원가입 정보 리셋 함수
+  const handleInputReset = (field) => {
+    setSignupInfo((prev) => ({
+      ...prev,
+      [field]: ''
+    }));
+  };
 
   const openModal = () => {
     // 현재 URL을 저장해둠
@@ -46,6 +84,13 @@ function Header({ isLoggedIn, onLogin, offLogin, notifications, setNotifications
   const closeModal = () => {
     setIsModalOpen(false);
     setCurrentStep(1);
+    setSignupInfo({
+      jobTitle: "",
+      organization: "",
+      experience: 0,
+      interests: "",
+      nickname: ""
+    });
   };
 
   const nextStep = () => setCurrentStep(prev => prev + 1);
@@ -131,6 +176,8 @@ function Header({ isLoggedIn, onLogin, offLogin, notifications, setNotifications
           offLogin={offLogin}
         />
       </div>
+
+
       {/* 로그인/회원가입 모달 */}
       {isModalOpen && (
         <ModalContainer onClose={closeModal}>
@@ -141,6 +188,8 @@ function Header({ isLoggedIn, onLogin, offLogin, notifications, setNotifications
             prevStep={prevStep}
             onLogin={onLogin}
             closeModal={closeModal} // closeModal 함수 전달
+            handleInputChange={handleInputChange}
+            handleInputReset={handleInputReset}
           />
         </ModalContainer>
       )}
