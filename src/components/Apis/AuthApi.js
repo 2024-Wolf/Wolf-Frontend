@@ -65,6 +65,23 @@ export const testLogin = async () => {
     }
 };
 
+// 중복 닉네임 체크 함수
+export const checkNickname = async (nickname) => {
+    try {
+        const response = await axios.post(`${BASE_URL}/user/nickname`,  {
+            nickname
+          }, {
+            headers: {
+                Authorization: accessToken
+            }
+          });
+        return response.data; // 중복 닉네임 체크 성공 시 데이터 반환
+    } catch (error) {
+        console.error('중복 닉네임 체크 실패:', error);
+        throw error; // 오류 발생 시 예외를 발생시킴
+    }
+};
+
 
 // 엑세스 토큰 재발급 함수
 export const reissueAccessToken = async (accessToken, refreshToken) => {

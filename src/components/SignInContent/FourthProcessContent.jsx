@@ -7,6 +7,7 @@ import InputText from "../Input/InputText";
 import NextButton from "./Components/NextButton";
 import SubTitle from "./Components/SubTitle";
 import PreviousIcon from "../Icon/PreviousIcon";
+import {checkNickname} from "../Apis/AuthApi";
 
 const FourthProcessContent = ({ onPrev, onClose, onLogin, handleInputChange, handleInputReset }) => {
     const [isNickNamePossible, setIsNickNamePossible] = useState(false);
@@ -20,21 +21,29 @@ const FourthProcessContent = ({ onPrev, onClose, onLogin, handleInputChange, han
         onLogin();
     };
 
-    const handleNickName = (e) => {
+    const handleNickName = async (e) => {
         e.preventDefault();
 
-        // 중복된 닉네임인지 검증하는 로직 구현이 필요함
-        if (true) {
-            // 닉네임 사용 가능
-            alert('사용 가능한 닉네임입니다')
-            setIsNickNamePossible(true);
-            setIsNickNameImpossible(false);
+        const nickname = e.target.value;  // 입력된 닉네임 가져오기
 
-        } else {
-            // 닉네임 사용 불가
-            alert('중복된 닉네임입니다')
-            setIsNickNameImpossible(true);
-            setIsNickNamePossible(false);
+        try {
+            // 닉네임 중복 검사
+            const isAvailable = await checkNickname(nickname);  // 서버에서 중복 여부 확인
+
+            if (isAvailable) {
+                // 닉네임 사용 가능
+                alert('사용 가능한 닉네임입니다');
+                setIsNickNamePossible(true);
+                setIsNickNameImpossible(false);
+            } else {
+                // 닉네임 사용 불가
+                alert('중복된 닉네임입니다');
+                setIsNickNameImpossible(true);
+                setIsNickNamePossible(false);
+            }
+        } catch (error) {
+            console.error('닉네임 중복 확인 중 오류 발생:', error);
+            // 필요에 따라 에러 처리 로직 추가
         }
     };
 
