@@ -239,13 +239,13 @@ const UserInfoContent = ({
 
     const editLinkRefresh = (targetLinkType) => {
         if (window.confirm("내용을 초기화 하시겠습니까?")) {
+            setIsEditing(true);
             // 내용을 초기화 함
             setNewUserLinks(prevLinks =>
                 prevLinks.map(link =>
                     link.linkType === targetLinkType ? { ...link, linkUrl: '' } : link
                 )
             );
-
             setNewProfileData(prev => ({
                 ...prev,
                 links: prev.links.map(link =>
@@ -254,7 +254,6 @@ const UserInfoContent = ({
                     } : link
                 )
             }));
-
         } else {
             return; // 초기화하지 않으면 함수 종료
         }
