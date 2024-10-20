@@ -6,7 +6,7 @@ import BellIcon from '../Icon/BellIcon';
 import DropdownIcon from '../Icon/DropdownIcon';
 import AlramPreview from '../AlramPreview';
 import HeaderLogginButton from "../Button/HeaderLogginButton";
-import { getMyProfile, getAlarmsPreview } from '../Apis/UserApi';
+import {getMyProfile, getAlarmsPreview, readAlarm} from '../Apis/UserApi';
 import {getRefreshToken, removeAccessToken, removeRefreshToken} from '../Apis/Common';
 import {logout} from "../Apis/AuthApi";
 
@@ -34,89 +34,12 @@ export const DropdownContainer = styled.div`
 `;
 
 
-//
-// const AlarmData = [
-//     {
-//         alert_id: 1,
-//         user_id: 1,
-//         nickname: '늑대',
-//         group_post_id: null, // 회원 관련 알림
-//         alert_content: '{nickname} 님, 만나서 반가워요 👋🏻 <br />' +
-//             '여러 명이 {nickname}님에 대해 알고 싶어 하네요! <br />' +
-//             '지금 프로필을 작성하고 팀 매칭률을 높여볼까요?',
-//         alert_date: '2024-09-25T12:00:00Z',
-//         is_read: '0',
-//         alert_link: null,
-//
-//
-//         alertContent: '{nickname} 님, 만나서 반가워요 👋🏻 <br />' +
-//             '여러 명이 {nickname}님에 대해 알고 싶어 하네요! <br />' +
-//             '지금 프로필을 작성하고 팀 매칭률을 높여볼까요?',
-//         alertLink: '/post',
-//         alertTime: '2024-09-25T12:00:00Z',
-//     },
-//     {
-//         alert_id: 2,
-//         user_id: 2,
-//         nickname: '사슴',
-//         group_post_id: null, // 회원 관련 알림
-//         alert_content: '{nickname} 님에게 새로운 메시지가 도착했습니다!',
-//         alert_date: '2024-09-26T08:30:00Z',
-//         is_read: '0',
-//         alert_link: null
-//     },
-//     {
-//         alert_id: 3,
-//         user_id: 3,
-//         nickname: '여우',
-//         group_post_id: null, // 회원 관련 알림
-//         alert_content: '{nickname} 님, 친구 요청이 도착했습니다! <br />' +
-//             '친구 요청을 수락하시겠어요?',
-//         alert_date: '2024-09-26T09:00:00Z',
-//         is_read: '0',
-//         alert_link: null
-//     },
-//     {
-//         alert_id: 4,
-//         user_id: 4,
-//         nickname: '토끼',
-//         group_post_id: 1, // 그룹 관련 알림
-//         alert_content: '팀 매칭이 성공적으로 완료되었습니다!',
-//         alert_date: '2024-09-18T12:00:00Z',
-//         is_read: '0',
-//         alert_link: null
-//     },
-//     {
-//         alert_id: 5,
-//         user_id: 5,
-//         nickname: '곰',
-//         group_post_id: 1, // 그룹 관련 알림
-//         alert_content: '새로운 스터디 요청이 도착했습니다!',
-//         alert_date: '2024-09-15T15:00:00Z',
-//         is_read: '0',
-//         alert_link: null
-//     },
-//     {
-//         alert_id: 6,
-//         user_id: 6,
-//         nickname: '올빼미',
-//         group_post_id: 1, // 그룹 관련 알림
-//         alert_content: '자격증 챌린지가 개최되었습니다! <br />' +
-//             '이벤트에 참여해 보세요!',
-//         alert_date: '2024-09-10T10:00:00Z',
-//         is_read: '0',
-//         alert_link: null
-//     }
-// ];
-
-
 function HeaderLogin({ isLoggedIn, openModal, offLogin }) {
     const [isAlarmOpen, setIsAlarmOpen] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const alarmRef = useRef(null); // 알림창 참조 생성
     const dropdownRef = useRef(null); // 드롭다운 참조 생성
     const [profileData, setProfileData] = useState(null);
-    const [alarmsPreviewData, setAlarmsPreviewData] = useState(null);
     const [newProfilePicture, setNewProfilePicture] = useState("");
 
     const [notifications, setNotifications] = useState([]);
@@ -133,7 +56,6 @@ function HeaderLogin({ isLoggedIn, openModal, offLogin }) {
                 setNewProfilePicture(dataProfile.data.profilePicture || "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png")
 
                 const dataAlarmsPreview = await getAlarmsPreview(); // getAlarmsPreview 함수 호출
-                setAlarmsPreviewData(dataAlarmsPreview.data); // 프로필 데이터 설정
                 setNotifications(dataAlarmsPreview.data);
             } catch (err) {
                 console.error(err);
@@ -147,9 +69,14 @@ function HeaderLogin({ isLoggedIn, openModal, offLogin }) {
 
     // 클릭 시 알림 상태를 업데이트
     const handleNotificationClick = (alertId, alertLink) => {
-        setNotifications(prevNotifications =>
-            prevNotifications.filter(notification => notification.alert_id !== alertId)
-        );
+
+        readAlarm(alertId).then(
+            (response) => {
+                setNotifications(prevNotifications =>
+                  prevNotifications.filter(notification => notification.alertId !== response.data)
+                );
+            }
+        ); // readAlarm 함수 호출
 
         navigate(alertLink); // navigate(`/user/${alertId}`) 등으로 경로 바꿀 것
         setIsAlarmOpen(false); // 알림 클릭 시 알림창 닫기
@@ -226,11 +153,11 @@ function HeaderLogin({ isLoggedIn, openModal, offLogin }) {
                         <BellIcon onClick={handleClick} hasNotifications={notifications.length > 0} />
                         {/* 알림창 */}
                         <AlramPreview
-                            notifications={alarmsPreviewData || notifications}
+                            notifications={notifications}
                             isAlarmOpen={isAlarmOpen}
                             onNotificationClick={handleNotificationClick}
                             onAllNotificationClick={handleAllNotificationClick}
-                            alarmsPreviewData={alarmsPreviewData}
+                            alarmsPreviewData={notifications}
                             profileData={profileData}
                         />
                     </DropdownContainer>

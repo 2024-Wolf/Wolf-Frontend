@@ -94,3 +94,17 @@ export const getAlarmsPreview = async () => {
         throw error;
     }
 };
+
+export const readAlarm = async (alertId) => {
+    try {
+        const response = await axios.post(`${BASE_URL}/user/alarms/${alertId}`, {}, {
+            headers: {
+                Authorization: accessToken
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('알림 읽음 처리 실패:', error);
+        throw error;
+    }
+}

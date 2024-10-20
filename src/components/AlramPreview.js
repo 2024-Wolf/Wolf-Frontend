@@ -164,7 +164,7 @@ const AlramPreview = ({ notifications, isAlarmOpen, onNotificationClick, onAllNo
   return (
     <AlarmModalContainer isAlarmOpen={isAlarmOpen}>
       <AlramTitle>알림</AlramTitle>
-      <AlramHeader>읽지 않은 알림 ({unreadCount})</AlramHeader>
+      <AlramHeader>읽지 않은 알림 ({notifications.length})</AlramHeader>
       {displayedNotifications.map((notification) => (
         <AlramItem key={notification.alertId} onClick={() => handleNotificationClick(notification.alertId, notification.alertLink)}>
           <AlramContent>
