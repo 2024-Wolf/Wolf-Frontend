@@ -73,8 +73,10 @@ function ChallengeApplyModal(props) {
             alert("챌린지 참가비를 입력해주세요!");
             return;
         }
-        registerChallenge(props.item.challengePostId, props.groupPostId, amount);
-        setModalOn(!modalOn);
+        registerChallenge(props.item.challengePostId, props.groupPostId, amount)
+        .then(function(response){
+            setModalOn(!modalOn);
+        })
     }
 
     const handleChange = (e) => {
@@ -96,7 +98,7 @@ function ChallengeApplyModal(props) {
 
     return (
         <>
-            {modalOn && <ChallengePayModal item={props.item} amount={amount} cancel={() => props.cancel()} />}
+            {modalOn && <ChallengePayModal item={props.item} groupPostId={props.groupPostId} amount={amount} cancel={props.cancel} />}
             <ModalForm isModalOpen={true} onSubmit={handleApply}>
                 <CancelIcon
                     style={{

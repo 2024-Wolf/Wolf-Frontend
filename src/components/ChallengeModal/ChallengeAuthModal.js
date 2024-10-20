@@ -19,10 +19,6 @@ function ChallengeAuthModal(props) {
 
     let status = "Y";
 
-    useEffect(()=>{
-        certificatonCheck(inst, name, code);
-    })
-
     const handleInst = (e) => {
         setInst(e.target.value);
     }

@@ -39,8 +39,8 @@ export async function getChallenges(groupPostId, status, page = 0, size = 10, so
 }
 
 // 챌린지 신청(그룹장)
-export function registerChallenge(challengePostId, groupPostId, challengeAmount){
-    axios.post(`${BASE_URL}/registration`,{
+export async function registerChallenge(challengePostId, groupPostId, challengeAmount){
+    return await axios.post(`${BASE_URL}/registration`,{
         challengePostId: challengePostId,
         groupPostId: groupPostId,
         challengeAmount: challengeAmount
@@ -50,7 +50,7 @@ export function registerChallenge(challengePostId, groupPostId, challengeAmount)
         }
     })
     .then(function(response){
-        return;
+        return response;
     })
     .catch(function(error){
         console.log(error);
@@ -58,8 +58,8 @@ export function registerChallenge(challengePostId, groupPostId, challengeAmount)
 }
 
 // 챌린지 참여(그룹원)
-export function participateChallenge(challengePostId, groupPostId, challengeAmount){
-    axios.post(`${BASE_URL}/registrations`,{
+export async function participateChallenge(challengePostId, groupPostId, challengeAmount){
+    return await axios.post(`${BASE_URL}/registrations`,{
         challengePostId: challengePostId,
         groupPostId: groupPostId,
         challengeAmount: challengeAmount
@@ -70,7 +70,7 @@ export function participateChallenge(challengePostId, groupPostId, challengeAmou
     })
     .then(function(response){
         // 받은 데이터로 수행할 작업
-        console.log(response);
+        return response;
     })
     .catch(function(error){
         console.log(error);
@@ -78,8 +78,8 @@ export function participateChallenge(challengePostId, groupPostId, challengeAmou
 }
 
 // 챌린지 결제
-export function payChallenge(challengePostId, groupPostId, amount, status){
-    axios.post(`${BASE_URL}/payment`,{
+export async function payChallenge(challengePostId, groupPostId, amount, status){
+    return await axios.post(`${BASE_URL}/payment`,{
         challengePostId: challengePostId,
         groupPostId: groupPostId,
         amount: amount,
@@ -91,7 +91,7 @@ export function payChallenge(challengePostId, groupPostId, amount, status){
         }
     })
     .then(function(response){
-        return;
+        return response;
     })
     .catch(function(error){
         console.log(error);
@@ -113,7 +113,7 @@ export async function verifyChallenge(challengePostId, groupPostId, status, cert
         }
     })
     .then(function(response){
-        return;
+        return response;
     })
     .catch(function(error){
         console.log(error);
