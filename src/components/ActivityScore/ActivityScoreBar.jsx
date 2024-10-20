@@ -14,7 +14,6 @@ export const BarFiller = styled.div`
   border-radius: 5px 0 0 5px;
   font-size: 14px;
   font-weight: 500;
-  padding: 10px;
   min-height: 35px;
 `;
 
@@ -75,12 +74,27 @@ const ActivityScoreBar = ({ activityMetricData }) => {
   //   { label: "별로예요", percentage: activityMetricData.activityRatingBad }
   // ];  
 
+  // scores 배열을 정의
   const scores = [
-    { label: "좋았어요", percentage: 100 },
-    { label: "그저 그랬어요", percentage: 50 },
-    { label: "별로예요", percentage: 0 }
+    {
+      label: "좋았어요",
+      percentage: activityMetricData.totalStudyParticipation > 0
+        ? ((activityMetricData.activityRatingGood / activityMetricData.totalStudyParticipation) * 100).toFixed(0)
+        : 0 // 총 참여 수가 0이면 비율은 0으로 설정
+    },
+    {
+      label: "보통이었어요",
+      percentage: activityMetricData.totalStudyParticipation > 0
+        ? ((activityMetricData.activityRatingSoso / activityMetricData.totalStudyParticipation) * 100).toFixed(0)
+        : 0
+    },
+    {
+      label: "별로였어요",
+      percentage: activityMetricData.totalStudyParticipation > 0
+        ? ((activityMetricData.activityRatingBad / activityMetricData.totalStudyParticipation) * 100).toFixed(0)
+        : 0
+    }
   ];
-
 
   return (
     <BarContainer>
