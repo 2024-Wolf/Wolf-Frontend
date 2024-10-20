@@ -13,7 +13,10 @@ import RedirectPage from "./pages/RedirectPage";
 
 const App = () => {
   // 로그인 상태 및 알림 데이터 관리
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    const accessToken = localStorage.getItem('accessToken');
+    return !!accessToken; // accessToken이 있으면 true, 없으면 false
+  });
 
   const onLogin = () => setIsLoggedIn(true);
   const offLogin = () => setIsLoggedIn(false);

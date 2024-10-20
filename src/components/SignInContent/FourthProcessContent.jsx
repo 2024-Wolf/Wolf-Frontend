@@ -1,43 +1,50 @@
-import styled from "styled-components";
 import { ModalContentWrapper, ContentWrapper, InputLabel2, InputWrapper, Violet500BackgroundButton, Row, Violet500LineButton, Label, Div } from "../GlobalStyledComponents";
 
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import StatusButton from "./Components/StatusButton";
 import InputText from "../Input/InputText";
-import NextButton from "./Components/NextButton";
 import SubTitle from "./Components/SubTitle";
-import PreviousIcon from "../Icon/PreviousIcon";
 import {checkNickname} from "../Apis/AuthApi";
+import {signUpUser} from "../Apis/UserApi";
 
-const FourthProcessContent = ({ onPrev, onClose, onLogin, handleInputChange, handleInputReset }) => {
+const FourthProcessContent = ({ onPrev, onClose, onLogin, signupInfo, handleInputChange, handleInputReset }) => {
     const [isNickNamePossible, setIsNickNamePossible] = useState(false);
     const [isNickNameImpossible, setIsNickNameImpossible] = useState(false);
 
+    const handleNext = async () => {
+        try {
+            // 회원가입 API 호출
+            const result = await signUpUser(signupInfo);
+            console.log('회원가입 성공:', result);
+            // 회원가입 성공 후 추가 작업
+            onLogin(); // 부모 컴포넌트에 로그인 상태 업데이트
+            onClose(); // 모달 닫기
+        } catch (error) {
+            console.error('회원가입 실패:', error);
+            // 실패 시 에러 처리 (필요 시 사용자에게 메시지 출력 등 추가)
+        }
+    };
+    const [nickname, setNickname] = useState('');  // 닉네임 상태 추가
 
-
-
-    const handleNext = () => {
-        onClose();
-        onLogin();
+    // 닉네임 실시간 업데이트
+    const handleNicknameChange = (e) => {
+        const { value } = e.target;
+        setNickname(value);
     };
 
-    const handleNickName = async (e) => {
-        e.preventDefault();
-
-        const nickname = e.target.value;  // 입력된 닉네임 가져오기
-
+    // 닉네임 중복 검사
+    const handleNickNameCheck = async () => {
         try {
             // 닉네임 중복 검사
             const isAvailable = await checkNickname(nickname);  // 서버에서 중복 여부 확인
 
             if (isAvailable) {
                 // 닉네임 사용 가능
-                alert('사용 가능한 닉네임입니다');
                 setIsNickNamePossible(true);
                 setIsNickNameImpossible(false);
+                handleInputChange('nickname', nickname);  // 성공 시 상태 업데이트
             } else {
                 // 닉네임 사용 불가
-                alert('중복된 닉네임입니다');
                 setIsNickNameImpossible(true);
                 setIsNickNamePossible(false);
             }
@@ -55,10 +62,13 @@ const FourthProcessContent = ({ onPrev, onClose, onLogin, handleInputChange, han
                 <Div>
                     <Label>닉네임을 입력해주세요</Label>
                     <Row>
-                        <InputText required />
+                        <InputText required
+                                   value={nickname}
+                                   onChange={handleNicknameChange}
+                        />
                         <Violet500BackgroundButton
                             type="button"
-                            onClick={handleNickName}
+                            onClick={handleNickNameCheck}
                         >
                             중복 검사
                         </Violet500BackgroundButton>

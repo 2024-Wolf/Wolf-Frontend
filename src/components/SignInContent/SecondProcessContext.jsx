@@ -30,7 +30,7 @@ const SecondProcessContent = ({ onNext, onPrev, handleInputChange, handleInputRe
     }
 
     useEffect(() => {
-        handleInputChange('status', selectedOptions);
+        handleInputChange('currentStatus', JSON.stringify(selectedOptions));
     }, [selectedOptions, setSelectedOptions]);
 
 

@@ -68,13 +68,12 @@ export const testLogin = async () => {
 // 중복 닉네임 체크 함수
 export const checkNickname = async (nickname) => {
     try {
-        const response = await axios.post(`${BASE_URL}/user/nickname`,  {
-            nickname
-          }, {
+        const response = await axios.get(`${BASE_URL}/user/nickname`, {
+            params: { nickname }, // 쿼리 파라미터로 전달
             headers: {
                 Authorization: accessToken
             }
-          });
+        });
         return response.data; // 중복 닉네임 체크 성공 시 데이터 반환
     } catch (error) {
         console.error('중복 닉네임 체크 실패:', error);

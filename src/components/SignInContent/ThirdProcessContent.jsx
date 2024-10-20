@@ -66,12 +66,12 @@ const ThirdProcessContent = ({ onNext, onPrev, handleInputChange, handleInputRes
     };
 
     useEffect(() => {
-        handleInputChange('interests', [{
+        handleInputChange('interests', JSON.stringify({
             개발: selectedOptionsByCategory.개발,
             기획: selectedOptionsByCategory.기획,
             디자인: selectedOptionsByCategory.디자인,
             마케팅: selectedOptionsByCategory.마케팅
-        }]);
+        }));
     }, [selectedOptionsByCategory, signupInfo]);
 
     return (

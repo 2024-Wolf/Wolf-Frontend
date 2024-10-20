@@ -47,8 +47,8 @@ function Header({ isLoggedIn, onLogin, offLogin, notifications, setNotifications
   });
 
   useEffect(() => {
-    console.log(signupInfo);
-  }, [signupInfo, setSignupInfo])
+    console.log(signupInfo);  // signupInfo가 변경될 때마다 호출
+  }, [signupInfo]);
 
 
   // 회원가입 정보 업데이트 함수
@@ -186,6 +186,7 @@ function Header({ isLoggedIn, onLogin, offLogin, notifications, setNotifications
             prevStep={prevStep}
             onLogin={onLogin}
             closeModal={closeModal} // closeModal 함수 전달
+            signupInfo={signupInfo}
             handleInputChange={handleInputChange}
             handleInputReset={handleInputReset}
           />
