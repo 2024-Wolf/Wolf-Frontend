@@ -20,11 +20,11 @@ export const CategoryContainer = styled.div`
     text-decoration: none;
 
     background-color: ${({ $category }) =>
-        $category === "스터디"
+        $category === "study"
             ? 'var(--violet100)'
             : 'var(--violet200)'};
     color: ${({ $category }) =>
-        $category === "스터디"
+        $category === "study"
             ? 'var(--black600)'
             : 'var(--black600)'};
 `;
@@ -32,7 +32,7 @@ export const CategoryContainer = styled.div`
 // components/Card/Category.jsx
 export const CategoryTag = styled.span`
     background-color: ${({ $category }) =>
-        $category === "스터디"
+        $category === "study"
             ? 'var(--black500)'
             : 'var(--black500)'};
     color: var(--black000);

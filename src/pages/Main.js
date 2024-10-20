@@ -6,8 +6,7 @@ import MainCardList from "../components/MainPageComponents/MainCardList";
 import SearchBar from "../components/MainPageComponents/SearchBar/SearchBar";
 import DateButton from "../components/Button/DateButton";
 import MainOptionButton from "../components/Button/MainOptionButton";
-import cards from "../components/Data/CardData";
-import { getGroupPosts, updateGroupPost, registerGroupPost } from "../components/Apis/GroupPostApi";
+import { getGroupPosts } from "../components/Apis/GroupPostApi";
 
 // pages/Main.js
 export const SearchContainer = styled.div`
@@ -40,8 +39,6 @@ export const MainButtonContainer = styled.div`
 
 
 const Main = () => {
-
-
     const banners = [
         { id: 1, imgUrl: "/banner/banner1.png" },
         { id: 2, imgUrl: "/banner/banner2.png" },
@@ -50,34 +47,48 @@ const Main = () => {
     ];
 
     const categories = ["전체", "프로젝트", "스터디"];
-    const [activeCategory, setActiveCategory] = useState('전체');
+    const [activeCategory, setActiveCategory] = useState();
     const [searchDate, setSearchDate] = useState(null);
     const [isOptionActive, setIsOptionActive] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
-    const [filteredCards, setFilteredCards] = useState(cards);
+    const [filteredCards, setFilteredCards] = useState([]);
     const [isChanged, setIsChanged] = useState(false);
+    const [cards, setCards] = useState([]);
+
+    useEffect(()=>{
+        async function getPosts(){
+            await getGroupPosts("all")
+            .then(function(response){
+                setCards(response.data.groupPostResponseList);
+            })
+            setActiveCategory("전체");
+        }
+        getPosts();
+    }, []);
 
     useEffect(() => {
-        const filteredByCategory = cards.filter(card =>
-            activeCategory === '전체' || card.category === activeCategory
+        let filteredByCategory = [];
+
+        switch(activeCategory){
+            case "전체": 
+                filteredByCategory = cards;
+                break;
+            case "프로젝트":
+                filteredByCategory = cards.filter(card => card.type === "project");
+                break;
+            default:
+                filteredByCategory = cards.filter(card => card.type === "study");
+                break;
+        }
+
+        const searchedCards = filteredByCategory.filter(card => 
+            // title, tag 에 대해 검색어가 포함되어 있는지 확인
+            card.name.toLowerCase().includes(searchTerm.toLowerCase()) 
+            || card.tag.includes(searchTerm.toLowerCase())
         );
 
-        const searchedCards = filteredByCategory.filter(card => {
-            // title, tags, profile name에 대해 검색어가 포함되어 있는지 확인
-            const isTitleMatch = card.title.toLowerCase().includes(searchTerm.toLowerCase());
-
-            // tags는 배열이라고 가정하고 각 태그를 검색
-            const isTagMatch = card.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
-
-            // profile name도 포함한다고 가정하고 검색
-            const isProfileNameMatch = card.profile.name.toLowerCase().includes(searchTerm.toLowerCase());
-
-            // title, tags, profile name 중 하나라도 일치하면 필터링
-            return isTitleMatch || isTagMatch || isProfileNameMatch;
-        });
-
         const dateFilteredCards = searchedCards.filter(card => {
-            const cardDeadline = new Date(card.deadline);
+            const cardDeadline = new Date(card.endDate);
             const isAfterSelectedDate = searchDate ? cardDeadline > searchDate : true;
 
             if (isOptionActive) {
@@ -89,7 +100,7 @@ const Main = () => {
 
         setFilteredCards(dateFilteredCards);
     }, [activeCategory, searchDate, isOptionActive, searchTerm]);
-
+    
     const handleSearchDate = (date) => {
         setSearchDate(date);
     };

@@ -41,16 +41,15 @@ const ChallengeTab = (props) => {
       console.error("데이터 불러오기 실패:", error);
     }
 
+    // 완료된 챌린지
     try {
-      const responses = await Promise.all([
+      const responses = await Promise(
         getChallenges(props.groupPostId, "RESULT_CONFIRM")
-      ]);
+      );
 
       // 각 응답에서 챌린지 배열을 추출하고, 빈 배열은 제외
       const validChallenges = responses
         .map(response => response.data.challenges)
-        .filter(challenges => challenges.length > 0)
-        .flat();
 
       if (validChallenges.length > 0) {
         setAfter(validChallenges);

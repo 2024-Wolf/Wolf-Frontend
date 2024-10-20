@@ -69,16 +69,15 @@ export function updateGroupPost(groupPost, postId) {
 
 // 그룹 목록 조회
 // option = ("all", "study", "project")
-export function getGroupPosts(option) {
-    axios.get(`${BASE_URL}/post/${option}`, {
+export async function getGroupPosts(type) {
+    return await axios.get(`${BASE_URL}/post/view/${type}`, {
         headers: {
             Authorization: accessToken
         }
     })
-
         .then(function (response) {
             // 받은 데이터로 수행할 작업
-            console.log(response);
+            return response.data;
         })
         .catch(function (error) {
             console.log(error);
