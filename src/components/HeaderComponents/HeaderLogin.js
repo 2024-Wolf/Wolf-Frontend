@@ -191,7 +191,11 @@ function HeaderLogin({ isLoggedIn, openModal, offLogin }) {
         };
     }, []);
 
-
+    const handleLogout = () => {
+        removeAccessToken();
+        removeRefreshToken();
+        offLogin()
+    };
 
     return (
         <>
@@ -235,7 +239,7 @@ function HeaderLogin({ isLoggedIn, openModal, offLogin }) {
                                 <DisplayNoneDropdownItem onClick={() => handleItemClick('/write')}>팀원 모집하기</DisplayNoneDropdownItem>
                                 <DisplayNoneDropdownItem onClick={() => handleItemClick('/faq')}>FAQ</DisplayNoneDropdownItem>
                                 <DropdownItem onClick={() => handleItemClick('/user')}>챌린지 보기</DropdownItem>
-                                <DropdownItem onClick={offLogin}>로그아웃</DropdownItem>
+                                <DropdownItem onClick={handleLogout}>로그아웃</DropdownItem>
                             </DropdownContent>
                         </DropdownContainer>
                     </UserWrapper>
