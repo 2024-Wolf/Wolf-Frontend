@@ -7,7 +7,8 @@ import DropdownIcon from '../Icon/DropdownIcon';
 import AlramPreview from '../AlramPreview';
 import HeaderLogginButton from "../Button/HeaderLogginButton";
 import { getMyProfile, getAlarmsPreview } from '../Apis/UserApi';
-import { removeAccessToken, removeRefreshToken } from '../Apis/Common';
+import {getRefreshToken, removeAccessToken, removeRefreshToken} from '../Apis/Common';
+import {logout} from "../Apis/AuthApi";
 
 
 export const UserProfileContainer = styled.div`
@@ -191,10 +192,19 @@ function HeaderLogin({ isLoggedIn, openModal, offLogin }) {
         };
     }, []);
 
-    const handleLogout = () => {
-        removeAccessToken();
-        removeRefreshToken();
-        offLogin()
+    const handleLogout = async () => {
+        try {
+            // 먼저 로그아웃 API를 호출
+            await logout(getRefreshToken(), localStorage.getItem('fcmToken'));
+
+            // 성공적으로 로그아웃된 경우 토큰을 제거
+            removeAccessToken();
+            removeRefreshToken();
+            offLogin();
+        } catch (error) {
+            console.error("로그아웃 중 오류 발생:", error);
+            // 오류가 발생해도 토큰을 제거할지 여부는 결정에 따라 처리 가능
+        }
     };
 
     return (

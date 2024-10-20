@@ -97,19 +97,17 @@ function Header({ isLoggedIn, onLogin, offLogin, notifications, setNotifications
   const prevStep = () => setCurrentStep(prev => Math.max(prev - 1, 1));
 
   const requestFcmPermissionAndSaveToken = async () => {
-    console.log("FCM 권한 요청 시작");
     try {
       // 알림 권한 요청
       const permission = await Notification.requestPermission();
-      console.log("알림 권한 상태:", permission);
 
       if (permission === "granted") {
         const fcmToken = await getToken(messaging, { vapidKey: process.env.REACT_APP_FIREBASE_VAPID_KEY });
 
         if (fcmToken) {
-          console.log("FCM 토큰:", fcmToken);
+          // FCM 토큰을 로컬스토리지에 저장
+          localStorage.setItem('fcmToken', fcmToken);
           await saveFcmToken(fcmToken);
-          console.log("FCM 토큰이 서버에 저장되었습니다.");
         } else {
           console.log("FCM 토큰을 가져올 수 없습니다.");
         }
