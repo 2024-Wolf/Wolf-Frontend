@@ -21,7 +21,7 @@ const SliderInner = styled.div`
     display: flex;
     flex-direction: column;
     transition: transform 0.5s ease;
-    transform: ${({ position }) => `translateY(-${position * 80}px)`};
+    transform: ${({ $position }) => `translateY(-${$position * 80}px)`};
     height: 100%;
     width: 100%;
 `;
@@ -131,7 +131,7 @@ const RecentNewsSlider = ({ news }) => {
                 </svg>
                 <span>최근 소식</span>
             </SliderTitle>
-            <SliderInner position={currentPosition}>
+            <SliderInner $position={currentPosition}>
                 {news.map((item, index) => (
                     <Slide key={index}>
                         <SlideContent>{item.content}</SlideContent>
