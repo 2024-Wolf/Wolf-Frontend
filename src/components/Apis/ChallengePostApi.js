@@ -1,11 +1,11 @@
 import axios from "axios";
-import { BASE_URL, accessToken } from "./Common";
+import { BASE_URL, Token } from "./Common";
 
 // 챌린지 단일 조회
 export async function getChallenge(challengePostId){
     return await axios.get(`${BASE_URL}/challenge/${challengePostId}`,{
         headers:{
-            Authorization: accessToken
+            Authorization: Token.getAccessToken()
         }
     })
     .then(function(response){
@@ -21,7 +21,7 @@ export async function getChallenge(challengePostId){
 export async function getChallenges(groupPostId, status, page = 0, size = 10, sort = "asc"){
     return await axios.get(`${BASE_URL}/challenges/${groupPostId}/${status}`,{
         headers:{
-            Authorization: accessToken
+            Authorization: Token.getAccessToken()
         },
         params:{
             page,
@@ -39,18 +39,18 @@ export async function getChallenges(groupPostId, status, page = 0, size = 10, so
 }
 
 // 챌린지 신청(그룹장)
-export function registerChallenge(challengePostId, groupPostId, challengeAmount){
-    axios.post(`${BASE_URL}/registration`,{
+export async function registerChallenge(challengePostId, groupPostId, challengeAmount){
+    return await axios.post(`${BASE_URL}/registration`,{
         challengePostId: challengePostId,
         groupPostId: groupPostId,
         challengeAmount: challengeAmount
     },{
         headers: {
-            Authorization: accessToken
+            Authorization: Token.getAccessToken()
         }
     })
     .then(function(response){
-        return;
+        return response;
     })
     .catch(function(error){
         console.log(error);
@@ -58,19 +58,19 @@ export function registerChallenge(challengePostId, groupPostId, challengeAmount)
 }
 
 // 챌린지 참여(그룹원)
-export function participateChallenge(challengePostId, groupPostId, challengeAmount){
-    axios.post(`${BASE_URL}/registrations`,{
+export async function participateChallenge(challengePostId, groupPostId, challengeAmount){
+    return await axios.post(`${BASE_URL}/registrations`,{
         challengePostId: challengePostId,
         groupPostId: groupPostId,
         challengeAmount: challengeAmount
     },{
         headers: {
-            Authorization: accessToken
+            Authorization: Token.getAccessToken()
         }
     })
     .then(function(response){
         // 받은 데이터로 수행할 작업
-        console.log(response);
+        return response;
     })
     .catch(function(error){
         console.log(error);
@@ -78,20 +78,20 @@ export function participateChallenge(challengePostId, groupPostId, challengeAmou
 }
 
 // 챌린지 결제
-export function payChallenge(challengePostId, groupPostId, amount, status){
-    axios.post(`${BASE_URL}/payment`,{
+export async function payChallenge(challengePostId, groupPostId, amount, status){
+    return await axios.post(`${BASE_URL}/payment`,{
         challengePostId: challengePostId,
         groupPostId: groupPostId,
         amount: amount,
         payStatus: status
     },{
         headers: {
-            Authorization: accessToken,
+            Authorization: Token.getAccessToken(),
             
         }
     })
     .then(function(response){
-        return;
+        return response;
     })
     .catch(function(error){
         console.log(error);
@@ -109,11 +109,11 @@ export async function verifyChallenge(challengePostId, groupPostId, status, cert
         verificationContent : content
     },{
         headers: {
-            Authorization: accessToken
+            Authorization: Token.getAccessToken()
         }
     })
     .then(function(response){
-        return;
+        return response;
     })
     .catch(function(error){
         console.log(error);

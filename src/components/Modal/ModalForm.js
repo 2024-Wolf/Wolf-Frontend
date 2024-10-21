@@ -122,12 +122,16 @@ const ModalForm = ({ containerStyle, children, onClose, isModalOpen, onSubmit, f
         };
     }, [isModalOpen]);
 
+    const onSubmitFunc = (e) => {
+        e.preventDefault();
+    }
+
     return (
         <>
             {isModalOpen && (
                 <>
                     <ModalOverlay style={style} {...props}>
-                        <ModalContainer style={containerStyle} onSubmit={onSubmit} $isOverflow={isOverflow} id="modal">
+                        <ModalContainer style={containerStyle} onSubmit={onSubmit || onSubmitFunc} isOverflow={isOverflow} id="modal">
                             {children}
                         </ModalContainer>
                     </ModalOverlay>

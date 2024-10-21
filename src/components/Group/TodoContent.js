@@ -13,7 +13,7 @@ import {
   ContentsWrapper
 } from "../GlobalStyledComponents";
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import 'react-datepicker/dist/react-datepicker.css';
 import InputText from '../Input/InputText';
@@ -24,6 +24,7 @@ import ModalForm from '../Modal/ModalForm'
 import DeleteIcon from '../Icon/DeleteIcon'
 import ALinkText from '../Input/ALinkText'
 import RefreshIcon from '../Icon/RefreshIcon'
+import { deleteTask, getTasks, registerTask, updateTask } from '../Apis/GroupPostApi';
 
 
 // components/Group/TodoContent.js
@@ -108,22 +109,11 @@ export const LinkInputDirection = styled.div`
   }
 `;
 
-
-
-
-
 const DummyCalenderData = [
   { date: null, startDate: new Date('2024-10-15'), endDate: new Date('2024-10-16'), task: "회의" },
   { date: null, startDate: new Date('2024-10-15'), endDate: new Date('2024-10-15'), task: "프로젝트 마감" },
   { date: null, startDate: new Date('2024-10-20'), endDate: new Date('2024-10-20'), task: "출장" },
 ]
-
-const DummyTaskData = [
-  { content: "Task1", id: 1728734799700, status: "진행 중" },
-  { content: "Task2", id: 1728734804683, status: "기획 중" },
-  { content: "Task3", id: 1728734775936, status: "완료" },
-  { content: "Task4", id: 1728734790002, status: "기획 중" }
-];
 
 const DummyLinkData = [
   {
@@ -138,8 +128,8 @@ const DummyLinkData = [
   }
 ];
 
-const TodoContent = ({ github, figma }) => {
-  const [tasks, setTasks] = useState(DummyTaskData || []);
+const TodoContent = ({ groupPostId, github, figma }) => {
+  const [tasks, setTasks] = useState([]);
   const [scheduleList, setScheduleList] = useState(DummyCalenderData || []);
   const [links, setLinks] = useState(DummyLinkData || []);
 
@@ -162,16 +152,27 @@ const TodoContent = ({ github, figma }) => {
   const [githubLink, setGithubLink] = useState((DummyLinkData.find(link => link.name === 'GitHub').url) || '');
   const [figmaLink, setFigmaLink] = useState((DummyLinkData.find(link => link.name === 'Figma').url) || '');
 
+  // 할 일 목록 조회
+  async function saveTasks(groupId){
+    await getTasks(groupId)
+    .then(function(response){
+      if(response.data.length > 0) setTasks(response.data);
+    })
+  }
+
+  useEffect(()=>{
+    saveTasks(groupPostId);
+  }, [isTaskModalOpen]);
+
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
-
   const openTaskModal = () => setIsTaskModalOpen(true);
 
   const closeTaskModal = () => {
-    setIsTaskModalOpen(false);
     setIsEditingTask(false);
     setEditingTaskIndex(null);
     setNewTask('');
+    setIsTaskModalOpen(false);
   };
 
   const addScheduleField = () => {
@@ -243,48 +244,51 @@ const TodoContent = ({ github, figma }) => {
   const handleTaskSubmit = () => {
     if (isEditingTask) {
       // 수정 모드일 경우
-      setTasks(prevTasks => {
-        const updatedTasks = [...prevTasks];
-        updatedTasks[editingTaskIndex].content = newTask;
-        return updatedTasks;
+      let taskToEdit = tasks.filter(task => task.id === editingTaskIndex)[0];
+      taskToEdit.details = newTask;
+      updateTask(taskToEdit)
+      .then(function(response){
+        closeTaskModal();
       });
-      setIsEditingTask(false);
-      setEditingTaskIndex(null);
     } else {
       // 추가 모드일 경우
       if (newTask.trim()) {
-        setTasks(prevTasks => [
-          { id: Date.now(), content: newTask, status: '기획 중' },
-          ...prevTasks
-        ]);
+        registerTask(groupPostId, newTask)
+        .then(function(response){
+          closeTaskModal();
+        });
       }
     }
-    setNewTask('');
-    closeTaskModal();
   };
 
 
   const onDragEnd = (result) => {
     if (!result.destination) return;
 
-    const updatedTasks = Array.from(tasks);
-    const [movedTask] = updatedTasks.splice(result.source.index, 1);
+    const movedTask = tasks.filter(task => task.id === Number(result.draggableId))[0];
     movedTask.status = result.destination.droppableId;
-    updatedTasks.splice(result.destination.index, 0, movedTask);
+    
+    async function moveTask(task){
+      await updateTask(task);
+      saveTasks(groupPostId);
+    }
 
-    setTasks(updatedTasks);
+    moveTask(movedTask);
   };
 
-  const handleDeleteTask = (index) => {
-    const updatedTasks = tasks.filter((_, i) => i !== index);
-    setTasks(updatedTasks);
+  const handleDeleteTask = (id) => {
+    async function deleteFunc(id){
+      await deleteTask(id);
+      saveTasks(groupPostId);
+    }
+    deleteFunc(id);
   };
 
-  const handleEditTask = (index) => {
-    const taskToEdit = tasks[index];
-    setNewTask(taskToEdit.content);
+  const handleEditTask = (id) => {
+    const taskToEdit = tasks.filter(task => task.id === id)[0];
+    setNewTask(taskToEdit.details);
     setIsEditingTask(true);
-    setEditingTaskIndex(index);
+    setEditingTaskIndex(id);
     openTaskModal();
   };
 
@@ -451,7 +455,6 @@ const TodoContent = ({ github, figma }) => {
 
         {/* 할 일 등록 모달 */}
         <ModalForm onClose={closeTaskModal} isModalOpen={isTaskModalOpen}
-          onSubmit={handleTaskSubmit}
           focusRef={inputRefs}
         >
           <CancelIcon
@@ -471,13 +474,13 @@ const TodoContent = ({ github, figma }) => {
               type="text"
               value={newTask}
               onChange={(e) => setNewTask(e.target.value)}
-              placeholder="할 일을 입력하세요"
+              placeholder={"할 일을 입력하세요"}
               style={{ width: '100%', padding: '10px', fontSize: '16px', marginBottom: '30px' }}
             />
           </ModalContent>
 
           <ButtonGroupRight>
-            <Violet500LineButton type='submit'>
+            <Violet500LineButton onClick={handleTaskSubmit}>
               {isEditingTask ? '수정 완료' : '등록'}
             </Violet500LineButton>
           </ButtonGroupRight>
@@ -503,14 +506,14 @@ const TodoContent = ({ github, figma }) => {
                       {tasks
                         .filter((task) => task.status === status)
                         .map((task, index) => (
-                          <Draggable key={task.id} draggableId={String(task.id)} index={index}>
+                          <Draggable key={task.id} draggableId={String(task.id)}>
                             {(provided) => (
                               <TodoItem ref={provided.innerRef} {...provided.draggableProps}>
                                 {/* 드래그 아이콘 */}
                                 <DragHandle {...provided.dragHandleProps}>☰</DragHandle>
                                 {/* 할 일 내용 */}
                                 <span style={{ width: '100%', marginTop: '4px' }}>
-                                  {task.content}
+                                  {task.details}
                                 </span>
                                 <div style={{
                                   display: 'flex',
@@ -519,7 +522,7 @@ const TodoContent = ({ github, figma }) => {
 
                                 }}>
                                   {/* 수정 버튼 */}
-                                  <button onClick={() => handleEditTask(index)}
+                                  <button onClick={() => handleEditTask(task.id)}
                                     style={{
                                       fontSize: '15px', backgroundColor: 'transparent'
                                     }}>✒️</button>
@@ -527,7 +530,7 @@ const TodoContent = ({ github, figma }) => {
                                   <DeleteIcon
                                     onClick={() => {
                                       if (window.confirm("할 일을 삭제하시겠습니까?")) {
-                                        handleDeleteTask(index);
+                                        handleDeleteTask(task.id);
                                       }
                                     }}
                                     size={15}

@@ -39,10 +39,23 @@ const ChallengeTab = (props) => {
     }
 
     // 완료된 챌린지
-    getChallenges(props.groupPostId, "RESULT_CONFIRM")
-    .then(function(response){
-      if(response.data.challenges.length > 0) setAfter(response.data.challenges);
-    })
+    try {
+      const response = 
+      await getChallenges(props.groupPostId, "RESULT_CONFIRM")
+      .then(function(response){
+        return response;
+      })
+
+      // 각 응답에서 챌린지 배열을 추출하고, 빈 배열은 제외
+      const validChallenge = response.data.challenges;
+      
+      if (validChallenge.length > 0) {
+        setAfter(validChallenge);
+      }
+    }catch (error) {
+      console.error("데이터 불러오기 실패:", error);
+    }
+  
 
     // 진행중인 챌린지
     try {
@@ -57,13 +70,15 @@ const ChallengeTab = (props) => {
         .filter(challenges => challenges.length > 0)
         .flat();
 
+
       if (validChallenges.length > 0) {
         setNow(validChallenges);
       }
     }catch (error) {
       console.error("데이터 불러오기 실패:", error);
+      }
     }
-  }
+
 
   useEffect(()=>{
     fetchChallenges();

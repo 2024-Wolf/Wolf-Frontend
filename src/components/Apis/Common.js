@@ -3,6 +3,7 @@ import axios from "axios";
 import axiosInstance from "./axiosConfig";
 
 export const BASE_URL = "http://localhost:8080/api/v1";
+//export const BASE_URL = "http://18.223.187.130:8080/api/v1";
 
 export let accessToken = getAccessToken();
 export let refreshToken = getRefreshToken();
@@ -80,3 +81,16 @@ function removeBearerPrefix(token) {
     }
     return token; // 만약 "Bearer "로 시작하지 않으면 그대로 반환
 }
+
+class TokenManager {
+    setAccessToken(token) {
+        localStorage.setItem("accessToken", JSON.stringify(`Bearer ${token}`));
+    }
+
+    getAccessToken() {
+        return JSON.parse(localStorage.getItem("accessToken"));
+    }
+}
+
+export const Token = new TokenManager();
+
