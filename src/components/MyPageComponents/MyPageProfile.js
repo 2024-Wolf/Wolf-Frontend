@@ -23,7 +23,7 @@ const MyPageProfileWrapper = styled.div`
 
 const MyPageProfile = ({ contentsType, profileData }) => {
     const [newProfileData, setNewProfileData] = useState(profileData);
-    const [newProfilePicture, setNewProfilePicture] = useState(profileData.profilePicture ? profileData.profilePicture : "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png");
+    const [newProfilePicture, setNewProfilePicture] = useState(profileData?.profilePicture ? profileData?.profilePicture : "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png");
 
     // console.log('profileData', profileData);
     // console.log('newProfileData', newProfileData);

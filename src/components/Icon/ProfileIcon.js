@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import React from 'react';
+import React, { useState } from 'react';
 
 const ProfileIconWrapper = styled.div`
   display: flex;
@@ -24,16 +24,28 @@ const UserName = styled.span`
 
 const ProfileIcon = ({ src = "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png",
   alt = "Profile",
-  children
+  children,
+  userId
 }) => {
+  const [clicked, setClicked] = useState(false);
+
+  const handleProfileClick = () => {
+    alert('이미지 클릭!');
+    setClicked(!clicked);
+  }
+
   return (
-    <ProfileIconWrapper>
-      <ProfileIconImg
-        src={src}
-        alt={alt}
-      />
-      {{ children } && <UserName>{children}</UserName>}
-    </ProfileIconWrapper>
+    <>
+      <ProfileIconWrapper>
+        <ProfileIconImg
+          onClick={handleProfileClick}
+          src={src}
+          alt={alt}
+        />
+        {{ children } && <UserName>{children}</UserName>}
+      </ProfileIconWrapper>
+      {clicked && <>클릭!</>}
+    </>
   )
 };
 

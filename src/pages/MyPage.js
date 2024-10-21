@@ -9,7 +9,7 @@ import FAQTab from "../components/Tab/FAQTab";
 import MyPageProfile from "../components/MyPageComponents/MyPageProfile";
 
 import { getMyProfile, getAlarms } from '../components/Apis/UserApi';
-import LoadingSpiner from "../components/Loading/LoadingSpiner";
+import LoadingSpiner from "../components/Loading/LoadingSpinner";
 import ErrorUI from "../components/Error/ErrorUI";
 import { useParams } from 'react-router-dom';
 
@@ -32,29 +32,25 @@ const MyPageContent = styled.div`
     flex-direction: column;
 `;
 
-const MyPage = ({ contentType, whatTab = "계정" }) => {
+const MyPage = ({ contentType, whatTab = "계정", profileData }) => {
     const [activeTab, setActiveTab] = useState(whatTab);
     const [contentsType, setContentsType] = useState(contentType);
     // contentsType 상태 ('myselfEditing', 'strangerViewing', 'myselfViewing' 중 하나)
-    const [profileData, setProfileData] = useState(null);
     const [alarmData, setAlarmData] = useState(null);
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
     const { userId } = useParams(); // URL에서 userId를 가져옴
 
     useEffect(() => {
-        const fetchProfile = async () => {
+        const fetchAlarm = async () => {
             try {
                 setLoading(true);  // 로딩 상태 시작
                 setError(null);    // 에러 초기화
 
-                const dataProfile = await getMyProfile(); // getMyProfile 함수 호출
-                setProfileData(dataProfile.data); // 프로필 데이터 설정
-
-
-                const dataAlarm = await getAlarms(); // getMyProfile 함수 호출
-                setAlarmData(dataAlarm.data);
+                const dataAlarm = await getAlarms(); // getAlarms 함수 호출
+                setAlarmData(dataAlarm.data); // 알람 데이터 설정
             } catch (err) {
                 setError('데이터를 불러오는 데 실패했습니다.');
                 console.error(err);
@@ -63,7 +59,7 @@ const MyPage = ({ contentType, whatTab = "계정" }) => {
             }
         };
 
-        fetchProfile(); // 프로필 데이터 가져오기
+        fetchAlarm(); // 알람 데이터 가져오기
     }, []);
 
     // 로딩 중 UI

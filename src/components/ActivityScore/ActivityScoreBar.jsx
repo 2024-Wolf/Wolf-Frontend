@@ -78,20 +78,20 @@ const ActivityScoreBar = ({ activityMetricData }) => {
   const scores = [
     {
       label: "좋았어요",
-      percentage: activityMetricData.totalStudyParticipation > 0
-        ? ((activityMetricData.activityRatingGood / activityMetricData.totalStudyParticipation) * 100).toFixed(0)
+      percentage: activityMetricData?.totalStudyParticipation > 0
+        ? ((activityMetricData?.activityRatingGood / activityMetricData?.totalStudyParticipation) * 100).toFixed(0)
         : 0 // 총 참여 수가 0이면 비율은 0으로 설정
     },
     {
       label: "보통이었어요",
-      percentage: activityMetricData.totalStudyParticipation > 0
-        ? ((activityMetricData.activityRatingSoso / activityMetricData.totalStudyParticipation) * 100).toFixed(0)
+      percentage: activityMetricData?.totalStudyParticipation > 0
+        ? ((activityMetricData?.activityRatingSoso / activityMetricData?.totalStudyParticipation) * 100).toFixed(0)
         : 0
     },
     {
       label: "별로였어요",
-      percentage: activityMetricData.totalStudyParticipation > 0
-        ? ((activityMetricData.activityRatingBad / activityMetricData.totalStudyParticipation) * 100).toFixed(0)
+      percentage: activityMetricData?.totalStudyParticipation > 0
+        ? ((activityMetricData?.activityRatingBad / activityMetricData?.totalStudyParticipation) * 100).toFixed(0)
         : 0
     }
   ];
