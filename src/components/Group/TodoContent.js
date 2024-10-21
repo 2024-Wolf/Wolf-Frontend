@@ -270,6 +270,9 @@ const TodoContent = ({ github, figma }) => {
     const updatedTasks = Array.from(tasks);
     const [movedTask] = updatedTasks.splice(result.source.index, 1);
     movedTask.status = result.destination.droppableId;
+
+    console.log(movedTask);
+    console.log(result);
     updatedTasks.splice(result.destination.index, 0, movedTask);
 
     setTasks(updatedTasks);

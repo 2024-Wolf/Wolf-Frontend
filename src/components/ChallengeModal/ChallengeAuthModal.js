@@ -3,14 +3,14 @@ import {
     Violet500LineButton, ModalContentWrapper
 } from "../GlobalStyledComponents";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ModalForm from "../Modal/ModalForm";
 import CancelIcon from "../Icon/CancelIcon";
 import SelectButton from "../Button/SelectButton";
 import InputText from "../Input/InputText";
 import FormFieldSingle from "../Group/GroupComponent/FormFieldSingle";
 import TextAreaNoCss from "../Input/TextAreaNoCss";
-import { certificatonCheck, verifyChallenge } from "../Apis/ChallengePostApi";
+import { verifyChallenge } from "../Apis/ChallengePostApi";
 
 function ChallengeAuthModal(props) {
     const [inst, setInst] = useState("B490007");
@@ -18,10 +18,6 @@ function ChallengeAuthModal(props) {
     const [code, setCode] = useState("23202110166Y");
 
     let status = "Y";
-
-    useEffect(()=>{
-        certificatonCheck(inst, name, code);
-    })
 
     const handleInst = (e) => {
         setInst(e.target.value);

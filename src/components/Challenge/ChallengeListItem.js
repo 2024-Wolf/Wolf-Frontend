@@ -74,6 +74,7 @@ function ChallengeListItem(props) {
                 families: ['Kavoon']
             }
         });
+
     }, []);
 
     function processModalOff() {
@@ -82,7 +83,6 @@ function ChallengeListItem(props) {
     }
 
     function Modal() {
-
         const ModalComponent = ModalMap[props.item.status];
         return <ModalComponent groupPostId={props.groupPostId}  item={props.item} amount={30000} cancel={processModalOff} />;
     }
@@ -94,7 +94,6 @@ function ChallengeListItem(props) {
 
 
     function detailModalOn() {
-
         props.setDetail(props.item);
     }
 

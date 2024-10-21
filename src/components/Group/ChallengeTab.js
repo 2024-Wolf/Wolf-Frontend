@@ -5,6 +5,7 @@ import { ChallengeLists } from "../GlobalStyledComponents"; // 필요한 컴포�
 import ChallengeList from "../Challenge/ChallengeList"
 import ChallengeDetail from "../Challenge/ChallengeDetail";
 import { getChallenges } from "../Apis/ChallengePostApi";
+import { setAccessToken } from "../Apis/Common";
 
 const ChallengeTab = (props) => {
   const [detailModalOn, setDetailModalOn] = useState(false);
@@ -13,6 +14,8 @@ const ChallengeTab = (props) => {
   const [before, setBefore] = useState([]);
   const [now, setNow] = useState([]);
   const [after, setAfter] = useState([]);
+
+  const [tokenInput, setTokenInput] = useState();
 
 
   // 챌린지 목록 불러오기 함수
@@ -39,10 +42,23 @@ const ChallengeTab = (props) => {
     }
 
     // 완료된 챌린지
-    getChallenges(props.groupPostId, "RESULT_CONFIRM")
-    .then(function(response){
-      if(response.data.challenges.length > 0) setAfter(response.data.challenges);
-    })
+    try {
+      const response = 
+      await getChallenges(props.groupPostId, "RESULT_CONFIRM")
+      .then(function(response){
+        return response;
+      })
+
+      // 각 응답에서 챌린지 배열을 추출하고, 빈 배열은 제외
+      const validChallenge = response.data.challenges;
+      
+      if (validChallenge.length > 0) {
+        setAfter(validChallenge);
+      }
+    }catch (error) {
+      console.error("데이터 불러오기 실패:", error);
+    }
+  
 
     // 진행중인 챌린지
     try {
@@ -57,13 +73,15 @@ const ChallengeTab = (props) => {
         .filter(challenges => challenges.length > 0)
         .flat();
 
+
       if (validChallenges.length > 0) {
         setNow(validChallenges);
       }
     }catch (error) {
       console.error("데이터 불러오기 실패:", error);
+      }
     }
-  }
+
 
   useEffect(()=>{
     fetchChallenges();
@@ -76,6 +94,15 @@ const ChallengeTab = (props) => {
     setItem(item);
   }
 
+  function handleTokenInput(e){
+    setTokenInput(e.target.value);
+  }
+
+  function handleTokenButton(e){
+    setAccessToken(tokenInput);
+    alert("설정된 토큰 값 : " + tokenInput);
+  }
+
   return (
       <ChallengeLists>
         {detailModalOn ? <ChallengeDetail challengePostId={item.challengePostId} prevClick={() => setDetailModalOn(false)} /> : 
@@ -85,6 +112,10 @@ const ChallengeTab = (props) => {
           <ChallengeList groupPostId={props.groupPostId} list={before} fetchChallenges={fetchChallenges} category="진행 가능" setDetail={setDetailItem} />
         </>
         }
+        <div>
+          <input type="text" value={tokenInput} onChange={handleTokenInput}/>
+          <button onClick={handleTokenButton}>토큰 입력</button>
+        </div>
       </ChallengeLists>
   );
 };
