@@ -67,22 +67,30 @@ export function updateGroupPost(groupPost, postId) {
         });
 }
 
-// 그룹 목록 조회
+// 그룹 목록 조회 / 모집글 Type별 View
 // option = ("all", "study", "project")
-export async function getGroupPosts(type) {
-    return await axios.get(`${BASE_URL}/post/view/${type}`, {
-        headers: {
-            Authorization: Token.getAccessToken()
-        }
-    })
-        .then(function (response) {
-            // 받은 데이터로 수행할 작업
-            return response.data;
-        })
-        .catch(function (error) {
-            return error;
+// pageable = { page: 0, size: 1, sort: ["string"] }
+export async function getGroupPosts(type, page = 0, size = 10, sort = "desc") {
+    try {
+        const response = await axios.get(`${BASE_URL}/post/view/${type}`, {
+            headers: {
+                Authorization: Token.getAccessToken()
+            },
+            params: {
+                page,
+                size,
+                sort,
+            }
         });
+        // 받은 데이터로 수행할 작업
+        return response.data;
+    } catch (error) {
+        // 에러 처리
+        console.error('Error fetching group posts:', error);
+        return error;
+    }
 }
+
 
 
 // 그룹 단일 조회
