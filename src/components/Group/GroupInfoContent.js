@@ -24,7 +24,7 @@ import QuestionForm from "./Question/QuestionForm";
 import { matchRoutes } from 'react-router-dom';
 import ImagePreview from "../Img/ImagePreview"
 
-const GroupInfoContent = ({ mode }) => {
+const GroupInfoContent = ({ mode, groupPostId }) => {
   const [questions, setQuestions] = useState([
     {
       id: 1,
@@ -220,6 +220,7 @@ const GroupInfoContent = ({ mode }) => {
           />
           <QuestionForm
             showFileOption={false}
+            groupPostId={groupPostId}
           // data={data} 데이터 연결 필요
           />
         </Violet500LineDiv>

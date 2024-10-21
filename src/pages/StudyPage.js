@@ -76,7 +76,7 @@ const StudyPage = () => {
   };
 
   const componentsMap = {
-    [TAB.INFO]: (props) => <GroupInfoContent mode={mode} />,
+    [TAB.INFO]: (props) => <GroupInfoContent mode={mode} groupPostId={postId} />,
     [TAB.TODO]: TodoContent,
     [TAB.CHALLENGE]: ChallengeTab,
     [TAB.MEETING]: MeetingContent,
@@ -130,7 +130,7 @@ const StudyPage = () => {
           activeTab === TAB.MEETING ? (
             <MeetingContent isMeetingStarted={isMeetingStarted} />
           ) : (
-            <SelectedComponent groupPostId={postId}/>
+            <SelectedComponent groupPostId={postId} />
           )
         }
         {/*</div>*/}
