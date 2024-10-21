@@ -153,14 +153,14 @@ const TodoContent = ({ groupPostId, github, figma }) => {
   const [figmaLink, setFigmaLink] = useState((DummyLinkData.find(link => link.name === 'Figma').url) || '');
 
   // 할 일 목록 조회
-  async function saveTasks(groupId){
+  async function saveTasks(groupId) {
     await getTasks(groupId)
-    .then(function(response){
-      if(response.data.length > 0) setTasks(response.data);
-    })
+      .then(function (response) {
+        if (response?.data.length > 0) setTasks(response?.data);
+      })
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     saveTasks(groupPostId);
   }, [isTaskModalOpen]);
 
@@ -247,16 +247,16 @@ const TodoContent = ({ groupPostId, github, figma }) => {
       let taskToEdit = tasks.filter(task => task.id === editingTaskIndex)[0];
       taskToEdit.details = newTask;
       updateTask(taskToEdit)
-      .then(function(response){
-        closeTaskModal();
-      });
+        .then(function (response) {
+          closeTaskModal();
+        });
     } else {
       // 추가 모드일 경우
       if (newTask.trim()) {
         registerTask(groupPostId, newTask)
-        .then(function(response){
-          closeTaskModal();
-        });
+          .then(function (response) {
+            closeTaskModal();
+          });
       }
     }
   };
@@ -267,8 +267,8 @@ const TodoContent = ({ groupPostId, github, figma }) => {
 
     const movedTask = tasks.filter(task => task.id === Number(result.draggableId))[0];
     movedTask.status = result.destination.droppableId;
-    
-    async function moveTask(task){
+
+    async function moveTask(task) {
       await updateTask(task);
       saveTasks(groupPostId);
     }
@@ -277,7 +277,7 @@ const TodoContent = ({ groupPostId, github, figma }) => {
   };
 
   const handleDeleteTask = (id) => {
-    async function deleteFunc(id){
+    async function deleteFunc(id) {
       await deleteTask(id);
       saveTasks(groupPostId);
     }

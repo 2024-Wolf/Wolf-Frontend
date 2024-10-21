@@ -13,70 +13,66 @@ import RedirectPage from "./pages/RedirectPage";
 import { getMyProfile, getAlarmsPreview } from './components/Apis/UserApi';
 import LoadingSpinner from "./components/Loading/LoadingSpinner";
 
+
+// 렌더링 최적화
+const MemoizedMain = React.memo(Main);
+const MemoizedStudyPage = React.memo(StudyPage);
+const MemoizedFAQ = React.memo(FAQ);
+const MemoizedCreateGroupPage = React.memo(CreateGroupPage);
+const MemoizedTos = React.memo(Tos);
+const MemoizedMyPage = React.memo(MyPage);
+const MemoizedRedirectPage = React.memo(RedirectPage);
+
 const App = () => {
-  // 로그인 상태 및 알림 데이터 관리
-  const [isLoggedIn, setIsLoggedIn] = useState(() => {
-    const accessToken = localStorage.getItem('accessToken');
-    return !!accessToken; // accessToken이 있으면 true, 없으면 false
-  });
-
-  const onLogin = () => setIsLoggedIn(true);
-  const offLogin = () => setIsLoggedIn(false);
-
-  // 내 프로필 데이터 관리
+  const [isLoggedIn, setIsLoggedIn] = useState(() => !!localStorage.getItem('accessToken'));
   const [profileData, setProfileData] = useState({});
   const [alarmsPreviewData, setAlarmsPreviewData] = useState([]);
-  const [loading, setLoading] = useState(false); // 로딩 상태 추가
-
+  const [loading, setLoading] = useState(false); // 로딩 상태
 
   useEffect(() => {
-    if (isLoggedIn) {
-      // 로그인 상태일 때 내 프로필과 알람 미리보기 가져오기
-      const fetchProfile = async () => {
-        try {
-          setLoading(true);  // 로딩 상태 시작
-          // setError(null);    // 에러 초기화
-          const dataProfile = await getMyProfile(); // 프로필 데이터 설정
-          setProfileData(dataProfile.data);
-          const dataAlarmsPreview = await getAlarmsPreview(); // 알람 미리보기 설정
-          setAlarmsPreviewData(dataAlarmsPreview.data);
+    const fetchProfile = async () => {
+      if (!isLoggedIn) return; // 로그인 상태가 아닐 때 실행X
 
-        } catch (err) {
-          // setError('데이터를 불러오는 데 실패했습니다.');
-          console.error(err);
-        } finally {
-          setLoading(false); // 로딩 상태 종료
-        }
-      };
+      setLoading(true);
+      try {
+        const dataProfile = await getMyProfile(); // 내 프로필 데이터 가져오기
+        const dataAlarmsPreview = await getAlarmsPreview(); // 알람 미리보기 데이터 가져오기
+        setProfileData(dataProfile.data);
+        setAlarmsPreviewData(dataAlarmsPreview.data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-      fetchProfile(); // 프로필 데이터 가져오기
-    }
+    fetchProfile();
   }, [isLoggedIn]);
 
-  const renderWithLoading = (Component) => {
-    return loading ? <LoadingSpinner /> : <Component />;
-  };
+  const renderWithLoading = (Component, props) => (
+    loading ? <LoadingSpinner /> : <Component {...props} />
+  );
 
   return (
     <Router>
       <Header
         isLoggedIn={isLoggedIn}
-        onLogin={onLogin}
-        offLogin={offLogin}
+        onLogin={() => setIsLoggedIn(true)}
+        offLogin={() => setIsLoggedIn(false)}
         profileData={profileData}
         alarmsPreviewData={alarmsPreviewData}
       />
       <MainContents>
         <Routes>
-          <Route path="/" element={renderWithLoading(Main)} /> {/* 메인 페이지 */}
-          <Route path="/post/:postId" element={renderWithLoading(() => <StudyPage profileData={profileData} />)} /> {/* 스터디 페이지 */}
-          <Route path="/faq" element={renderWithLoading(FAQ)} /> {/* FAQ 페이지 */}
-          <Route path="/user" element={renderWithLoading(MyPage)} /> {/* 마이페이지 */}
-          <Route path="/write" element={renderWithLoading(CreateGroupPage)} /> {/* 글쓰기 페이지 */}
-          <Route path="/tos" element={renderWithLoading(Tos)} /> {/* 이용약관 페이지 */}
-          <Route path="/user/my" element={renderWithLoading(() => <MyPage profileData={profileData} />)} /> {/* 마이페이지-내가볼때 */}
-          <Route path="/user/:userId" element={renderWithLoading(MyPage)} /> {/* 마이페이지-남이볼때 */}
-          <Route path="/google/callback" element={renderWithLoading(RedirectPage)} />
+          <Route path="/" element={renderWithLoading(MemoizedMain)} />
+          <Route path="/post/:postId" element={renderWithLoading(MemoizedStudyPage, { profileData })} />
+          <Route path="/faq" element={renderWithLoading(MemoizedFAQ)} />
+          <Route path="/write" element={renderWithLoading(MemoizedCreateGroupPage)} />
+          <Route path="/tos" element={renderWithLoading(MemoizedTos)} />
+          <Route path="/user" element={renderWithLoading(MemoizedMyPage)} />
+          <Route path="/user/my" element={renderWithLoading(MemoizedMyPage, { profileData })} />
+          <Route path="/user/:userId" element={renderWithLoading(MemoizedMyPage)} />
+          <Route path="/google/callback" element={renderWithLoading(MemoizedRedirectPage)} />
         </Routes>
       </MainContents>
       <Footer />

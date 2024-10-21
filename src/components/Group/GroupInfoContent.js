@@ -24,22 +24,18 @@ import QuestionForm from "./Question/QuestionForm";
 import { matchRoutes } from 'react-router-dom';
 import ImagePreview from "../Img/ImagePreview"
 
-const GroupInfoContent = ({ mode, groupPostId, userId }) => {
+const GroupInfoContent = ({ mode, groupPostId, userId, groupPostData }) => {
 
-  console.log('userId : ', userId)
   const recentNews = [
     {
-      title: "최근 소식",
       content: "‘파이널 프로젝트- 지금2조’에 ‘손흥민’ 님이 지원하셨습니다.",
       date: "2024.09.02",
     },
     {
-      title: "최근 소식",
       content: "프로젝트 회의는 다음 주 월요일 오후 3시입니다.",
       date: "2024.09.03",
     },
     {
-      title: "최근 소식",
       content: "스터디원 모집 중 프론트엔드 스터디에 참여하세요!",
       date: "2024.09.04",
     },
@@ -62,17 +58,18 @@ const GroupInfoContent = ({ mode, groupPostId, userId }) => {
 
         {/* 이미지가 있으면 여기에 넣으면 됨! */}
         <ImagePreview
-          src="https://image.utoimage.com/preview/cp927958/2020/09/202009015931_500.jpg"
-          imageFile="https://image.utoimage.com/preview/cp927958/2020/09/202009015931_500.jpg" />
+          src={groupPostData?.thumbnail ? groupPostData?.thumbnail : "기본이미지"}
+          imageFile={groupPostData?.thumbnail ? groupPostData?.thumbnail : "기본이미지"}
+        />
 
         {/* 정보 묶음 */}
         <Violet500LineDiv>
           <FormFieldColumn>
             <FormFieldSingle label={"모임 기간"}>
               <DoubleDateContainer className="date">
-                <InputDateNoCss value="2024-09-10" />
+                <InputDateNoCss value={groupPostData?.startDate} />
                 ~
-                <InputDateNoCss value="2024-09-20" />
+                <InputDateNoCss value={groupPostData?.endDate} />
               </DoubleDateContainer>
             </FormFieldSingle>
             <Violet500BackgroundButton onClick={openModal}>
@@ -81,7 +78,7 @@ const GroupInfoContent = ({ mode, groupPostId, userId }) => {
           </FormFieldColumn>
 
           {isModalOpen && (
-            <ApplicantModal onClose={closeModal} isView={false} />
+            <ApplicantModal onClose={closeModal} isView={false} optionalRequirements={groupPostData?.optionalRequirements} />
           )}
 
           <FormFieldRow>
@@ -118,19 +115,14 @@ const GroupInfoContent = ({ mode, groupPostId, userId }) => {
           <FormFieldRow>
             <FormFieldSingle label={"주제"} className="PostTitle">
               <InputTextNoCss
-                value="인스타그램 클론 코딩 해보기"
+                value={groupPostData?.topic}
                 readOnly />
             </FormFieldSingle>
           </FormFieldRow>
           <TextAreaNoCss
             name="introduction"
             placeholder="모집에 대한 간단한 소개를 작성해주세요."
-            value={
-              "- 내용: 파이썬 기초를 공부할 사람 모집합니다.\n" +
-              "- 매주 월, 수, 금 오후 8시부터 10시까지 진행됩니다.\n" +
-              "- 총 8주 과정으로 진행하고 참가비 무료입니다.\n" +
-              '- 관심있는 분들은 "지원하기"로 신청해주세요.'
-            }
+            value={groupPostData?.description}
           />
         </Violet500LineDiv>
 

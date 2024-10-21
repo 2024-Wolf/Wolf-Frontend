@@ -84,20 +84,21 @@ export async function getGroupPosts(type) {
         });
 }
 
+
 // 그룹 단일 조회
-export function getGroupPost(postId) {
-    axios.get(`${BASE_URL}/post/${postId}`, {
-        headers: {
-            Authorization: Token.getAccessToken()
-        }
-    })
-        .then(function (response) {
-            // 받은 데이터로 수행할 작업
-            console.log(response);
-        })
-        .catch(function (error) {
-            console.log(error);
+export async function getGroupPost(postId) {
+    try {
+        const response = await axios.get(`${BASE_URL}/post/${postId}`, {
+            headers: {
+                Authorization: Token.getAccessToken(),
+            },
         });
+        // 응답 데이터 반환
+        return response.data;
+    } catch (error) {
+        console.error('API 호출 실패:', error);
+        throw error; // 에러를 다시 던져 호출한 곳에서 처리할 수 있게 함
+    }
 }
 
 // 그룹원 조회

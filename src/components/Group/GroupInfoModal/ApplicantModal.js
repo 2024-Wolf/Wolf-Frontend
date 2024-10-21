@@ -50,7 +50,7 @@ const initialGroupData = {
   fileName: ""
 };
 
-const ApplicantModal = ({ onClose, onSubmit, applicant, isView }) => {
+const ApplicantModal = ({ onClose, onSubmit, applicant, isView, optionalRequirements }) => {
   const [isPortfolioValid, setIsPortfolioValid] = useState(true); // 포트폴리오 링크 입력했는지 검증하는 상태
   const [isDayValid, setIsDayValid] = useState(true); // 요일 입력했는지 검증하는 상태
   const [isSelectRoldValid, setIsSelectRoldValid] = useState(true); // 지원직군 선택했는지 검증하는 상태
