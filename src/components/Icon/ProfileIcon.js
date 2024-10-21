@@ -44,7 +44,7 @@ const ProfileIcon = ({ src = "https://upload.wikimedia.org/wikipedia/commons/8/8
         />
         {{ children } && <UserName>{children}</UserName>}
       </ProfileIconWrapper>
-      {{ clicked } && <>클릭!</>}
+      {clicked && <>클릭!</>}
     </>
   )
 };
