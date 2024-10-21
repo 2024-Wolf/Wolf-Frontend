@@ -60,6 +60,8 @@ export const CardBody = styled.div`
 
 // components/Card/Card.jsx
 export const Button4 = styled.button`
+    width: 80%;
+    margin: 0px auto;
     padding: 5px 10px;
     border-radius: 5px;
     background-color: var(--violet000);
@@ -72,11 +74,18 @@ export const Button4 = styled.button`
 
     @media (max-width: 480px) {
     }
+
+    &:hover{
+        background: var(--violet300);
+    }
 `;
 
-const Card = (data) => {
+const Card = ({ data }) => {
 
-    console.log(data);
+    function handleButtonClick(e){
+        e.stopPropagation();
+        alert("신청 버튼 클릭");
+    }
 
     return (
         <CardContainer>
@@ -105,7 +114,7 @@ const Card = (data) => {
                     ) : data.joinDate ? (
                         <Date2>{`합류일: ${data.joinDate}`}</Date2>
                     ) : null}
-                    {data.buttonText && <Button4>{data.buttonText}</Button4>}
+                    <Button4 onClick={handleButtonClick}>신청하기</Button4>
                 </BottomInfo>
             </CardBody>
         </CardContainer>
