@@ -62,7 +62,11 @@ const Main = () => {
         async function getPosts(){
             await getGroupPosts("all")
             .then(function(response){
-                if(response.data.groupPostResponseList.length > 0) setCards(response.data.groupPostResponseList);
+                if(response.status === 401){
+                    alert("토큰이 유효하지 않습니다!");
+                    return;
+                }
+                if(response !== undefined && response.data.groupPostResponseList.length > 0) setCards(response.data.groupPostResponseList);
             })
             setActiveCategory("전체");
         }

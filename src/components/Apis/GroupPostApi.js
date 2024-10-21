@@ -80,7 +80,7 @@ export async function getGroupPosts(type) {
             return response.data;
         })
         .catch(function (error) {
-            console.log(error);
+            return error;
         });
 }
 
