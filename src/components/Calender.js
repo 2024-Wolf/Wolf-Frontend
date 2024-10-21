@@ -128,12 +128,12 @@ const Day = styled.div`
     }
 
 
-    background-color: ${({ isSelected, istoday }) => (isSelected ? 'var(--violet300)' : istoday ? 'var(--violet200)' : 'transparent')};
-    color: ${({ isSelected }) => (isSelected ? 'var(--violet700)' : '#000')};
-    font-weight: ${({ isSelected }) => (isSelected ? 'bold' : '')};
+    background-color: ${({ $isSelected, $istoday }) => ($isSelected ? 'var(--violet300)' : $istoday ? 'var(--violet200)' : 'transparent')};
+    color: ${({ $isSelected }) => ($isSelected ? 'var(--violet700)' : '#000')};
+    font-weight: ${({ $isSelected }) => ($isSelected ? 'bold' : '')};
 
     &:hover {
-        background-color: ${({ isSelected }) => (isSelected ? 'var(--violet400)' : 'var(--violet200)')};
+        background-color: ${({ $isSelected }) => ($isSelected ? 'var(--violet400)' : 'var(--violet200)')};
     }
 
 `;
@@ -269,7 +269,7 @@ const ShowList = styled.div`
       color: var(--violet500);
     }
 
-  ${({ isActive }) => isActive && `
+  ${({ $isActive }) => $isActive && `
     &:hover {
       color: var(--black300);
     }
@@ -390,8 +390,8 @@ const Calendar = ({ data, handleEditSchedule, handleDeleteSchedule, ...props }) 
                     {hasSchedule && <ScheduleIndicator />}
                     <Day
                         onClick={() => { setSelectedDate(dateKey); setIsShowSchedule(true); setIsShowAllSchedule(false); }}
-                        isSelected={selectedDate === dateKey}
-                        istoday={isToday(dateKey)}
+                        $isSelected={selectedDate === dateKey}
+                        $istoday={isToday(dateKey)}
                     >
                         {hasSchedule && <ScheduleIndicator />}
                         {i}
@@ -518,14 +518,14 @@ const Calendar = ({ data, handleEditSchedule, handleDeleteSchedule, ...props }) 
                 <Hr />
                 {/* 전체 일정 리스트 */}
                 {isShowAllSchedule ? (
-                    <ShowList isActive={isShowAllSchedule}>
+                    <ShowList $isActive={isShowAllSchedule}>
                         <CaretDownIcon style={{ backgroundColor: 'transparent' }} />
                         <h3 style={{ fontWeight: '700', color: 'var(--violet500)', cursor: 'default' }}>
                             전체 일정 ({schedules.length || '0'})
                         </h3>
                     </ShowList>
                 ) : (
-                    <ShowList isActive={isShowAllSchedule}
+                    <ShowList $isActive={isShowAllSchedule}
                         onClick={() => { setIsShowAllSchedule(true); setIsShowSchedule(false); }}>
                         <CaretRightIcon />
                         <h3>
@@ -543,7 +543,7 @@ const Calendar = ({ data, handleEditSchedule, handleDeleteSchedule, ...props }) 
 
                 {/* 특정 날짜 일정 리스트 */}
                 {isShowSchedule ? (
-                    <ShowList isActive={isShowSchedule}>
+                    <ShowList $isActive={isShowSchedule}>
                         <CaretDownIcon style={{ backgroundColor: 'transparent' }} />
                         <h3 style={{ fontWeight: '700', color: 'var(--violet500)', cursor: 'default' }}>
                             {selectedDate || ''} 일정 (
@@ -563,7 +563,7 @@ const Calendar = ({ data, handleEditSchedule, handleDeleteSchedule, ...props }) 
                         </h3>
                     </ShowList>
                 ) : (
-                    <ShowList isActive={isShowSchedule} onClick={() => { setIsShowSchedule(true); setIsShowAllSchedule(false); }}>
+                    <ShowList $isActive={isShowSchedule} onClick={() => { setIsShowSchedule(true); setIsShowAllSchedule(false); }}>
                         <CaretRightIcon />
                         <h3>
                             {selectedDate || ''} 일정 (

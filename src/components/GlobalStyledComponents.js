@@ -1670,9 +1670,9 @@ export const MainCardListContainer = styled.div`
     gap: 17px;
     align-items: center;
     justify-content: start;
+    width: 100%;
 
     @media (max-width: 616px) {
-        width: 100%;
         flex-wrap: nowrap;
         flex-direction: column;
         height: 100%;

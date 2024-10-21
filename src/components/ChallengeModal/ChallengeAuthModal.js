@@ -83,6 +83,22 @@ function ChallengeAuthModal(props) {
         props.cancel();
     }
 
+
+
+    // // 리액트(포트번호 3000) 및 서버(포트번호 8000)가 실행된 채로 새로운 터미널을 열어서,
+    // // cors-anywhere 서버를 실행 시킨채로 인증을 시도해야 성공함!
+    // // 다운받은 파일 경로로 이동
+    // cd cors-anywhere
+
+    // // 필요한 패키지 설치
+    // npm install
+
+    // // 포트번호 4000으로 변경(필요시)
+    // $env:PORT=4000
+
+    // // 서버 실행
+    // node server.js
+
     return (
         <ModalForm isModalOpen={true} onSubmit={handleSubmit}>
             <CancelIcon

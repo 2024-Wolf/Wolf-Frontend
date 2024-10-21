@@ -18,7 +18,9 @@ const MeetingContent = ({ isMeetingStarted, groupPostId, userId }) => {
     setIsMeetingOpen(false);
   };
 
-  console.log(groupPostId)
+  console.log(isMeetingStarted, groupPostId, userId)
+
+
 
   return (
     <MeetingContainer2>
@@ -37,12 +39,10 @@ const MeetingContent = ({ isMeetingStarted, groupPostId, userId }) => {
 
         }}
         label={"팀원들과 궁금한 내용을 나눠보세요 !"} />
-
       <QuestionForm
         userId={userId}
         showFileOption={true}
         groupPostId={groupPostId}
-      // data={data} 데이터 연결 필요
       />
     </MeetingContainer2>
   );

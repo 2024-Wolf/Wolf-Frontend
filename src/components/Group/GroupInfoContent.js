@@ -143,7 +143,6 @@ const GroupInfoContent = ({ mode, groupPostId, userId, groupPostData }) => {
             userId={userId}
             showFileOption={false}
             groupPostId={groupPostId}
-          // data={data} 데이터 연결 필요
           />
         </Violet500LineDiv>
       </InfoContainer >
