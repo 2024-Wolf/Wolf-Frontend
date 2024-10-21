@@ -14,15 +14,6 @@ import { getMyProfile, getAlarmsPreview } from './components/Apis/UserApi';
 import LoadingSpinner from "./components/Loading/LoadingSpinner";
 
 
-// 렌더링 최적화
-const MemoizedMain = React.memo(Main);
-const MemoizedStudyPage = React.memo(StudyPage);
-const MemoizedFAQ = React.memo(FAQ);
-const MemoizedCreateGroupPage = React.memo(CreateGroupPage);
-const MemoizedTos = React.memo(Tos);
-const MemoizedMyPage = React.memo(MyPage);
-const MemoizedRedirectPage = React.memo(RedirectPage);
-
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(() => !!localStorage.getItem('accessToken'));
   const [profileData, setProfileData] = useState({});
@@ -64,15 +55,15 @@ const App = () => {
       />
       <MainContents>
         <Routes>
-          <Route path="/" element={renderWithLoading(MemoizedMain)} />
-          <Route path="/post/:postId" element={renderWithLoading(MemoizedStudyPage, { profileData })} />
-          <Route path="/faq" element={renderWithLoading(MemoizedFAQ)} />
-          <Route path="/write" element={renderWithLoading(MemoizedCreateGroupPage)} />
-          <Route path="/tos" element={renderWithLoading(MemoizedTos)} />
-          <Route path="/user" element={renderWithLoading(MemoizedMyPage)} />
-          <Route path="/user/my" element={renderWithLoading(MemoizedMyPage, { profileData })} />
-          <Route path="/user/:userId" element={renderWithLoading(MemoizedMyPage)} />
-          <Route path="/google/callback" element={renderWithLoading(MemoizedRedirectPage)} />
+          <Route path="/" element={renderWithLoading(Main)} />
+          <Route path="/post/:postId" element={renderWithLoading(StudyPage, { profileData })} />
+          <Route path="/faq" element={renderWithLoading(FAQ)} />
+          <Route path="/write" element={renderWithLoading(CreateGroupPage)} />
+          <Route path="/tos" element={renderWithLoading(Tos)} />
+          <Route path="/user" element={renderWithLoading(MyPage)} />
+          <Route path="/user/my" element={renderWithLoading(MyPage, { profileData })} />
+          <Route path="/user/:userId" element={renderWithLoading(MyPage)} />
+          <Route path="/google/callback" element={renderWithLoading(RedirectPage)} />
         </Routes>
       </MainContents>
       <Footer />

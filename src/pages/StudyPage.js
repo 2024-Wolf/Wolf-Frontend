@@ -101,11 +101,11 @@ const StudyPage = ({ profileData }) => {
   }, [postId]); // postId가 변경될 때마다 실행
 
   const componentsMap = {
-    [TAB.INFO]: (props) => <GroupInfoContent mode={modeRef.current} groupPostId={postId} userId={profileData?.id} groupPostData={groupPostData} />,
-    [TAB.TODO]: (props) => <TodoContent />,
-    [TAB.CHALLENGE]: (props) => <ChallengeTab />,
-    [TAB.MEETING]: (props) => <MeetingContent groupPostId={postId} userId={profileData?.id} />,
-    [TAB.MANAGE]: (props) => <GroupManageContent />,
+    [TAB.INFO]: (props) => <GroupInfoContent {...props} />,
+    [TAB.TODO]: (props) => <TodoContent {...props} />,
+    [TAB.CHALLENGE]: (props) => <ChallengeTab {...props} />,
+    // [TAB.MEETING]: (props) => <MeetingContent {...props} />,
+    [TAB.MANAGE]: (props) => <GroupManageContent {...props} />,
   };
 
   const SelectedComponent = componentsMap[activeTab];
@@ -154,9 +154,18 @@ const StudyPage = ({ profileData }) => {
         {/*<div className="study-content">*/}
         {
           activeTab === TAB.MEETING ? (
-            <MeetingContent isMeetingStarted={isMeetingStarted} />
+            <MeetingContent
+              isMeetingStarted={isMeetingStarted}
+              mode={modeRef.current}
+              groupPostId={postId}
+              userId={profileData?.id}
+              groupPostData={groupPostData} />
           ) : (
-            <SelectedComponent groupPostId={postId} />
+            <SelectedComponent
+              mode={modeRef.current}
+              groupPostId={postId}
+              userId={profileData?.id}
+              groupPostData={groupPostData} />
           )
         }
         {/*</div>*/}
