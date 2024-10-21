@@ -58,16 +58,16 @@ const Main = () => {
 
     const [token, setToken] = useState("");
 
-    useEffect(()=>{
-        async function getPosts(){
+    useEffect(() => {
+        async function getPosts() {
             await getGroupPosts("all")
-            .then(function(response){
-                if(response.status === 401){
-                    alert("토큰이 유효하지 않습니다!");
-                    return;
-                }
-                if(response !== undefined && response.data.groupPostResponseList.length > 0) setCards(response.data.groupPostResponseList);
-            })
+                .then(function (response) {
+                    if (response.status === 401) {
+                        alert("토큰이 유효하지 않습니다!");
+                        return;
+                    }
+                    if (response !== undefined && response.data.groupPostResponseList.length > 0) setCards(response.data.groupPostResponseList);
+                })
             setActiveCategory("전체");
         }
         getPosts();
@@ -76,8 +76,8 @@ const Main = () => {
     useEffect(() => {
         let filteredByCategory = [];
 
-        switch(activeCategory){
-            case "전체": 
+        switch (activeCategory) {
+            case "전체":
                 filteredByCategory = cards;
                 break;
             case "프로젝트":
@@ -88,9 +88,9 @@ const Main = () => {
                 break;
         }
 
-        const searchedCards = filteredByCategory.filter(card => 
+        const searchedCards = filteredByCategory.filter(card =>
             // title, tag 에 대해 검색어가 포함되어 있는지 확인
-            card.name.toLowerCase().includes(searchTerm.toLowerCase()) 
+            card.name.toLowerCase().includes(searchTerm.toLowerCase())
             || card.tag.includes(searchTerm.toLowerCase())
         );
 
@@ -107,7 +107,7 @@ const Main = () => {
 
         setFilteredCards(dateFilteredCards);
     }, [activeCategory, searchDate, isOptionActive, searchTerm]);
-    
+
     const handleSearchDate = (date) => {
         setSearchDate(date);
     };
@@ -124,13 +124,22 @@ const Main = () => {
         setToken(e.target.value);
     }
 
-    const handleTokenButton = (e) => {
+    const handleAccessTokenButton = (e) => {
         Token.setAccessToken(token);
         window.location.reload();
     }
 
-    const handleCheckButton = (e) => {
-        alert("설정된 토큰 값 : " + Token.getAccessToken());
+    const handleAccessTokenCheckButton = (e) => {
+        alert("설정된 액세스 토큰 값 : " + Token.getAccessToken());
+    }
+
+    const handleRefreshTokenButton = (e) => {
+        Token.setRefreshToken(token);
+        window.location.reload();
+    }
+
+    const handlerefReshTokenCheckButton = (e) => {
+        alert("설정된 리프레쉬 토큰 값 : " + Token.getRefreshToken());
     }
 
     return (
@@ -163,9 +172,16 @@ const Main = () => {
                     data={filteredCards}
                 />
                 <div>
-                    <input style={{border:"1px solid #000"}} type="text" value={token} onChange={handleTokenInput}/>
-                    <button onClick={handleTokenButton}>토큰 입력</button>
-                    <button onClick={handleCheckButton}>토큰 확인</button>
+                    <input style={{ border: "1px solid #000" }} type="text" value={token} onChange={handleTokenInput} />
+                    <button onClick={handleAccessTokenButton}>액세스 토큰 입력</button>
+                    <br />
+                    <button onClick={handleAccessTokenCheckButton}>액세스 토큰 확인</button>
+                </div>
+                <div>
+                    <input style={{ border: "1px solid #000" }} type="text" value={token} onChange={handleTokenInput} />
+                    <button onClick={handleRefreshTokenButton}>리프레쉬 토큰 입력</button>
+                    <br />
+                    <button onClick={handlerefReshTokenCheckButton}>리프레쉬 토큰 확인</button>
                 </div>
             </main >
         </>
