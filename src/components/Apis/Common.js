@@ -84,11 +84,19 @@ function removeBearerPrefix(token) {
 
 class TokenManager {
     setAccessToken(token) {
-        localStorage.setItem("accessToken", JSON.stringify(`Bearer ${token}`));
+        localStorage.setItem("accessToken", `Bearer ${token}`);
     }
 
     getAccessToken() {
-        return JSON.parse(localStorage.getItem("accessToken"));
+        return localStorage.getItem("accessToken"); // Bearer가 포함된 상태로 반환
+    }
+
+    setRefreshToken(token) {
+        Cookies.set('refreshToken', token, { expires: 7, path: '/' });
+    }
+
+    getRefreshToken() {
+        return Cookies.get('refreshToken');
     }
 }
 

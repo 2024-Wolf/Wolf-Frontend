@@ -3,7 +3,7 @@ import {
     Violet500LineButton, ModalContentWrapper
 } from "../GlobalStyledComponents";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ModalForm from "../Modal/ModalForm";
 import CancelIcon from "../Icon/CancelIcon";
 import SelectButton from "../Button/SelectButton";
@@ -59,9 +59,9 @@ function ChallengeAuthModal(props) {
 
     let status = "Y";
 
-    useEffect(() => {
-        certificatonCheck(inst, name, code);
-    })
+    // useEffect(() => {
+    //     certificatonCheck(inst, name, code);
+    // })
 
     const handleInst = (e) => {
         setInst(e.target.value);
