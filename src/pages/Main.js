@@ -7,6 +7,7 @@ import SearchBar from "../components/MainPageComponents/SearchBar/SearchBar";
 import DateButton from "../components/Button/DateButton";
 import MainOptionButton from "../components/Button/MainOptionButton";
 import { getGroupPosts } from "../components/Apis/GroupPostApi";
+import { Token } from "../components/Apis/Common";
 
 // pages/Main.js
 export const SearchContainer = styled.div`
@@ -55,11 +56,13 @@ const Main = () => {
     const [isChanged, setIsChanged] = useState(false);
     const [cards, setCards] = useState([]);
 
+    const [token, setToken] = useState("");
+
     useEffect(()=>{
         async function getPosts(){
             await getGroupPosts("all")
             .then(function(response){
-                setCards(response.data.groupPostResponseList);
+                if(response.data.groupPostResponseList.length > 0) setCards(response.data.groupPostResponseList);
             })
             setActiveCategory("전체");
         }
@@ -113,6 +116,18 @@ const Main = () => {
         setSearchTerm(term);
     };
 
+    const handleTokenInput = (e) => {
+        setToken(e.target.value);
+    }
+
+    const handleTokenButton = (e) => {
+        Token.setAccessToken(token);
+    }
+
+    const handleCheckButton = (e) => {
+        alert("설정된 토큰 값 : " + Token.getAccessToken());
+    }
+
     return (
         <>
             <BannerSlider images={banners} />
@@ -142,6 +157,11 @@ const Main = () => {
                     category={activeCategory}
                     data={filteredCards}
                 />
+                <div>
+                    <input style={{border:"1px solid #000"}} type="text" value={token} onChange={handleTokenInput}/>
+                    <button onClick={handleTokenButton}>토큰 입력</button>
+                    <button onClick={handleCheckButton}>토큰 확인</button>
+                </div>
             </main >
         </>
     );

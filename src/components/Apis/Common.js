@@ -1,12 +1,14 @@
 export const BASE_URL = "http://localhost:8080/api/v1";
+//export const BASE_URL = "http://18.223.187.130:8080/api/v1";
 
-export let accessToken = "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiVXNlclJvbGVUeXBlIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzI5NDc0MjE5LCJleHAiOjE3Mjk5MDYyMTl9.Hu7dvOmXlL1tQUDE2lTL0Dl0CD4goQonsEYgJ_ssriedFxVfsHIUWipvqGtZHxJF";
-export let refreshToken = "Bearer ";
+class TokenManager {
+    setAccessToken(token) {
+        localStorage.setItem("accessToken", JSON.stringify(`Bearer ${token}`));
+    }
 
-export function setAccessToken(token) {
-    accessToken = "Bearer " + token;
+    getAccessToken() {
+        return JSON.parse(localStorage.getItem("accessToken"));
+    }
 }
 
-export function setRefreshToken(token) {
-    refreshToken = "Bearer " + token;
-}
+export const Token = new TokenManager();

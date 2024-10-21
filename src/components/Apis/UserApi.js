@@ -1,6 +1,6 @@
 // api/UserApi.js
 import axios from 'axios';
-import { BASE_URL, accessToken } from './Common'; // Common.js에서 BASE_URL과 accessToken 가져오기
+import { BASE_URL, Token } from './Common'; // Common.js에서 BASE_URL과 accessToken 가져오기
 
 
 
@@ -9,7 +9,7 @@ export const getUserProfile = async (userId) => {
     try {
         const response = await axios.get(`${BASE_URL}/user/${userId}`, {
             headers: {
-                Authorization: accessToken
+                Authorization: Token.getAccessToken()
             }
         });
         return response.data;
@@ -25,7 +25,7 @@ export const getMyProfile = async () => {
     try {
         const response = await axios.get(`${BASE_URL}/user/my`, {
             headers: {
-                Authorization: accessToken
+                Authorization: Token.getAccessToken()
             }
         });
         return response.data;
@@ -40,7 +40,7 @@ export const postMyProfile = async (data) => { // data 인자를 추가
     try {
         const response = await axios.post(`${BASE_URL}/user/my`, data, { // data를 요청 본문에 추가
             headers: {
-                Authorization: accessToken
+                Authorization: Token.getAccessToken()
             }
         });
         return response.data;
@@ -55,7 +55,7 @@ export const signUpUser = async (data) => {
     try {
         const response = await axios.post(`${BASE_URL}/user/sign-up`, data, {
             headers: {
-                Authorization: accessToken
+                Authorization: Token.getAccessToken()
             }
         });
         return response.data;
@@ -70,7 +70,7 @@ export const getAlarms = async () => {
     try {
         const response = await axios.get(`${BASE_URL}/user/alarms`, {
             headers: {
-                Authorization: accessToken
+                Authorization: Token.getAccessToken()
             }
         });
         return response.data;
@@ -85,7 +85,7 @@ export const getAlarmsPreview = async () => {
     try {
         const response = await axios.get(`${BASE_URL}/user/alarms/preview`, {
             headers: {
-                Authorization: accessToken
+                Authorization: Token.getAccessToken()
             }
         });
         return response.data;

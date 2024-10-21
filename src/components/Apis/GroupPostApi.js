@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BASE_URL, accessToken } from "./Common";
+import { BASE_URL, Token } from "./Common";
 
 // 그룹 생성
 export function registerGroupPost(groupPost) {
@@ -22,7 +22,7 @@ export function registerGroupPost(groupPost) {
         challengeStatus: groupPost.challenge_status
     }, {
         headers: {
-            Authorization: accessToken
+            Authorization: Token.getAccessToken()
         }
     })
         .then(function (response) {
@@ -55,7 +55,7 @@ export function updateGroupPost(groupPost, postId) {
         challengeStatus: groupPost.challenge_status
     }, {
         headers: {
-            Authorization: accessToken
+            Authorization: Token.getAccessToken()
         }
     })
         .then(function (response) {
@@ -72,7 +72,7 @@ export function updateGroupPost(groupPost, postId) {
 export async function getGroupPosts(type) {
     return await axios.get(`${BASE_URL}/post/view/${type}`, {
         headers: {
-            Authorization: accessToken
+            Authorization: Token.getAccessToken()
         }
     })
         .then(function (response) {
@@ -88,7 +88,7 @@ export async function getGroupPosts(type) {
 export function getGroupPost(postId) {
     axios.get(`${BASE_URL}/post/${postId}`, {
         headers: {
-            Authorization: accessToken
+            Authorization: Token.getAccessToken()
         }
     })
         .then(function (response) {
@@ -104,7 +104,7 @@ export function getGroupPost(postId) {
 export function getGroupMember(groupId) {
     axios.get(`${BASE_URL}/post/${groupId}/members`, {
         headers: {
-            Authorization: accessToken
+            Authorization: Token.getAccessToken()
         }
     })
         .then(function (response) {
@@ -128,7 +128,7 @@ export function applyGroup(groupId, applyment) {
         additionalNotes: applyment.additional_notes
     }, {
         headers: {
-            Authorization: accessToken
+            Authorization: Token.getAccessToken()
         }
     })
         .then(function (response) {
@@ -144,7 +144,7 @@ export function applyGroup(groupId, applyment) {
 export async function getQuestions(groupId, option) {
     return await axios.get(`${BASE_URL}/post/${groupId}/question/${option}`, {
         headers: {
-            Authorization: accessToken
+            Authorization: Token.getAccessToken()
         }
     })
         .then(function (response) {
@@ -164,7 +164,7 @@ export async function registerQuestion(groupId, option, question) {
         questionTime: question.question_date
     }, {
         headers: {
-            Authorization: accessToken
+            Authorization: Token.getAccessToken()
         }
     })
         .then(function (response) {
@@ -185,7 +185,7 @@ export function updateQuestion(groupId, questionId, question) {
         questionTime: question.question_date
     }, {
         headers: {
-            Authorization: accessToken
+            Authorization: Token.getAccessToken()
         }
     })
         .then(function (response) {
@@ -201,7 +201,7 @@ export function updateQuestion(groupId, questionId, question) {
 export function deleteQuestions(groupId, questionId) {
     axios.delete(`${BASE_URL}/post/${groupId}/question/${questionId}`, {
         headers: {
-            Authorization: accessToken
+            Authorization: Token.getAccessToken()
         }
     })
         .then(function (response) {
@@ -215,7 +215,7 @@ export function deleteQuestions(groupId, questionId) {
 export async function getTasks(groupId){
     return await axios.get(`${BASE_URL}/post/${groupId}/task`, {
         headers: {
-            Authorization: accessToken
+            Authorization: Token.getAccessToken()
         }
     })
         .then(function (response) {
@@ -234,7 +234,7 @@ export async function registerTask(groupId, content) {
         status: "not_started"
     }, {
         headers: {
-            Authorization: accessToken
+            Authorization: Token.getAccessToken()
         }
     })
         .then(function (response) {
@@ -264,7 +264,7 @@ export async function updateTask(task) {
         status
     }, {
         headers: {
-            Authorization: accessToken
+            Authorization: Token.getAccessToken()
         }
     })
         .then(function (response) {
@@ -278,7 +278,7 @@ export async function updateTask(task) {
 export async function deleteTask(id){
     return await axios.delete(`${BASE_URL}/post/task/${id}`, {
         headers: {
-            Authorization: accessToken
+            Authorization: Token.getAccessToken()
         }
     })
         .then(function (response) {

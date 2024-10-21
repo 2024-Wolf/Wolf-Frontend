@@ -1,11 +1,11 @@
 import axios from "axios";
-import { BASE_URL, accessToken } from "./Common";
+import { BASE_URL, Token } from "./Common";
 
 // 챌린지 단일 조회
 export async function getChallenge(challengePostId){
     return await axios.get(`${BASE_URL}/challenge/${challengePostId}`,{
         headers:{
-            Authorization: accessToken
+            Authorization: Token.getAccessToken()
         }
     })
     .then(function(response){
@@ -21,7 +21,7 @@ export async function getChallenge(challengePostId){
 export async function getChallenges(groupPostId, status, page = 0, size = 10, sort = "asc"){
     return await axios.get(`${BASE_URL}/challenges/${groupPostId}/${status}`,{
         headers:{
-            Authorization: accessToken
+            Authorization: Token.getAccessToken()
         },
         params:{
             page,
@@ -46,7 +46,7 @@ export async function registerChallenge(challengePostId, groupPostId, challengeA
         challengeAmount: challengeAmount
     },{
         headers: {
-            Authorization: accessToken
+            Authorization: Token.getAccessToken()
         }
     })
     .then(function(response){
@@ -65,7 +65,7 @@ export async function participateChallenge(challengePostId, groupPostId, challen
         challengeAmount: challengeAmount
     },{
         headers: {
-            Authorization: accessToken
+            Authorization: Token.getAccessToken()
         }
     })
     .then(function(response){
@@ -86,7 +86,7 @@ export async function payChallenge(challengePostId, groupPostId, amount, status)
         payStatus: status
     },{
         headers: {
-            Authorization: accessToken,
+            Authorization: Token.getAccessToken(),
             
         }
     })
@@ -109,7 +109,7 @@ export async function verifyChallenge(challengePostId, groupPostId, status, cert
         verificationContent : content
     },{
         headers: {
-            Authorization: accessToken
+            Authorization: Token.getAccessToken()
         }
     })
     .then(function(response){
