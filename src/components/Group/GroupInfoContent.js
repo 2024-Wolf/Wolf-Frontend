@@ -166,6 +166,7 @@ const GroupInfoContent = ({ mode, groupPostId }) => {
             >
               <InputTextNoCss
                 value={mode === "study" ? "스터디원 2/8" : "개발자 1/8"}
+                readOnly
               />
             </FormFieldSingle>
             <FormFieldSingle
@@ -174,6 +175,7 @@ const GroupInfoContent = ({ mode, groupPostId }) => {
             >
               <InputTextNoCss
                 value={mode === "study" ? "스터디원 6/8" : "개발자 7/8"}
+                readOnly
               />
             </FormFieldSingle>
           </FormFieldRow>
@@ -190,7 +192,9 @@ const GroupInfoContent = ({ mode, groupPostId }) => {
         <Violet500LineDiv>
           <FormFieldRow>
             <FormFieldSingle label={"주제"} className="PostTitle">
-              <InputTextNoCss value="인스타그램 클론 코딩 해보기" />
+              <InputTextNoCss
+                value="인스타그램 클론 코딩 해보기"
+                readOnly />
             </FormFieldSingle>
           </FormFieldRow>
           <TextAreaNoCss
