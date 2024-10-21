@@ -11,6 +11,7 @@ import MyPageProfile from "../components/MyPageComponents/MyPageProfile";
 import { getMyProfile, getAlarms } from '../components/Apis/UserApi';
 import LoadingSpiner from "../components/Loading/LoadingSpiner";
 import ErrorUI from "../components/Error/ErrorUI";
+import { useParams } from 'react-router-dom';
 
 // pages/MyPage.js
 const MyPageContainer = styled.div`
@@ -40,6 +41,7 @@ const MyPage = ({ contentType, whatTab = "계정" }) => {
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const { userId } = useParams(); // URL에서 userId를 가져옴
 
     useEffect(() => {
         const fetchProfile = async () => {
@@ -95,12 +97,19 @@ const MyPage = ({ contentType, whatTab = "계정" }) => {
         <>
             <MyPageContainer>
                 {/* 제목 */}
-                <PageTitle>마이페이지</PageTitle>
+                {contentsType === 'strangerViewing' ? (<>
+                    <PageTitle>유저 정보</PageTitle>
+                </>) : (<>
+                    <PageTitle>마이페이지</PageTitle>
+                </>)}
+
                 {/* 프로필 사진 */}
                 <MyPageProfile contentsType={contentsType} profileData={profileData} />
                 {/* 컨텐츠 */}
                 <MyPageContent>
-                    <FAQTab tab={["계정", "알림", "활동"]} activeTab={activeTab} changeTab={changeTab} />
+                    {contentsType === 'strangerViewing' ? (<></>) : (<>
+                        <FAQTab tab={["계정", "알림", "활동"]} activeTab={activeTab} changeTab={changeTab} />
+                    </>)}
                     {renderTabContent()}
                 </MyPageContent>
             </MyPageContainer >

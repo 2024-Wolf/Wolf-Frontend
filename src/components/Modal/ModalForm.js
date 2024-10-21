@@ -35,7 +35,7 @@ export const ModalContainer = styled.form`
   border-radius: 20px;
   max-height: 80%;
   min-height: 30%;
-  overflow-y: ${(props) => (props.isOverflow ? 'auto' : 'none')}; // 조건부 overflow
+  overflow-y: ${($isOverflow) => ($isOverflow ? 'auto' : 'none')}; // 조건부 overflow
 
   @media (max-width: 1000px) {
   max-width: 70%;

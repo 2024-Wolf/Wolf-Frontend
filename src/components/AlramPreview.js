@@ -16,9 +16,9 @@ export const AlramFooter = styled.div`
 `;
 
 export const AlarmModalContainer = styled.div.withConfig({
-    shouldForwardProp: (prop) => prop !== 'isAlarmOpen',
+  shouldForwardProp: (prop) => prop !== 'isAlarmOpen',
 })`
-  display: ${({isAlarmOpen}) => (isAlarmOpen ? 'fixed' : 'none')};
+  display: ${({ isAlarmOpen }) => (isAlarmOpen ? 'fixed' : 'none')};
   position: absolute;
   min-width: 350px;
   max-width: 90vw; /* 최대 너비 조정 */
@@ -107,32 +107,42 @@ export const OtherAlramItem = styled(AlramItem)`
   }
 `;
 
-const AlramPreview = ({ notifications, isAlarmOpen, onNotificationClick }) => {
-  const [unreadCount, setUnreadCount] = useState(0);
+const AlramPreview = ({ notifications, isAlarmOpen, onNotificationClick, onAllNotificationClick, profileData }) => {
+  const [unreadCount, setUnreadCount] = useState(notifications.length);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const unread = notifications.filter(notification => notification.is_read === '0').length;
-    setUnreadCount(unread);
-  }, [notifications]);
 
+  // const [newAlarmsPreview, setNewAlarmsPreview] = useState(
+  //   alarmsPreviewData ? alarmsPreviewData.map(data => ({
+  //     alertContent: data?.alertContent || '',
+  //     alertLink: data?.alertLink || '',
+  //     alertTime: data?.alertTime || '',
+  //   })) : [{
+  //     alertContent: '',
+  //     alertLink: '',
+  //     alertTime: '',
+  //   }]);
+  useEffect(() => {
+  }, [notifications]);
   const calculateDaysAgo = (notificationDate) => {
     const currentDate = new Date();
     const dateDiff = Math.floor((currentDate - new Date(notificationDate)) / (1000 * 60 * 60 * 24));
     return dateDiff === 0 ? '오늘' : `${dateDiff}일 전`;
   };
 
-  const unreadNotifications = notifications.filter(notification => notification.is_read === '0');
-
   const getFormattedAlertContent = (content, nickname) => {
     return content.replace(/{nickname}/g, nickname).replace(/<br\s*\/?>/g, '\n');
   };
 
-  const handleNotificationClick = (alertId) => {
-    onNotificationClick(alertId);
+  const handleNotificationClick = (alertId, alertLink) => {
+    onNotificationClick(alertId, alertLink);
   };
 
-  if (!Array.isArray(unreadNotifications) || unreadNotifications.length === 0) {
+  const handleAllNotificationClick = () => {
+    onAllNotificationClick();
+  }
+
+  if (!notifications || notifications.length === 0) {
     return (
       <AlarmModalContainer isAlarmOpen={isAlarmOpen}>
         <AlramTitle>알림</AlramTitle>
@@ -146,33 +156,35 @@ const AlramPreview = ({ notifications, isAlarmOpen, onNotificationClick }) => {
     );
   }
 
-  const displayedNotifications = unreadNotifications.slice(0, 5); // 최대 5개 알림 표시
-  const hasMoreNotifications = unreadNotifications.length > 5;
+  const displayedNotifications = Array.isArray(notifications) && notifications.length > 0
+    ? notifications.slice(0, 5)
+    : []; // 최대 5개 알림 표시
+  const hasMoreNotifications = notifications.length > 5;
 
   return (
     <AlarmModalContainer isAlarmOpen={isAlarmOpen}>
       <AlramTitle>알림</AlramTitle>
-      <AlramHeader>읽지 않은 알림 ({unreadCount})</AlramHeader>
+      <AlramHeader>읽지 않은 알림 ({notifications.length})</AlramHeader>
       {displayedNotifications.map((notification) => (
-        <AlramItem key={notification.alert_id} onClick={() => handleNotificationClick(notification.alert_id)}>
+        <AlramItem key={notification.alertId} onClick={() => handleNotificationClick(notification.alertId, notification.alertLink)}>
           <AlramContent>
             <AlramImg>
               <span role="img" aria-label="notification">🔔</span>
-              <strong>{notification.group_post_id ? '그룹 알림' : '회원 알림'}</strong>
+              <strong>{notification.alertType + '알림'}</strong>
             </AlramImg>
-            <AlramDate>{calculateDaysAgo(notification.alert_date)}</AlramDate>
+            <AlramDate>{calculateDaysAgo(notification.alertTime)}</AlramDate>
           </AlramContent>
           <AlramText>
-            {getFormattedAlertContent(notification.alert_content, notification.nickname)}
+            {getFormattedAlertContent(notification.alertContent, profileData.nickname)}
           </AlramText>
         </AlramItem>
       ))}
       {hasMoreNotifications && (
         <OtherAlramItem>
-          <AlramText>{unreadNotifications.length - 5}개의 기타 알림이 있습니다.</AlramText>
+          <AlramText>{notifications.length - 5}개의 기타 알림이 있습니다.</AlramText>
         </OtherAlramItem>
       )}
-      <AlramFooter onClick={() => handleNotificationClick(notifications.user_id)}>
+      <AlramFooter onClick={() => handleAllNotificationClick()}>
         전체 알림 보기
       </AlramFooter>
     </AlarmModalContainer>

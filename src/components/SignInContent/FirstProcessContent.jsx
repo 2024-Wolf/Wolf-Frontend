@@ -7,7 +7,7 @@ import SubTitle from "./Components/SubTitle";
 import PreviousIcon from "../Icon/PreviousIcon";
 import InputText from "../Input/InputText";
 
-function FirstProcessContent({ onNext, onPrev }) {
+function FirstProcessContent({ onNext, onPrev, handleInputChange, handleInputReset }) {
 
     return (
         <ContentWrapper>
@@ -18,11 +18,15 @@ function FirstProcessContent({ onNext, onPrev }) {
                 <ChangeColumn480px>
                     <Div>
                         <Label>직무를 입력해주세요</Label>
-                        <InputText placeholder="직무를 입력해주세요" />
+                        <InputText
+                            placeholder="직무를 입력해주세요"
+                            onChange={(e) => handleInputChange('jobTitle', e.target.value)} />
                     </Div>
                     <Div>
                         <Label>경력이 몇 년인지 입력해주세요</Label>
-                        <InputText placeholder="경력이 몇 년인지 입력해주세요" />
+                        <InputText
+                            placeholder="경력이 몇 년인지 입력해주세요"
+                            onChange={(e) => handleInputChange('experience', e.target.value)} />
                     </Div>
                 </ChangeColumn480px>
                 <Div>
@@ -31,7 +35,9 @@ function FirstProcessContent({ onNext, onPrev }) {
                             소속을 입력해주세요
                         </Label>
                     </ChangeColumn480px>
-                    <InputText placeholder="소속을 입력해주세요" />
+                    <InputText
+                        placeholder="소속을 입력해주세요"
+                        onChange={(e) => handleInputChange('organization', e.target.value)} />
                 </Div>
                 <ButtonWrapper>
                     <RadioButton checked id="public" name="visibility" />
@@ -45,7 +51,14 @@ function FirstProcessContent({ onNext, onPrev }) {
                 <Violet500LineButton
                     type="button"
                     style={{ width: '100%' }}
-                    onClick={onPrev}>
+                    onClick={() => {
+                        if (window.confirm('이전으로 이동하면 입력 정보가 초기화 됩니다.\n진행하시겠습니까?')) {
+                            onPrev();
+                            handleInputReset('jobTitle');
+                            handleInputReset('experience');
+                            handleInputReset('organization');
+                        }
+                    }}>
                     이전
                 </Violet500LineButton>
                 <Violet500BackgroundButton

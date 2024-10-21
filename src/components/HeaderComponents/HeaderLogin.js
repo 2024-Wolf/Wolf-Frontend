@@ -6,6 +6,10 @@ import BellIcon from '../Icon/BellIcon';
 import DropdownIcon from '../Icon/DropdownIcon';
 import AlramPreview from '../AlramPreview';
 import HeaderLogginButton from "../Button/HeaderLogginButton";
+import {getMyProfile, getAlarmsPreview, readAlarm} from '../Apis/UserApi';
+import {getRefreshToken, removeAccessToken, removeRefreshToken} from '../Apis/Common';
+import {logout} from "../Apis/AuthApi";
+
 
 export const UserProfileContainer = styled.div`
   display: flex;
@@ -29,21 +33,59 @@ export const DropdownContainer = styled.div`
   position: relative;
 `;
 
-function HeaderLogin({ isLoggedIn, openModal, offLogin, notifications, setNotifications }) {
+
+function HeaderLogin({ isLoggedIn, openModal, offLogin }) {
     const [isAlarmOpen, setIsAlarmOpen] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const navigate = useNavigate();
     const alarmRef = useRef(null); // 알림창 참조 생성
     const dropdownRef = useRef(null); // 드롭다운 참조 생성
+    const [profileData, setProfileData] = useState(null);
+    const [newProfilePicture, setNewProfilePicture] = useState("");
+
+    const [notifications, setNotifications] = useState([]);
+
+    const navigate = useNavigate();
+
+    //profileData.profilePicture || 
+
+    useEffect(() => {
+        const fetchProfile = async () => {
+            try {
+                const dataProfile = await getMyProfile(); // getMyProfile 함수 호출
+                setProfileData(dataProfile.data); // 프로필 데이터 설정
+                setNewProfilePicture(dataProfile.data.profilePicture || "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png")
+
+                const dataAlarmsPreview = await getAlarmsPreview(); // getAlarmsPreview 함수 호출
+                setNotifications(dataAlarmsPreview.data);
+            } catch (err) {
+                console.error(err);
+            } finally {
+            }
+        };
+
+        fetchProfile(); // 프로필 데이터 가져오기
+    }, []);
+
 
     // 클릭 시 알림 상태를 업데이트
-    const handleNotificationClick = (alertId) => {
-        setNotifications(prevNotifications =>
-            prevNotifications.filter(notification => notification.alert_id !== alertId)
-        );
-        navigate(`/user`); // navigate(`/user/${alertId}`) 등으로 경로 바꿀 것
+    const handleNotificationClick = (alertId, alertLink) => {
+
+        readAlarm(alertId).then(
+            (response) => {
+                setNotifications(prevNotifications =>
+                  prevNotifications.filter(notification => notification.alertId !== response.data)
+                );
+            }
+        ); // readAlarm 함수 호출
+
+        navigate(alertLink); // navigate(`/user/${alertId}`) 등으로 경로 바꿀 것
         setIsAlarmOpen(false); // 알림 클릭 시 알림창 닫기
     };
+
+    const handleAllNotificationClick = () => {
+        navigate('/user');
+        setIsAlarmOpen(false); // 알림 클릭 시 알림창 닫기
+    }
 
     const handleClick = (e) => {
         if (!isLoggedIn) {
@@ -54,7 +96,7 @@ function HeaderLogin({ isLoggedIn, openModal, offLogin, notifications, setNotifi
                 setIsDropdownOpen(false); // 드롭다운을 닫습니다.
                 setIsAlarmOpen(prev => !prev); // 알림창을 토글합니다.
             } else if (action === 'profile') {
-                navigate('/user');
+                navigate(`/user/my`)
             } else if (action === 'dropdown') {
                 setIsAlarmOpen(false); // 알림창 닫기
                 setIsDropdownOpen(prev => !prev); // 드롭다운 상태 토글
@@ -84,6 +126,24 @@ function HeaderLogin({ isLoggedIn, openModal, offLogin, notifications, setNotifi
         };
     }, []);
 
+    const handleLogout = async () => {
+        try {
+            // 먼저 로그아웃 API를 호출
+            await logout(getRefreshToken(), localStorage.getItem('fcmToken'));
+
+            // 성공적으로 로그아웃된 경우 토큰을 제거
+            removeAccessToken();
+            removeRefreshToken();
+            offLogin();
+        } catch (error) {
+            console.error("로그아웃 중 오류 발생:", error);
+            // 오류가 발생해도 토큰을 제거할지 여부는 결정에 따라 처리 가능
+            removeAccessToken();
+            removeRefreshToken();
+            offLogin();
+        }
+    };
+
     return (
         <>
             {isLoggedIn ? (
@@ -96,6 +156,9 @@ function HeaderLogin({ isLoggedIn, openModal, offLogin, notifications, setNotifi
                             notifications={notifications}
                             isAlarmOpen={isAlarmOpen}
                             onNotificationClick={handleNotificationClick}
+                            onAllNotificationClick={handleAllNotificationClick}
+                            alarmsPreviewData={notifications}
+                            profileData={profileData}
                         />
                     </DropdownContainer>
                     <UserWrapper>
@@ -103,8 +166,8 @@ function HeaderLogin({ isLoggedIn, openModal, offLogin, notifications, setNotifi
                         <ProfileIcon
                             data-action="profile"
                             onClick={handleClick}
-                            src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
-                            alt="Profile"
+                            src={newProfilePicture}
+                            alt="Profile Preview"
                         />
                         <DropdownContainer ref={dropdownRef}>
                             {/* 드롭다운 아이콘 */}
@@ -124,7 +187,7 @@ function HeaderLogin({ isLoggedIn, openModal, offLogin, notifications, setNotifi
                                 <DisplayNoneDropdownItem onClick={() => handleItemClick('/write')}>팀원 모집하기</DisplayNoneDropdownItem>
                                 <DisplayNoneDropdownItem onClick={() => handleItemClick('/faq')}>FAQ</DisplayNoneDropdownItem>
                                 <DropdownItem onClick={() => handleItemClick('/user')}>챌린지 보기</DropdownItem>
-                                <DropdownItem onClick={offLogin}>로그아웃</DropdownItem>
+                                <DropdownItem onClick={handleLogout}>로그아웃</DropdownItem>
                             </DropdownContent>
                         </DropdownContainer>
                     </UserWrapper>

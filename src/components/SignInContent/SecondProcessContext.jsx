@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { ContentWrapper, OptionButtonGroup, Violet500BackgroundButton, ModalContentWrapper, Row, Violet500LineButton } from "../GlobalStyledComponents";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import StatusButton from "./Components/StatusButton";
 import SubTitle from "./Components/SubTitle";
 import OptionButton from "../Button/OptionButton";
@@ -17,7 +17,7 @@ const options = [
     "초기 멤버를 찾고 있어요"
 ];
 
-const SecondProcessContent = ({ onNext, onPrev }) => {
+const SecondProcessContent = ({ onNext, onPrev, handleInputChange, handleInputReset }) => {
     const [selectedOptions, setSelectedOptions] = useState([]);
 
     const handleOptionClick = (option) => {
@@ -28,6 +28,11 @@ const SecondProcessContent = ({ onNext, onPrev }) => {
                 [...prevSelectedOptions, option] // 선택되지 않은 버튼이면 추가
         );
     }
+
+    useEffect(() => {
+        handleInputChange('currentStatus', JSON.stringify(selectedOptions));
+    }, [selectedOptions, setSelectedOptions]);
+
 
     return (
         <ContentWrapper>
@@ -51,7 +56,12 @@ const SecondProcessContent = ({ onNext, onPrev }) => {
                 <Violet500LineButton
                     type="button"
                     style={{ width: '100%' }}
-                    onClick={onPrev}>
+                    onClick={() => {
+                        if (window.confirm('이전으로 이동하면 입력 정보가 초기화 됩니다.\n진행하시겠습니까?')) {
+                            onPrev();
+                            handleInputReset('interests');
+                        }
+                    }}>
                     이전
                 </Violet500LineButton>
                 <Violet500BackgroundButton

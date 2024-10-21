@@ -1,40 +1,56 @@
-import styled from "styled-components";
 import { ModalContentWrapper, ContentWrapper, InputLabel2, InputWrapper, Violet500BackgroundButton, Row, Violet500LineButton, Label, Div } from "../GlobalStyledComponents";
 
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import StatusButton from "./Components/StatusButton";
 import InputText from "../Input/InputText";
-import NextButton from "./Components/NextButton";
 import SubTitle from "./Components/SubTitle";
-import PreviousIcon from "../Icon/PreviousIcon";
+import {checkNickname} from "../Apis/AuthApi";
+import {signUpUser} from "../Apis/UserApi";
 
-const FourthProcessContent = ({ onPrev, onClose, onLogin }) => {
+const FourthProcessContent = ({ onPrev, onClose, onLogin, signupInfo, handleInputChange, handleInputReset }) => {
     const [isNickNamePossible, setIsNickNamePossible] = useState(false);
     const [isNickNameImpossible, setIsNickNameImpossible] = useState(false);
 
+    const handleNext = async () => {
+        try {
+            // 회원가입 API 호출
+            const result = await signUpUser(signupInfo);
+            console.log('회원가입 성공:', result);
+            // 회원가입 성공 후 추가 작업
+            onLogin(); // 부모 컴포넌트에 로그인 상태 업데이트
+            onClose(); // 모달 닫기
+        } catch (error) {
+            console.error('회원가입 실패:', error);
+            // 실패 시 에러 처리 (필요 시 사용자에게 메시지 출력 등 추가)
+        }
+    };
+    const [nickname, setNickname] = useState('');  // 닉네임 상태 추가
 
-
-
-    const handleNext = () => {
-        onClose();
-        onLogin();
+    // 닉네임 실시간 업데이트
+    const handleNicknameChange = (e) => {
+        const { value } = e.target;
+        setNickname(value);
     };
 
-    const handleNickName = (e) => {
-        e.preventDefault();
+    // 닉네임 중복 검사
+    const handleNickNameCheck = async () => {
+        try {
+            // 닉네임 중복 검사
+            const isAvailable = await checkNickname(nickname);  // 서버에서 중복 여부 확인
 
-        // 중복된 닉네임인지 검증하는 로직 구현이 필요함
-        if (true) {
-            // 닉네임 사용 가능
-            alert('사용 가능한 닉네임입니다')
-            setIsNickNamePossible(true);
-            setIsNickNameImpossible(false);
-
-        } else {
-            // 닉네임 사용 불가
-            alert('중복된 닉네임입니다')
-            setIsNickNameImpossible(true);
-            setIsNickNamePossible(false);
+            if (isAvailable) {
+                // 닉네임 사용 가능
+                setIsNickNamePossible(true);
+                setIsNickNameImpossible(false);
+                handleInputChange('nickname', nickname);  // 성공 시 상태 업데이트
+            } else {
+                // 닉네임 사용 불가
+                setIsNickNameImpossible(true);
+                setIsNickNamePossible(false);
+            }
+        } catch (error) {
+            console.error('닉네임 중복 확인 중 오류 발생:', error);
+            // 필요에 따라 에러 처리 로직 추가
         }
     };
 
@@ -46,10 +62,13 @@ const FourthProcessContent = ({ onPrev, onClose, onLogin }) => {
                 <Div>
                     <Label>닉네임을 입력해주세요</Label>
                     <Row>
-                        <InputText required />
+                        <InputText required
+                                   value={nickname}
+                                   onChange={handleNicknameChange}
+                        />
                         <Violet500BackgroundButton
                             type="button"
-                            onClick={handleNickName}
+                            onClick={handleNickNameCheck}
                         >
                             중복 검사
                         </Violet500BackgroundButton>
@@ -81,7 +100,14 @@ const FourthProcessContent = ({ onPrev, onClose, onLogin }) => {
                 <Violet500LineButton
                     type="button"
                     style={{ width: '100%' }}
-                    onClick={onPrev}>
+                    onClick={() => {
+                        if (window.confirm('이전으로 이동하면 입력 정보가 초기화 됩니다.\n진행하시겠습니까?')) {
+                            onPrev();
+                            handleInputReset('jobTitle');
+                            handleInputReset('experience');
+                            handleInputReset('organization');
+                        }
+                    }}>
                     이전
                 </Violet500LineButton>
                 <Violet500BackgroundButton
