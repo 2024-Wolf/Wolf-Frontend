@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { BASE_URL, accessToken } from './Common'; // Common.js에서 BASE_URL과 accessToken 가져오기
+import { BASE_URL, Token } from './Common'; // Common.js에서 BASE_URL과 accessToken 가져오기
 
 // 로그인 함수
 export const login = async (idToken, fcmToken) => {
@@ -8,7 +8,7 @@ export const login = async (idToken, fcmToken) => {
             { idToken, fcmToken }, // 본문 데이터
             {
                 headers: {
-                    Authorization: accessToken
+                    Authorization: Token.getAccessToken()
                 }
             }
         );
@@ -26,7 +26,7 @@ export const googleLogin = async (idToken, fcmToken) => {
             { idToken, fcmToken }, // 본문 데이터
             {
                 headers: {
-                    Authorization: accessToken
+                    Authorization: Token.getAccessToken()
                 }
             }
         );
@@ -42,7 +42,7 @@ export const testLogin = async () => {
     try {
         const response = await axios.post(`${BASE_URL}/auth/test-login`, {
             headers: {
-                Authorization: accessToken
+                Authorization: Token.getAccessToken()
             }
         });
         return response.data; // 테스트 로그인 성공 시 데이터 반환
@@ -61,7 +61,7 @@ export const reissueAccessToken = async (accessToken, refreshToken) => {
             refreshToken,
         }, {
             headers: {
-                Authorization: accessToken
+                Authorization: Token.getAccessToken()
             }
         });
         return response.data;
@@ -80,7 +80,7 @@ export const logout = async (refreshToken, fcmToken) => {
             fcmToken,
         }, {
             headers: {
-                Authorization: accessToken
+                Authorization: Token.getAccessToken()
             }
         });
         return response.data; // 로그아웃 성공 시 데이터 반환
@@ -95,7 +95,7 @@ export const deleteUser = async () => {
     try {
         const response = await axios.delete(`${BASE_URL}/auth/user`, {
             headers: {
-                Authorization: accessToken
+                Authorization: Token.getAccessToken()
             }
         });
         return response.data; // 탈퇴 성공 시 데이터 반환

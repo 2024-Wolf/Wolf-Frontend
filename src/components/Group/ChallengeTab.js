@@ -5,7 +5,6 @@ import { ChallengeLists } from "../GlobalStyledComponents"; // 필요한 컴포�
 import ChallengeList from "../Challenge/ChallengeList"
 import ChallengeDetail from "../Challenge/ChallengeDetail";
 import { getChallenges } from "../Apis/ChallengePostApi";
-import { setAccessToken } from "../Apis/Common";
 
 const ChallengeTab = (props) => {
   const [detailModalOn, setDetailModalOn] = useState(false);
@@ -14,8 +13,6 @@ const ChallengeTab = (props) => {
   const [before, setBefore] = useState([]);
   const [now, setNow] = useState([]);
   const [after, setAfter] = useState([]);
-
-  const [tokenInput, setTokenInput] = useState();
 
 
   // 챌린지 목록 불러오기 함수
@@ -94,15 +91,6 @@ const ChallengeTab = (props) => {
     setItem(item);
   }
 
-  function handleTokenInput(e){
-    setTokenInput(e.target.value);
-  }
-
-  function handleTokenButton(e){
-    setAccessToken(tokenInput);
-    alert("설정된 토큰 값 : " + tokenInput);
-  }
-
   return (
       <ChallengeLists>
         {detailModalOn ? <ChallengeDetail challengePostId={item.challengePostId} prevClick={() => setDetailModalOn(false)} /> : 
@@ -112,10 +100,6 @@ const ChallengeTab = (props) => {
           <ChallengeList groupPostId={props.groupPostId} list={before} fetchChallenges={fetchChallenges} category="진행 가능" setDetail={setDetailItem} />
         </>
         }
-        <div>
-          <input type="text" value={tokenInput} onChange={handleTokenInput}/>
-          <button onClick={handleTokenButton}>토큰 입력</button>
-        </div>
       </ChallengeLists>
   );
 };

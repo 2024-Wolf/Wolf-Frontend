@@ -247,7 +247,6 @@ const TodoContent = ({ groupPostId, github, figma }) => {
       let taskToEdit = tasks.filter(task => task.id === editingTaskIndex)[0];
       taskToEdit.details = newTask;
 
-      console.log(taskToEdit);
       updateTask(taskToEdit);
       setIsEditingTask(false);
       setEditingTaskIndex(null);
