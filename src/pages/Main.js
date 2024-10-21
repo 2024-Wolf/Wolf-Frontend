@@ -122,6 +122,7 @@ const Main = () => {
 
     const handleTokenButton = (e) => {
         Token.setAccessToken(token);
+        window.location.reload();
     }
 
     const handleCheckButton = (e) => {
