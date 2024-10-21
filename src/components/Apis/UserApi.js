@@ -1,6 +1,6 @@
 // api/UserApi.js
 import axios from 'axios';
-import {BASE_URL, accessToken, getAccessToken} from './Common';
+import { BASE_URL, getAccessToken, Token } from './Common';
 import axiosInstance from "./axiosConfig"; // Common.js에서 BASE_URL과 accessToken 가져오기
 
 
@@ -10,7 +10,7 @@ export const getUserProfile = async (userId) => {
     try {
         const response = await axiosInstance.get(`${BASE_URL}/user/${userId}`, {
             headers: {
-                Authorization: getAccessToken()
+                Authorization: Token.getAccessToken()
             }
         });
         return response.data;
@@ -26,7 +26,7 @@ export const getMyProfile = async () => {
     try {
         const response = await axiosInstance.get(`${BASE_URL}/user/my`, {
             headers: {
-                Authorization: getAccessToken()
+                Authorization: Token.getAccessToken()
             }
         });
         return response.data;
@@ -41,7 +41,7 @@ export const postMyProfile = async (data) => { // data 인자를 추가
     try {
         const response = await axiosInstance.post(`${BASE_URL}/user/my`, data, { // data를 요청 본문에 추가
             headers: {
-                Authorization: getAccessToken()
+                Authorization: Token.getAccessToken()
             }
         });
         return response.data;
@@ -56,7 +56,7 @@ export const signUpUser = async (data) => {
     try {
         const response = await axiosInstance.post(`${BASE_URL}/user/sign-up`, data, {
             headers: {
-                Authorization: getAccessToken()
+                Authorization: Token.getAccessToken()
             }
         });
         return response.data;
@@ -71,7 +71,7 @@ export const getAlarms = async () => {
     try {
         const response = await axiosInstance.get(`${BASE_URL}/user/alarms`, {
             headers: {
-                Authorization: getAccessToken()
+                Authorization: Token.getAccessToken()
             }
         });
         return response.data;
@@ -86,7 +86,7 @@ export const getAlarmsPreview = async () => {
     try {
         const response = await axiosInstance.get(`${BASE_URL}/user/alarms/preview`, {
             headers: {
-                Authorization: getAccessToken()
+                Authorization: Token.getAccessToken()
             }
         });
         return response.data;
@@ -100,7 +100,7 @@ export const readAlarm = async (alertId) => {
     try {
         const response = await axiosInstance.post(`${BASE_URL}/user/alarms/${alertId}`, {}, {
             headers: {
-                Authorization: getAccessToken()
+                Authorization: Token.getAccessToken()
             }
         });
         return response.data;

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import {BASE_URL, accessToken, getAccessToken, removeAccessToken, removeRefreshToken} from './Common';
+import { BASE_URL, accessToken, getAccessToken, removeAccessToken, removeRefreshToken } from './Common';
 import axiosInstance from "./axiosConfig"; // Common.js에서 BASE_URL과 accessToken 가져오기
 
 // 로그인 함수
@@ -55,11 +55,14 @@ export const googleLogin = async (idToken) => {
 // test-login 함수
 export const testLogin = async () => {
     try {
-        const response = await axiosInstance.post(`${BASE_URL}/auth/test-login`, {
-            headers: {
-                Authorization: getAccessToken()
-            }
-        });
+        const response = await axiosInstance.post(`${BASE_URL}/auth/test-login`,
+            null,
+            {
+                headers: {
+                    Authorization: getAccessToken(),
+                    accept: '*/*'
+                }
+            });
         return response.data; // 테스트 로그인 성공 시 데이터 반환
     } catch (error) {
         console.error('테스트 로그인 실패:', error);

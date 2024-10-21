@@ -90,6 +90,14 @@ class TokenManager {
     getAccessToken() {
         return JSON.parse(localStorage.getItem("accessToken"));
     }
+
+    setRefreshToken(token) {
+        Cookies.set('refreshToken', token, { expires: 7, path: '/' });
+    }
+
+    getRefreshToken() {
+        return Cookies.get('refreshToken');
+    }
 }
 
 export const Token = new TokenManager();

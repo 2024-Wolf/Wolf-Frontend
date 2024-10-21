@@ -8,6 +8,7 @@ import DateButton from "../components/Button/DateButton";
 import MainOptionButton from "../components/Button/MainOptionButton";
 import { getGroupPosts } from "../components/Apis/GroupPostApi";
 import { Token } from "../components/Apis/Common";
+import { testLogin } from "../components/Apis/AuthApi";
 
 // pages/Main.js
 export const SearchContainer = styled.div`
@@ -57,6 +58,9 @@ const Main = () => {
     const [cards, setCards] = useState([]);
 
     const [token, setToken] = useState("");
+
+    const [accessToken, setAccessToken] = useState("");
+    const [refreshToken, setRefreshToken] = useState("");
 
     useEffect(() => {
         async function getPosts() {
@@ -120,27 +124,18 @@ const Main = () => {
         setSearchTerm(term);
     };
 
-    const handleTokenInput = (e) => {
-        setToken(e.target.value);
-    }
+    const handleTestLogin = async () => {
+        try {
+            const data = await testLogin(); // testLogin 호출
 
-    const handleAccessTokenButton = (e) => {
-        Token.setAccessToken(token);
-        window.location.reload();
-    }
-
-    const handleAccessTokenCheckButton = (e) => {
-        alert("설정된 액세스 토큰 값 : " + Token.getAccessToken());
-    }
-
-    const handleRefreshTokenButton = (e) => {
-        Token.setRefreshToken(token);
-        window.location.reload();
-    }
-
-    const handlerefReshTokenCheckButton = (e) => {
-        alert("설정된 리프레쉬 토큰 값 : " + Token.getRefreshToken());
-    }
+            Token.setAccessToken(data.data.tokenResponse.accessToken);
+            Token.setRefreshToken(data.data.tokenResponse.refreshToken);
+            window.location.reload();
+            alert('테스트 로그인 성공')
+        } catch (error) {
+            console.error('테스트 로그인 실패:', error);
+        }
+    };
 
     return (
         <>
@@ -172,16 +167,16 @@ const Main = () => {
                     data={filteredCards}
                 />
                 <div>
-                    <input style={{ border: "1px solid #000" }} type="text" value={token} onChange={handleTokenInput} />
-                    <button onClick={handleAccessTokenButton}>액세스 토큰 입력</button>
-                    <br />
-                    <button onClick={handleAccessTokenCheckButton}>액세스 토큰 확인</button>
-                </div>
-                <div>
-                    <input style={{ border: "1px solid #000" }} type="text" value={token} onChange={handleTokenInput} />
-                    <button onClick={handleRefreshTokenButton}>리프레쉬 토큰 입력</button>
-                    <br />
-                    <button onClick={handlerefReshTokenCheckButton}>리프레쉬 토큰 확인</button>
+                    <button onClick={handleTestLogin}
+                        style={{ marginBottom: '10px' }}>
+                        테스트 로그인하기
+                    </button>
+                    <div style={{ border: "1px solid #000", wordWrap: 'break-word', marginBottom: '10px' }}>
+                        엑세스 토큰 : {Token.getAccessToken()}
+                    </div>
+                    <div style={{ border: "1px solid #000", wordWrap: 'break-word' }}>
+                        리프레쉬 토큰 : {Token.getRefreshToken()}
+                    </div>
                 </div>
             </main >
         </>
