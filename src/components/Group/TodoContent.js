@@ -156,7 +156,7 @@ const TodoContent = ({ groupPostId, github, figma }) => {
   async function saveTasks(groupId){
     await getTasks(groupId)
     .then(function(response){
-      setTasks(response.data);
+      if(response.data.length > 0) setTasks(response.data);
     })
   }
 
@@ -169,10 +169,10 @@ const TodoContent = ({ groupPostId, github, figma }) => {
   const openTaskModal = () => setIsTaskModalOpen(true);
 
   const closeTaskModal = () => {
-    setIsTaskModalOpen(false);
     setIsEditingTask(false);
     setEditingTaskIndex(null);
     setNewTask('');
+    setIsTaskModalOpen(false);
   };
 
   const addScheduleField = () => {
@@ -246,18 +246,19 @@ const TodoContent = ({ groupPostId, github, figma }) => {
       // 수정 모드일 경우
       let taskToEdit = tasks.filter(task => task.id === editingTaskIndex)[0];
       taskToEdit.details = newTask;
-
-      updateTask(taskToEdit);
-      setIsEditingTask(false);
-      setEditingTaskIndex(null);
+      updateTask(taskToEdit)
+      .then(function(response){
+        closeTaskModal();
+      });
     } else {
       // 추가 모드일 경우
       if (newTask.trim()) {
-        registerTask(groupPostId, newTask);
+        registerTask(groupPostId, newTask)
+        .then(function(response){
+          closeTaskModal();
+        });
       }
     }
-    setNewTask('');
-    closeTaskModal();
   };
 
 
@@ -454,7 +455,6 @@ const TodoContent = ({ groupPostId, github, figma }) => {
 
         {/* 할 일 등록 모달 */}
         <ModalForm onClose={closeTaskModal} isModalOpen={isTaskModalOpen}
-          onSubmit={handleTaskSubmit}
           focusRef={inputRefs}
         >
           <CancelIcon
@@ -480,7 +480,7 @@ const TodoContent = ({ groupPostId, github, figma }) => {
           </ModalContent>
 
           <ButtonGroupRight>
-            <Violet500LineButton type='submit'>
+            <Violet500LineButton onClick={handleTaskSubmit}>
               {isEditingTask ? '수정 완료' : '등록'}
             </Violet500LineButton>
           </ButtonGroupRight>
