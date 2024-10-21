@@ -148,6 +148,7 @@ const ImagePreview = (({
     isProfileImgEditButtonAppear,
     defaultImgSrc,
     disabled,
+    onError,
     ...props // 나머지 props
 }
 ) => {
@@ -267,6 +268,7 @@ const ImagePreview = (({
                                 style={ImagePlaceholderStyle}
                                 $hasImage={true}>
                                 <Image
+                                    onError={onError}
                                     style={imgStyle}
                                     src={src} // src는 미리 정의한 URL 또는 기본 이미지 URL
                                     alt={alt} // alt는 미리 정의한 설명
@@ -284,6 +286,7 @@ const ImagePreview = (({
                                         style={ProfileImgPlaceholderStyle}
                                         key={file.name} $hasImage={true}>
                                         <Image
+                                            onError={onError}
                                             style={ProfileImgStyle}
                                             src={fileURL}
                                             alt={file.name} // 파일 이름을 alt로 사용
@@ -299,6 +302,7 @@ const ImagePreview = (({
                                     style={ProfileImgPlaceholderStyle}
                                     $hasImage={true}>
                                     <Image
+                                        onError={onError}
                                         style={ProfileImgStyle}
                                         src={defaultImgSrc}
                                         alt={'defaultImg'} // 파일 이름을 alt로 사용
@@ -357,6 +361,7 @@ const ImagePreview = (({
                     {/* 파일 업로드 버튼 */}
                     {isUploadButtonAppear &&
                         <InputFile
+                            disabled={disabled}
                             {...props}
                             className={className}
                             type="file"

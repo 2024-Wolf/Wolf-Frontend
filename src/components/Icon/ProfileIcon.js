@@ -25,7 +25,8 @@ const UserName = styled.span`
 const ProfileIcon = ({ src = "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png",
   alt = "Profile",
   children,
-  userId
+  userId,
+  targetUserId
 }) => {
   const [clicked, setClicked] = useState(false);
 
