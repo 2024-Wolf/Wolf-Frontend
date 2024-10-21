@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 
-const ActivityCardList = ({ cards, buttonText }) => {
+const ActivityCardList = ({ cards, buttonText, data }) => {
     const navigate = useNavigate();
 
     const handleCardClick = (id) => {
@@ -41,6 +41,7 @@ const ActivityCardList = ({ cards, buttonText }) => {
                             applicationDate={applicationDate}
                             joinDate={joinDate}
                             buttonText={buttonText}
+                            data={card}
                         />
                     );
                 })}

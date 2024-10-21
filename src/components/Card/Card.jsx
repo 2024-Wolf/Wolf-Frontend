@@ -82,7 +82,7 @@ export const Button4 = styled.button`
 
 const Card = ({ data }) => {
 
-    function handleButtonClick(e){
+    function handleButtonClick(e) {
         e.stopPropagation();
         alert("신청 버튼 클릭");
     }
