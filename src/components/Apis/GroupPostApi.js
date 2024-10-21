@@ -141,14 +141,14 @@ export function applyGroup(groupId, applyment) {
 
 // 질문 목록 조회
 // option = ("question", "communication")
-export function getQuestions(groupId, option) {
-    axios.get(`${BASE_URL}/post/${groupId}/question/${option}`, {
+export async function getQuestions(groupId, option) {
+    return await axios.get(`${BASE_URL}/post/${groupId}/question/${option}`, {
         headers: {
             Authorization: accessToken
         }
     })
         .then(function (response) {
-            console.log(response);
+            return response.data;
         })
         .catch(function (error) {
             console.log(error);
@@ -157,9 +157,8 @@ export function getQuestions(groupId, option) {
 
 // 질문 등록
 // option = ("question", "communication")
-export function registerQuestion(groupId, option, question) {
-    axios.post(`${BASE_URL}/post/${groupId}/question/${option}`, {
-        user: question.user_id,
+export async function registerQuestion(groupId, option, question) {
+    return await axios.post(`${BASE_URL}/post/${groupId}/question/${option}`, {
         questionDetails: question.question_details,
         questionImageUrl: question.question_image_url,
         questionTime: question.question_date
@@ -169,7 +168,7 @@ export function registerQuestion(groupId, option, question) {
         }
     })
         .then(function (response) {
-            console.log(response);
+            return response.data;
         })
         .catch(function (error) {
             console.log(error);
@@ -212,4 +211,80 @@ export function deleteQuestions(groupId, questionId) {
             console.log(error);
         });
 }
+// 할 일 조회
+export async function getTasks(groupId){
+    return await axios.get(`${BASE_URL}/post/${groupId}/task`, {
+        headers: {
+            Authorization: accessToken
+        }
+    })
+        .then(function (response) {
+            return response.data;
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
 
+// 할 일 등록
+// status = ("not_started", "in_progress", "completed")
+export async function registerTask(groupId, content) {
+    return await axios.post(`${BASE_URL}/post/${groupId}/task`, {
+        details: content,
+        status: "not_started"
+    }, {
+        headers: {
+            Authorization: accessToken
+        }
+    })
+        .then(function (response) {
+            return response.data;
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+// 할 일 수정
+export async function updateTask(task) {
+    let status;
+    switch(task.status){
+        case "기획 중":
+            status = "NOT_STARTED";
+            break;
+        case "진행 중":
+            status = "IN_PROGRESS";
+            break;
+        default:
+            status = "COMPLETED";
+            break;
+    }
+
+    return await axios.put(`${BASE_URL}/post/task/${task.id}`, {
+        details: task.details,
+        status
+    }, {
+        headers: {
+            Authorization: accessToken
+        }
+    })
+        .then(function (response) {
+            return response.data;
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+// 할 일 삭제
+export async function deleteTask(id){
+    return await axios.delete(`${BASE_URL}/post/task/${id}`, {
+        headers: {
+            Authorization: accessToken
+        }
+    })
+        .then(function (response) {
+            return response.data;
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
