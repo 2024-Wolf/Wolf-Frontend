@@ -10,7 +10,7 @@ import Cookies from "js-cookie";
 import { googleLogin, saveFcmToken } from "./Apis/AuthApi";
 import { getToken } from "firebase/messaging";
 import { messaging } from "./firebase-config";
-import {getAccessToken, setAccessToken, setRefreshToken} from "./Apis/Common";
+import { getAccessToken, setAccessToken, setRefreshToken } from "./Apis/Common";
 
 export const HeaderContainer = styled.header`
   margin: auto;
@@ -32,7 +32,7 @@ export const HeaderLogo = styled.a`
   text-decoration: none;
 `;
 
-function Header({ isLoggedIn, onLogin, offLogin, notifications, setNotifications }) {
+function Header({ isLoggedIn, onLogin, offLogin, profileData, alarmsPreviewData }) {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(2);
@@ -129,7 +129,7 @@ function Header({ isLoggedIn, onLogin, offLogin, notifications, setNotifications
 
   useEffect(() => {
     // Google 로그인 후 결과를 처리하는 리스너 등록
-    window.addEventListener('message',async (event) => {
+    window.addEventListener('message', async (event) => {
       if (event.origin === window.origin && event.data.type === 'id-token') {
         const { idToken } = event.data;
         // ID 토큰을 가지고 로그인 작업 수행
@@ -174,6 +174,8 @@ function Header({ isLoggedIn, onLogin, offLogin, notifications, setNotifications
           isLoggedIn={isLoggedIn}
           openModal={openModal}
           offLogin={offLogin}
+          profileData={profileData}
+          alarmsPreviewData={alarmsPreviewData}
         />
       </div>
 

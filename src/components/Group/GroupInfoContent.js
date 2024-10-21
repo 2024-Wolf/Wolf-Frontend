@@ -24,24 +24,9 @@ import QuestionForm from "./Question/QuestionForm";
 import { matchRoutes } from 'react-router-dom';
 import ImagePreview from "../Img/ImagePreview"
 
-const GroupInfoContent = ({ mode, groupPostId }) => {
-  const [questions, setQuestions] = useState([
-    {
-      id: 1,
-      author: "gahyun",
-      text: "백엔드는 정말 어렵네요. 추가로 공부할만한 책이 있나요?",
-      date: "2024.08.28",
-      comments: [],
-    },
-    {
-      id: 2,
-      author: "myeongju",
-      text: "화면 구현이 빨리 끝나야할텐데... 언제까지 가능하신지 댓글로 남겨주세요",
-      date: "2024.09.20",
-      comments: [],
-    },
-  ]);
+const GroupInfoContent = ({ mode, groupPostId, userId }) => {
 
+  console.log('userId : ', userId)
   const recentNews = [
     {
       title: "최근 소식",
@@ -60,68 +45,8 @@ const GroupInfoContent = ({ mode, groupPostId }) => {
     },
   ];
 
-  const [newQuestion, setNewQuestion] = useState("");
-  const [newComment, setNewComment] = useState("");
-  const [selectedQuestionId, setSelectedQuestionId] = useState(null);
   const [isModalOpen, setModalOpen] = useState(false);
 
-  // 질문 추가
-  const handleQuestionSubmit = (e) => {
-    e.preventDefault();
-    if (newQuestion.trim()) {
-      const newQuestionObj = {
-        id: questions.length + 1,
-        author: "currentUser",
-        text: newQuestion,
-        date: new Date().toLocaleDateString(),
-        comments: [],
-      };
-      setQuestions([...questions, newQuestionObj]);
-      setNewQuestion("");
-    }
-  };
-
-  // 댓글 토글
-  const toggleComments = (questionId) => {
-    setSelectedQuestionId(
-      selectedQuestionId === questionId ? null : questionId
-    );
-  };
-
-  const renderComments = (comments) => (
-    <>
-      <CommentSection
-        comments={comments}
-        onSubmit={(commentText) =>
-          handleCommentSubmit(selectedQuestionId, commentText)
-        }
-      />
-    </>
-  );
-
-  // 댓글 추가
-  const handleCommentSubmit = (questionId, commentText) => {
-    if (commentText.trim()) {
-      const updatedQuestions = questions.map((question) => {
-        if (question.id === questionId) {
-          return {
-            ...question,
-            comments: [
-              ...question.comments,
-              {
-                author: "currentUser",
-                text: commentText,
-                date: new Date().toLocaleDateString(),
-              },
-            ],
-          };
-        }
-        return question;
-      });
-      setQuestions(updatedQuestions);
-      setNewComment("");
-    }
-  };
 
   const openModal = () => {
     setModalOpen(true);
@@ -223,6 +148,7 @@ const GroupInfoContent = ({ mode, groupPostId }) => {
             label={"응원이나 궁금한 내용을 입력해주세요 !"}
           />
           <QuestionForm
+            userId={userId}
             showFileOption={false}
             groupPostId={groupPostId}
           // data={data} 데이터 연결 필요

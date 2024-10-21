@@ -15,8 +15,8 @@ const DoubleButtonCss = css`
         font-size: 11px;
     }
 
-    ${({ editing }) =>
-        editing
+    ${({ $editing }) =>
+        $editing
             ? `
         background-color: var(--violet500);
         color: var(--violet100);
@@ -64,7 +64,7 @@ const DoubleButton = ({
         <DoubleButtonWrapper>
             <DoubleButtonLeft
                 type={leftButtonType}
-                onClick={leftButtonOnClick} editing={editing}
+                onClick={leftButtonOnClick} $editing={editing}
             >
                 {leftButtonText}
             </DoubleButtonLeft>

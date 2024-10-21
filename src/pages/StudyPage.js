@@ -62,7 +62,7 @@ const TAB = {
   MANAGE: "관리",
 };
 
-const StudyPage = () => {
+const StudyPage = ({ profileData }) => {
   const [activeTab, setActiveTab] = useState(TAB.INFO);
   const [isMeetingStarted, setIsMeetingStarted] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
@@ -76,10 +76,10 @@ const StudyPage = () => {
   };
 
   const componentsMap = {
-    [TAB.INFO]: (props) => <GroupInfoContent mode={mode} groupPostId={postId} />,
+    [TAB.INFO]: (props) => <GroupInfoContent mode={mode} groupPostId={postId} userId={profileData?.id} />,
     [TAB.TODO]: TodoContent,
     [TAB.CHALLENGE]: ChallengeTab,
-    [TAB.MEETING]: MeetingContent,
+    [TAB.MEETING]: (props) => <MeetingContent groupPostId={postId} userId={profileData?.id} />,
     [TAB.MANAGE]: GroupManageContent,
   };
 

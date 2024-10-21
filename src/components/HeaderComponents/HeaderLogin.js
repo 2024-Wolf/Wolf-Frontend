@@ -6,9 +6,9 @@ import BellIcon from '../Icon/BellIcon';
 import DropdownIcon from '../Icon/DropdownIcon';
 import AlramPreview from '../AlramPreview';
 import HeaderLogginButton from "../Button/HeaderLogginButton";
-import {getMyProfile, getAlarmsPreview, readAlarm} from '../Apis/UserApi';
-import {getRefreshToken, removeAccessToken, removeRefreshToken} from '../Apis/Common';
-import {logout} from "../Apis/AuthApi";
+import { getMyProfile, getAlarmsPreview, readAlarm } from '../Apis/UserApi';
+import { getRefreshToken, removeAccessToken, removeRefreshToken } from '../Apis/Common';
+import { logout } from "../Apis/AuthApi";
 
 
 export const UserProfileContainer = styled.div`
@@ -34,13 +34,11 @@ export const DropdownContainer = styled.div`
 `;
 
 
-function HeaderLogin({ isLoggedIn, openModal, offLogin }) {
+function HeaderLogin({ isLoggedIn, openModal, offLogin, profileData, alarmsPreviewData }) {
     const [isAlarmOpen, setIsAlarmOpen] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const alarmRef = useRef(null); // 알림창 참조 생성
     const dropdownRef = useRef(null); // 드롭다운 참조 생성
-    const [profileData, setProfileData] = useState(null);
-    const [newProfilePicture, setNewProfilePicture] = useState("");
 
     const [notifications, setNotifications] = useState([]);
 
@@ -51,12 +49,7 @@ function HeaderLogin({ isLoggedIn, openModal, offLogin }) {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const dataProfile = await getMyProfile(); // getMyProfile 함수 호출
-                setProfileData(dataProfile.data); // 프로필 데이터 설정
-                setNewProfilePicture(dataProfile.data.profilePicture || "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png")
 
-                const dataAlarmsPreview = await getAlarmsPreview(); // getAlarmsPreview 함수 호출
-                setNotifications(dataAlarmsPreview.data);
             } catch (err) {
                 console.error(err);
             } finally {
@@ -73,7 +66,7 @@ function HeaderLogin({ isLoggedIn, openModal, offLogin }) {
         readAlarm(alertId).then(
             (response) => {
                 setNotifications(prevNotifications =>
-                  prevNotifications.filter(notification => notification.alertId !== response.data)
+                    prevNotifications.filter(notification => notification.alertId !== response.data)
                 );
             }
         ); // readAlarm 함수 호출
@@ -166,7 +159,7 @@ function HeaderLogin({ isLoggedIn, openModal, offLogin }) {
                         <ProfileIcon
                             data-action="profile"
                             onClick={handleClick}
-                            src={newProfilePicture}
+                            src={profileData.profilePicture}
                             alt="Profile Preview"
                         />
                         <DropdownContainer ref={dropdownRef}>

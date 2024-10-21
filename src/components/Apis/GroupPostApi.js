@@ -295,7 +295,7 @@ export async function updateQuestion(groupId, questionId, question) {
 
 // 질문 삭제
 // option = ("question", "communication")
-export async function deleteQuestions(groupId, questionId) {
+export async function deleteQuestion(groupId, questionId) {
     try {
         const response = await axios.delete(`${BASE_URL}/post/${groupId}/question/${questionId}`, {
             headers: {
