@@ -11,37 +11,38 @@ const axiosInstance = axios.create({
   },
 });
 
-// 요청 인터셉터
-axiosInstance.interceptors.request.use(
-  (config) => {
-    const token = getAccessToken();
-    if (token) {
-      config.headers.Authorization = token;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
-
-// 응답 인터셉터
+// 응답 인터셉터: 401 에러 시 토큰 재발급
 axiosInstance.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    return response;
+  },
   async (error) => {
-    const originalRequest = error.config;
+    const { config, response } = error;
 
-    if (error.response.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
+    if (response && response.status === 401 && !config._retry) {
+      config._retry = true;
+
       try {
-        axios.defaults.headers.common['Authorization'] = await refreshAccessToken();
-        return axiosInstance(originalRequest);
-      } catch (err) {
+        // Access Token 재발급
+        const newAccessToken = await refreshAccessToken();
+
+        // 새로운 토큰으로 Authorization 헤더 설정
+        config.headers['Authorization'] = `Bearer ${newAccessToken}`;
+        // axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
+
+        // 요청을 다시 시도
+        return axiosInstance(config);
+      } catch (refreshError) {
+        console.error('토큰 재발급 실패:', refreshError);
         removeAccessToken();
         removeRefreshToken();
-        // 로그아웃 처리 또는 에러 핸들링
+        return Promise.reject(refreshError);  // 재발급 실패 시 처리
       }
     }
-    return Promise.reject(error);
+
+    return Promise.reject(error);  // 그 외의 에러 처리
   }
 );
+
 
 export default axiosInstance;

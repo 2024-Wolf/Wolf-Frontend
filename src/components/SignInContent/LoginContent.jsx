@@ -84,7 +84,6 @@ const LoginContent = ({ redirectUrl }) => {
   const handleGoogleLogin = () => {
     const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
     const redirectUri = 'http://localhost:3000/google/callback';
-    console.log("redirectUri", redirectUri);
     const scope = 'openid profile email';
     const responseType = 'id_token';  // ID 토큰 직접 받아오기
     const nonce = Date.now(); // nonce 고유한 값으로 설정

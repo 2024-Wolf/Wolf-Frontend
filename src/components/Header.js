@@ -10,6 +10,7 @@ import Cookies from "js-cookie";
 import { googleLogin, saveFcmToken } from "./Apis/AuthApi";
 import { getToken } from "firebase/messaging";
 import { messaging } from "./firebase-config";
+import {getAccessToken, setAccessToken, setRefreshToken} from "./Apis/Common";
 
 export const HeaderContainer = styled.header`
   margin: auto;
@@ -128,32 +129,33 @@ function Header({ isLoggedIn, onLogin, offLogin, notifications, setNotifications
 
   useEffect(() => {
     // Google 로그인 후 결과를 처리하는 리스너 등록
-    window.addEventListener('message', (event) => {
+    window.addEventListener('message',async (event) => {
       if (event.origin === window.origin && event.data.type === 'id-token') {
         const { idToken } = event.data;
         // ID 토큰을 가지고 로그인 작업 수행
-        googleLogin(idToken)
-          .then((response) => {
-            const { accessToken, refreshToken } = response.data.tokenResponse;
+        try {
+          // ID 토큰을 가지고 로그인 작업 수행
+          const response = await googleLogin(idToken);
+          const { accessToken, refreshToken } = response.data.tokenResponse;
 
-            // 토큰 저장
-            localStorage.setItem('accessToken', accessToken);
-            Cookies.set('refreshToken', refreshToken);
+          // 토큰 저장
+          setAccessToken(accessToken);
+          setRefreshToken(refreshToken);
 
-            if (response.data.loginFlag === "SIGNUP") {
-              // 회원가입 프로세스 진행
-              setCurrentStep(2);
-            }
-            if (response.data.loginFlag === "LOGIN") {
-              // FCM 권한 요청
-              requestFcmPermissionAndSaveToken().then(r => console.log(r));
-              closeModal();  // 로그인 완료 후 모달 닫기
-              onLogin();  // 부모 컴포넌트에 로그인 상태 업데이트
-            }
-          })
-          .catch((error) => {
-            console.error('로그인 실패:', error);
-          });
+          // 모든 비동기 작업이 완료된 후, FCM 권한 요청 수행
+          if (response.data.loginFlag === "SIGNUP") {
+            setCurrentStep(2); // 회원가입 프로세스 진행
+          } else if (response.data.loginFlag === "LOGIN") {
+            // **토큰이 저장된 후에 FCM 권한 요청**
+            await requestFcmPermissionAndSaveToken();
+
+            // 로그인 상태 업데이트
+            closeModal();  // 로그인 완료 후 모달 닫기
+            onLogin();  // 부모 컴포넌트에 로그인 상태 업데이트
+          }
+        } catch (error) {
+          console.error('로그인 실패:', error);
+        }
       }
     });
 
