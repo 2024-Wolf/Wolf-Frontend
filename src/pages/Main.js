@@ -57,11 +57,6 @@ const Main = () => {
     const [isChanged, setIsChanged] = useState(false);
     const [cards, setCards] = useState([]);
 
-    const [token, setToken] = useState("");
-
-    const [accessToken, setAccessToken] = useState("");
-    const [refreshToken, setRefreshToken] = useState("");
-
     useEffect(() => {
         async function getPosts() {
             await getGroupPosts("all")
