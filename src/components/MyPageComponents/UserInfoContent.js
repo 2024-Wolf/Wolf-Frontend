@@ -130,7 +130,7 @@ const UserInfoContent = ({
             const linkNames = falseIndexes.map(index => linkTypes[index]); // false 인덱스에 해당하는 이름 가져오기
             alert(`수정한 ${linkNames.join(", ")} 링크를 등록해주세요!`);
         }
-        else if ((isEditingNickName === true && isNickNamePossible === false)) {
+        else if ((isEditingNickName === true || (isNickNamePossible === false && isNickNameEqual === false))) {
             alert(`닉네임을 중복 검사해주세요!`);
         } else {
             alert(`수정 사항을 다시 확인해주세요!`);
@@ -165,11 +165,14 @@ const UserInfoContent = ({
         };
 
         // eslint-disable-next-line no-restricted-globals
-        if (isEditing && !confirm("변경 사항이 있습니다. 취소하시겠습니까?")) {
+        if ((isEditing && !isNickNameEqual) && !confirm("변경 사항이 있습니다. 취소하시겠습니까?")) {
             return; // 사용자가 취소를 선택하면 함수 종료
         }
 
         setIsEditing(false); // 편집 종료
+        setIsNickNamePossible(false);
+        setIsNickNameImpossible(false);
+        setIsNickNameEqual(false);
         setContentsType('myselfViewing');
         resetProfileData();
     };
