@@ -78,10 +78,10 @@ const Main = () => {
     }, []);
 
     useEffect(() => {
-        // 사용자가 입력을 멈추면 300ms 후에 검색어 업데이트
+        // 사용자가 입력을 멈추면 200ms 후에 검색어 업데이트
         const handler = setTimeout(() => {
             setDebouncedSearchTerm(searchTerm);
-        }, 200); // 200ms 딜레이 적용
+        }, 200);
 
         // clean-up function: 새로운 입력이 들어오면 기존 타이머 취소
         return () => {
