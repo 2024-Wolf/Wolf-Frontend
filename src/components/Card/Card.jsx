@@ -61,6 +61,7 @@ export const Button4 = styled.button`
     border: 1px solid var(--violet400);
     color: var(--black700);
     font-size: 12px;
+    border-radius: 20px;
     @media (max-width: 768px) {
     }
     @media (max-width: 480px) {

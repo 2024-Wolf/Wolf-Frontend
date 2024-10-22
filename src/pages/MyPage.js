@@ -8,10 +8,10 @@ import ActivitiesContent from "../components/MyPageComponents/ActivitiesContent"
 import FAQTab from "../components/Tab/FAQTab";
 import MyPageProfile from "../components/MyPageComponents/MyPageProfile";
 
-import { getMyProfile, getAlarms } from '../components/Apis/UserApi';
+import { getMyProfile, getAlarms, getUserProfile } from '../components/Apis/UserApi';
 import LoadingSpiner from "../components/Loading/LoadingSpinner";
 import ErrorUI from "../components/Error/ErrorUI";
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 
 // pages/MyPage.js
 const MyPageContainer = styled.div`
@@ -34,16 +34,19 @@ const MyPageContent = styled.div`
 
 const MyPage = ({ contentType, whatTab = "계정", profileData }) => {
     const [activeTab, setActiveTab] = useState(whatTab);
-    const [contentsType, setContentsType] = useState(contentType);
+    const { userId } = useParams();
+    const navigate = useNavigate();
+
+    const [contentsType, setContentsType] = useState(contentType || (userId !== undefined) ? 'strangerViewing' : 'myselfViewing');
     // contentsType 상태 ('myselfEditing', 'strangerViewing', 'myselfViewing' 중 하나)
     const [alarmData, setAlarmData] = useState(null);
+    const [usingProfileData, setUsingProfileData] = useState(profileData || null);
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const { userId } = useParams(); // URL에서 userId를 가져옴
-
     useEffect(() => {
+
         const fetchAlarm = async () => {
             try {
                 setLoading(true);  // 로딩 상태 시작
@@ -59,8 +62,29 @@ const MyPage = ({ contentType, whatTab = "계정", profileData }) => {
             }
         };
 
-        fetchAlarm(); // 알람 데이터 가져오기
-    }, []);
+        const fetchUserProfileViewer = async () => {
+            try {
+                setLoading(true);  // 로딩 상태 시작
+                setError(null);    // 에러 초기화
+
+                const dataUserProfile = await getUserProfile(userId); // getAlarms 함수 호출
+                setUsingProfileData(dataUserProfile.data); // 유저 데이터 설정
+            } catch (err) {
+                setError('데이터를 불러오는 데 실패했습니다.');
+                console.error(err);
+            } finally {
+                setLoading(false);  // 로딩 상태 종료
+            }
+        };
+
+        if (userId !== undefined && userId !== profileData?.id) {
+            // user/userId 페이지일 때
+            fetchUserProfileViewer();
+        } else {
+            // user/my 페이지일 때
+            fetchAlarm(); // 알람 데이터 가져오기
+        }
+    }, [userId]);
 
     // 로딩 중 UI
     if (loading) {
@@ -75,7 +99,7 @@ const MyPage = ({ contentType, whatTab = "계정", profileData }) => {
     const renderTabContent = () => {
         switch (activeTab) {
             case "계정":
-                return <UserInfoContent contentsType={contentsType} setContentsType={setContentsType} profileData={profileData} />;
+                return <UserInfoContent contentsType={contentsType} setContentsType={setContentsType} profileData={usingProfileData} />;
             case "알림":
                 return <NotificationContent alarmData={alarmData} />
             case "활동":
@@ -100,7 +124,7 @@ const MyPage = ({ contentType, whatTab = "계정", profileData }) => {
                 </>)}
 
                 {/* 프로필 사진 */}
-                <MyPageProfile contentsType={contentsType} profileData={profileData} />
+                <MyPageProfile contentsType={contentsType} profileData={usingProfileData} />
                 {/* 컨텐츠 */}
                 <MyPageContent>
                     {contentsType === 'strangerViewing' ? (<></>) : (<>
