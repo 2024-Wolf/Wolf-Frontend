@@ -53,6 +53,7 @@ const Main = () => {
     const [searchDate, setSearchDate] = useState(null);
     const [isOptionActive, setIsOptionActive] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
+    const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm);
     const [filteredCards, setFilteredCards] = useState([]);
     const [isChanged, setIsChanged] = useState(false);
     const [cards, setCards] = useState([]);
@@ -77,6 +78,18 @@ const Main = () => {
     }, []);
 
     useEffect(() => {
+        // 사용자가 입력을 멈추면 300ms 후에 검색어 업데이트
+        const handler = setTimeout(() => {
+            setDebouncedSearchTerm(searchTerm);
+        }, 200); // 200ms 딜레이 적용
+
+        // clean-up function: 새로운 입력이 들어오면 기존 타이머 취소
+        return () => {
+            clearTimeout(handler);
+        }
+    }, [searchTerm]);
+
+    useEffect(() => {
         let filteredByCategory = [];
 
         switch (activeCategory) {
@@ -92,9 +105,9 @@ const Main = () => {
         }
 
         const searchedCards = filteredByCategory.filter(card =>
-            // title, tag 에 대해 검색어가 포함되어 있는지 확인
-            card.name.toLowerCase().includes(searchTerm.toLowerCase())
-            || card.tag.includes(searchTerm.toLowerCase())
+          card.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
+          card.tag.includes(debouncedSearchTerm.toLowerCase()) ||
+          card.leaderUser.userNickname.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
         );
 
         const dateFilteredCards = searchedCards.filter(card => {
@@ -109,7 +122,7 @@ const Main = () => {
         });
 
         setFilteredCards(dateFilteredCards);
-    }, [activeCategory, searchDate, isOptionActive, searchTerm]);
+    }, [activeCategory, searchDate, isOptionActive, debouncedSearchTerm]);
 
     const handleSearchDate = (date) => {
         setSearchDate(date);

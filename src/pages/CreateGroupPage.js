@@ -3,6 +3,8 @@ import { PageTitle } from "../components/GlobalStyledComponents";
 
 import React from "react";
 import GroupContent from "../components/Group/GroupComponent/GroupContent";
+import { registerGroupPost } from "../components/Apis/GroupPostApi";
+import { useNavigate } from "react-router-dom";
 
 // pages/CreateGroupPage.js
 export const GroupInfoContainer = styled.form`
@@ -23,16 +25,41 @@ export const GroupInfoContainer = styled.form`
 `;
 
 const CreateGroupPage = () => {
-    const handleSubmit = (event) => {
-        // 여기서 API 호출
+    const navigate = useNavigate();
 
-        alert('모집글이 등록되었습니다');
-    };
+    const createGroup = (data) => {
+        const groupPost = {
+            name: data.title,
+            type: data.groupType,
+            startDate: data.startDate,
+            endDate: data.endDate,
+            deadLineDate: data.deadLineDate,
+            techStack: data.techStack,
+            optionalRequirements: data.buttons.filter(btn => btn.clicked).map(btn => btn.label).toString(),
+            recruitments: data.recruitmentList,
+            targetMembers: data.totalMemberCount,
+            thumbnail: data.fileName,
+            topic: data.subject,
+            description: data.introduction,
+            warning: data.guidelines,
+        }
+
+        registerGroupPost(groupPost)
+        .then(function(response){
+            if(response.status >= 400){
+                alert("에러 발생 : " + response.message);
+                return;
+            }
+            alert("모집글 작성이 완료되었습니다.");
+            navigate('/');
+        })
+
+    }
 
     return (
-        <GroupInfoContainer method="get" action="/" onSubmit={handleSubmit} encType="multipart/form-data">
+        <GroupInfoContainer>
             <PageTitle>팀원 모집하기</PageTitle>
-            <GroupContent contentType={'writing'} />
+            <GroupContent createGroup={createGroup} contentType={'writing'} />
         </GroupInfoContainer>
     );
 }
