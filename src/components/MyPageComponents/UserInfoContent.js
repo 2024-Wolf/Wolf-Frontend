@@ -2,7 +2,8 @@ import styled, { css } from "styled-components";
 import {
     ModalContentWrapper, Div, WrapperForm, Row, ContentsRow, Column, SubContentsWrapper, EtcContentsWrapper,
     SubTitle, Label, LinkInputDiv, Violet400BackgroundButton, ButtonGroupRight, ButtonGroupLeft,
-    Hr
+    Hr,
+    Violet500BackgroundButton
 } from "../GlobalStyledComponents";
 
 import React, { useEffect, useState } from "react";
@@ -21,7 +22,7 @@ import CopyButton from "../Button/CopyButton";
 import InputNumber from "../Input/InputNumber"
 import GlobalSvg from "../Icon/GlobalSvg";
 import { postMyProfile } from "../Apis/UserApi";
-import { deleteUser } from "../Apis/AuthApi";
+import { checkNickname, deleteUser } from "../Apis/AuthApi";
 import { useNavigate } from 'react-router-dom';
 
 
@@ -70,9 +71,9 @@ const UserInfoContent = ({
 
     const [isEditing, setIsEditing] = useState(false); // 편집중인지의 상태
 
+    const [isEditingNickName, setIsEditingNickName] = useState(false); // 편집중인지의 상태
     const [isNickNamePossible, setIsNickNamePossible] = useState(false);
     const [isNickNameImpossible, setIsNickNameImpossible] = useState(false);
-
 
 
     const handleEditClick = () => {
@@ -91,10 +92,13 @@ const UserInfoContent = ({
         })
 
 
-        // 모든 요소가 true인지 확인
-        if (boolArray.every(value => value === true)) {
+        // 모든 요소가 true인지 확인 & 
+        // 닉네임이 사용 가능한지 확인
+        if ((boolArray.every(value => value === true)) &&
+            (isEditingNickName === true && isNickNamePossible === true)) {
             setIsEditing(false); // 편집 종료
             setContentsType('myselfViewing');
+            setIsEditingNickName(false);
 
             // 최종적인 폼 제출 진행
             try {
@@ -108,13 +112,14 @@ const UserInfoContent = ({
                 alert("회원 정보가 수정되었습니다");
                 window.location.reload(); // 페이지 새로 고침
 
+
             } catch (error) {
                 // setError('회원 정보 삭제 실패');
                 console.error(error);
             } finally {
                 // setIsLoading(false);
             }
-        } else {
+        } else if (!(boolArray.every(value => value === true))) {
             // false 인덱스 찾기
             const falseIndexes = boolArray
                 .map((value, index) => (value === false ? index : -1)) // false일 때 인덱스 저장
@@ -124,6 +129,11 @@ const UserInfoContent = ({
             const linkNames = falseIndexes.map(index => linkTypes[index]); // false 인덱스에 해당하는 이름 가져오기
             alert(`수정한 ${linkNames.join(", ")} 링크를 등록해주세요!`);
         }
+        else if ((isEditingNickName === true && isNickNamePossible === false)) {
+            alert(`닉네임을 중복 검사해주세요!`);
+        } else {
+            alert(`수정 사항을 다시 확인해주세요!`);
+        }
 
 
 
@@ -132,6 +142,7 @@ const UserInfoContent = ({
     const handleCancelClick = () => {
         const resetProfileData = () => {
             setNewProfileData(profileData); // 수정 전의 DB 정보로 초기화
+            setIsEditingNickName(false);
             setNewUserLinks( // 링크 정보도 초기화
                 linkTypes.map(linkType => {
                     const linkData = profileData?.links?.find(data => data.linkType === linkType) || {};
@@ -185,7 +196,11 @@ const UserInfoContent = ({
 
 
     const handleInputChange = (field, value) => {
+        setIsNickNamePossible(false);
+        setIsNickNameImpossible(false);
+
         setIsEditing(true); // 수정 시작
+        setIsEditingNickName(true);
 
         setNewProfileData((prev) => ({
             ...prev,
@@ -194,25 +209,6 @@ const UserInfoContent = ({
     };
 
 
-
-
-    const handleNickName = (e) => {
-        e.preventDefault();
-
-        // 중복된 닉네임인지 검증하는 로직 구현이 필요함
-        if (true) {
-            // 닉네임 사용 가능
-            alert('사용 가능한 닉네임입니다')
-            setIsNickNamePossible(true);
-            setIsNickNameImpossible(false);
-
-        } else {
-            // 닉네임 사용 불가
-            alert('중복된 닉네임입니다')
-            setIsNickNameImpossible(true);
-            setIsNickNamePossible(false);
-        }
-    };
 
     const handleInputLinkChange = (targetLinkType, value) => {
         setIsEditing(true); // 수정 시작
@@ -274,28 +270,54 @@ const UserInfoContent = ({
         alert('링크를 등록했습니다');
     };
 
+    // 닉네임 중복 검사
+    const handleNickNameCheck = async () => {
+        try {
+
+            // 닉네임 중복 검사
+            const isAvailable = await checkNickname(newProfileData?.nickname);  // 서버에서 중복 여부 확인
+
+            if (isAvailable) {
+                // 닉네임 사용 가능
+                setIsNickNamePossible(true);
+                setIsNickNameImpossible(false);
+            } else {
+                // 닉네임 사용 불가
+                setIsNickNameImpossible(true);
+                setIsNickNamePossible(false);
+                handleInputChange('nickname', profileData?.nickname);  // 실패 시 값 초기화
+            }
+        } catch (error) {
+            console.error('닉네임 중복 확인 중 오류 발생:', error);
+            // 필요에 따라 에러 처리 로직 추가
+        }
+    };
+
     const renderNicknameNotice = () => {
         return (
             <>
-                {(isNickNamePossible || isNickNameImpossible) && <div style={{ height: '16px' }}>
-                    {/* {!isButtonDisable && } */}
-                    {isNickNamePossible &&
-                        <span
-                            style={{
-                                fontSize: '13px', color: 'var(--blueViolet700)'
-                            }}>
-                            사용 가능한 닉네임입니다
-                        </span>
-                    }
-                    {isNickNameImpossible &&
-                        <span
-                            style={{
-                                fontSize: '13px', color: '#ED4E51'
-                            }}>
-                            사용 불가능한 닉네임입니다
-                        </span>
-                    }
-                </div>}
+
+                <div style={{ height: '16px' }}>
+                    {(isNickNamePossible || isNickNameImpossible) && <>
+                        {/* {!isButtonDisable && } */}
+                        {isNickNamePossible &&
+                            <span
+                                style={{
+                                    fontSize: '13px', color: 'var(--blueViolet700)'
+                                }}>
+                                사용 가능한 닉네임입니다
+                            </span>
+                        }
+                        {isNickNameImpossible &&
+                            <span
+                                style={{
+                                    fontSize: '13px', color: '#ED4E51'
+                                }}>
+                                사용 불가능한 닉네임입니다
+                            </span>
+                        }
+                    </>}
+                </div>
             </>
 
         )
@@ -344,7 +366,6 @@ const UserInfoContent = ({
                         <SubTitle>기본 정보</SubTitle>
                         <Hr />
                     </div>
-
                     <ModalContentWrapper style={{ gap: '5px' }}>
                         <Div style={{ gap: '2px' }}>
                             <Row>
@@ -358,7 +379,9 @@ const UserInfoContent = ({
                                             value={isEditing ?
                                                 (newProfileData?.nickname ? newProfileData?.nickname : "") :
                                                 (profileData?.nickname ? profileData?.nickname : "")}
-                                            onChange={(e) => handleInputChange('nickname', e.target.value)}
+                                            onChange={(e) => {
+                                                handleInputChange('nickname', e.target.value);
+                                            }}
                                             required
                                         />
                                     </Row>
@@ -367,7 +390,7 @@ const UserInfoContent = ({
                                     {/* myselfEditing */}
                                     <Violet400BackgroundButton
                                         type="button"
-                                        onClick={handleNickName}
+                                        onClick={handleNickNameCheck}
                                     >
                                         중복 검사
                                     </Violet400BackgroundButton>

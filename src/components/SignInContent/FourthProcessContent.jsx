@@ -1,11 +1,11 @@
 import { ModalContentWrapper, ContentWrapper, InputLabel2, InputWrapper, Violet500BackgroundButton, Row, Violet500LineButton, Label, Div } from "../GlobalStyledComponents";
 
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import StatusButton from "./Components/StatusButton";
 import InputText from "../Input/InputText";
 import SubTitle from "./Components/SubTitle";
-import {checkNickname} from "../Apis/AuthApi";
-import {signUpUser} from "../Apis/UserApi";
+import { checkNickname } from "../Apis/AuthApi";
+import { signUpUser } from "../Apis/UserApi";
 
 const FourthProcessContent = ({ onPrev, onClose, onLogin, signupInfo, handleInputChange, handleInputReset }) => {
     const [isNickNamePossible, setIsNickNamePossible] = useState(false);
@@ -63,8 +63,8 @@ const FourthProcessContent = ({ onPrev, onClose, onLogin, signupInfo, handleInpu
                     <Label>닉네임을 입력해주세요</Label>
                     <Row>
                         <InputText required
-                                   value={nickname}
-                                   onChange={handleNicknameChange}
+                            value={nickname}
+                            onChange={handleNicknameChange}
                         />
                         <Violet500BackgroundButton
                             type="button"
