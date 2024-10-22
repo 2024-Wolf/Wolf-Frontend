@@ -20,7 +20,12 @@ const MainCardList = (props) => {
         return items.map((card) => (
             <CardMapingContainer key={card.groupPostId} onClick={() => handleCardClick(card.groupPostId)}>
                 <Card
-                    data={card}
+                    category={card.status}
+                    title={card.name}
+                    deadline={card.endDate}
+                    tags={[card.tag]}
+                    // 버튼 text는 그룹 참여 여부에 따라 바뀌어야 함.
+                    buttonText={"신청하기"}
                 />
             </CardMapingContainer>
         ));
