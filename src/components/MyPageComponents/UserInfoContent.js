@@ -74,6 +74,7 @@ const UserInfoContent = ({
     const [isEditingNickName, setIsEditingNickName] = useState(false); // 편집중인지의 상태
     const [isNickNamePossible, setIsNickNamePossible] = useState(false);
     const [isNickNameImpossible, setIsNickNameImpossible] = useState(false);
+    const [isNickNameEqual, setIsNickNameEqual] = useState(false);
 
 
     const handleEditClick = () => {
@@ -86,8 +87,8 @@ const UserInfoContent = ({
         // 링크를 수정했는데, 저장하려고 할 경우 : 모든 배열이 true가 아님
         // 링크를 수정했고, 저장도 되었을 경우 : 모든 배열이 true임
         const boolArray = linkTypes.map(linkType => {
-            const isSaved = Boolean(newProfileData?.links?.find(data => data.linkType == linkType).linkUrl) ==
-                Boolean(newUserLinks?.find(data => data.linkType == linkType).linkUrl)
+            const isSaved = Boolean(newProfileData?.links?.find(data => data.linkType === linkType).linkUrl) ===
+                Boolean(newUserLinks?.find(data => data.linkType === linkType).linkUrl)
             return isSaved;
         })
 
@@ -198,6 +199,7 @@ const UserInfoContent = ({
     const handleInputChange = (field, value) => {
         setIsNickNamePossible(false);
         setIsNickNameImpossible(false);
+        setIsNickNameEqual(false);
 
         setIsEditing(true); // 수정 시작
         setIsEditingNickName(true);
@@ -275,17 +277,18 @@ const UserInfoContent = ({
         try {
 
             // 닉네임 중복 검사
-            const isAvailable = await checkNickname(newProfileData?.nickname);  // 서버에서 중복 여부 확인
 
-            if (isAvailable) {
+            const isAvailable = newProfileData?.nickname ? await checkNickname(newProfileData?.nickname) : "";  // 서버에서 중복 여부 확인
+
+            if (isAvailable === "true") {
                 // 닉네임 사용 가능
                 setIsNickNamePossible(true);
-                setIsNickNameImpossible(false);
-            } else {
+            } else if(isAvailable === "equal"){
+                setIsNickNameEqual(true);
+            }else {
                 // 닉네임 사용 불가
                 setIsNickNameImpossible(true);
-                setIsNickNamePossible(false);
-                handleInputChange('nickname', profileData?.nickname);  // 실패 시 값 초기화
+                // handleInputChange('nickname', profileData?.nickname);  // 실패 시 값 초기화
             }
         } catch (error) {
             console.error('닉네임 중복 확인 중 오류 발생:', error);
@@ -298,25 +301,30 @@ const UserInfoContent = ({
             <>
 
                 <div style={{ height: '16px' }}>
-                    {(isNickNamePossible || isNickNameImpossible) && <>
-                        {/* {!isButtonDisable && } */}
-                        {isNickNamePossible &&
-                            <span
-                                style={{
-                                    fontSize: '13px', color: 'var(--blueViolet700)'
-                                }}>
-                                사용 가능한 닉네임입니다
-                            </span>
-                        }
-                        {isNickNameImpossible &&
-                            <span
-                                style={{
-                                    fontSize: '13px', color: '#ED4E51'
-                                }}>
-                                사용 불가능한 닉네임입니다
-                            </span>
-                        }
-                    </>}
+                    {isNickNamePossible && (
+                        <span
+                            style={{
+                                fontSize: '13px', color: 'var(--blueViolet700)'
+                            }}>
+                            사용 가능한 닉네임입니다.
+                        </span>
+                    )}
+                    {isNickNameImpossible && (
+                        <span
+                            style={{
+                                fontSize: '13px', color: '#ED4E51'
+                            }}>
+                            사용 불가능한 닉네임입니다.
+                        </span>
+                    )}
+                    {isNickNameEqual && (
+                        <span
+                            style={{
+                                fontSize: '13px', color: '#32CD32' // 밝은 초록색
+                            }}>
+                            현재 닉네임입니다.
+                        </span>
+                    )}
                 </div>
             </>
 
