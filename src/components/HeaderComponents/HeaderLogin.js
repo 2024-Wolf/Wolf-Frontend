@@ -177,7 +177,7 @@ function HeaderLogin({ isLoggedIn, openModal, offLogin, profileData, alarmsPrevi
                             </DropdownIcon>
                             {/* 드롭다운창 */}
                             <DropdownContent isDropdownOpen={isDropdownOpen}>
-                                <DropdownItem onClick={() => handleItemClick('/user')}>내 정보</DropdownItem>
+                                <DropdownItem onClick={() => handleItemClick('/user/my')}>내 정보</DropdownItem>
                                 <DisplayNoneDropdownItem onClick={() => handleItemClick('/write')}>팀원 모집하기</DisplayNoneDropdownItem>
                                 <DisplayNoneDropdownItem onClick={() => handleItemClick('/faq')}>FAQ</DisplayNoneDropdownItem>
                                 <DropdownItem onClick={() => handleItemClick('/user')}>챌린지 보기</DropdownItem>
