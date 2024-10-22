@@ -1,7 +1,7 @@
 
 import styled from "styled-components";
 import { Round, Violet500Line, Violet700BackgroundHover } from "../GlobalStyledComponents";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 
 const FormCheckBoxButtonWrapper = styled.button`
