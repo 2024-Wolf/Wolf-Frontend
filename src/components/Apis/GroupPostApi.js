@@ -36,7 +36,7 @@ export function registerGroupPost(groupPost) {
 
 // 그룹 수정
 export function updateGroupPost(groupPost, postId) {
-    axios.put(`${BASE_URL}/post/{postId}`, {
+    axios.put(`${BASE_URL}/post/${postId}`, {
         name: groupPost.name,
         leaderUser: groupPost.leader_user,
         type: groupPost.type,
@@ -398,6 +398,46 @@ export async function registerReply(groupId, questionId, parentCommentId, reply)
         return response.data; // 필요에 따라 데이터 반환
     } catch (error) {
         console.error('대댓글 작성 중 오류 발생:', error);
+        throw error; // 오류를 다시 던져서 호출한 곳에서 처리할 수 있게 함
+    }
+}
+
+async function getFAQByCategory(category, page = 0, size = 10, sort = "asc") {
+    try {
+        const response = await axios.get(`${BASE_URL}/faqs/${category}`, {
+            params: {
+                page,
+                size,
+                sort,
+            },
+        });
+        return response.data; // 데이터를 성공적으로 받아오면 반환
+    } catch (error) {
+        console.error("Error fetching FAQ data: ", error); // 오류 메시지 출력
+        throw error; // 오류를 다시 던져서 호출한 곳에서 처리할 수 있게 함
+    }
+}
+
+// 유저별 그룹 검색
+// type : STUDY, PROJECT
+// status : APPLYING, ONGOING, COMPLETED
+export const getUserGroupsByTypeAndStatus = async (type, status, page = 0, size = 10, sort = "asc") => {
+
+    try {
+        const response = await axios.get(`${BASE_URL}/post/${type}/${status}`,
+            {
+                headers: {
+                    Authorization: Token.getAccessToken() // 토큰을 헤더에 추가
+                },
+                params: {
+                    page,
+                    size,
+                    sort
+                }
+            });
+        return response.data; // 검색된 그룹 데이터를 반환
+    } catch (error) {
+        console.error('유저별 그룹 검색 중 오류 발생:', error);
         throw error; // 오류를 다시 던져서 호출한 곳에서 처리할 수 있게 함
     }
 }

@@ -96,9 +96,6 @@ const MyPage = ({ contentType, whatTab = "계정", profileData }) => {
         return <ErrorUI error={error} />;
     }
 
-    console.log(userId);
-    console.log(usingProfileData);
-
     const renderTabContent = () => {
         switch (activeTab) {
             case "계정":
