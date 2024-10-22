@@ -8,16 +8,19 @@ import { useNavigate } from 'react-router-dom';
 
 
 
-const ActivityCardList = ({ cards, buttonText, data }) => {
+const ActivityCardList = ({ cards, buttonText, data, category }) => {
     const navigate = useNavigate();
 
     const handleCardClick = (id) => {
-        navigate(`/study/${id}`); // 카드 ID에 따라 그룹 페이지로 이동
+        navigate(`/post/${id}`); // 카드 ID에 따라 그룹 페이지로 이동
     };
 
+    { console.log('setFilteredCards : ', data) }
+
+    {/* 추후변경 - handleCardClick(card.id) */ }
     return (
-        <div onClick={() => navigate('/study')}> {/* 추후변경 - handleCardClick(card.id) */}
-            <ActivityCardListContainer>
+        <>
+            {<ActivityCardListContainer>
                 {cards.map((card) => {
                     // 신청일이 있을 때만 전달
                     const applicationDate = card.applicationDate ? card.applicationDate : null;
@@ -30,6 +33,7 @@ const ActivityCardList = ({ cards, buttonText, data }) => {
 
                     return (
                         <Card
+                            onClick={() => navigate(`/post/1`)}
                             key={card.id}
                             category={card.category}
                             title={card.title}
@@ -45,8 +49,8 @@ const ActivityCardList = ({ cards, buttonText, data }) => {
                         />
                     );
                 })}
-            </ActivityCardListContainer>
-        </div>
+            </ActivityCardListContainer>}
+        </>
     );
 };
 
