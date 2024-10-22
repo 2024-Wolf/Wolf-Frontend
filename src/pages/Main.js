@@ -8,6 +8,7 @@ import DateButton from "../components/Button/DateButton";
 import MainOptionButton from "../components/Button/MainOptionButton";
 import { getGroupPosts } from "../components/Apis/GroupPostApi";
 import { Token } from "../components/Apis/Common";
+import { testLogin } from "../components/Apis/AuthApi";
 
 // pages/Main.js
 export const SearchContainer = styled.div`
@@ -56,18 +57,16 @@ const Main = () => {
     const [isChanged, setIsChanged] = useState(false);
     const [cards, setCards] = useState([]);
 
-    const [token, setToken] = useState("");
-
-    useEffect(()=>{
-        async function getPosts(){
+    useEffect(() => {
+        async function getPosts() {
             await getGroupPosts("all")
-            .then(function(response){
-                if(response.status === 401){
-                    alert("토큰이 유효하지 않습니다!");
-                    return;
-                }
-                if(response !== undefined && response.data.groupPostResponseList.length > 0) setCards(response.data.groupPostResponseList);
-            })
+                .then(function (response) {
+                    if (response.status === 401) {
+                        alert("토큰이 유효하지 않습니다!");
+                        return;
+                    }
+                    if (response !== undefined && response.data.groupPostResponseList.length > 0) setCards(response.data.groupPostResponseList);
+                })
             setActiveCategory("전체");
         }
         getPosts();
@@ -76,8 +75,8 @@ const Main = () => {
     useEffect(() => {
         let filteredByCategory = [];
 
-        switch(activeCategory){
-            case "전체": 
+        switch (activeCategory) {
+            case "전체":
                 filteredByCategory = cards;
                 break;
             case "프로젝트":
@@ -88,9 +87,9 @@ const Main = () => {
                 break;
         }
 
-        const searchedCards = filteredByCategory.filter(card => 
+        const searchedCards = filteredByCategory.filter(card =>
             // title, tag 에 대해 검색어가 포함되어 있는지 확인
-            card.name.toLowerCase().includes(searchTerm.toLowerCase()) 
+            card.name.toLowerCase().includes(searchTerm.toLowerCase())
             || card.tag.includes(searchTerm.toLowerCase())
         );
 
@@ -107,7 +106,7 @@ const Main = () => {
 
         setFilteredCards(dateFilteredCards);
     }, [activeCategory, searchDate, isOptionActive, searchTerm]);
-    
+
     const handleSearchDate = (date) => {
         setSearchDate(date);
     };
@@ -120,18 +119,18 @@ const Main = () => {
         setSearchTerm(term);
     };
 
-    const handleTokenInput = (e) => {
-        setToken(e.target.value);
-    }
+    const handleTestLogin = async () => {
+        try {
+            const data = await testLogin(); // testLogin 호출
 
-    const handleTokenButton = (e) => {
-        Token.setAccessToken(token);
-        window.location.reload();
-    }
-
-    const handleCheckButton = (e) => {
-        alert("설정된 토큰 값 : " + Token.getAccessToken());
-    }
+            Token.setAccessToken(data.data.tokenResponse.accessToken);
+            Token.setRefreshToken(data.data.tokenResponse.refreshToken);
+            window.location.reload();
+            alert('테스트 로그인 성공')
+        } catch (error) {
+            console.error('테스트 로그인 실패:', error);
+        }
+    };
 
     return (
         <>
@@ -163,9 +162,16 @@ const Main = () => {
                     data={filteredCards}
                 />
                 <div>
-                    <input style={{border:"1px solid #000"}} type="text" value={token} onChange={handleTokenInput}/>
-                    <button onClick={handleTokenButton}>토큰 입력</button>
-                    <button onClick={handleCheckButton}>토큰 확인</button>
+                    <button onClick={handleTestLogin}
+                        style={{ marginBottom: '10px' }}>
+                        테스트 로그인하기
+                    </button>
+                    <div style={{ border: "1px solid #000", wordWrap: 'break-word', marginBottom: '10px' }}>
+                        엑세스 토큰 : {Token.getAccessToken()}
+                    </div>
+                    <div style={{ border: "1px solid #000", wordWrap: 'break-word' }}>
+                        리프레쉬 토큰 : {Token.getRefreshToken()}
+                    </div>
                 </div>
             </main >
         </>

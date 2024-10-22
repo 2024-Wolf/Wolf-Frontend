@@ -3,7 +3,7 @@ import {
   StudyTitle, StudyDetails, LeaderText, CategoryMainTitle
 } from "../components/GlobalStyledComponents";
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import TodoContent from "../components/Group/TodoContent";
 import ChallengeTab from "../components/Group/ChallengeTab";
 import MeetingContent from "../components/Group/MeetingContent";
@@ -14,6 +14,7 @@ import ProfileIcon from "../components/Icon/ProfileIcon";
 import FAQTab from "../components/Tab/FAQTab";
 import ReportButton from "../components/Button/ReportButton";
 import { useParams } from "react-router-dom";
+import { getGroupPost } from "../components/Apis/GroupPostApi"
 
 
 
@@ -62,12 +63,12 @@ const TAB = {
   MANAGE: "관리",
 };
 
-const StudyPage = () => {
+const StudyPage = ({ profileData }) => {
   const [activeTab, setActiveTab] = useState(TAB.INFO);
   const [isMeetingStarted, setIsMeetingStarted] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
-
-  const mode = "project"; // "study" 또는 "project"
+  const [groupPostData, setGroupPostData] = useState({});  // 그룹 데이터
+  const modeRef = useRef("project"); // "study" 또는 "project" (useEffect에서 설정함)
 
   const { postId } = useParams();
 
@@ -75,12 +76,36 @@ const StudyPage = () => {
     setActiveTab(tab);
   };
 
+  useEffect(() => {
+    const fetchGroupPostData = async () => {
+      try {
+        const result = await getGroupPost(postId); // 그룹 데이터 저장
+        result.data ? setGroupPostData(result.data) : <></>;
+        modeRef.current = result.data.type; // "study" 또는 "project"
+
+        // 상태 코드가 200-299 범위인지 확인
+        if (result.status < 200 || result.status >= 300) {
+          throw new Error('네트워크 오류');
+        }
+
+      } catch (error) {
+        // 에러 처리: 콘솔에 에러 메시지 출력
+        console.error('데이터 등록 실패:', error);
+      } finally {
+        // 로딩 상태 종료
+        // setLoading(false);
+      }
+    };
+
+    fetchGroupPostData(); // 데이터 가져오기 호출
+  }, [postId]); // postId가 변경될 때마다 실행
+
   const componentsMap = {
-    [TAB.INFO]: (props) => <GroupInfoContent mode={mode} />,
-    [TAB.TODO]: TodoContent,
-    [TAB.CHALLENGE]: ChallengeTab,
-    [TAB.MEETING]: MeetingContent,
-    [TAB.MANAGE]: GroupManageContent,
+    [TAB.INFO]: (props) => <GroupInfoContent {...props} />,
+    [TAB.TODO]: (props) => <TodoContent {...props} />,
+    [TAB.CHALLENGE]: (props) => <ChallengeTab {...props} />,
+    // [TAB.MEETING]: (props) => <MeetingContent {...props} />,
+    [TAB.MANAGE]: (props) => <GroupManageContent {...props} />,
   };
 
   const SelectedComponent = componentsMap[activeTab];
@@ -102,16 +127,17 @@ const StudyPage = () => {
       <GroupHeader>
         <GroupHeaderTop>
           <span className="hiddenSpan" />
-          <CategoryMainTitle>{mode === "study" ? "스터디" : "프로젝트"}</CategoryMainTitle>
+          <CategoryMainTitle>{modeRef.current === "study" ? "스터디" : "프로젝트"}</CategoryMainTitle>
           <ReportButton onClick={openModal} />
         </GroupHeaderTop>
         {isModalOpen && <Declaration onClose={closeModal} />}
-        <StudyTitle>파이널 스터디 - 지금2조</StudyTitle>
+        <StudyTitle>{groupPostData?.name}</StudyTitle>
         <StudyDetails>
           <ProfileIcon
-            src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
+            targetUserId={groupPostData?.leaderUser?.userId}
+            src={groupPostData?.leaderUser?.userProfileImg}
             alt="Profile">
-            myeongju
+            {groupPostData?.leaderUser?.userNickname}
           </ProfileIcon>
           <LeaderText>평가점수지표 요약</LeaderText>
         </StudyDetails>
@@ -128,9 +154,18 @@ const StudyPage = () => {
         {/*<div className="study-content">*/}
         {
           activeTab === TAB.MEETING ? (
-            <MeetingContent isMeetingStarted={isMeetingStarted} />
+            <MeetingContent
+              isMeetingStarted={isMeetingStarted}
+              mode={modeRef.current}
+              groupPostId={postId}
+              userId={profileData?.id}
+              groupPostData={groupPostData} />
           ) : (
-            <SelectedComponent groupPostId={postId}/>
+            <SelectedComponent
+              mode={modeRef.current}
+              groupPostId={postId}
+              userId={profileData?.id}
+              groupPostData={groupPostData} />
           )
         }
         {/*</div>*/}

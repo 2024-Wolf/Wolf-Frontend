@@ -39,7 +39,7 @@ const UserInfoContent = ({
 
     const [newUserLinks, setNewUserLinks] = useState(
         linkTypes.map(linkType => {
-            const linkData = profileData.links.find(data => data.linkType === linkType) || {};
+            const linkData = profileData?.links?.find(data => data.linkType === linkType) || {};
 
             const linkObject = {
                 linkType: linkType,
@@ -85,8 +85,8 @@ const UserInfoContent = ({
         // 링크를 수정했는데, 저장하려고 할 경우 : 모든 배열이 true가 아님
         // 링크를 수정했고, 저장도 되었을 경우 : 모든 배열이 true임
         const boolArray = linkTypes.map(linkType => {
-            const isSaved = Boolean(newProfileData.links.find(data => data.linkType == linkType).linkUrl) ==
-                Boolean(newUserLinks.find(data => data.linkType == linkType).linkUrl)
+            const isSaved = Boolean(newProfileData?.links?.find(data => data.linkType == linkType).linkUrl) ==
+                Boolean(newUserLinks?.find(data => data.linkType == linkType).linkUrl)
             return isSaved;
         })
 
@@ -118,7 +118,8 @@ const UserInfoContent = ({
             // false 인덱스 찾기
             const falseIndexes = boolArray
                 .map((value, index) => (value === false ? index : -1)) // false일 때 인덱스 저장
-                .filter(index => index !== -1); // -1을 제외한 인덱스만 필터링
+
+            falseIndexes?.filter(index => index !== -1); // -1을 제외한 인덱스만 필터링
 
             const linkNames = falseIndexes.map(index => linkTypes[index]); // false 인덱스에 해당하는 이름 가져오기
             alert(`수정한 ${linkNames.join(", ")} 링크를 등록해주세요!`);
@@ -133,7 +134,7 @@ const UserInfoContent = ({
             setNewProfileData(profileData); // 수정 전의 DB 정보로 초기화
             setNewUserLinks( // 링크 정보도 초기화
                 linkTypes.map(linkType => {
-                    const linkData = profileData.links.find(data => data.linkType === linkType) || {};
+                    const linkData = profileData?.links?.find(data => data.linkType === linkType) || {};
 
                     const linkObject = {
                         linkType: linkType,
@@ -265,7 +266,7 @@ const UserInfoContent = ({
             ...prev,
             links: prev.links.map(link =>
                 link.linkType === targetLinkType ? {
-                    ...link, linkUrl: newUserLinks.filter(data => data.linkType === `${targetLinkType}`)[0]?.linkUrl
+                    ...link, linkUrl: newUserLinks?.filter(data => data.linkType === `${targetLinkType}`)[0]?.linkUrl
                 } : link
             )
         }));
@@ -573,16 +574,16 @@ const UserInfoContent = ({
                                             type="text"
                                             placeholder="링크를 입력하세요"
                                             value={isEditing ?
-                                                newUserLinks.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl :
-                                                (profileData.links.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl ?
-                                                    profileData.links.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl :
+                                                newUserLinks?.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl :
+                                                (profileData?.links?.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl ?
+                                                    profileData?.links?.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl :
                                                     "")}
                                             onChange={(e) => handleInputLinkChange(link.linkType, e.target.value)}
                                         />
                                         {!isValidURL(isEditing ?
-                                            newUserLinks.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl :
-                                            (profileData.links.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl ?
-                                                profileData.links.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl :
+                                            newUserLinks?.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl :
+                                            (profileData?.links?.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl ?
+                                                profileData?.links?.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl :
                                                 "")) &&
                                             <span
                                                 style={{
@@ -597,9 +598,9 @@ const UserInfoContent = ({
                                             type="button"
                                             onClick={() => editLinkFinish(link.linkType)}
                                             disabled={!isValidURL(isEditing ?
-                                                newUserLinks.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl :
-                                                (profileData.links.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl ?
-                                                    profileData.links.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl :
+                                                newUserLinks?.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl :
+                                                (profileData?.links?.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl ?
+                                                    profileData?.links?.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl :
                                                     ""))}>
                                             등록
                                         </Violet400BackgroundButton>
@@ -613,17 +614,17 @@ const UserInfoContent = ({
                                 {/* 링크 보기 모드 */}
                                 <ALinkText
                                     style={{ border: '2px solid rgba(255, 255, 255, 0)' }}
-                                    href={(profileData.links.filter(data => data.linkType === `${link.linkType}`)[0] ?
-                                        profileData.links.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl :
+                                    href={(profileData?.links?.filter(data => data.linkType === `${link.linkType}`)[0] ?
+                                        profileData?.links?.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl :
                                         "")}
                                     target="_blank"
                                     rel="noopener noreferrer">
-                                    {(profileData.links.filter(data => data.linkType === `${link.linkType}`)[0] ?
-                                        profileData.links.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl :
+                                    {(profileData?.links?.filter(data => data.linkType === `${link.linkType}`)[0] ?
+                                        profileData?.links?.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl :
                                         "")}
                                 </ALinkText>
-                                <CopyButton copyTarget={(profileData.links.filter(data => data.linkType === `${link.linkType}`)[0] ?
-                                    profileData.links.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl :
+                                <CopyButton copyTarget={(profileData?.links?.filter(data => data.linkType === `${link.linkType}`)[0] ?
+                                    profileData?.links?.filter(data => data.linkType === `${link.linkType}`)[0]?.linkUrl :
                                     "")}>
                                 </CopyButton>
                             </>

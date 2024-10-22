@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import FAQ from "./pages/FAQ";
 import Main from "./pages/Main";
@@ -10,36 +10,60 @@ import Footer from "./components/Footer";
 import { MainContents } from "../src/components/GlobalStyledComponents";
 import Tos from "./pages/TermsOfService";
 import RedirectPage from "./pages/RedirectPage";
+import { getMyProfile, getAlarmsPreview } from './components/Apis/UserApi';
+import LoadingSpinner from "./components/Loading/LoadingSpinner";
+
 
 const App = () => {
-  // 로그인 상태 및 알림 데이터 관리
-  const [isLoggedIn, setIsLoggedIn] = useState(() => {
-    const accessToken = localStorage.getItem('accessToken');
-    return !!accessToken; // accessToken이 있으면 true, 없으면 false
-  });
+  const [isLoggedIn, setIsLoggedIn] = useState(() => !!localStorage.getItem('accessToken'));
+  const [profileData, setProfileData] = useState({});
+  const [alarmsPreviewData, setAlarmsPreviewData] = useState([]);
+  const [loading, setLoading] = useState(false); // 로딩 상태
 
-  const onLogin = () => setIsLoggedIn(true);
-  const offLogin = () => setIsLoggedIn(false);
+  useEffect(() => {
+    const fetchProfile = async () => {
+      if (!isLoggedIn) return; // 로그인 상태가 아닐 때 실행X
+
+      setLoading(true);
+      try {
+        const dataProfile = await getMyProfile(); // 내 프로필 데이터 가져오기
+        const dataAlarmsPreview = await getAlarmsPreview(); // 알람 미리보기 데이터 가져오기
+        setProfileData(dataProfile.data);
+        setAlarmsPreviewData(dataAlarmsPreview.data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProfile();
+  }, [isLoggedIn]);
+
+  const renderWithLoading = (Component, props) => (
+    loading ? <LoadingSpinner /> : <Component {...props} />
+  );
 
   return (
     <Router>
       <Header
         isLoggedIn={isLoggedIn}
-        onLogin={onLogin}
-        offLogin={offLogin}
+        onLogin={() => setIsLoggedIn(true)}
+        offLogin={() => setIsLoggedIn(false)}
+        profileData={profileData}
+        alarmsPreviewData={alarmsPreviewData}
       />
       <MainContents>
         <Routes>
-          <Route path="/" element={<Main />} /> {/* 메인 페이지 */}
-          <Route path="/post/:postId" element={<StudyPage />} /> {/* 스터디 페이지 */}
-          <Route path="/faq" element={<FAQ />} /> {/* FAQ 페이지 */}
-          <Route path="/user" element={<MyPage />} /> {/* 마이페이지 */}
-          <Route path="/write" element={<CreateGroupPage />} /> {/* 글쓰기 페이지 */}
-          <Route path="/tos" element={<Tos />} /> {/* 이용약관 페이지 */}
-          <Route path="/user/my" element={<MyPage />} /> {/* 마이페이지-내가볼때 */}
-          <Route path="/user/:userId" component={<MyPage />} /> {/* 마이페이지-남이볼때 */}
-          <Route path="/post/:postId" component={<StudyPage />} /> {/* 스터디 페이지 */}
-          <Route path="/google/callback" element={<RedirectPage />} />
+          <Route path="/" element={renderWithLoading(Main)} />
+          <Route path="/post/:postId" element={renderWithLoading(StudyPage, { profileData })} />
+          <Route path="/faq" element={renderWithLoading(FAQ)} />
+          <Route path="/write" element={renderWithLoading(CreateGroupPage)} />
+          <Route path="/tos" element={renderWithLoading(Tos)} />
+          <Route path="/user" element={renderWithLoading(MyPage)} />
+          <Route path="/user/my" element={renderWithLoading(MyPage, { profileData })} />
+          <Route path="/user/:userId" element={renderWithLoading(MyPage)} />
+          <Route path="/google/callback" element={renderWithLoading(RedirectPage)} />
         </Routes>
       </MainContents>
       <Footer />

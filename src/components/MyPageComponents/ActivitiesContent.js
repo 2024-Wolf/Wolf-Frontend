@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import { PageContainer, SectionContent, SectionTitle } from "../GlobalStyledComponents";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MainCategory from "../Category/MainCategory";
 import ActivityCardList from "./ActivityCardList";
+import { getGroupPosts } from '../Apis/GroupPostApi';
 
 const activitiesData = {
     applyCards: [{
@@ -49,6 +50,52 @@ const ActivitiesContent = () => {
     const [activeCategory, setActiveCategory] = useState(categories[0]);
 
     const { applyCards, ongoingCards, completedCards } = activitiesData;
+
+    const [groupPostsData, setGroupPostsData] = useState({});
+    const [groupAllPostsData, setGroupAllPostsData] = useState({});
+    const [groupStudyPostsData, setGroupStudyPostsData] = useState({});
+    const [groupProjectPostsData, setGroupProjectPostsData] = useState({});
+    const [groupTypePostsData, setGroupTypePostsData] = useState({});
+    const [type, setType] = useState('all');
+
+    // "all", "study", "project"
+
+    useEffect(() => {
+        const fetchPostData = async () => {
+            try {
+                const AllPost = await getGroupPosts("all"); // 모든 데이터 저장
+                AllPost.data ? setGroupAllPostsData(AllPost.data) : <></>;
+
+                const StudyPost = await getGroupPosts("study"); // 스터디 데이터 저장
+                StudyPost.data ? setGroupStudyPostsData(StudyPost.data) : <></>;
+
+                const ProjectPost = await getGroupPosts("project"); // 프로젝트 데이터 저장
+                ProjectPost.data ? setGroupProjectPostsData(ProjectPost.data) : <></>;
+
+                const TypePost = await getGroupPosts(type); // 타입별 데이터 저장
+                TypePost.data ? setGroupTypePostsData(TypePost.data) : <></>;
+
+
+                // 상태 코드가 200-299 범위인지 확인
+                if ((AllPost.status < 200 || AllPost.status >= 300) ||
+                    (StudyPost.status < 200 || AllPost.status >= 300)
+                        (ProjectPost.status < 200 || AllPost.status >= 300)
+                        (TypePost.status < 200 || AllPost.status >= 300)) {
+                    throw new Error('네트워크 오류');
+                }
+
+            } catch (error) {
+                // 에러 처리: 콘솔에 에러 메시지 출력
+                console.error('데이터 등록 실패:', error);
+            } finally {
+                // 로딩 상태 종료
+                // setLoading(false);
+            }
+        };
+
+        fetchPostData(); // 데이터 가져오기 호출
+    }, []); // postId가 변경될 때마다 실행
+
 
     return (
         <PageContainer>

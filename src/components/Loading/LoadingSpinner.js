@@ -35,7 +35,7 @@ const LoadingSpinerWrapper = styled.div`
 
 
 
-const LoadingSpiner = (props) => {
+const LoadingSpinner = (props) => {
 
     return (
         <LoadingSpinerWrapper>
@@ -47,4 +47,4 @@ const LoadingSpiner = (props) => {
     );
 }
 
-export default LoadingSpiner;
+export default LoadingSpinner;

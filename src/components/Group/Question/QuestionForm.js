@@ -15,6 +15,16 @@ import ImagePreview from "../../Img/ImagePreview";
 import TextAreaNoCss from "../../Input/TextAreaNoCss";
 import React, { useEffect, useState, useRef } from "react";
 import TextAreaBlackLine from "../../Input/TextAreaBlackLine";
+import {
+  getQuestionsWithComments,
+  registerQuestion,
+  updateQuestion,
+  deleteQuestion,
+  registerComment,
+  updateComment,
+  deleteComment,
+  registerReply
+} from '../../Apis/GroupPostApi'; // 위에서 정의한 API 함수가 있는 파일 경로
 
 const CommentSectionWrapper = styled.div`
   padding: 10px;
@@ -22,6 +32,15 @@ const CommentSectionWrapper = styled.div`
   gap: 10px;
   width: 100%;
   flex-direction: column;
+`;
+
+const CommentListWrapper = styled.div`
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  flex-direction: column;
+  max-height: 706px;
+  overflow-y: auto;
 `;
 
 // components/Group/Question/CommentSection.jsx
@@ -67,14 +86,14 @@ const dummyQuestions = [
     author: "gahyun",
     text: "백엔드는 정말 어렵네요. 추가로 공부할만한 책이 있나요?",
     date: "2024.08.28",
-    file: null,
+    file: '',
     comments: [
       {
         id: 3,
         author: "user2",
         text: '맞아요, 백엔드가 어렵긴 하죠. 저는 "백엔드 개발자를 위한 가이드" 같은 책도 추천합니다. 실전에서 사용할 수 있는 사례가 많아서 도움이 될 거예요.',
         date: "2024.08.29",
-        file: null,
+        file: '',
       },
     ],
   },
@@ -83,21 +102,21 @@ const dummyQuestions = [
     author: "myeongju",
     text: "화면 구현이 빨리 끝나야할텐데... 언제까지 가능하신지 댓글로 남겨주세요.",
     date: "2024.09.20",
-    file: null,
+    file: '',
     comments: [
       {
         id: 4,
         author: "user5",
         text: "화면 구현은 주어진 기한 내에 맞춰야 하니, 계획적으로 진행하는 게 중요해요. 저는 보통 일주일 정도의 여유를 두고 작업을 진행합니다.",
         date: "2024.09.21",
-        file: null,
+        file: '',
       },
       {
         id: 5,
         author: "user1",
         text: "저도 그렇게 해요. 의존성 배열을 잘 활용하면 상태 변화에 따라 필요한 업데이트를 쉽게 관리할 수 있으니, 이를 잘 활용하면 시간을 단축할 수 있을 거예요.",
         date: "2024.09.21",
-        file: null,
+        file: '',
       },
     ],
   },
@@ -123,6 +142,8 @@ const Question = ({
   commentFileURL,
   setCommentFileURL,
   showFileOption,
+  questionData,
+  userId
 }) => {
   const [isEditingQuestion, setIsEditingQuestion] = useState(false);
   const [isEditFileComment, setIsEditFileComment] = useState({});
@@ -132,64 +153,66 @@ const Question = ({
   const [questionEditText, setQuestionEditText] = useState("");
   const [commentEditText, setCommentEditText] = useState("");
 
-  const [commentIndex, setCommentIndex] = useState(null);
-
   const [questionEditFile, setQuestionEditFile] = useState(
-    null || question.file
+    '' || questionData.user.userProfileImg
   );
   const [questionFileURL, setQuestionFileURL] = useState("");
   const [questionEditFileURL, setQuestionEditFileURL] = useState("");
 
-  const [commentEditFile, setCommentEditFile] = useState(null);
+  const [commentEditFile, setCommentEditFile] = useState('');
 
-  const [commentEditFileURL, setCommentEditFileURL] = useState("");
 
   const [isEditFile, setIsEditFile] = useState(false);
   const [editingComments, setEditingComments] = useState({}); // 질문 ID를 키로 사용하는 객체
+
+
+
 
   const handleQuestionSubmit = (e) => {
     e.preventDefault();
     const questionValue = new FormData(e.target).get("textareaQuestion");
 
     // 질문 수정 및 파일 첨부
-    onEdit(question.id, {
-      text: questionValue || question.text,
-      file: isEditFile ? questionEditFile : question.file, // 수정했다면 새로운 파일을 사용하고, 그렇지 않으면 기존의 파일을 사용함
+    onEdit(questionData.questionId, {
+      questionDetails: questionValue || questionData.questionDetails,
+      questionImageUrl: isEditFile ? questionEditFile : questionData.questionImageUrl, // 수정했다면 새로운 파일을 사용하고, 그렇지 않으면 기존의 파일을 사용함
+      questionTime: questionData.questionTime, // 기존 시간을 그대로 사용함
     });
     setIsEditingQuestion(false);
-    setQuestionEditFile(null);
+    setQuestionEditFile('');
     setIsEditFile(false);
   };
 
-  const handleCommentSubmit = (e, index) => {
+  const handleCommentSubmit = (e, commentId, index) => {
     e.preventDefault();
     const commentValue = new FormData(e.target).get("textareaComment");
 
-    if (question.comments[index]) {
+    if (questionData.comments[index]) {
       const updatedComment = {
-        ...question.comments[index],
-        text: commentValue || question.comments[index].text,
-        file: isEditFileComment[index]
+        commentDetails: commentValue || questionData.comments[index].commentDetails,
+        commentImageUrl: isEditFileComment[index]
           ? commentEditFile
-          : question.comments[index].file,
+          : questionData.comments[index].commentImageUrl,
+        commentTime: questionData.comments[index].commentTime,
       };
-      onCommentEdit(question.id, index, updatedComment);
-      setCommentIndex(null);
+
+      onCommentEdit(questionData.questionId, commentId, updatedComment);
     } else {
     }
+
     setEditingComments({});
     setIsEditFileComment({});
   };
 
   const startEditQuestion = () => {
     setIsEditingQuestion(true);
-    setQuestionEditText(question.text);
+    setQuestionEditText(questionData.questionDetails);
   };
 
   const cancelEditQuestion = () => {
     setIsEditingQuestion(false);
     setQuestionEditText("");
-    setQuestionEditFile(null);
+    setQuestionEditFile('');
     setIsEditFile(false);
   };
 
@@ -198,22 +221,21 @@ const Question = ({
       ...prev,
       [questionId]: index, // 특정 질문의 댓글 인덱스 저장
     }));
-    setCommentEditText(question.comments[index].text);
-    setCommentEditFile(null);
+    setCommentEditText(questionData.comments[index].commentDetails);
+    setCommentEditFile(questionData.comments[index].commentImageUrl);
     setIsEditFileComment({});
   };
 
-  const cancelEditComment = (index) => {
-    setCommentIndex(null);
+  const cancelEditComment = () => {
     setCommentEditText("");
     setEditingComments({});
     setIsEditFileComment({});
-    setCommentEditFile(null);
+    setCommentEditFile('');
   };
 
   const deleteQuestionEditFile = () => {
     setIsEditFile(true);
-    setQuestionEditFile(null);
+    setQuestionEditFile('');
   };
 
   const addQuestionEditFile = (file) => {
@@ -228,7 +250,7 @@ const Question = ({
       ...prev,
       [index]: true, // 특정 질문의 댓글 인덱스 저장
     }));
-    setCommentEditFile(null);
+    setCommentEditFile('');
   };
 
   const addCommentEditFile = (file, index) => {
@@ -243,15 +265,15 @@ const Question = ({
 
   const handleAddComment = (e) => {
     e.preventDefault();
-    onAddComment(question.id);
+    onAddComment(questionData.questionId);
   };
 
   useEffect(() => {
     let questionURL;
     let questionEditURL;
 
-    if (question.file) {
-      questionURL = URL.createObjectURL(question.file);
+    if (questionData.questionImageUrl) {
+      questionURL = URL.createObjectURL(questionData.questionImageUrl);
       setQuestionFileURL(questionURL);
     } else {
       setQuestionFileURL("");
@@ -272,7 +294,18 @@ const Question = ({
         URL.revokeObjectURL(questionEditURL);
       }
     };
-  }, [question.file, questionEditFile]);
+  }, [questionData.questionImageUrl, questionEditFile]);
+
+  function formatDate(isoString) {
+    const date = new Date(isoString);
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+    const day = String(date.getDate()).padStart(2, '0');
+
+    return `${year}.${month}.${day}`; // 원하는 형식으로 반환
+  }
+
 
   return (
     <>
@@ -282,12 +315,12 @@ const Question = ({
           {/* 사용자 프로필 및 날짜 */}
           <ItemRow>
             <ProfileIcon
-              src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
-              alt="Profile"
+              src={questionData.user.userProfileImg}
+              alt={`${questionData.user.userId}-questionProfileIcon`}
             >
-              {question.author}
+              {questionData?.user.userNickname}
             </ProfileIcon>
-            <QuestionDate>{question.date}</QuestionDate>
+            <QuestionDate>{formatDate(questionData.questionTime)}</QuestionDate>
           </ItemRow>
 
           {/* 편집 상태에 따른 조건부 렌더링 */}
@@ -314,7 +347,7 @@ const Question = ({
                           : questionFileURL
                     }
                     alt={questionEditFileURL ? "" : ""}
-                    imageFile={question.file}
+                    imageFile={questionData.questionImageUrl}
                     isEditing={true}
                     onClick={deleteQuestionEditFile}
                   />
@@ -357,16 +390,16 @@ const Question = ({
               {/* 수정 중이 아닐 때 */}
               <ItemCol>
                 {/* [질문[수정중X]]-텍스트 입력란 */}
-                <TextAreaNoCss value={question.text} readOnly />
+                <TextAreaNoCss value={questionData?.questionDetails} readOnly />
                 {/* [질문[수정중X]]-이미지 미리보기 */}
                 {questionFileURL ? (
                   <>
                     <ImagePreview
-                      imageFile={question.file}
+                      imageFile={questionData?.questionImageUrl}
                       src={questionFileURL}
                       alt={
-                        question.file
-                          ? `preview-${question.file.name}`
+                        questionData?.questionImageUrl
+                          ? `preview-${questionData?.questionImageUrl}`
                           : "preview"
                       }
                     />
@@ -390,17 +423,20 @@ const Question = ({
                 </ItemRow>
                 <ButtonGroupRight>
                   {/* [질문[수정중X]]-수정 & 삭제 버튼 */}
-                  <DoubleButton
-                    leftButtonText={"수정"}
-                    leftButtonOnClick={startEditQuestion}
-                    rightButtonText={"삭제"}
-                    rightButtonOnClick={() => {
-                      if (window.confirm("삭제하시겠습니까?")) {
-                        onDelete(question.id);
-                      }
-                    }}
-                    editing={isEditingQuestion}
-                  />
+                  {/* 질문 글을 작성한 사용자만 수정할 수 있음 */}
+                  {questionData.user.userId == userId ? (<>
+                    <DoubleButton
+                      leftButtonText={"수정"}
+                      leftButtonOnClick={startEditQuestion}
+                      rightButtonText={"삭제"}
+                      rightButtonOnClick={() => {
+                        if (window.confirm("삭제하시겠습니까?")) {
+                          onDelete(questionData?.questionId);
+                        }
+                      }}
+                      editing={isEditingQuestion}
+                    />
+                  </>) : (<></>)}
                 </ButtonGroupRight>
               </ItemRow>
             </>
@@ -411,134 +447,141 @@ const Question = ({
         {isShowComments && (
           <CommentItemContainer>
             <Hr />
-            {question.comments.length === 0 ? (
+            {questionData.comments.length === 0 ? (
               <></>
             ) : (
-              question.comments.map((comment, index) => (
-                <React.Fragment key={comment.id} comment={comment}>
-                  <CommentSectionWrapper>
-                    <ItemRow>
-                      {/* [댓글] 프로필 */}
-                      <ProfileIcon
-                        src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
-                        alt="Profile"
-                      >
-                        {comment.author}
-                      </ProfileIcon>
-                      {/* [댓글] 날짜 */}
-                      <QuestionDate>{comment.date}</QuestionDate>
-                    </ItemRow>
-
-                    {editingComments[question.id] === index ? (
-                      <>
-                        <FormContainer
-                          onSubmit={(e) => handleCommentSubmit(e, index)}
+              <CommentListWrapper>
+                {questionData.comments.map((comment, index) => (
+                  <React.Fragment key={comment.id}>
+                    <CommentSectionWrapper>
+                      <ItemRow>
+                        {/* [댓글] 프로필 */}
+                        <ProfileIcon
+                          src={comment.authorId.userProfileImg}
+                          alt={`${comment.authorId.userId}-commentProfileIcon`}
                         >
-                          <ItemCol>
-                            {/* [댓글[수정중O]]-텍스트 입력란 */}
-                            <TextAreaNoCss
-                              name="textareaComment"
-                              value={comment.text}
-                              editing={editingComments[question.id] === index}
-                              onKeyDown={(e) => handleEnterSubmit(e, true)}
-                              required
-                            />
-                            {(comment.file || commentEditFile) && (
-                              <>
-                                {/* [댓글[수정중O]]-이미지 프리뷰 & 삭제 버튼 */}
+                          {comment.authorId.userNickname}
+                        </ProfileIcon>
+                        {/* [댓글] 날짜 */}
+                        <QuestionDate>{formatDate(comment.commentTime)}</QuestionDate>
+                      </ItemRow>
+
+                      {editingComments[questionData.questionId] === index ? (
+                        <>
+                          <FormContainer
+                            onSubmit={(e) => handleCommentSubmit(e, comment.commentId, index)}
+                          >
+                            <ItemCol>
+                              {/* [댓글[수정중O]]-텍스트 입력란 */}
+                              <TextAreaNoCss
+                                name="textareaComment"
+                                value={comment.commentDetails}
+                                editing={editingComments[questionData.questionId] === index}
+                                onKeyDown={(e) => handleEnterSubmit(e, true)}
+                                required
+                              />
+                              {(comment.commentImageUrl || commentEditFile) && (
+                                <>
+                                  {/* [댓글[수정중O]]-이미지 프리뷰 & 삭제 버튼 */}
+                                  <ImagePreview
+                                    src={
+                                      commentEditFile
+                                        ? URL.createObjectURL(commentEditFile)
+                                        : isEditFileComment[index]
+                                          ? ""
+                                          : URL.createObjectURL(comment.commentImageUrl)
+                                    }
+                                    alt={comment.commentImageUrl ? comment.commentImageUrl : ""}
+                                    imageFile={comment.commentImageUrl}
+                                    isEditing={true}
+                                    questionId={questionData.questionId}
+                                    onClick={() => deleteCommentEditFile(index)} // questionId 전달
+                                  />
+                                </>
+                              )}
+                            </ItemCol>
+                            <ItemRow>
+                              <ButtonGroupRight>
+                                {/* [댓글[수정중O]]-파일 선택 버튼 */}
                                 <ImagePreview
-                                  src={
-                                    commentEditFile
-                                      ? URL.createObjectURL(commentEditFile)
-                                      : isEditFileComment[index]
-                                        ? ""
-                                        : URL.createObjectURL(comment.file)
+                                  isNoCssUploadButtonAppear={showFileOption}
+                                  onChange={(file) =>
+                                    addCommentEditFile(file, index)
                                   }
-                                  alt={comment.file ? comment.file.name : ""}
-                                  imageFile={comment.file}
-                                  isEditing={true}
-                                  questionId={question.id}
-                                  onClick={() => deleteCommentEditFile(index)} // questionId 전달
+                                  onClick={() => deleteCommentEditFile(index)}
+                                  questionId={questionData.questionId}
                                 />
-                              </>
+                                {/* [댓글[수정중O]]-완료 & 취소 버튼 */}
+                                <DoubleButton
+                                  leftButtonText={"완료"}
+                                  leftButtonType={"submit"}
+                                  rightButtonText={"취소"}
+                                  rightButtonType={"button"}
+                                  rightButtonOnClick={() =>
+                                    cancelEditComment(index)
+                                  }
+                                  editing={editingComments[questionData.questionId] === index}
+                                />
+                              </ButtonGroupRight>
+                            </ItemRow>
+                          </FormContainer>
+                        </>
+                      ) : (
+                        <>
+                          <ItemCol>
+                            {/* [댓글[수정중X]]-텍스트 입력란 */}
+                            <TextAreaNoCss
+                              value={comment.commentDetails}
+                              editing={editingComments[questionData.questionId] === index}
+                              readOnly
+                            />
+                            {/* [댓글[수정중X]]-이미지 미리보기 */}
+                            {comment.commentImageUrl && (
+                              <ImagePreview
+                                imageFile={comment.commentImageUrl}
+                                src={URL.createObjectURL(comment.commentImageUrl)}
+                                alt={comment.commentImageUrl}
+                              ></ImagePreview>
                             )}
                           </ItemCol>
                           <ItemRow>
-                            <ButtonGroupRight>
-                              {/* [댓글[수정중O]]-파일 선택 버튼 */}
-                              <ImagePreview
-                                isNoCssUploadButtonAppear={showFileOption}
-                                onChange={(file) =>
-                                  addCommentEditFile(file, index)
-                                }
-                                onClick={() => deleteCommentEditFile(index)}
-                                questionId={question.id}
-                              />
-                              {/* [댓글[수정중O]]-완료 & 취소 버튼 */}
-                              <DoubleButton
-                                leftButtonText={"완료"}
-                                leftButtonType={"submit"}
-                                rightButtonText={"취소"}
-                                rightButtonType={"button"}
-                                rightButtonOnClick={() =>
-                                  cancelEditComment(index)
-                                }
-                                editing={editingComments[question.id] === index}
-                              />
+                            <ButtonGroupRight style={{ minHeight: '25px' }}>
+                              {/* [댓글[수정중X]]-수정 & 삭제 버튼 */}
+                              {/* 댓글을 작성한 사용자만 수정할 수 있음 */}
+                              {comment.authorId.userId == userId ? (<>
+                                <DoubleButton
+                                  leftButtonText={"수정"}
+                                  leftButtonOnClick={() =>
+                                    startEditComment(questionData.questionId, index)
+                                  }
+                                  rightButtonText={"삭제"}
+                                  rightButtonOnClick={() => {
+                                    if (window.confirm("삭제하시겠습니까?")) {
+
+                                      onCommentDelete(questionData.questionId, comment.commentId);
+                                    }
+                                  }}
+                                  editing={editingComments[questionData.questionId] === index}
+                                />
+                              </>) : (<></>)}
+
                             </ButtonGroupRight>
                           </ItemRow>
-                        </FormContainer>
-                      </>
-                    ) : (
-                      <>
-                        <ItemCol>
-                          {/* [댓글[수정중X]]-텍스트 입력란 */}
-                          <TextAreaNoCss
-                            value={comment.text}
-                            editing={editingComments[question.id] === index}
-                            readOnly
-                          />
-                          {/* [댓글[수정중X]]-이미지 미리보기 */}
-                          {comment.file && (
-                            <ImagePreview
-                              imageFile={comment.file}
-                              src={URL.createObjectURL(comment.file)}
-                              alt={comment.file.name}
-                            ></ImagePreview>
-                          )}
-                        </ItemCol>
-                        <ItemRow>
-                          <ButtonGroupRight>
-                            {/* [댓글[수정중X]]-수정 & 삭제 버튼 */}
-                            <DoubleButton
-                              leftButtonText={"수정"}
-                              leftButtonOnClick={() =>
-                                startEditComment(question.id, index)
-                              }
-                              rightButtonText={"삭제"}
-                              rightButtonOnClick={() => {
-                                if (window.confirm("삭제하시겠습니까?")) {
-                                  onCommentDelete(question.id, index);
-                                }
-                              }}
-                              editing={editingComments[question.id] === index}
-                            />
-                          </ButtonGroupRight>
-                        </ItemRow>
-                      </>
-                    )}
-                  </CommentSectionWrapper>
-                  <Hr />
-                </React.Fragment>
-              ))
+                        </>
+                      )}
+                    </CommentSectionWrapper>
+                    <Hr />
+                  </React.Fragment>
+                ))}
+              </CommentListWrapper>
             )}
             <FormContainer onSubmit={(e) => handleAddComment(e)}>
               {/* [댓글] 텍스트 입력창 */}
               <TextAreaBlackLine
                 placeholder="댓글을 적어주세요"
-                value={newComments[question.id] || ""}
+                value={newComments[questionData.questionId] || ""}
                 onChange={(e) =>
-                  handleCommentChange(question.id, e.target.value)
+                  handleCommentChange(questionData.questionId, e.target.value)
                 }
                 onKeyDown={(e) => handleEnterSubmit(e, true)}
                 required
@@ -548,9 +591,9 @@ const Question = ({
                 isEditing={true}
                 isUploadButtonAppear={showFileOption}
                 isSubmitButtonAppear={true}
-                onChange={(file) => handleCommentFileChange(file, question.id)}
-                onClick={() => handleCommentFileDelete(question.id)} // questionId 전달
-                questionId={question.id}
+                onChange={(file) => handleCommentFileChange(file, questionData.questionId)}
+                onClick={() => handleCommentFileDelete(questionData.questionId)}
+                questionId={questionData.questionId}
               />
             </FormContainer>
           </CommentItemContainer>
@@ -561,105 +604,398 @@ const Question = ({
   );
 };
 
-const QuestionForm = ({ showFileOption }) => {
-  {
-    /* 데이터 연결 필요 */
-  }
+
+// 대댓글 컴포넌트
+const Reply = ({ comment, children }) => {
+  return (
+    <div style={{ marginLeft: comment.parentsId ? '20px' : '0', border: '1px solid #ccc', padding: '10px', marginBottom: '10px' }}>
+      <div>
+        <strong>{comment.authorId.userNickname}</strong> <span>{new Date(comment.commentTime).toLocaleString()}</span>
+      </div>
+      <div>{comment.commentDetails}</div>
+      {children}
+    </div>
+  );
+};
+
+
+const data = [{
+  user: {
+    userId: 0,
+    userNickname: 'gahyun',
+    userProfileImg: ''
+  },
+  boardType: "question",
+  questionId: 2,
+  questionDetails: "백엔드는 정말 어렵네요. 추가로 공부할만한 책이 있나요?",
+  questionImageUrl: "",
+  questionTime: "2024-08-28T07:47:55.279Z",
+  comments: [
+    {
+      commentId: 2,
+      parentsId: 0,
+      authorId: {
+        userId: 0,
+        userNickname: 'user2',
+        userProfileImg: ''
+      },
+      commentDetails: "맞아요, 백엔드가 어렵긴 하죠. 저는 '백엔드 개발자를 위한 가이드' 같은 책도 추천합니다. 실전에서 사용할 수 있는 사례가 많아서 도움이 될 거예요",
+      commentImageUrl: "",
+      commentTime: "2024-08-29T07:47:55.279Z"
+    }
+  ]
+},
+{
+  user: {
+    userId: 1,
+    userNickname: 'myeongju',
+    userProfileImg: ''
+  },
+  boardType: "question",
+  questionId: 3,
+  questionDetails: "화면 구현이 빨리 끝나야할텐데... 언제까지 가능하신지 댓글로 남겨주세요.",
+  questionImageUrl: "",
+  questionTime: "2024-09-20T07:47:55.279Z",
+  comments: [
+    {
+      commentId: 3,
+      parentsId: 1,
+      authorId: {
+        userId: 0,
+        userNickname: 'user2',
+        userProfileImg: ''
+      },
+      commentDetails: "화면 구현은 주어진 기한 내에 맞춰야 하니, 계획적으로 진행하는 게 중요해요. 저는 보통 일주일 정도의 여유를 두고 작업을 진행합니다.",
+      commentImageUrl: "",
+      commentTime: "2024-09-21T07:47:55.279Z"
+    },
+    {
+      commentId: 4,
+      parentsId: 1,
+      authorId: {
+        userId: 0,
+        userNickname: 'user2',
+        userProfileImg: ''
+      },
+      commentDetails: "저도 그렇게 해요. 의존성 배열을 잘 활용하면 상태 변화에 따라 필요한 업데이트를 쉽게 관리할 수 있으니, 이를 잘 활용하면 시간을 단축할 수 있을 거예요.",
+      commentImageUrl: "",
+      commentTime: "2024-09-21T07:47:55.279Z"
+    }
+  ]
+}, {
+  user: {
+    userId: 0,
+    userNickname: 'gahyun',
+    userProfileImg: ''
+  },
+  boardType: "question",
+  questionId: 4,
+  questionDetails: "ID가 4인 질문입니다",
+  questionImageUrl: "",
+  questionTime: "2024-08-28T07:47:55.279Z",
+  comments: [
+    {
+      commentId: 5,
+      parentsId: null,
+      authorId: {
+        userId: 0,
+        userNickname: 'user2',
+        userProfileImg: ''
+      },
+      commentDetails: "수정중이에요!",
+      commentImageUrl: "",
+      commentTime: "2024-08-29T07:47:55.279Z"
+    }, {
+      commentId: 6,
+      parentsId: null,
+      authorId: {
+        userId: 0,
+        userNickname: 'user2',
+        userProfileImg: ''
+      },
+      commentDetails: "대댓글이에요!",
+      commentImageUrl: "",
+      commentTime: "2024-08-29T07:47:55.279Z"
+    }, {
+      commentId: 7,
+      parentsId: 6,
+      authorId: {
+        userId: 0,
+        userNickname: 'user2',
+        userProfileImg: ''
+      },
+      commentDetails: "대댓글이에요222!",
+      commentImageUrl: "",
+      commentTime: "2024-08-29T07:47:55.279Z"
+    }, {
+      commentId: 8,
+      parentsId: 7,
+      authorId: {
+        userId: 0,
+        userNickname: 'user2',
+        userProfileImg: ''
+      },
+      commentDetails: "대댓글이에요2!",
+      commentImageUrl: "",
+      commentTime: "2024-08-29T07:47:55.279Z"
+    }, {
+      commentId: 8,
+      parentsId: 7,
+      authorId: {
+        userId: 0,
+        userNickname: 'user2',
+        userProfileImg: ''
+      },
+      commentDetails: "대댓글이에요2!",
+      commentImageUrl: "",
+      commentTime: "2024-08-29T07:47:55.279Z"
+    }, {
+      commentId: 8,
+      parentsId: 7,
+      authorId: {
+        userId: 0,
+        userNickname: 'user2',
+        userProfileImg: ''
+      },
+      commentDetails: "대댓글이에요2!",
+      commentImageUrl: "",
+      commentTime: "2024-08-29T07:47:55.279Z"
+    },
+  ]
+}]
+
+
+const QuestionForm = ({ showFileOption, groupPostId, userId }) => {
+
   const [questions, setQuestions] = useState(dummyQuestions);
   const [newQuestion, setNewQuestion] = useState("");
   const [newComments, setNewComments] = useState({});
-  const [newQuestionFile, setNewQuestionFile] = useState(null);
+  const [newQuestionFile, setNewQuestionFile] = useState("");
   const [newCommentFile, setNewCommentFile] = useState({}); // 각 댓글의 파일 상태
   const [commentFileURL, setCommentFileURL] = useState("");
 
   const currentUser = '사용자';
 
-  const addQuestion = (question) => {
-    if (question.text && question.text.trim()) {
-      setQuestions([...questions, { ...question, id: questions.length + 1, comments: [] }]);
-    }
-  };
+  // -------------------------------
+  const [questionData, setQuestionData] = useState([]);
+  const [pageData, setPageData] = useState([]);
+  const [option, setOption] = useState(showFileOption === false ? 'QUESTION' : 'COMMUNICATION');// question은 정보탭, communication은 회의탭
 
-  const editQuestion = (questionId, updatedQuestion) => {
-    setQuestions(questions.map(q => (q.id === questionId ? { ...q, ...updatedQuestion } : q)));
-  };
-
-  const deleteQuestion = (questionId) => {
-    setQuestions(questions.filter(q => q.id !== questionId));
-  };
-
-
-  const handleAddQuestion = (e) => {
+  // 질문 등록 - 완료
+  const addQuestion = async (e) => {
     e.preventDefault();
     if (newQuestion.trim()) {
-      const newQuestionObj = {
-        id: questions.length + 1,
-        author: currentUser,
-        text: newQuestion,
-        date: new Date().toLocaleDateString(),
-        file: newQuestionFile,
-        comments: [],
-      };
-      addQuestion(newQuestionObj);
-      setNewQuestion('');
-      setNewQuestionFile(null);
+      try {
+        const result = await registerQuestion(groupPostId, option, {
+          questionDetails: newQuestion,
+          questionImageUrl: newQuestionFile,
+          questionTime: new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString()
+        });
+
+        // 상태 코드가 200-299 범위인지 확인
+        if (result.status < 200 || result.status >= 300) {
+          throw new Error('네트워크 오류');
+        }
+
+        alert("질문이 등록되었습니다");
+        setNewQuestion("");
+        setNewQuestionFile("");
+
+      } catch (error) {
+        // setError('질문 등록 실패');
+        console.error(error);
+      } finally {
+        // setIsLoading(false);
+      }
     }
   };
 
+  // 질문 수정 - 완료
+  const editQuestion = async (questionId, updatedQuestion) => {
+    try {
+      const result = await updateQuestion(groupPostId, questionId, {
+        questionDetails: updatedQuestion.questionDetails,
+        questionImageUrl: updatedQuestion.questionImageUrl,
+        questionTime: new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString()
+      });
 
+      // 상태 코드가 200-299 범위인지 확인
+      if (result.status < 200 || result.status >= 300) {
+        throw new Error('네트워크 오류');
+      }
 
-  const handleCommentChange = (key, value) => {
-    setNewComments((prev) => ({
-      ...prev,
-      [key]: value,
-    }));
+      alert("질문이 수정되었습니다");
+
+    } catch (error) {
+      // setError('질문 수정 실패');
+      console.error(error);
+    } finally {
+      // setIsLoading(false);
+    }
   };
 
+  // 질문 삭제 - 완료
+  const eliminationQuestion = async (questionId) => {
 
-  const addComment = (questionId) => {
+    try {
+      const result = await deleteQuestion(groupPostId, questionId);
+
+      // 상태 코드가 200-299 범위인지 확인
+      if (result.status < 200 || result.status >= 300) {
+        throw new Error('네트워크 오류');
+      }
+
+      alert("질문이 삭제되었습니다");
+
+    } catch (error) {
+      // setError('질문 삭제 실패');
+      console.error(error);
+    } finally {
+      // setIsLoading(false);
+    }
+  };
+
+  // 댓글 작성 - 완료
+  const addComment = async (questionId) => {
     const commentText = newComments[questionId];
     const commentFile = newCommentFile[questionId];
 
-    if (commentText && commentText.trim()) {
-      const newComment = {
-        id: Math.floor(Math.random() * 1000), // 임시 ID
-        author: currentUser,
-        text: commentText,
-        date: new Date().toLocaleDateString(),
-        file: commentFile || null,
-      };
-      setQuestions(questions.map(q =>
-        q.id === questionId ? { ...q, comments: [...q.comments, newComment] } : q
-      ));
+    try {
+      const result = await registerComment(groupPostId, questionId, {
+        commentDetails: commentText,
+        commentImageUrl: commentFile || '',
+        commentTime: new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString()
+      })
+
+      // 상태 코드가 200-299 범위인지 확인
+      if (result.status < 200 || result.status >= 300) {
+        throw new Error('네트워크 오류');
+      }
+
+      alert("댓글이 등록되었습니다");
       setNewComments((prev) => ({ ...prev, [questionId]: '' }));
-      setNewCommentFile((prev) => ({ ...prev, [questionId]: null }));
+      setNewCommentFile((prev) => ({ ...prev, [questionId]: '' }));
       setCommentFileURL(''); // 파일 URL 초기화
+
+    } catch (error) {
+      // setError('댓글 등록 실패');
+      console.error(error);
+    } finally {
+      // setIsLoading(false);
+    }
+
+  };
+
+  // 댓글 수정 - 완료
+  const editComment = async (questionId, commentId, updatedComment) => {
+    try {
+      const result = await updateComment(groupPostId, questionId, commentId, {
+        commentDetails: updatedComment.commentDetails,
+        commentImageUrl: updatedComment.commentImageUrl,
+        commentTime: new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString()
+      })
+
+      // 상태 코드가 200-299 범위인지 확인
+      if (result.status < 200 || result.status >= 300) {
+        throw new Error('네트워크 오류');
+      }
+
+      alert("댓글이 수정되었습니다");
+
+    } catch (error) {
+      // setError('댓글 수정 실패');
+      console.error(error);
+    } finally {
+      // setIsLoading(false);
     }
   };
 
+  // 댓글 삭제 - 완료
+  const eliminationComment = async (questionId, commentId) => {
 
+    try {
+      const result = await deleteComment(groupPostId, questionId, commentId)
 
-  const editComment = (questionId, commentIndex, updatedComment) => {
-    setQuestions(questions.map(q =>
-      q.id === questionId
-        ? {
-          ...q,
-          comments: q.comments.map((c, index) => (index === commentIndex ? updatedComment : c))
-        }
-        : q
-    ));
+      // 상태 코드가 200-299 범위인지 확인
+      if (result.status < 200 || result.status >= 300) {
+        throw new Error('네트워크 오류');
+      }
+
+      alert("댓글이 삭제되었습니다");
+
+    } catch (error) {
+      // setError('댓글 삭제 실패');
+      console.error(error);
+    } finally {
+      // setIsLoading(false);
+    }
   };
 
-  const deleteComment = (questionId, commentIndex) => {
-    setQuestions(questions.map(q =>
-      q.id === questionId
-        ? {
-          ...q,
-          comments: q.comments.filter((_, index) => index !== commentIndex)
-        }
-        : q
-    ));
+  // 대댓글 작성 - 프론트에서는 구현되지 않은 부분이라, 개발 보류
+  const addCommentReply = async (questionId, parentCommentId, reply) => {
+
+    try {
+      // const result = await registerReply(groupPostId, questionId, parentCommentId, reply)
+
+      const result = await registerReply(groupPostId, 1, 2, {
+        commentDetails: "string",
+        commentImageUrl: "string",
+        commentTime: "2024-10-21T17:36:23.246Z"
+      })
+
+      // 상태 코드가 200-299 범위인지 확인
+      if (result.status < 200 || result.status >= 300) {
+        throw new Error('네트워크 오류');
+      }
+
+      alert("댓글이 삭제되었습니다");
+
+    } catch (error) {
+      // setError('댓글 삭제 실패');
+      console.error(error);
+    } finally {
+      // setIsLoading(false);
+    }
   };
+
+  // 질문 목록 조회 - 완료
+  // getQuestions(groupId, option, pageable)
+
+
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      try {
+        // setLoading(true);  // 로딩 상태 시작
+        // setError(null);    // 에러 초기화
+
+        const dataQuestions = await getQuestionsWithComments(groupPostId, option);
+
+        setQuestionData(dataQuestions.data.questionResponses); // 질문 데이터 설정
+        setPageData(dataQuestions.data.page) // 질문 페이지 데이터 설정
+
+        setQuestionData(data); // 질문 데이터 설정
+
+        // setAlarmData(dataAlarm.data); // 댓글 데이터 설정
+
+      } catch (err) {
+        // setError('데이터를 불러오는 데 실패했습니다.');
+        console.error(err);
+      } finally {
+        // setLoading(false);  // 로딩 상태 종료
+      }
+    };
+
+    fetchQuestions(); // 질문 가져오기
+  }, []); // groupId가 변경될 때마다 목록을 재조회
+
+
+  const handleCommentChange = (questionId, commentValue) => {
+    setNewComments((prev) => ({
+      ...prev,
+      [questionId]: commentValue,
+    }));
+  };
+
   const handleEnterSubmit = (e, isChild = false) => {
     // alt + enter를 눌렀을 때 줄 바꿈 추가
     if (e.altKey && e.key === 'Enter') {
@@ -692,7 +1028,7 @@ const QuestionForm = ({ showFileOption }) => {
   };
 
   const handleQuestionFileDelete = () => {
-    setNewQuestionFile(null); // 파일 삭제
+    setNewQuestionFile(''); // 파일 삭제
   };
 
 
@@ -716,7 +1052,7 @@ const QuestionForm = ({ showFileOption }) => {
 
   return (
     <>
-      <FormContainer onSubmit={handleAddQuestion}>
+      <FormContainer onSubmit={addQuestion}>
         {/* [질문] 텍스트 입력창 */}
         <TextAreaBlackLine
           placeholder={`enter 로 내용을 등록할 수 있습니다.\n(줄바꿈을 수행하고 싶다면 alt + enter 를 누르세요)\n`} value={newQuestion}
@@ -738,25 +1074,24 @@ const QuestionForm = ({ showFileOption }) => {
       <Hr />
       {/* 질문 목록 */}
       {
-        questions.length === 0 ? (
+        questionData.length === 0 ? (
           <div style={{
-            fontSize: "20px", width: "100%", fontSize: "15px", textAlign: "center",
+            width: "100%", fontSize: "15px", textAlign: "center",
             color: "var(--black200)", padding: "20px 0px",
           }}>
             이 그룹에는 질문이 아직 없습니다
           </div>
         ) : (
-          questions.map((item) => (
+          questionData.map((item, index) => (
             <Question
-              key={item.id}
-              question={item}
+              key={data[index].questionId}
               onEdit={editQuestion}
-              onDelete={deleteQuestion}
+              onDelete={eliminationQuestion}
               onCommentEdit={editComment}
-              onCommentDelete={deleteComment}
+              onCommentDelete={eliminationComment}
               onAddComment={addComment}
               newComments={newComments}
-              newCommentFile={newCommentFile[item.id] || null}
+              newCommentFile={newCommentFile[index] || ''}
               handleCommentChange={handleCommentChange}
               handleEnterSubmit={handleEnterSubmit}
               handleQuestionFileChange={handleQuestionFileChange}
@@ -766,9 +1101,10 @@ const QuestionForm = ({ showFileOption }) => {
               commentFileURL={commentFileURL}
               setCommentFileURL={setCommentFileURL}
               showFileOption={showFileOption}
+              questionData={item}
+              userId={userId}
             />
           ))
-
         )
       }
     </>
