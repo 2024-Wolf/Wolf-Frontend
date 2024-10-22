@@ -6,17 +6,44 @@ import ModalForm from './Modal/ModalForm';
 import CancelIcon from './Icon/CancelIcon';
 import SelectButton from './Button/SelectButton';
 import TextArea from './Input/TextArea'
+import { reportIssue } from "./Apis/ReportApi";  // useNavigate 훅 사용
 
-const Declaration = ({ onSubmit, onClose }) => {
+const Declaration = ({ onSubmit, onClose, targetReportId, reportTopicText }) => {
   const [reason, setReason] = useState('');
-  const [description, setDescription] = useState('');
   const [isFocused, setIsFocused] = useState(false);
+  const [reportReasonText, setReportReasonText] = useState('');
 
-  //textarea
-  const handleSubmit = (e) => {
+  console.log('reportTopicText', reportTopicText);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = { reason, description };
-    onSubmit(data);
+
+    const data = {
+      reportTopic: reportTopicText, // USER, GROUP, REPLY, QUESTION
+      targetId: targetReportId,
+      reportCategoryId: 2,
+      reportReason: reportReasonText,
+    };
+
+    try {
+      // setLoading(true);  // 로딩 상태 시작
+      // setError(null);    // 에러 초기화
+
+      const result = await reportIssue(data); // reportIssue 함수 호출
+
+    } catch (err) {
+      // setError('데이터를 불러오는 데 실패했습니다.');
+      console.error(err);
+    } finally {
+      // setLoading(false);  // 로딩 상태 종료
+    }
+
+    // onSubmit이 함수일 때만 호출
+    if (onSubmit && typeof onSubmit === 'function') {
+      onSubmit(data);
+    } else {
+    }
+
   };
 
   const handleFocus = () => {
@@ -58,8 +85,8 @@ const Declaration = ({ onSubmit, onClose }) => {
 
         {/* 신고 내용 */}
         <TextArea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          value={reportReasonText}
+          onChange={(e) => setReportReasonText(e.target.value)}
           onFocus={handleFocus}
           onBlur={handleBlur}
           placeholder={!isFocused ? '신고 내용을 구체적으로 작성해주세요.' : ''}

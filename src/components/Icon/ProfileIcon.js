@@ -3,6 +3,9 @@ import React, { useRef, useState, useEffect } from 'react';
 import { DropdownContainer } from "../HeaderComponents/HeaderLogin";
 import { DisplayNoneDropdownItem, DropdownContent, DropdownItem } from "../GlobalStyledComponents";
 import { useNavigate } from "react-router-dom";  // useNavigate 훅 사용
+import Declaration from "../Declaration";
+
+
 
 const ProfileIconWrapper = styled.div`
   display: flex;
@@ -28,12 +31,13 @@ const ProfileIcon = ({
   src = "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png",
   alt = "Profile",
   children,
-  userId,
-  targetUserId
+  targetUserId,
+  reportTopicText
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null); // 드롭다운 참조 생성
   const navigate = useNavigate(); // useNavigate 훅을 사용하여 페이지 이동
+  const [isModalOpen, setModalOpen] = useState(false);
 
   const handleProfileClick = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -44,6 +48,8 @@ const ProfileIcon = ({
     setIsDropdownOpen(false);
     window.location.reload();
   };
+
+
 
   // 드롭다운 외부 클릭 시 닫히도록 처리
   useEffect(() => {
@@ -59,6 +65,14 @@ const ProfileIcon = ({
     };
   }, [dropdownRef]);
 
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
   return (
     <>
       <DropdownContainer ref={dropdownRef}>
@@ -72,7 +86,7 @@ const ProfileIcon = ({
             width: '80px'
           }}>
           <DropdownItem onClick={() => handleItemClick(`/user/${targetUserId}`)}>정보보기</DropdownItem>
-          <DropdownItem onClick={() => handleItemClick('/user')}>신고하기</DropdownItem>
+          <DropdownItem onClick={openModal}>신고하기</DropdownItem>
         </DropdownContent>
         {/* 프로필 아이콘 */}
         <ProfileIconWrapper>
@@ -84,6 +98,11 @@ const ProfileIcon = ({
           {children && <UserName>{children}</UserName>}
         </ProfileIconWrapper>
       </DropdownContainer>
+      {isModalOpen &&
+        <Declaration
+          onClose={closeModal}
+          targetReportId={targetUserId}
+          reportTopicText={reportTopicText} />}
     </>
   )
 };

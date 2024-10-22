@@ -130,11 +130,16 @@ const StudyPage = ({ profileData }) => {
           <CategoryMainTitle>{modeRef.current === "study" ? "스터디" : "프로젝트"}</CategoryMainTitle>
           <ReportButton onClick={openModal} />
         </GroupHeaderTop>
-        {isModalOpen && <Declaration onClose={closeModal} />}
+        {isModalOpen && <Declaration
+          onClose={closeModal}
+          reportTopicText={"GROUP"}
+          targetReportId={groupPostData?.groupPostId}
+        />}
         <StudyTitle>{groupPostData?.name}</StudyTitle>
         <StudyDetails>
           <ProfileIcon
-            targetUserId={groupPostData?.leaderUser?.userId}
+            reportTopicText={"USER"}
+            targetReportId={groupPostData?.leaderUser?.userId}
             src={groupPostData?.leaderUser?.userProfileImg}
             alt="Profile">
             {groupPostData?.leaderUser?.userNickname}
