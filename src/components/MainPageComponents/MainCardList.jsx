@@ -24,8 +24,11 @@ const MainCardList = (props) => {
                     title={card.name}
                     deadline={card.endDate}
                     tags={[card.tag]}
-                    // 버튼 text는 그룹 참여 여부에 따라 바뀌어야 함.
-                    buttonText={"신청하기"}
+                    challenge={card.challengeStatus === 'Y' ? 'Y' : null}
+                    profile={{
+                        imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png', //card.leaderUser.userProfileImg ||
+                        name: card.leaderUser.userNickname
+                    }}
                 />
             </CardMapingContainer>
         ));

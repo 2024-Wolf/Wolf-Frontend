@@ -182,7 +182,7 @@ const JobCountInfo = styled.span`
   }
 `;
 
-const GroupContent = ({ contentType = "viewing", groupData }) => {
+const GroupContent = ({ contentType = "viewing", groupData, createGroup }) => {
   const [contentsType, setContentsType] = useState(contentType); // 상태 추가 ('writing', 'editing', 'viewing' 중 하나)
   const navigate = useNavigate();
 
@@ -261,6 +261,11 @@ const GroupContent = ({ contentType = "viewing", groupData }) => {
   const handleSaveClick = () => {
     setContentsType("viewing");
   };
+
+  const handleCreateGroup = (e) => {
+    e.preventDefault();
+    createGroup(newGroupData)
+  }
 
   // 인원 총 합계
   const calculateTotalMemberCount = (recruitmentList) => {
@@ -518,6 +523,7 @@ const GroupContent = ({ contentType = "viewing", groupData }) => {
               id="thumbnail"
               name="thumbnail"
               disabled={contentsType === "viewing"}
+              onChange={(e)=>handleInputChange("fileName", e.name)}
               isUploadButtonAppear={true}
               style={{
                 flexDirection: "column-reverse",
@@ -565,7 +571,7 @@ const GroupContent = ({ contentType = "viewing", groupData }) => {
                     button.label === "지원사유"
                   }
                   onChange={(e) => {
-                    console.log(toggleButtonClick(index));
+                    toggleButtonClick(index);
                   }}
                 >
                   {button.label}
@@ -612,7 +618,9 @@ const GroupContent = ({ contentType = "viewing", groupData }) => {
                   name="totalMemberCount"
                   defaultValue={newGroupData.totalMemberCount}
                   disabled={contentsType === "viewing"}
+                  onChange={(e) => handleInputChange("totalMemberCount", e.target.value)}
                 >
+                  <option value="0">0</option>
                   <option value="1">1</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
@@ -845,7 +853,7 @@ const GroupContent = ({ contentType = "viewing", groupData }) => {
           <>
             {/* writing */}
             {/* 팀원 모집하기 페이지 */}
-            <CompleteButton />
+            <CompleteButton onClick={handleCreateGroup} />
             <CancelButton onClick={() => window.history.back()} />
           </>
         ) : (

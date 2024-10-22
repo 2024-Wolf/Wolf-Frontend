@@ -2,24 +2,25 @@ import axios from "axios";
 import { BASE_URL, Token } from "./Common";
 
 // 그룹 생성
-export function registerGroupPost(groupPost) {
-    axios.post(`${BASE_URL}/post`, {
+export async function registerGroupPost(groupPost) {
+
+    return await axios.post(`${BASE_URL}/post`, {
         name: groupPost.name,
-        leaderUser: groupPost.leader_user,
         type: groupPost.type,
-        startDate: groupPost.start_date,
-        endDate: groupPost.end_date,
-        recruitStartDate: groupPost.recruit_start_date,
-        recruitDeadlineDate: groupPost.recruit_deadline_date,
-        shortIntro: groupPost.short_intro,
-        tag: groupPost.tag,
-        optionalRequirements: groupPost.optional_requirements,
-        targetMembers: groupPost.target_members,
+        startDate: groupPost.startDate,
+        endDate: groupPost.endDate,
+        recruitStartDate: new Date(),
+        recruitDeadlineDate: groupPost.deadLineDate,
+        shortIntro: "한 줄 소개",
+        tag: groupPost.techStack,
+        optionalRequirements: groupPost.optionalRequirements,
+        recruitments: groupPost.recruitments,
+        targetMembers: groupPost.targetMembers,
         thumbnail: groupPost.thumbnail,
         topic: groupPost.topic,
         description: groupPost.description,
         warning: groupPost.warning,
-        challengeStatus: groupPost.challenge_status
+        challengeStatus: 'N'
     }, {
         headers: {
             Authorization: Token.getAccessToken()
@@ -27,10 +28,10 @@ export function registerGroupPost(groupPost) {
     })
         .then(function (response) {
             // 받은 데이터로 수행할 작업
-            console.log(response);
+            return response;
         })
         .catch(function (error) {
-            console.log(error);
+            return error;
         });
 }
 
