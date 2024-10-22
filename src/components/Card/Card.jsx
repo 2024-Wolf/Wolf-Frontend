@@ -68,7 +68,7 @@ export const Button4 = styled.button`
 `;
 
 const Card = ({
-    category, title, deadline, challenge, tags, icons, profile, applicationDate, joinDate, buttonText, data
+    category, title, deadline, challenge, tags, icons, profile, applicationDate, joinDate, buttonText
 }) => {
 
 
