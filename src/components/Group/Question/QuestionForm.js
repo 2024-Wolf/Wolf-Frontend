@@ -80,48 +80,6 @@ const CommentItemContainer = styled.div`
   border-radius: 7px;
 `;
 
-const dummyQuestions = [
-  {
-    id: 1,
-    author: "gahyun",
-    text: "백엔드는 정말 어렵네요. 추가로 공부할만한 책이 있나요?",
-    date: "2024.08.28",
-    file: '',
-    comments: [
-      {
-        id: 3,
-        author: "user2",
-        text: '맞아요, 백엔드가 어렵긴 하죠. 저는 "백엔드 개발자를 위한 가이드" 같은 책도 추천합니다. 실전에서 사용할 수 있는 사례가 많아서 도움이 될 거예요.',
-        date: "2024.08.29",
-        file: '',
-      },
-    ],
-  },
-  {
-    id: 2,
-    author: "myeongju",
-    text: "화면 구현이 빨리 끝나야할텐데... 언제까지 가능하신지 댓글로 남겨주세요.",
-    date: "2024.09.20",
-    file: '',
-    comments: [
-      {
-        id: 4,
-        author: "user5",
-        text: "화면 구현은 주어진 기한 내에 맞춰야 하니, 계획적으로 진행하는 게 중요해요. 저는 보통 일주일 정도의 여유를 두고 작업을 진행합니다.",
-        date: "2024.09.21",
-        file: '',
-      },
-      {
-        id: 5,
-        author: "user1",
-        text: "저도 그렇게 해요. 의존성 배열을 잘 활용하면 상태 변화에 따라 필요한 업데이트를 쉽게 관리할 수 있으니, 이를 잘 활용하면 시간을 단축할 수 있을 거예요.",
-        date: "2024.09.21",
-        file: '',
-      },
-    ],
-  },
-];
-
 // Question 컴포넌트
 const Question = ({
   handleEnterSubmit,
@@ -273,14 +231,14 @@ const Question = ({
     let questionEditURL;
 
     if (questionData.questionImageUrl) {
-      questionURL = URL.createObjectURL(questionData.questionImageUrl);
+      questionURL = questionData.questionImageUrl;
       setQuestionFileURL(questionURL);
     } else {
       setQuestionFileURL("");
     }
 
     if (questionEditFile) {
-      questionEditURL = URL.createObjectURL(questionEditFile);
+      questionEditURL =questionEditFile;
       setQuestionEditFileURL(questionEditURL);
     } else {
       setQuestionEditFileURL("");
@@ -492,10 +450,10 @@ const Question = ({
                                   <ImagePreview
                                     src={
                                       commentEditFile
-                                        ? URL.createObjectURL(commentEditFile)
+                                        ? commentEditFile
                                         : isEditFileComment[index]
                                           ? ""
-                                          : URL.createObjectURL(comment.commentImageUrl)
+                                          : comment.commentImageUrl
                                     }
                                     alt={comment.commentImageUrl ? comment.commentImageUrl : ""}
                                     imageFile={comment.commentImageUrl}
@@ -545,7 +503,7 @@ const Question = ({
                             {comment.commentImageUrl && (
                               <ImagePreview
                                 imageFile={comment.commentImageUrl}
-                                src={URL.createObjectURL(comment.commentImageUrl)}
+                                src={comment.commentImageUrl}
                                 alt={comment.commentImageUrl}
                               ></ImagePreview>
                             )}
@@ -625,155 +583,10 @@ const Reply = ({ comment, children }) => {
 };
 
 
-const data = [{
-  user: {
-    userId: 1,
-    userNickname: 'gahyun',
-    userProfileImg: ''
-  },
-  boardType: "question",
-  questionId: 2,
-  questionDetails: "백엔드는 정말 어렵네요. 추가로 공부할만한 책이 있나요?",
-  questionImageUrl: "",
-  questionTime: "2024-08-28T07:47:55.279Z",
-  comments: [
-    {
-      commentId: 2,
-      parentsId: 0,
-      authorId: {
-        userId: 2,
-        userNickname: 'user2',
-        userProfileImg: ''
-      },
-      commentDetails: "맞아요, 백엔드가 어렵긴 하죠. 저는 '백엔드 개발자를 위한 가이드' 같은 책도 추천합니다. 실전에서 사용할 수 있는 사례가 많아서 도움이 될 거예요",
-      commentImageUrl: "",
-      commentTime: "2024-08-29T07:47:55.279Z"
-    }
-  ]
-},
-{
-  user: {
-    userId: 3,
-    userNickname: 'myeongju',
-    userProfileImg: ''
-  },
-  boardType: "question",
-  questionId: 3,
-  questionDetails: "화면 구현이 빨리 끝나야할텐데... 언제까지 가능하신지 댓글로 남겨주세요.",
-  questionImageUrl: "",
-  questionTime: "2024-09-20T07:47:55.279Z",
-  comments: [
-    {
-      commentId: 3,
-      parentsId: 1,
-      authorId: {
-        userId: 4,
-        userNickname: 'user2',
-        userProfileImg: ''
-      },
-      commentDetails: "화면 구현은 주어진 기한 내에 맞춰야 하니, 계획적으로 진행하는 게 중요해요. 저는 보통 일주일 정도의 여유를 두고 작업을 진행합니다.",
-      commentImageUrl: "",
-      commentTime: "2024-09-21T07:47:55.279Z"
-    },
-    {
-      commentId: 4,
-      parentsId: 1,
-      authorId: {
-        userId: 5,
-        userNickname: 'user2',
-        userProfileImg: ''
-      },
-      commentDetails: "저도 그렇게 해요. 의존성 배열을 잘 활용하면 상태 변화에 따라 필요한 업데이트를 쉽게 관리할 수 있으니, 이를 잘 활용하면 시간을 단축할 수 있을 거예요.",
-      commentImageUrl: "",
-      commentTime: "2024-09-21T07:47:55.279Z"
-    }
-  ]
-}, {
-  user: {
-    userId: 6,
-    userNickname: 'gahyun',
-    userProfileImg: ''
-  },
-  boardType: "question",
-  questionId: 4,
-  questionDetails: "ID가 4인 질문입니다",
-  questionImageUrl: "",
-  questionTime: "2024-08-28T07:47:55.279Z",
-  comments: [
-    {
-      commentId: 5,
-      parentsId: null,
-      authorId: {
-        userId: 7,
-        userNickname: 'user2',
-        userProfileImg: ''
-      },
-      commentDetails: "수정중이에요!",
-      commentImageUrl: "",
-      commentTime: "2024-08-29T07:47:55.279Z"
-    }, {
-      commentId: 6,
-      parentsId: null,
-      authorId: {
-        userId: 8,
-        userNickname: 'user2',
-        userProfileImg: ''
-      },
-      commentDetails: "대댓글이에요!",
-      commentImageUrl: "",
-      commentTime: "2024-08-29T07:47:55.279Z"
-    }, {
-      commentId: 7,
-      parentsId: 6,
-      authorId: {
-        userId: 9,
-        userNickname: 'user2',
-        userProfileImg: ''
-      },
-      commentDetails: "대댓글이에요222!",
-      commentImageUrl: "",
-      commentTime: "2024-08-29T07:47:55.279Z"
-    }, {
-      commentId: 8,
-      parentsId: 7,
-      authorId: {
-        userId: 10,
-        userNickname: 'user2',
-        userProfileImg: ''
-      },
-      commentDetails: "대댓글이에요2!",
-      commentImageUrl: "",
-      commentTime: "2024-08-29T07:47:55.279Z"
-    }, {
-      commentId: 8,
-      parentsId: 7,
-      authorId: {
-        userId: 11,
-        userNickname: 'user2',
-        userProfileImg: ''
-      },
-      commentDetails: "대댓글이에요2!",
-      commentImageUrl: "",
-      commentTime: "2024-08-29T07:47:55.279Z"
-    }, {
-      commentId: 8,
-      parentsId: 7,
-      authorId: {
-        userId: 12,
-        userNickname: 'user2',
-        userProfileImg: ''
-      },
-      commentDetails: "대댓글이에요2!",
-      commentImageUrl: "",
-      commentTime: "2024-08-29T07:47:55.279Z"
-    },
-  ]
-}]
-
 
 const QuestionForm = ({ showFileOption, groupPostId, userId }) => {
 
-  const [questions, setQuestions] = useState(dummyQuestions);
+  const [questions, setQuestions] = useState(null);
   const [newQuestion, setNewQuestion] = useState("");
   const [newComments, setNewComments] = useState({});
   const [newQuestionFile, setNewQuestionFile] = useState("");
@@ -979,7 +792,7 @@ const QuestionForm = ({ showFileOption, groupPostId, userId }) => {
         setQuestionData(dataQuestions.data.questionResponses); // 질문 데이터 설정
         setPageData(dataQuestions.data.page) // 질문 페이지 데이터 설정
 
-        setQuestionData(data); // 질문 데이터 설정
+        // setQuestionData(data); // 질문 데이터 설정
 
         // setAlarmData(dataAlarm.data); // 댓글 데이터 설정
 
@@ -1090,7 +903,7 @@ const QuestionForm = ({ showFileOption, groupPostId, userId }) => {
         ) : (
           questionData.map((item, index) => (
             <Question
-              key={data[index].questionId}
+              key={item.questionId}
               onEdit={editQuestion}
               onDelete={eliminationQuestion}
               onCommentEdit={editComment}
