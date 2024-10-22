@@ -1,41 +1,37 @@
 import styled from 'styled-components';
 
-import { CardInfo, CardTitle, CardContainer } from "../GlobalStyledComponents";
+import { CardInfo, CardTitle, CardContainer, Container3, Top, Bottom, Title5, Date, Button5 } from "../GlobalStyledComponents";
 
-import React from "react";
+import React, { useEffect } from "react";
 import Tag from './Tag';
 import Profile from './Profile';
 import CardThumbnail from './CardThumbnail';
 import MiniIcon from "../Icon/MiniIcon";
+import WebFont from "webfontloader";
 
 
 // components/Card/Card.jsx
 export const Date2 = styled.div`
     font-size: 12px;
-
     @media (max-width: 768px) {
         font-size: 11px;
     }
-
     @media (max-width: 480px) {
         font-size: 10px;
     }
 `;
-
 // components/Card/Card.jsx
 export const BottomInfo = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 5px;
-
     @media (max-width: 480px) {
         flex-direction: column;
         align-items: flex-start;
         gap: 5px;
     }
 `;
-
 // components/Card/Card.jsx
 export const Tags = styled.div`
     display: flex;
@@ -57,67 +53,58 @@ export const CardBody = styled.div`
     padding: 10px;
     height: 100%;
 `;
-
 // components/Card/Card.jsx
 export const Button4 = styled.button`
-    width: 80%;
-    margin: 0px auto;
     padding: 5px 10px;
     border-radius: 5px;
     background-color: var(--violet000);
     border: 1px solid var(--violet400);
     color: var(--black700);
     font-size: 12px;
-
     @media (max-width: 768px) {
     }
-
     @media (max-width: 480px) {
-    }
-
-    &:hover{
-        background: var(--violet300);
     }
 `;
 
-const Card = ({ data }) => {
+const Card = ({
+    category, title, deadline, challenge, tags, icons, profile, applicationDate, joinDate, buttonText, data
+}) => {
 
-    function handleButtonClick(e){
-        e.stopPropagation();
-        alert("신청 버튼 클릭");
-    }
 
     return (
-        <CardContainer>
-            <CardThumbnail category={data.type} />
-            <CardBody>
-                <CardInfo>
-                    <span>{`마감일 | ${data.endDate}`}</span>
-                    {data.challenge && <span className="challenge">챌린지 포함🔥</span>}
-                </CardInfo>
-                <CardTitle>{data.name}</CardTitle>
-                <Tags>
-                    {data.icons && data.icons.map((icon, idx) => (
-                        <MiniIcon key={idx} src={icon.src} alt={icon.alt} />
-                    ))}
-                    {data.tag &&
-                        <Tag tag={data.tag} />
+        <>
+            <CardContainer>
+                <CardThumbnail category={category} />
+                <CardBody>
+                    <CardInfo>
+                        <span>{`마감일 | ${deadline}`}</span>
+                        {challenge && <span className="challenge">챌린지 포함🔥</span>}
+                    </CardInfo>
+                    <CardTitle>{title}</CardTitle>
+                    <Tags>
+                        {icons && icons.map((icon, idx) => (
+                            <MiniIcon key={idx} src={icon.src} alt={icon.alt} />
+                        ))}
+                        {tags && tags.map((tag, idx) => (
+                            <Tag key={idx} tag={tag} />
+                        ))}
+                    </Tags>
+                    {profile ? (
+                        <Profile imgSrc={profile.imgSrc} name={profile.name} />
+                    ) : null
                     }
-                </Tags>
-                {data.profile ? (
-                    <Profile imgSrc={data.profile.imgSrc} name={data.profile.name} />
-                ) : null
-                }
-                <BottomInfo>
-                    {data.applicationDate ? (
-                        <Date2>{`신청일: ${data.applicationDate}`}</Date2>
-                    ) : data.joinDate ? (
-                        <Date2>{`합류일: ${data.joinDate}`}</Date2>
-                    ) : null}
-                    <Button4 onClick={handleButtonClick}>신청하기</Button4>
-                </BottomInfo>
-            </CardBody>
-        </CardContainer>
+                    <BottomInfo>
+                        {applicationDate ? (
+                            <Date2>{`신청일: ${applicationDate}`}</Date2>
+                        ) : joinDate ? (
+                            <Date2>{`합류일: ${joinDate}`}</Date2>
+                        ) : null}
+                        {buttonText && <Button4>{buttonText}</Button4>}
+                    </BottomInfo>
+                </CardBody>
+            </CardContainer>
+        </>
     );
 };
 
