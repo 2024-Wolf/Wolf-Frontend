@@ -42,6 +42,7 @@ const ProfileIcon = ({
   const handleItemClick = (item) => {
     navigate(item);
     setIsDropdownOpen(false);
+    window.location.reload();
   };
 
   // 드롭다운 외부 클릭 시 닫히도록 처리
@@ -61,6 +62,18 @@ const ProfileIcon = ({
   return (
     <>
       <DropdownContainer ref={dropdownRef}>
+        {/* 드롭다운창 */}
+        <DropdownContent
+          isDropdownOpen={isDropdownOpen}
+          style={{
+            minWidth: '0',
+            left: '0px',
+            top: 'calc(100%)',
+            width: '80px'
+          }}>
+          <DropdownItem onClick={() => handleItemClick(`/user/${targetUserId}`)}>정보보기</DropdownItem>
+          <DropdownItem onClick={() => handleItemClick('/user')}>신고하기</DropdownItem>
+        </DropdownContent>
         {/* 프로필 아이콘 */}
         <ProfileIconWrapper>
           <ProfileIconImg
@@ -70,17 +83,6 @@ const ProfileIcon = ({
           />
           {children && <UserName>{children}</UserName>}
         </ProfileIconWrapper>
-        {/* 드롭다운창 */}
-        <DropdownContent
-          isDropdownOpen={isDropdownOpen}
-          style={{
-            minWidth: 'auto',
-            right: '0px',
-            top: 'calc(100%)'
-          }}>
-          <DropdownItem onClick={() => handleItemClick(`/user/${targetUserId}`)}>정보보기</DropdownItem>
-          <DropdownItem onClick={() => handleItemClick('/user')}>신고하기</DropdownItem>
-        </DropdownContent>
       </DropdownContainer>
     </>
   )

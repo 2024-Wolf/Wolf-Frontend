@@ -623,7 +623,7 @@ const Reply = ({ comment, children }) => {
 
 const data = [{
   user: {
-    userId: 0,
+    userId: 1,
     userNickname: 'gahyun',
     userProfileImg: ''
   },
@@ -637,7 +637,7 @@ const data = [{
       commentId: 2,
       parentsId: 0,
       authorId: {
-        userId: 0,
+        userId: 2,
         userNickname: 'user2',
         userProfileImg: ''
       },
@@ -649,7 +649,7 @@ const data = [{
 },
 {
   user: {
-    userId: 1,
+    userId: 3,
     userNickname: 'myeongju',
     userProfileImg: ''
   },
@@ -663,7 +663,7 @@ const data = [{
       commentId: 3,
       parentsId: 1,
       authorId: {
-        userId: 0,
+        userId: 4,
         userNickname: 'user2',
         userProfileImg: ''
       },
@@ -675,7 +675,7 @@ const data = [{
       commentId: 4,
       parentsId: 1,
       authorId: {
-        userId: 0,
+        userId: 5,
         userNickname: 'user2',
         userProfileImg: ''
       },
@@ -686,7 +686,7 @@ const data = [{
   ]
 }, {
   user: {
-    userId: 0,
+    userId: 6,
     userNickname: 'gahyun',
     userProfileImg: ''
   },
@@ -700,7 +700,7 @@ const data = [{
       commentId: 5,
       parentsId: null,
       authorId: {
-        userId: 0,
+        userId: 7,
         userNickname: 'user2',
         userProfileImg: ''
       },
@@ -711,7 +711,7 @@ const data = [{
       commentId: 6,
       parentsId: null,
       authorId: {
-        userId: 0,
+        userId: 8,
         userNickname: 'user2',
         userProfileImg: ''
       },
@@ -722,7 +722,7 @@ const data = [{
       commentId: 7,
       parentsId: 6,
       authorId: {
-        userId: 0,
+        userId: 9,
         userNickname: 'user2',
         userProfileImg: ''
       },
@@ -733,7 +733,7 @@ const data = [{
       commentId: 8,
       parentsId: 7,
       authorId: {
-        userId: 0,
+        userId: 10,
         userNickname: 'user2',
         userProfileImg: ''
       },
@@ -744,7 +744,7 @@ const data = [{
       commentId: 8,
       parentsId: 7,
       authorId: {
-        userId: 0,
+        userId: 11,
         userNickname: 'user2',
         userProfileImg: ''
       },
@@ -755,7 +755,7 @@ const data = [{
       commentId: 8,
       parentsId: 7,
       authorId: {
-        userId: 0,
+        userId: 12,
         userNickname: 'user2',
         userProfileImg: ''
       },

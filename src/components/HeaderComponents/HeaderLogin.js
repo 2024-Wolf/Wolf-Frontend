@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { UserWrapper, DropdownContent, DropdownItem, DisplayNoneDropdownItem } from "../GlobalStyledComponents";
 import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, redirect, useNavigate } from 'react-router-dom';
 import BellIcon from '../Icon/BellIcon';
 import DropdownIcon from '../Icon/DropdownIcon';
 import AlramPreview from '../AlramPreview';
@@ -89,7 +89,8 @@ function HeaderLogin({ isLoggedIn, openModal, offLogin, profileData, alarmsPrevi
                 setIsDropdownOpen(false); // 드롭다운을 닫습니다.
                 setIsAlarmOpen(prev => !prev); // 알림창을 토글합니다.
             } else if (action === 'profile') {
-                navigate(`/user/my`)
+                navigate('/user/my', { replace: true });// 내 프로필 페이지로 이동
+                window.location.reload();
             } else if (action === 'dropdown') {
                 setIsAlarmOpen(false); // 알림창 닫기
                 setIsDropdownOpen(prev => !prev); // 드롭다운 상태 토글

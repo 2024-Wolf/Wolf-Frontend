@@ -179,7 +179,6 @@ function Header({ isLoggedIn, onLogin, offLogin, profileData, alarmsPreviewData 
         />
       </div>
 
-
       {/* 로그인/회원가입 모달 */}
       {isModalOpen && (
         <ModalContainer onClose={closeModal}>
