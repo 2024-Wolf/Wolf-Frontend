@@ -315,6 +315,7 @@ const Question = ({
           {/* 사용자 프로필 및 날짜 */}
           <ItemRow>
             <ProfileIcon
+              targetUserId={questionData.user.userId}
               src={questionData.user.userProfileImg}
               alt={`${questionData.user.userId}-questionProfileIcon`}
             >
@@ -457,6 +458,7 @@ const Question = ({
                       <ItemRow>
                         {/* [댓글] 프로필 */}
                         <ProfileIcon
+                          targetUserId={comment.authorId.userId}
                           src={comment.authorId.userProfileImg}
                           alt={`${comment.authorId.userId}-commentProfileIcon`}
                         >

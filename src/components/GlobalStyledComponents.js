@@ -1359,6 +1359,7 @@ export const DropdownItem = styled.a`
   text-decoration: none;
   text-align: center;
   border-radius: 10px;
+  text-wrap: nowrap;
   &:hover {
     background-color: var(--black100);
   }

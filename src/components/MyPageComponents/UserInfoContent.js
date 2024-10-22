@@ -356,8 +356,8 @@ const UserInfoContent = ({
                                             placeholder="닉네임을 입력해주세요"
                                             readOnly={!(contentsType === 'myselfEditing')}
                                             value={isEditing ?
-                                                (newProfileData["nickname"] ? newProfileData["nickname"] : "") :
-                                                (profileData["nickname"] ? profileData["nickname"] : "")}
+                                                (newProfileData?.nickname ? newProfileData?.nickname : "") :
+                                                (profileData?.nickname ? profileData?.nickname : "")}
                                             onChange={(e) => handleInputChange('nickname', e.target.value)}
                                             required
                                         />
@@ -414,8 +414,8 @@ const UserInfoContent = ({
                                         placeholder="환불 계좌를 입력해주세요"
                                         readOnly={!(contentsType === 'myselfEditing')}
                                         value={isEditing ?
-                                            (newProfileData["refundAccount"] ? newProfileData["refundAccount"] : "") :
-                                            (profileData["refundAccount"] ? profileData["refundAccount"] : "")}
+                                            (newProfileData?.refundAccount ? newProfileData?.refundAccount : "") :
+                                            (profileData?.refundAccount ? profileData?.refundAccount : "")}
                                         onChange={(e) => handleInputChange('refundAccount', e.target.value)}
                                     />
                                 </Row>
@@ -434,8 +434,8 @@ const UserInfoContent = ({
                                             readOnly={true}
                                             placeholder="이메일은 필수값입니다"
                                             value={isEditing ?
-                                                (newProfileData["email"] ? newProfileData["email"] : "") :
-                                                (profileData["email"] ? profileData["email"] : "")}
+                                                (newProfileData?.email ? newProfileData?.email : "") :
+                                                (profileData?.email ? profileData?.email : "")}
                                             onChange={(e) => handleInputChange('email', e.target.value)}
                                         />
                                     </Row>
@@ -450,8 +450,8 @@ const UserInfoContent = ({
                                         placeholder="이름을 입력해주세요"
                                         readOnly={!(contentsType === 'myselfEditing')}
                                         value={isEditing ?
-                                            (newProfileData["name"] ? newProfileData["name"] : "") :
-                                            (profileData["name"] ? profileData["name"] : "")}
+                                            (newProfileData?.name ? newProfileData?.name : "") :
+                                            (profileData?.name ? profileData?.name : "")}
                                         onChange={(e) => handleInputChange('name', e.target.value)}
                                         required
                                     />
@@ -462,7 +462,7 @@ const UserInfoContent = ({
                             <Div>
                                 <Label>활동 점수</Label>
                                 <Row>
-                                    <ActivityScoreBar activityMetricData={profileData.activityMetric} />
+                                    <ActivityScoreBar activityMetricData={profileData?.activityMetric} />
                                 </Row>
                             </Div>
                         </Column>
@@ -482,8 +482,8 @@ const UserInfoContent = ({
                                 type="text"
                                 readOnly={!(contentsType === 'myselfEditing')}
                                 value={isEditing ?
-                                    (newProfileData["jobTitle"] ? newProfileData["jobTitle"] : "") :
-                                    (profileData["jobTitle"] ? profileData["jobTitle"] : "")}
+                                    (newProfileData?.jobTitle ? newProfileData?.jobTitle : "") :
+                                    (profileData?.jobTitle ? profileData?.jobTitle : "")}
                                 onChange={(e) => handleInputChange('jobTitle', e.target.value)}
                             />
                         </Row>
@@ -496,8 +496,8 @@ const UserInfoContent = ({
                                 placeholder="소속을 입력하세요"
                                 readOnly={!(contentsType === 'myselfEditing')}
                                 value={isEditing ?
-                                    (newProfileData["organization"] ? newProfileData["organization"] : "") :
-                                    (profileData["organization"] ? profileData["organization"] : "")}
+                                    (newProfileData?.organization ? newProfileData?.organization : "") :
+                                    (profileData?.organization ? profileData?.organization : "")}
                                 onChange={(e) => handleInputChange('organization', e.target.value)}
                             />
                         </Row>
@@ -511,8 +511,8 @@ const UserInfoContent = ({
                                 style={{ textAlign: 'start', }}
                                 readOnly={!(contentsType === 'myselfEditing')}
                                 value={isEditing ?
-                                    (newProfileData["experience"] ? newProfileData["experience"] : "") :
-                                    (profileData["experience"] ? profileData["experience"] : "")}
+                                    (newProfileData?.experience ? newProfileData?.experience : "") :
+                                    (profileData?.experience ? profileData?.experience : "")}
                                 onChange={(e) => handleInputChange('experience', e.target.value)}
                                 min={0}
                                 max={100}
@@ -535,8 +535,8 @@ const UserInfoContent = ({
                         <TextArea
                             placeholder="자기 소개를 입력해주세요"
                             value={isEditing ?
-                                (newProfileData["introduction"] ? newProfileData["introduction"] : "WOLF에서 함께 성장하고 새로운 도전에 나서고 싶습니다!") :
-                                (profileData["introduction"] ? profileData["introduction"]
+                                (newProfileData?.introduction ? newProfileData?.introduction : "WOLF에서 함께 성장하고 새로운 도전에 나서고 싶습니다!") :
+                                (profileData?.introduction ? profileData?.introduction
                                     : 'WOLF에서 함께 성장하고 새로운 도전에 나서고 싶습니다!')}
                             onChange={(e) => handleInputChange("introduction", e.target.value)}
                             disabled={!(contentsType === 'myselfEditing')}
