@@ -168,7 +168,15 @@ function Header({ isLoggedIn, onLogin, offLogin, profileData, alarmsPreviewData 
     <HeaderContainer>
       <HeaderLogo href="/">WOLF</HeaderLogo>
       <div style={{ display: 'flex', gap: '10px' }}>
-        <HeaderCreateGroupButton onClick={() => navigate('/write')}>팀원 모집하기</HeaderCreateGroupButton>
+      {isLoggedIn ? ( // 로그인 상태 확인
+        <HeaderCreateGroupButton onClick={() => navigate('/write')}>
+          팀원 모집하기
+        </HeaderCreateGroupButton>
+      ) : (
+        <HeaderCreateGroupButton onClick={openModal}> // 로그인 모달 열기
+          팀원 모집하기
+        </HeaderCreateGroupButton>
+      )}
         <HeaderFaqButton onClick={() => navigate('/faq')}>FAQ</HeaderFaqButton>
         <HeaderLogin
           isLoggedIn={isLoggedIn}
