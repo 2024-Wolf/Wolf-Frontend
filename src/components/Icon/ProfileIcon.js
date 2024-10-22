@@ -32,7 +32,8 @@ const ProfileIcon = ({
   alt = "Profile",
   children,
   targetUserId,
-  reportTopicText
+  reportTopicText,
+  userId
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null); // 드롭다운 참조 생성
@@ -40,11 +41,26 @@ const ProfileIcon = ({
   const [isModalOpen, setModalOpen] = useState(false);
 
   const handleProfileClick = () => {
-    setIsDropdownOpen(!isDropdownOpen);
+
+    if (userId && (userId === targetUserId)) {
+      // user/my
+      navigate('/user/my');
+    } else if (targetUserId && (userId !== targetUserId)) {
+      // user/userId
+      setIsDropdownOpen(!isDropdownOpen);
+    }
   }
 
   const handleItemClick = (item) => {
-    navigate(item);
+
+    if (userId && (userId === targetUserId)) {
+      // user/my
+      navigate('/user/my');
+    } else if (targetUserId && (userId !== targetUserId)) {
+      // user/userId
+      navigate(item);
+    }
+
     setIsDropdownOpen(false);
     window.location.reload();
   };
@@ -83,7 +99,7 @@ const ProfileIcon = ({
             minWidth: '0',
             left: '0px',
             top: 'calc(100%)',
-            width: '80px'
+            width: '100px'
           }}>
           <DropdownItem onClick={() => handleItemClick(`/user/${targetUserId}`)}>정보보기</DropdownItem>
           <DropdownItem onClick={openModal}>신고하기</DropdownItem>

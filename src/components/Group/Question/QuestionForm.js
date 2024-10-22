@@ -315,6 +315,7 @@ const Question = ({
           {/* 사용자 프로필 및 날짜 */}
           <ItemRow>
             <ProfileIcon
+              userId={userId}
               reportTopicText={"QUESTION"}
               targetUserId={questionData.user.userId}
               src={questionData.user.userProfileImg}
@@ -459,6 +460,7 @@ const Question = ({
                       <ItemRow>
                         {/* [댓글] 프로필 */}
                         <ProfileIcon
+                          userId={userId}
                           reportTopicText={"REPLY"}
                           targetUserId={comment.authorId.userId}
                           src={comment.authorId.userProfileImg}

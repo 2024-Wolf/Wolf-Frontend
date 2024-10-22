@@ -138,8 +138,9 @@ const StudyPage = ({ profileData }) => {
         <StudyTitle>{groupPostData?.name}</StudyTitle>
         <StudyDetails>
           <ProfileIcon
+            userId={profileData?.id}
             reportTopicText={"USER"}
-            targetReportId={groupPostData?.leaderUser?.userId}
+            targetUserId={groupPostData?.leaderUser?.userId}
             src={groupPostData?.leaderUser?.userProfileImg}
             alt="Profile">
             {groupPostData?.leaderUser?.userNickname}

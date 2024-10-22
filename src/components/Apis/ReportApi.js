@@ -14,7 +14,7 @@ export const reportIssue = async (report) => {
     };
 
     try {
-        const response = await axiosInstance.post(`${BASE_URL}/api/v1/reports`, params,
+        const response = await axiosInstance.post(`${BASE_URL}/reports`, params,
             {
                 headers: {
                     Authorization: Token.getAccessToken() // 인증 헤더 추가
@@ -24,5 +24,23 @@ export const reportIssue = async (report) => {
     } catch (error) {
         console.error('신고하기 실패:', error);
         throw error; // 에러 발생 시 throw
+    }
+};
+
+
+// 신고 카테고리 전체 조회
+export const getReportCategories = async () => {
+
+    try {
+        const response = await axiosInstance.get(`${BASE_URL}/reports/categories`,
+            {
+                headers: {
+                    Authorization: Token.getAccessToken()
+                }
+            });
+        return response.data;
+    } catch (error) {
+        console.error('신고 카테고리 전체 조회 실패:', error);
+        throw error;
     }
 };

@@ -1,36 +1,56 @@
 import styled from 'styled-components';
 import { ModalContainer2, Title3, Description, Form, Select, ButtonGroupCenter, SubmitButton, CancelButton, ModalContentWrapper, ModalHeader, CategoryMainTitle, Violet500LineButton } from "./GlobalStyledComponents";
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ModalForm from './Modal/ModalForm';
 import CancelIcon from './Icon/CancelIcon';
 import SelectButton from './Button/SelectButton';
 import TextArea from './Input/TextArea'
-import { reportIssue } from "./Apis/ReportApi";  // useNavigate 훅 사용
+import { reportIssue, getReportCategories } from "./Apis/ReportApi";  // useNavigate 훅 사용
 
 const Declaration = ({ onSubmit, onClose, targetReportId, reportTopicText }) => {
   const [reason, setReason] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [reportReasonText, setReportReasonText] = useState('');
+  const [categories, setCategories] = useState([]);
 
-  console.log('reportTopicText', reportTopicText);
 
+  // 전체 카테고리 목록 불러오기
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const result = await getReportCategories();
+        setCategories(result.data);
+
+      } catch (err) {
+        // setError('데이터를 불러오는 데 실패했습니다.');
+        console.error(err);
+      } finally {
+        // setLoading(false);  // 로딩 상태 종료
+      }
+    };
+    fetchCategories();
+  }, []);
+
+
+
+  // 신고하기 제출
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const data = {
       reportTopic: reportTopicText, // USER, GROUP, REPLY, QUESTION
       targetId: targetReportId,
-      reportCategoryId: 2,
+      reportCategoryId: reason,
       reportReason: reportReasonText,
     };
 
     try {
       // setLoading(true);  // 로딩 상태 시작
       // setError(null);    // 에러 초기화
-
       const result = await reportIssue(data); // reportIssue 함수 호출
-
+      alert('신고가 정상적으로 접수되었습니다.')
+      onClose();
     } catch (err) {
       // setError('데이터를 불러오는 데 실패했습니다.');
       console.error(err);
@@ -69,18 +89,20 @@ const Declaration = ({ onSubmit, onClose, targetReportId, reportTopicText }) => 
       />
       <ModalContentWrapper>
         <ModalHeader>
-          <CategoryMainTitle>신고하기</CategoryMainTitle>
+          <CategoryMainTitle>{reportTopicText} 신고하기</CategoryMainTitle>
           <Description>
             악의적이고 반복적인 신고는 회원정지 등의 제재 사유가 될 수 있습니다. 신중하게 작성해주세요!
           </Description>
         </ModalHeader>
-
         {/* 신고 사유 */}
-        <SelectButton value={reason} onChange={(e) => setReason(e.target.value)} required>
+        <SelectButton
+          value={reason}
+          onChange={(e) => setReason(e.target.value)}
+          required>
           <option value="" disabled>신고 사유를 선택해주세요</option>
-          <option value="부적절한 내용">부적절한 내용</option>
-          <option value="사기">사기</option>
-          <option value="스팸">스팸</option>
+          {categories?.map((category) => (
+            <option key={category?.id} value={category?.id}>{category?.category}</option> // key와 value 설정
+          ))}
         </SelectButton>
 
         {/* 신고 내용 */}
