@@ -8,6 +8,7 @@ import PaginatedList from '../components/Pagination/PaginatedList';
 import React, { useEffect, useState } from 'react';
 import FAQTab from "../components/Tab/FAQTab";
 import { getFaqByCategory } from "../components/Apis/FaqApi";
+import ErrorUI from "../components/Error/ErrorUI";
 
 const FAQContainer = styled.div`
     display: flex;
@@ -89,6 +90,7 @@ const FAQ = () => {
   const [openQuestion, setOpenQuestion] = useState(null); // 하나의 질문만 열리도록 설정
   const [currentPage, setCurrentPage] = useState(1); // 최근 페이지 번호
   const [faqData, setFaqData] = useState([]);
+  const [error, setError] = useState(null);
 
 
   const toggleQuestion = (index) => {
@@ -100,8 +102,8 @@ const FAQ = () => {
       .then((data) => {
         setFaqData(data.data.faqItems); // 받아온 FAQ 데이터를 상태로 설정
       })
-      .catch((error) => {
-        console.error("Error fetching FAQ:", error);
+      .catch(() => {
+        setError("FAQ 데이터를 불러올 수 없습니다.");
       })
   };
   useEffect(() => {
@@ -113,9 +115,14 @@ const FAQ = () => {
 
   const changeTab = (tabLabel) => {
     const selectedTab = FaqCategories.find(category => category.label === tabLabel);
-    setActiveTab(selectedTab.value);
-    setOpenQuestion(null); // 탭 변경 시 열려 있는 질문 해제
-    setCurrentPage(1);
+
+    if (selectedTab) {
+      setActiveTab(selectedTab.value); // 백엔드와 주고받을 때는 value 사용
+      setOpenQuestion(null); // 탭 변경 시 열려 있는 질문 해제
+      setCurrentPage(1); // 탭 변경 시 페이지 초기화
+    } else {
+      console.error(`Invalid tab label: ${tabLabel}`);
+    }
   };
 
   const renderItems = (items) => (
@@ -134,14 +141,19 @@ const FAQ = () => {
     ))
   );
 
+  // 에러 발생 UI
+  if (error) {
+    return <ErrorUI error={error} />;
+  }
+
   return (
     <FAQContainer>
       <PageTitle>FAQ</PageTitle>
       <FAQContent>
         <FAQTab
-          tab={FaqCategories.map(category => category.label)}
-          activeTab={FaqCategories.find(category => category.value === activeTab)?.label}
-          changeTab={(tab) => changeTab(FaqCategories.find(c => c.label === tab).value)} // 탭 변경 시 value 값을 설정
+          tab={FaqCategories.map(category => category.label)} // 화면에 보여줄 label
+          activeTab={FaqCategories.find(category => category.value === activeTab)?.label} // 현재 선택된 탭의 label 표시
+          changeTab={changeTab} // 탭 변경 시 changeTab 함수 실행 (label 전달됨)
         />
         <FAQList>
           <PaginatedList
