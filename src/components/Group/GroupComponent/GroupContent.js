@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import FormFieldMultiple from "./FormFieldMultiple";
 import FormFieldSingle from "./FormFieldSingle";
@@ -182,17 +182,18 @@ const JobCountInfo = styled.span`
   }
 `;
 
-const GroupContent = ({ contentType = "viewing", groupData, createGroup }) => {
+const GroupContent = ({ contentType = "viewing", groupData, createGroup, updateGroup }) => {
   const [contentsType, setContentsType] = useState(contentType); // 상태 추가 ('writing', 'editing', 'viewing' 중 하나)
-  const navigate = useNavigate();
 
   const initialGroupData = {
     groupType: "study",
     startDate: new Date(),
     endDate: new Date(),
+    beginDate: new Date(),
     deadLineDate: new Date(),
     title: "",
     techStack: "",
+    shortIntro: "",
     buttons: [
       { label: "이메일", clicked: true },
       { label: "지원직군", clicked: true },
@@ -203,6 +204,7 @@ const GroupContent = ({ contentType = "viewing", groupData, createGroup }) => {
       { label: "포트폴리오 링크", clicked: false },
       { label: "자유기재", clicked: false },
     ],
+    challengeStatus: "N",
     recruitmentList: [],
     selectedJob: "",
     selectedCount: "",
@@ -218,7 +220,7 @@ const GroupContent = ({ contentType = "viewing", groupData, createGroup }) => {
   };
 
   const [newGroupData, setNewGroupData] = useState(
-    groupData ? { ...groupData } : initialGroupData
+    groupData ? groupData : initialGroupData
   );
 
   const handleInputChange = (field, value) => {
@@ -226,15 +228,6 @@ const GroupContent = ({ contentType = "viewing", groupData, createGroup }) => {
       ...prevState,
       [field]: value,
     }));
-  };
-
-  const deleteGroupHandler = () => {
-    // eslint-disable-next-line no-restricted-globals
-    if (confirm("모임을 삭제하시겠습니까?")) {
-      alert("모임이 삭제되었습니다");
-      navigate("/");
-    } else {
-    }
   };
 
   const jobTitleMapping = {
@@ -246,19 +239,19 @@ const GroupContent = ({ contentType = "viewing", groupData, createGroup }) => {
   };
 
   const toggleButtonClick = (index) => {
-    setNewGroupData((prevState) => {
-      const newButtons = prevState.buttons.map((button, idx) =>
-        idx === index ? { ...button, clicked: !button.clicked } : button
-      );
-      return { ...prevState, buttons: newButtons };
-    });
+    const newButtons = newGroupData.buttons.map((button, idx) =>
+      idx === index ? { ...button, clicked: !button.clicked } : button
+    );
+
+    setNewGroupData((prevState) =>({ ...prevState, buttons: newButtons }));
   };
 
   const handleEditClick = () => {
     setContentsType("editing");
   };
 
-  const handleSaveClick = () => {
+  const handleSaveClick = (e) => {
+    updateGroup(newGroupData);
     setContentsType("viewing");
   };
 
@@ -365,8 +358,6 @@ const GroupContent = ({ contentType = "viewing", groupData, createGroup }) => {
       alert("직군과 모집 인원을 올바르게 입력해주세요.");
     }
   };
-
-
 
   //삭제
   const deleteRecruitment = (index) => {
@@ -477,7 +468,7 @@ const GroupContent = ({ contentType = "viewing", groupData, createGroup }) => {
               name="groupType"
               value={newGroupData.groupType}
               onChange={(e) => handleInputChange("groupType", e.target.value)}
-              disabled={contentsType === "viewing"}
+              disabled={contentsType !== "writing"}
             >
               <option value="study">스터디</option>
               <option value="project">프로젝트</option>
@@ -522,6 +513,7 @@ const GroupContent = ({ contentType = "viewing", groupData, createGroup }) => {
               isEditing={true}
               id="thumbnail"
               name="thumbnail"
+              value={newGroupData.thumbnail}
               disabled={contentsType === "viewing"}
               onChange={(e)=>handleInputChange("fileName", e.name)}
               isUploadButtonAppear={true}
@@ -676,9 +668,11 @@ const GroupContent = ({ contentType = "viewing", groupData, createGroup }) => {
                     <option value="8">8</option>
                   </SelectButton>
                 </FormFieldSingle>
+                {contentsType !== "viewing" && 
                 <Violet500LineButton onClick={addRecruitment}>
                   추가하기
                 </Violet500LineButton>
+                }
               </FormFieldRow>
             </>
           ) : (
@@ -692,7 +686,7 @@ const GroupContent = ({ contentType = "viewing", groupData, createGroup }) => {
             {newGroupData.recruitmentList.map((item, index) => (
               <RecruitmentItemWrapper key={index}>
                 {newGroupData.editIndex === index ? (
-                  <>
+                  <div>
                     <input
                       type="number"
                       value={newGroupData.editCount}
@@ -718,12 +712,15 @@ const GroupContent = ({ contentType = "viewing", groupData, createGroup }) => {
                     >
                       취소
                     </Violet500LineButton>
-                  </>
+                  </div>
                 ) : (
                   <JobCountInfo>
                     {jobTitleMapping[item.job] || item.job} | {item.count}명
-                    <Violet500LineButton onClick={() => startEdit(index)}>
+                    <Violet500LineButton style={{marginLeft:"40px"}} onClick={() => startEdit(index)}>
                       수정
+                    </Violet500LineButton>
+                    <Violet500LineButton onClick={() => deleteRecruitment(index)}>
+                      삭제
                     </Violet500LineButton>
                   </JobCountInfo>
                 )}
@@ -800,7 +797,6 @@ const GroupContent = ({ contentType = "viewing", groupData, createGroup }) => {
               모임원 관리
             </FormTitle>
             <div>
-              {console.log(newGroupData)}
               {newGroupData.memberData.map((user) => (
                 <MemberInfo key={user.id}>
                   <ProfileIcon /*src="" alt=""*/ className="UserDetails">

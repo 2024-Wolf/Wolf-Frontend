@@ -20,7 +20,7 @@ const MainCardList = (props) => {
         return items.map((card) => (
             <CardMapingContainer key={card.groupPostId} onClick={() => handleCardClick(card.groupPostId)}>
                 <Card
-                    category={card.status}
+                    category={card.type}
                     title={card.name}
                     deadline={card.endDate}
                     tags={[card.tag]}

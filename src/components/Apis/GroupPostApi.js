@@ -9,7 +9,7 @@ export async function registerGroupPost(groupPost) {
         type: groupPost.type,
         startDate: groupPost.startDate,
         endDate: groupPost.endDate,
-        recruitStartDate: new Date(),
+        recruitStartDate: groupPost.beginDate,
         recruitDeadlineDate: groupPost.deadLineDate,
         shortIntro: "한 줄 소개",
         tag: groupPost.techStack,
@@ -28,7 +28,7 @@ export async function registerGroupPost(groupPost) {
     })
         .then(function (response) {
             // 받은 데이터로 수행할 작업
-            return response;
+            return response.data;
         })
         .catch(function (error) {
             return error;
@@ -36,24 +36,24 @@ export async function registerGroupPost(groupPost) {
 }
 
 // 그룹 수정
-export function updateGroupPost(groupPost, postId) {
-    axios.put(`${BASE_URL}/post/${postId}`, {
+export async function updateGroupPost(groupPost, postId) {
+    return await axios.put(`${BASE_URL}/post/${postId}`, {
         name: groupPost.name,
-        leaderUser: groupPost.leader_user,
         type: groupPost.type,
-        startDate: groupPost.start_date,
-        endDate: groupPost.end_date,
-        recruitStartDate: groupPost.recruit_start_date,
-        recruitDeadlineDate: groupPost.recruit_deadline_date,
-        shortIntro: groupPost.short_intro,
-        tag: groupPost.tag,
-        optionalRequirements: groupPost.optional_requirements,
-        targetMembers: groupPost.target_members,
+        startDate: groupPost.startDate,
+        endDate: groupPost.endDate,
+        recruitStartDate: groupPost.beginDate,
+        recruitDeadlineDate: groupPost.deadLineDate,
+        shortIntro: groupPost.shortIntro,
+        tag: groupPost.techStack,
+        optionalRequirements: groupPost.optionalRequirements,
+        recruitments: groupPost.recruitments,
+        targetMembers: groupPost.targetMembers,
         thumbnail: groupPost.thumbnail,
         topic: groupPost.topic,
         description: groupPost.description,
         warning: groupPost.warning,
-        challengeStatus: groupPost.challenge_status
+        challengeStatus: groupPost.challengeStatus
     }, {
         headers: {
             Authorization: Token.getAccessToken()
@@ -61,17 +61,17 @@ export function updateGroupPost(groupPost, postId) {
     })
         .then(function (response) {
             // 받은 데이터로 수행할 작업
-            console.log(response);
+            return response.data;
         })
         .catch(function (error) {
-            console.log(error);
+            return error;
         });
 }
 
 // 그룹 목록 조회 / 모집글 Type별 View
 // option = ("all", "study", "project")
 // pageable = { page: 0, size: 1, sort: ["string"] }
-export async function getGroupPosts(type, page = 0, size = 10, sort = "desc") {
+export async function getGroupPosts(type, page = 0, size = 20, sort = "desc") {
     try {
         const response = await axios.get(`${BASE_URL}/post/view/${type}`, {
             headers: {
@@ -92,8 +92,6 @@ export async function getGroupPosts(type, page = 0, size = 10, sort = "desc") {
     }
 }
 
-
-
 // 그룹 단일 조회
 export async function getGroupPost(postId) {
     try {
@@ -107,6 +105,23 @@ export async function getGroupPost(postId) {
     } catch (error) {
         console.error('API 호출 실패:', error);
         throw error; // 에러를 다시 던져 호출한 곳에서 처리할 수 있게 함
+    }
+}
+
+// 그룹 삭제
+export async function deleteGroupPost(groupPostId) {
+    try {
+        const response = await axios.delete(`${BASE_URL}/post/${groupPostId}`, {
+            headers: {
+                Authorization: Token.getAccessToken()
+            }
+        });
+        // 받은 데이터로 수행할 작업
+        return response.data;
+    } catch (error) {
+        // 에러 처리
+        console.error('Error fetching group posts:', error);
+        return error;
     }
 }
 
