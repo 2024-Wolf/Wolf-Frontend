@@ -164,7 +164,6 @@ const BannerSlider = ({ }) => {
             onTouchMove={handleMove}
             onTouchEnd={handleEnd}
         >
-            {console.log(detailNoticeData)}
             <SliderInner $position={currentPosition}>
                 {detailNoticeData?.map((image, index) => (
                     <Slide

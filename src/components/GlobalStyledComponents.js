@@ -40,6 +40,8 @@ export const CardTitle = styled.p`
     color: var(--black700);
     text-align: left;
     margin-bottom: 8px;
+    min-height: 18px;
+    padding: 2px 0;
 
     white-space: nowrap;
     overflow: hidden; 

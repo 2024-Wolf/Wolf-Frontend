@@ -13,6 +13,7 @@ import WebFont from "webfontloader";
 // components/Card/Card.jsx
 export const Date2 = styled.div`
     font-size: 12px;
+    width: 100%;
     @media (max-width: 768px) {
         font-size: 11px;
     }
@@ -25,7 +26,7 @@ export const BottomInfo = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 5px;
+    margin-top: 7px;
     @media (max-width: 480px) {
         flex-direction: column;
         align-items: flex-start;
@@ -62,6 +63,7 @@ export const Button4 = styled.button`
     color: var(--black700);
     font-size: 12px;
     border-radius: 20px;
+    text-wrap: nowrap;
     @media (max-width: 768px) {
     }
     @media (max-width: 480px) {
@@ -96,12 +98,18 @@ const Card = ({
                     ) : null
                     }
                     <BottomInfo>
-                        {applicationDate ? (
-                            <Date2>{`신청일: ${applicationDate}`}</Date2>
-                        ) : joinDate ? (
-                            <Date2>{`합류일: ${joinDate}`}</Date2>
-                        ) : null}
-                        {buttonText && <Button4>{buttonText}</Button4>}
+                        <Date2>
+                            {applicationDate ? (
+                                <>{`신청일: ${applicationDate}`}</>
+                            ) : joinDate ? (
+                                <>{`합류일: ${joinDate}`}</>
+                            ) : null}
+                        </Date2>
+                        {buttonText &&
+                            <Button4
+                                onClick={() => alert('이동')}>
+                                {buttonText}
+                            </Button4>}
                     </BottomInfo>
                 </CardBody>
             </CardContainer>

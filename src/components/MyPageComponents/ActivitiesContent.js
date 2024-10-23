@@ -6,6 +6,7 @@ import MainCategory from "../Category/MainCategory";
 import ActivityCardList from "./ActivityCardList";
 import { getGroupPosts, getUserGroupsByTypeAndStatus } from '../Apis/GroupPostApi';
 
+
 const activitiesData = {
     applyCards: [{
         id: 1,
@@ -45,6 +46,21 @@ const activitiesData = {
     }]
 };
 
+const Announcement = styled.span`
+    display: flex;
+    width: 100%;
+    padding: 40px 30px;
+    flex-direction: column;
+    gap: 20px;
+
+    justify-content: center;
+    align-items: flex-start;
+    height: auto;
+    color: var(--black500);
+`;
+
+
+
 const ActivitiesContent = () => {
     const categories = ["스터디", "프로젝트"];
     const [activeCategory, setActiveCategory] = useState(categories[0]);
@@ -73,23 +89,20 @@ const ActivitiesContent = () => {
     useEffect(() => {
         const fetchPostData = async () => {
             try {
+                // 모임 지원 현황
+                const applyPost = await getUserGroupsByTypeAndStatus(type, 'APPLYING');
+                const applyData = applyPost.data.groupPostPreviews || [];
+                setApplyCards(applyData);
 
-                const applyPost = await getUserGroupsByTypeAndStatus(type, 'APPLYING'); // 모든 데이터 저장
-                applyPost.data ? setApplyCards(applyPost.data) : <></>;
+                // 진행중인 모임
+                const ongoingPost = await getUserGroupsByTypeAndStatus(type, 'ONGOING');
+                const ongoingData = ongoingPost.data.groupPostPreviews || [];
+                setOngoingCards(ongoingData);
 
-                const ongoingPost = await getUserGroupsByTypeAndStatus(type, 'ONGOING'); // 모든 데이터 저장
-                ongoingPost.data ? setOngoingCards(ongoingPost.data) : <></>;
-
-                const completedPost = await getUserGroupsByTypeAndStatus(type, 'COMPLETED'); // 모든 데이터 저장
-                completedPost.data ? setCompletedCards(completedPost.data) : <></>;
-
-
-                // // 상태 코드가 200-299 범위인지 확인
-                // if ((applyPost.status < 200 || applyPost.status >= 300) ||
-                //     (ongoingPost.status < 200 || ongoingPost.status >= 300) ||
-                //     (completedPost.status < 200 || completedPost.status >= 300)) {
-                //     throw new Error('네트워크 오류');
-                // }
+                // 완료한 모임
+                const completedPost = await getUserGroupsByTypeAndStatus(type, 'COMPLETED');
+                const completedData = completedPost.data.groupPostPreviews || [];
+                setCompletedCards(completedData);
 
             } catch (error) {
                 // 에러 처리: 콘솔에 에러 메시지 출력
@@ -103,12 +116,6 @@ const ActivitiesContent = () => {
         fetchPostData(); // 데이터 가져오기 호출
     }, [type, setType]); // postId가 변경될 때마다 실행
 
-    // console.log('groupPostsData : ', groupPostsData);
-    // console.log('groupAllPostsData : ', groupAllPostsData);
-    // console.log('groupStudyPostsData : ', groupStudyPostsData);
-    // console.log('groupProjectPostsData : ', groupProjectPostsData);
-    // console.log('groupTypePostsData : ', groupTypePostsData);
-
 
     return (
         <PageContainer>
@@ -119,30 +126,48 @@ const ActivitiesContent = () => {
             />
             <SectionContent>
                 <SectionTitle>모임 지원 현황</SectionTitle>
-                <ActivityCardList
-                    cards={activitiesData.applyCards}
-                    buttonText={"신청 취소"}
-                    category={activeCategory}
-                    data={applyCards.groupPostResponseList}
-                />
+                {applyCards.length > 0 ?
+                    (
+                        <ActivityCardList
+                            cards={applyCards}
+                            buttonText={"신청 취소"}
+                            category={activeCategory}
+                        />
+                    ) : (
+                        <Announcement>
+                            모임 정보가 없습니다
+                        </Announcement>
+                    )}
             </SectionContent>
             <SectionContent>
                 <SectionTitle>진행중인 모임</SectionTitle>
-                <ActivityCardList
-                    cards={activitiesData.ongoingCards}
-                    buttonText={"탈퇴하기"}
-                    category={activeCategory}
-                    data={ongoingCards.groupPostResponseList}
-                />
+                {ongoingCards.length > 0 ?
+                    (<ActivityCardList
+                        cards={ongoingCards}
+                        buttonText={"탈퇴하기"}
+                        category={activeCategory}
+                    />
+                    ) : (
+                        <Announcement>
+                            모임 정보가 없습니다
+                        </Announcement>
+                    )}
+
             </SectionContent>
 
             <SectionContent>
                 <SectionTitle>완료한 모임</SectionTitle>
-                <ActivityCardList
-                    cards={activitiesData.completedCards}
-                    category={activeCategory}
-                    data={completedCards.groupPostResponseList}
-                />
+                {completedCards.length > 0 ?
+                    (<ActivityCardList
+                        cards={completedCards}
+                        category={activeCategory}
+                        data={completedCards.groupPostResponseList}
+                    />
+                    ) : (
+                        <Announcement>
+                            모임 정보가 없습니다
+                        </Announcement>
+                    )}
             </SectionContent>
         </PageContainer>
     );
