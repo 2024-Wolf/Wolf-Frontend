@@ -59,36 +59,56 @@ const EvaluationModal = ({ onClose, onSubmit, applicant, isView, optionalRequire
   const [linkButtonDisable, setLinkButtonDisable] = useState(false);
   const [activityRating, setActivityRating] = useState('');
 
-  const [modalData, setModalData] = useState(null);
-  const [groupMemberData, setGroupMemberData] = useState({});
-
-
+  const [modalData, setModalData] = useState([]);
+  const [groupMemberData, setGroupMemberData] = useState([]);
 
   const handleClickGood = (memberId) => {
     setActivityRating('good');
-    setModalData((prev) => ({
-      ...prev,
-      memberId: memberId,
-      rate: 'good',
-    }));
-  }
+    setModalData((prev) => {
+      const existingMember = prev.find((member) => member.memberId === memberId);
+      if (existingMember) {
+        // 기존 데이터가 있다면 업데이트
+        return prev.map((member) =>
+          member.memberId === memberId ? { ...member, rate: 'good' } : member
+        );
+      } else {
+        // 새로운 데이터 추가
+        return [...prev, { memberId: memberId, rate: 'good' }];
+      }
+    });
+  };
+
   const handleClickSoso = (memberId) => {
     setActivityRating('soso');
-    setModalData((prev) => ({
-      ...prev,
-      memberId: memberId,
-      rate: 'soso',
-    }));
-  }
+    setModalData((prev) => {
+      const existingMember = prev.find((member) => member.memberId === memberId);
+      if (existingMember) {
+        // 기존 데이터가 있다면 업데이트
+        return prev.map((member) =>
+          member.memberId === memberId ? { ...member, rate: 'soso' } : member
+        );
+      } else {
+        // 새로운 데이터 추가
+        return [...prev, { memberId: memberId, rate: 'soso' }];
+      }
+    });
+  };
+
   const handleClickBad = (memberId) => {
     setActivityRating('bad');
-    setModalData((prev) => ({
-      ...prev,
-      memberId: memberId,
-      rate: 'bad',
-    }));
-
-  }
+    setModalData((prev) => {
+      const existingMember = prev.find((member) => member.memberId === memberId);
+      if (existingMember) {
+        // 기존 데이터가 있다면 업데이트
+        return prev.map((member) =>
+          member.memberId === memberId ? { ...member, rate: 'bad' } : member
+        );
+      } else {
+        // 새로운 데이터 추가
+        return [...prev, { memberId: memberId, rate: 'bad' }];
+      }
+    });
+  };
 
 
   const handleSubmit = async (e) => {
@@ -109,8 +129,9 @@ const EvaluationModal = ({ onClose, onSubmit, applicant, isView, optionalRequire
   useEffect(() => {
     const fetchGroupMemberList = async () => {
       try {
-        const dataUserProfile = await getGroupMember(groupId);
-        setGroupMemberData(dataUserProfile);
+        // groupId
+        const dataUserProfile = await getGroupMember(2);
+        setGroupMemberData(dataUserProfile.data);
       } catch (error) {
         // 에러 처리: 콘솔에 에러 메시지 출력
         console.error('그룹원 데이터 불러오기 실패:', error);
@@ -120,7 +141,7 @@ const EvaluationModal = ({ onClose, onSubmit, applicant, isView, optionalRequire
       }
     };
     fetchGroupMemberList();
-  }, [groupId]);
+  }, []);
 
   return (
     <ModalForm isModalOpen={true} method="post" onSubmit={handleSubmit}>
@@ -145,33 +166,43 @@ const EvaluationModal = ({ onClose, onSubmit, applicant, isView, optionalRequire
         </ModalHeader>
 
         {/*  */}
-        <ChangeColumn320px style={{ alignItems: 'center', justifyContent: 'center' }}>
-          <ProfileIcon
-            // userId={profileData?.id}
-            // reportTopicText={"USER"}
-            // targetUserId={groupPostData?.leaderUser?.userId}
-            // src={groupPostData?.leaderUser?.userProfileImg}
-            // alt="Profile"
-            DropdownContainerStyle={{ width: '150px' }}
-            userNameStyle={{
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis'
-            }}
-          >
-            허gjjjjjjjjjjjjjjjjjhjjjjjjjjjjjjjjjjjj
-          </ProfileIcon>
-          {/* [질문[수정중O]]-완료 & 취소 버튼 */}
-          <TripleButton
-            leftButtonType={"button"}
-            leftButtonOnClick={handleClickGood}
-            centerButtonType={"button"}
-            centerButtonOnClick={handleClickSoso}
-            rightButtonType={"button"}
-            rightButtonOnClick={handleClickBad}
-            selecting={activityRating}
-          />
-        </ChangeColumn320px>
+        {groupMemberData?.map((groupMember) => {
+
+          return (
+            <ChangeColumn320px style={{ alignItems: 'center', justifyContent: 'center' }}>
+              <ProfileIcon
+                key={groupMember?.groupUser?.userId} // 여기서 key를 설정합니다.
+                userId={groupMember?.groupUser?.userId}
+                reportTopicText={"USER"}
+                targetUserId={groupMember?.groupUser?.userId}
+                src={groupMember?.groupUser?.userProfileImg}
+                alt="Profile"
+                DropdownContainerStyle={{ width: '150px' }}
+                wrapperStyle={{ overflow: 'hidden' }}
+                userNameStyle={{
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  padding: '5px 0'
+                }}
+              >
+                {groupMember.groupUser.userNickname}
+              </ProfileIcon>
+
+              {/* 그룹원 평가 버튼 */}
+              <TripleButton
+                leftButtonType={"button"}
+                leftButtonOnClick={() => handleClickGood(groupMember?.groupUser?.userId)} // 함수 참조
+                centerButtonType={"button"}
+                centerButtonOnClick={() => handleClickSoso(groupMember?.groupUser?.userId)} // 함수 참조
+                rightButtonType={"button"}
+                rightButtonOnClick={() => handleClickBad(groupMember?.groupUser?.userId)} // 함수 참조
+                selecting={modalData?.find((member) => member.memberId === groupMember.groupUser.userId)?.rate || ''} // 수정된 부분
+              />
+            </ChangeColumn320px>
+          );
+        })}
+
 
         <ButtonContainer>
           <Violet500LineButton
