@@ -6,7 +6,7 @@ import styled from "styled-components";
 
 import ImagePreview from "../Img/ImagePreview";
 import React, { useState } from 'react';
-import {changeProfileImage, postMyProfile} from "../Apis/UserApi";
+import { changeProfileImage, postMyProfile } from "../Apis/UserApi";
 
 // pages/MyPage.js
 const MyPageProfileWrapper = styled.div`
@@ -40,6 +40,7 @@ const MyPageProfile = ({ contentsType, profileData }) => {
             }));
 
             handleFormSubmit(file);
+
         }
     };
 
@@ -55,6 +56,7 @@ const MyPageProfile = ({ contentsType, profileData }) => {
         }));
 
         handleFormSubmit();
+        alert("프로필 이미지가 초기화되었습니다");
     };
 
     const handleFormSubmit = async (file) => {
@@ -73,6 +75,7 @@ const MyPageProfile = ({ contentsType, profileData }) => {
 
             alert("프로필 이미지가 수정되었습니다");
             window.location.reload(); // 페이지 새로 고침
+
 
         } catch (error) {
             // setError('프로필 이미지 수정 실패');
@@ -101,7 +104,7 @@ const MyPageProfile = ({ contentsType, profileData }) => {
                 <form
                     id='uploadForm'
                     method="post" encType="multipart/form-data" action="/user"
-                    // onClick={() => alert('사진 수정 기능은 업데이트 예정입니다')} // 프로필 업로드 기능이 미구현되어서 안내 멘트 설정해둠
+                // onClick={() => alert('사진 수정 기능은 업데이트 예정입니다')} // 프로필 업로드 기능이 미구현되어서 안내 멘트 설정해둠
                 >
                     <ImagePreview
                         // disabled={true} // 프로필 업로드 기능이 미구현되어서 disabled로 설정해둠

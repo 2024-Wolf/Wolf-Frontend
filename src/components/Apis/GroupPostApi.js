@@ -214,9 +214,9 @@ export async function changeApplyStatus(recruitApplyId, status){
 }
 
 // 일정 조회
-export async function getSchedule(groupId){
+export async function getSchedule(groupId) {
     return await axios.get(`${BASE_URL}/post/${groupId}/schedule`, {
-        headers:{
+        headers: {
             Authorization: Token.getAccessToken()
         }
     })
@@ -575,6 +575,8 @@ export const getUserGroupsByTypeAndStatus = async (type, status, page = 0, size 
         throw error; // 오류를 다시 던져서 호출한 곳에서 처리할 수 있게 함
     }
 }
+
+// 최신 소식 조회
 export const getGroupNews = async (groupId) => {
     try {
         const response = await axios.get(`${BASE_URL}/post/${groupId}/news`);
@@ -584,3 +586,21 @@ export const getGroupNews = async (groupId) => {
         throw error;
     }
 };
+
+
+// 팀원 평가 작성
+export const postEvaluate = async (groupId, evaluateData) => {
+    try {
+        const response = await axios.post(`${BASE_URL}/post/${groupId}/evaluate`,
+            evaluateData,
+            {
+                headers: {
+                    Authorization: Token.getAccessToken()
+                }
+            });
+        return response.data; // 필요에 따라 데이터 반환
+    } catch (error) {
+        console.error('팀원 평가 제출 중 오류 발생:', error);
+        throw error; // 오류를 다시 던져서 호출한 곳에서 처리할 수 있게 함
+    }
+}

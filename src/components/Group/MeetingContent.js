@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { MeetingContainer2, MeetingHeader, StartMeetingButton, MeetingDiv } from "../GlobalStyledComponents";
 
 import React, { useState } from 'react';
-import CommentSection from "./Question/CommentSection";
 import QuestionForm from "./Question/QuestionForm";
 import MeetingPortal from "./MeetingComponent/MeetingPortal";
 import FormFieldSingle from "./GroupComponent/FormFieldSingle";
@@ -17,10 +16,6 @@ const MeetingContent = ({ isMeetingStarted, groupPostId, userId }) => {
   const closeMeetingWindow = () => {
     setIsMeetingOpen(false);
   };
-
-  console.log(isMeetingStarted, groupPostId, userId)
-
-
 
   return (
     <MeetingContainer2>

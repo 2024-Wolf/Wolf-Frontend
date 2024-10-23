@@ -33,7 +33,10 @@ const ProfileIcon = ({
   children,
   targetUserId,
   reportTopicText,
-  userId
+  userId,
+  wrapperStyle,
+  userNameStyle,
+  DropdownContainerStyle
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null); // 드롭다운 참조 생성
@@ -91,7 +94,7 @@ const ProfileIcon = ({
 
   return (
     <>
-      <DropdownContainer ref={dropdownRef}>
+      <DropdownContainer style={DropdownContainerStyle} ref={dropdownRef}>
         {/* 드롭다운창 */}
         <DropdownContent
           isDropdownOpen={isDropdownOpen}
@@ -105,13 +108,13 @@ const ProfileIcon = ({
           <DropdownItem onClick={openModal}>신고하기</DropdownItem>
         </DropdownContent>
         {/* 프로필 아이콘 */}
-        <ProfileIconWrapper>
+        <ProfileIconWrapper style={wrapperStyle}>
           <ProfileIconImg
             onClick={handleProfileClick}
             src={src}
             alt={alt}
           />
-          {children && <UserName>{children}</UserName>}
+          {children && <UserName style={userNameStyle}>{children}</UserName>}
         </ProfileIconWrapper>
       </DropdownContainer>
       {isModalOpen &&

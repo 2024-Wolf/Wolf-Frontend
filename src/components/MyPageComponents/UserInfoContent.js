@@ -24,13 +24,15 @@ import GlobalSvg from "../Icon/GlobalSvg";
 import { postMyProfile } from "../Apis/UserApi";
 import { checkNickname, deleteUser } from "../Apis/AuthApi";
 import { useNavigate } from 'react-router-dom';
-
+import { getRefreshToken, removeAccessToken, removeRefreshToken } from '../Apis/Common';
+import { logout } from "../Apis/AuthApi";
 
 
 const UserInfoContent = ({
     contentsType,
     setContentsType,
-    profileData
+    profileData,
+    offLogin
 }) => {
     const navigate = useNavigate();
 
@@ -68,6 +70,26 @@ const UserInfoContent = ({
             }))
         }));
     }, []);
+
+    const handleLogout = async () => {
+        try {
+            // 먼저 로그아웃 API를 호출
+            await logout(getRefreshToken(), localStorage.getItem('fcmToken'));
+
+            // 성공적으로 로그아웃된 경우 토큰을 제거
+            removeAccessToken();
+            removeRefreshToken();
+            offLogin();
+            navigate("/");
+        } catch (error) {
+            console.error("로그아웃 중 오류 발생:", error);
+            // 오류가 발생해도 토큰을 제거할지 여부는 결정에 따라 처리 가능
+            removeAccessToken();
+            removeRefreshToken();
+            offLogin();
+            navigate("/");
+        }
+    };
 
     const [isEditing, setIsEditing] = useState(false); // 편집중인지의 상태
 
@@ -185,6 +207,7 @@ const UserInfoContent = ({
 
             try {
                 const result = await deleteUser();
+                handleLogout();
                 alert("회원 정보가 삭제되었습니다", result);
             } catch (error) {
                 // setError('회원 정보 삭제 실패');
@@ -286,9 +309,9 @@ const UserInfoContent = ({
             if (isAvailable === "true") {
                 // 닉네임 사용 가능
                 setIsNickNamePossible(true);
-            } else if(isAvailable === "equal"){
+            } else if (isAvailable === "equal") {
                 setIsNickNameEqual(true);
-            }else {
+            } else {
                 // 닉네임 사용 불가
                 setIsNickNameImpossible(true);
                 // handleInputChange('nickname', profileData?.nickname);  // 실패 시 값 초기화

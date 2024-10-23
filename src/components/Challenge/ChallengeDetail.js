@@ -67,11 +67,11 @@ const ChallengeDetailHeaderTop = styled.div`
 function ChallengeDetail(props) {
     const [item, setItem] = useState({});
 
-    useEffect(()=>{
+    useEffect(() => {
         getChallenge(props.challengePostId)
-        .then(function(response){
-            setItem(response.data);
-        })
+            .then(function (response) {
+                setItem(response.data);
+            })
     }, []);
 
     const prevClick = (e) => {

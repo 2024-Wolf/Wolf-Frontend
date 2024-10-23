@@ -14,7 +14,7 @@ import ProfileIcon from "../components/Icon/ProfileIcon";
 import FAQTab from "../components/Tab/FAQTab";
 import ReportButton from "../components/Button/ReportButton";
 import { useParams } from "react-router-dom";
-import {getGroupNews, getGroupPost, getGroupMember} from "../components/Apis/GroupPostApi"
+import { getGroupNews, getGroupPost, getGroupMember } from "../components/Apis/GroupPostApi"
 
 
 

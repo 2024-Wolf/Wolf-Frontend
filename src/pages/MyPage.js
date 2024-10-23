@@ -8,10 +8,10 @@ import ActivitiesContent from "../components/MyPageComponents/ActivitiesContent"
 import FAQTab from "../components/Tab/FAQTab";
 import MyPageProfile from "../components/MyPageComponents/MyPageProfile";
 
-import { getMyProfile, getAlarms, getUserProfile } from '../components/Apis/UserApi';
+import { getAlarms, getUserProfile } from '../components/Apis/UserApi';
 import LoadingSpiner from "../components/Loading/LoadingSpinner";
 import ErrorUI from "../components/Error/ErrorUI";
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 // pages/MyPage.js
 const MyPageContainer = styled.div`
@@ -32,10 +32,9 @@ const MyPageContent = styled.div`
     flex-direction: column;
 `;
 
-const MyPage = ({ contentType, whatTab = "계정", profileData }) => {
+const MyPage = ({ contentType, whatTab = "계정", profileData, offLogin }) => {
     const [activeTab, setActiveTab] = useState(whatTab);
     const { userId } = useParams();
-    const navigate = useNavigate();
 
     const [contentsType, setContentsType] = useState(contentType || (userId !== undefined) ? 'strangerViewing' : 'myselfViewing');
     // contentsType 상태 ('myselfEditing', 'strangerViewing', 'myselfViewing' 중 하나)
@@ -44,6 +43,7 @@ const MyPage = ({ contentType, whatTab = "계정", profileData }) => {
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
 
     useEffect(() => {
 
@@ -99,7 +99,7 @@ const MyPage = ({ contentType, whatTab = "계정", profileData }) => {
     const renderTabContent = () => {
         switch (activeTab) {
             case "계정":
-                return <UserInfoContent contentsType={contentsType} setContentsType={setContentsType} profileData={usingProfileData} />;
+                return <UserInfoContent contentsType={contentsType} setContentsType={setContentsType} profileData={usingProfileData} offLogin={offLogin} />;
             case "알림":
                 return <NotificationContent alarmData={alarmData} />
             case "활동":

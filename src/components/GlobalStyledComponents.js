@@ -40,6 +40,8 @@ export const CardTitle = styled.p`
     color: var(--black700);
     text-align: left;
     margin-bottom: 8px;
+    min-height: 18px;
+    padding: 2px 0;
 
     white-space: nowrap;
     overflow: hidden; 
@@ -354,8 +356,8 @@ export const Violet500Line = css`
 
   /* components/DateInputButton/OptionButton.js */
   /* 선택 됐을 때 보라색 */
-  ${({ isOptionActive }) =>
-    isOptionActive &&
+  ${({ $isOptionActive }) =>
+    $isOptionActive &&
     `
         background-color: var(--violet500);
         color: var(--violet100);
@@ -2341,6 +2343,26 @@ export const Row = styled.div`
   gap: 10px;
   align-items: end;
   justify-content: start;
+`;
+
+export const ChangeColumn320px = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: start;
+  justify-content: start;
+
+  @media (max-width: 768px) {
+
+  }
+
+  @media (max-width: 320px) {
+      flex-direction: column;
+      div:nth-child(2) {
+        width: 100%;
+      }
+  }
 `;
 
 export const ChangeColumn480px = styled.div`
