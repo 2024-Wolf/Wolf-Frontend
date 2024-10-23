@@ -34,23 +34,27 @@ const FourthProcessContent = ({ onPrev, onClose, onLogin, signupInfo, handleInpu
 
     // 닉네임 중복 검사
     const handleNickNameCheck = async () => {
-        try {
-            // 닉네임 중복 검사
-            const isAvailable = await checkNickname(nickname);  // 서버에서 중복 여부 확인
+        if (nickname.trim() !== "") {
+            try {
+                // 닉네임 중복 검사
+                const isAvailable = await checkNickname(nickname);  // 서버에서 중복 여부 확인
 
-            if (isAvailable) {
-                // 닉네임 사용 가능
-                setIsNickNamePossible(true);
-                setIsNickNameImpossible(false);
-                handleInputChange('nickname', nickname);  // 성공 시 상태 업데이트
-            } else {
-                // 닉네임 사용 불가
-                setIsNickNameImpossible(true);
-                setIsNickNamePossible(false);
+                if (isAvailable) {
+                    // 닉네임 사용 가능
+                    setIsNickNamePossible(true);
+                    setIsNickNameImpossible(false);
+                    handleInputChange('nickname', nickname);  // 성공 시 상태 업데이트
+                } else {
+                    // 닉네임 사용 불가
+                    setIsNickNameImpossible(true);
+                    setIsNickNamePossible(false);
+                }
+            } catch (error) {
+                console.error('닉네임 중복 확인 중 오류 발생:', error);
+                // 필요에 따라 에러 처리 로직 추가
             }
-        } catch (error) {
-            console.error('닉네임 중복 확인 중 오류 발생:', error);
-            // 필요에 따라 에러 처리 로직 추가
+        } else {
+
         }
     };
 
