@@ -415,7 +415,7 @@ const Calendar = ({ data, handleEditSchedule, handleDeleteSchedule, ...props }) 
 
             if (eventList.length > 0) {
                 return eventList.map((event, index) => (
-                    <ListGroup style={{ margin: '2px' }} key={index}>
+                    <ListGroup style={{ margin: '2px' }} key={event.id}>
                         &nbsp;
                         {event.task}
                         {(event.startDate.toISOString().split('T')[0]) === (event.endDate.toISOString().split('T')[0]) ?
@@ -426,14 +426,14 @@ const Calendar = ({ data, handleEditSchedule, handleDeleteSchedule, ...props }) 
                             </span>
                         }
                         &nbsp;
-                        <button onClick={() => handleEditSchedule(index)}
+                        <button onClick={() => handleEditSchedule(event.id)}
                             style={{
                                 fontSize: '15px', backgroundColor: 'transparent'
                             }}>✒️</button>
                         <DeleteIcon
                             onClick={() => {
                                 if (window.confirm("일정을 삭제하시겠습니까?")) {
-                                    handleDeleteSchedule(index);
+                                    handleDeleteSchedule(event.id);
                                 }
                             }}
                             size={13}
@@ -454,9 +454,9 @@ const Calendar = ({ data, handleEditSchedule, handleDeleteSchedule, ...props }) 
             return schedules.map((schedule, index) => (
                 <ListGroup style={{
                     margin: '2px',
-                }} key={index}>
+                }} key={schedule.id}>
                     &nbsp;
-                    {schedule.task}
+                    {schedule.details}
                     {(schedule.startDate.toISOString().split('T')[0]) === (schedule.endDate.toISOString().split('T')[0]) ?
                         <span style={{ fontSize: '12px', color: 'var(--black300)' }}>
                             &nbsp; ({schedule.startDate.toISOString().split('T')[0]})
@@ -466,14 +466,14 @@ const Calendar = ({ data, handleEditSchedule, handleDeleteSchedule, ...props }) 
                         </span>
                     }
                     &nbsp;
-                    <button onClick={() => handleEditSchedule(index)}
+                    <button onClick={() => handleEditSchedule(schedule.id)}
                         style={{
                             fontSize: '15px', backgroundColor: 'transparent'
                         }}>✒️</button>
                     <DeleteIcon
                         onClick={() => {
                             if (window.confirm("일정을 삭제하시겠습니까?")) {
-                                handleDeleteSchedule(index);
+                                handleDeleteSchedule(schedule.id);
                             }
                         }}
                         size={13}
