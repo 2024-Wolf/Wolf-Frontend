@@ -52,51 +52,73 @@ export const Slide = styled.img`
 `;
 
 const BannerSlider = ({ }) => {
-    const banners = [
-        { id: 1, imgUrl: "/banner/banner1.png" },
-        { id: 2, imgUrl: "/banner/banner2.png" },
-        { id: 3, imgUrl: "/banner/banner3.png" },
-        { id: 4, imgUrl: "/banner/banner4.png" },
-    ];
+
     const [currentPosition, setCurrentPosition] = useState(0);
     const [startX, setStartX] = useState(0);
     const [isDragging, setIsDragging] = useState(false);
     const navigate = useNavigate();
-    const [images, setImages] = useState(banners);
+    const [noticeData, setNoticeData] = useState([]);
+    const [detailNoticeData, setDetailNoticeData] = useState([]);
+    const [mergeData, setMergeData] = useState([]);
 
+    const fetchNoticeDetailData = (noticeId, lengthCnt) => {
+        getNoticeById(noticeId)
+            .then((data) => {
+                setMergeData(prevData => {
+                    if (!Array.isArray(prevData)) {
+                        prevData = [];
+                    }
+
+                    const updatedData = [...prevData, data.data];
+
+                    if (updatedData.length === lengthCnt) {
+                        setDetailNoticeData(updatedData);
+                    }
+                    return updatedData;
+                });
+            })
+            .catch(() => {
+                // setError("Notice 데이터를 불러올 수 없습니다.");
+            });
+    };
 
     // 공지사항 목록 데이터
     const fetchNoticeData = (page) => {
         getNotices(page)
             .then((data) => {
-                console.log(data.data.notices); // 받아온 Notice 데이터를 설정
-                // 받아온 Notice 데이터를 설정
+                setNoticeData(data.data.notices); // 받아온 Notice 데이터를 설정    
+
+                // 각 공지사항에 대해 상세 데이터를 요청
+                data.data.notices.map(notice => {
+                    return fetchNoticeDetailData(notice.noticeId, data.data.notices.length);
+                });
+
+            })
+            .then((details) => {
+                // 모든 상세 데이터 요청이 완료된 후
+                // 각 상세 데이터의 결과를 상태에 추가하는 작업을 수행
+                const mergedDetails = details.map(detail => detail.data); // 필요한 데이터만 추출
+                setDetailNoticeData(prevData => [...prevData, ...mergedDetails]); // 기존 데이터에 추가
             })
             .catch(() => {
+                // 에러 처리
                 // setError("Notice 데이터를 불러올 수 없습니다.");
-            })
+            });
     };
 
-    // 공지사항 상세 데이터
-    const fetchNoticeDetailData = (noticeId) => {
-        getNoticeById(noticeId)
-            .then((data) => {
-                console.log(data.data); // 받아온 Notice 데이터를 설정
-                // 받아온 Notice 데이터를 설정
-            })
-            .catch(() => {
-                // setError("Notice 데이터를 불러올 수 없습니다.");
-            })
-    };
+    // 공지사항 데이터들을 불러옴
+    useEffect(() => {
+        fetchNoticeData();
+    }, []); // hasFetched 상태가 변경될 때만 실행
 
     useEffect(() => {
         const sliderLoop = setInterval(() => {
             setCurrentPosition((prev) =>
-                prev < images.length - 1 ? prev + 1 : 0
+                prev < detailNoticeData?.length - 1 ? prev + 1 : 0
             );
         }, 3000);
         return () => clearInterval(sliderLoop);
-    }, [images.length]);
+    }, [detailNoticeData?.length]);
 
     const goToSlide = (index) => {
         setCurrentPosition(index);
@@ -116,7 +138,7 @@ const BannerSlider = ({ }) => {
         if (deltaX > 100) {
             // 오른쪽으로 드래그
             setCurrentPosition((prev) =>
-                prev < images.length - 1 ? prev + 1 : prev
+                prev < detailNoticeData?.length - 1 ? prev + 1 : prev
             );
             setIsDragging(false);
         } else if (deltaX < -100) {
@@ -142,18 +164,19 @@ const BannerSlider = ({ }) => {
             onTouchMove={handleMove}
             onTouchEnd={handleEnd}
         >
+            {console.log(detailNoticeData)}
             <SliderInner $position={currentPosition}>
-                {images.map((image, index) => (
+                {detailNoticeData?.map((image, index) => (
                     <Slide
                         key={`Slide-${index}`}
-                        src={image.imgUrl}
-                        onClick={() => navigate('/notice', { state: { sendNoticeId: image.id } })} // 수정된 부분
+                        src={image.thumbnail}
+                        onClick={() => navigate('/notice', { state: { sendNoticeId: image.noticeId } })} // 수정된 부분
                     />
                 ))
                 }
             </SliderInner >
             <Dots
-                images={images}
+                images={detailNoticeData}
                 currentPosition={currentPosition}
                 goToSlide={goToSlide}
             />

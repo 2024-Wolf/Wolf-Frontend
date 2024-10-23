@@ -35,7 +35,8 @@ const GroupInfoContent = ({ mode, groupPostId, userId, groupPostData, groupNewsD
 
   return (
     <>
-      <EvaluationModal onClose={closeModal} isView={false} optionalRequirements={groupPostData?.optionalRequirements} />
+      {/* 평가하기 모달 테스트중 */}
+      {/* <EvaluationModal onClose={closeModal} isView={false} optionalRequirements={groupPostData?.optionalRequirements} /> */}
 
       <InfoContainer>
         {/* 이미지가 있으면 여기에 넣으면 됨! */}

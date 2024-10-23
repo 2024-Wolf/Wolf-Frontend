@@ -62,7 +62,7 @@ const Main = () => {
                         alert("토큰이 유효하지 않습니다!");
                         return;
                     }
-                    if (response.data.groupPostResponseList && response.data.groupPostResponseList.length > 0) setCards(response.data.groupPostResponseList);
+                    if (response?.data?.groupPostResponseList && response?.data?.groupPostResponseList.length > 0) setCards(response.data.groupPostResponseList);
                 })
             setActiveCategory("전체");
         }

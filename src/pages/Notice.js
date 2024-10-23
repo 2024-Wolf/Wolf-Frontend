@@ -71,12 +71,12 @@ const Notice = (props) => {
   const [noticeIdFromState, setNoticeIdFromState] = useState(location.state?.sendNoticeId || null); // BannerSlider에서  navigate('/notice', { state: { sendNoticeId: 1 } })} 형태로 객체 전송중
 
   const [currentPage, setCurrentPage] = useState(1); // 최근 페이지 번호
-  const [noticeData, setNoticeData] = useState([]);
   const [error, setError] = useState(null);
   const [noticeId, setNoticeId] = useState(null);
   const [detailModalOn, setDetailModalOn] = useState(false);
   const [item, setItem] = useState();
-  const [detailNotice, setDetailNotice] = useState();
+  const [noticeData, setNoticeData] = useState([]);
+  const [detailNotice, setDetailNotice] = useState([]);
 
 
   const fetchNoticeDetailData = (noticeId) => {
@@ -118,7 +118,6 @@ const Notice = (props) => {
       fetchNoticeDetailData(noticeIdFromState);
       setDetailModalOn(true);
       setNoticeIdFromState(null); // 초기화
-      console.log(noticeIdFromState);
       navigate('/notice');
     }
   }, [noticeIdFromState]); // noticeIdFromState가 변경될 때마다 호출
