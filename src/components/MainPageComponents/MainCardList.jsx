@@ -22,10 +22,10 @@ const MainCardList = (props) => {
         return items.map((card) => (
             <CardMapingContainer key={card.groupPostId} onClick={() => handleCardClick(card.groupPostId)}>
                 <Card
-                    category={card.type}
+                    category={card.type === "study" ? "스터디" : "프로젝트"}
                     title={card.name}
                     deadline={card.endDate}
-                    tags={[card.tag]}
+                    tags={card.tag.split(',').map(tag => `#${tag.trim()}`)}
                     challenge={card.challengeStatus === 'Y' ? 'Y' : null}
                     profile={{
                         imgSrc: card.leaderUser.userProfileImg || 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
