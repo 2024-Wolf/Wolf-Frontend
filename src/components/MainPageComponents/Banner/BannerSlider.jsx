@@ -41,7 +41,8 @@ export const Slide = styled.img`
     width: 100%;
     height: 100%;
     max-height: 100%;
-    cursor: pointer;
+    // cursor: pointer;
+    cursor: ${({ clickable }) => (clickable ? 'pointer' : 'not-allowed')}; /* 커서 모양 변경 */
     object-fit: contain;
     max-width: 1360px;
     max-height: 300px;
@@ -109,7 +110,13 @@ const BannerSlider = ({ images }) => {
         >
             <SliderInner $position={currentPosition}>
                 {images.map((image, index) => (
-                    <Slide key={`Slide-${index}`} src={image.imgUrl} />
+                    <Slide
+                    key={`Slide-${index}`}
+                    src={image.imgUrl}
+                    clickable={!!image.link} /* 링크가 있으면 true, 없으면 false */
+                    onClick={() => image.link && window.open(image.link, '_blank')}
+                />
+                    // <Slide key={`Slide-${index}`} src={image.imgUrl} />
                 ))
                 }
             </SliderInner >
