@@ -163,6 +163,73 @@ export function applyGroup(groupId, applyment) {
             console.log(error);
         });
 }
+// 일정 조회
+export async function getSchedule(groupId){
+    return await axios.get(`${BASE_URL}/post/${groupId}/schedule`, {
+        headers:{
+            Authorization: Token.getAccessToken()
+        }
+    })
+        .then(function (response) {
+            return response.data
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+//일정 등록
+export async function registerSchedule(groupId, content) {
+    return await axios.post(`${BASE_URL}/post/${groupId}/schedule`, {
+        details: content.details,
+        startDate: content.startDate,
+        endDate: content.endDate
+
+    }, {
+        headers: {
+            Authorization: Token.getAccessToken()
+        }
+    })
+        .then(function (response) {
+            return response.data;
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
+//일정 수정
+export async function updateSchedule(schedule) {
+    return await axios.put(`${BASE_URL}/post/schedule/${schedule.id}`, {
+        details: schedule.details,
+        startDate: schedule.startDate,
+        endDate: schedule.endDate
+    }, {
+        headers: {
+            Authorization: Token.getAccessToken()
+        }
+    })
+        .then(function (response) {
+            return response.data;
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
+//일정 삭제
+export async function deleteSchedule(id) {
+    return await axios.delete(`${BASE_URL}/post/schedule/${id}`, {
+        headers: {
+            Authorization: Token.getAccessToken()
+        }
+    })
+        .then(function (response) {
+            return response.data;
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
 
 // 할 일 조회
 export async function getTasks(groupId) {

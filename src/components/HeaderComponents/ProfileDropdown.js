@@ -17,7 +17,7 @@ const ProfileDropdown = ({ handleProfileClick, isDropdownOpen, toggleDropdown, h
                 <DropdownIcon onClick={toggleDropdown} />
                 <DropdownContent isDropdownOpen={isDropdownOpen}>
                     <DropdownItem onClick={() => handleItemClick('/mypage')}>내 정보</DropdownItem>
-                    <DropdownItem onClick={() => handleItemClick('/study')}>챌린지 보기</DropdownItem>
+                    {/*<DropdownItem onClick={() => handleItemClick('/study')}>챌린지 보기</DropdownItem>*/}
                     <DisplayNoneDropdownItem onClick={() => handleItemClick('/write')}>팀원 모집하기</DisplayNoneDropdownItem>
                     <DisplayNoneDropdownItem onClick={() => handleItemClick('/faq')}>FAQ</DisplayNoneDropdownItem>
                     <DropdownItem onClick={offLogin}>로그아웃</DropdownItem>
