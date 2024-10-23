@@ -16,14 +16,15 @@ import {
   ButtonGroupLeft,
 } from "../GlobalStyledComponents";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import GroupInfoContent from "./GroupComponent/GroupContent";
 import ProfileIcon from "../Icon/ProfileIcon";
 import FormFieldMultiple from "./GroupComponent/FormFieldMultiple";
 import InputText from "../Input/InputText";
 import ApplicantModal from "./GroupInfoModal/ApplicantModal";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import WithdrawalButton from "../Button/WithdrawalButton";
+import { deleteGroupPost, updateGroupPost } from "../Apis/GroupPostApi";
 
 // 전체 div
 // components/Group/GroupManageContent.js
@@ -53,45 +54,40 @@ const dummyData = {
 const GroupManageContent = (props) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedApplicant, setSelectedApplicant] = useState(null); // 선택된 지원자 데이터 상태 추가
-  const [groupData, setGroupData] = useState({
-    groupType: "study",
-    startDate: new Date(),
-    endDate: new Date(),
-    deadLineDate: new Date(),
-    title: "제목입니다.",
-    techStack: "#스프링부트 #리액트",
-    subject: "인스타그램 클론 코딩 해보기",
-    introduction:
-      "인스타그램 클론 코딩해볼 사람을 구합니다. \n" +
-      "기간은 2021년 8월 1일부터 2021년 9월 1일까지입니다. \n" +
-      "총 8주 과정으로 진행하고 참가비 무료입니다. \n" +
-      "많은 참여 부탁드립니다.",
-    guidelines: "",
-    fileName: "",
+  const optionalRequirements = props.groupPostData.optionalRequirements.split(',');
+
+  const navigate = useNavigate();
+
+  console.log(props);
+
+  const groupData = {
+    groupType: props.groupPostData.type,
+    startDate: props.groupPostData.startDate,
+    endDate: props.groupPostData.endDate,
+    beginDate: props.groupPostData.recruitStartDate,
+    deadLineDate: props.groupPostData.recruitDeadlineDate,
+    title: props.groupPostData.name,
+    techStack: props.groupPostData.tag,
+    subject: props.groupPostData.topic,
+    introduction: props.groupPostData.description,
+    guidelines: props.groupPostData.warning,
+    fileName: props.groupPostData.thumbnail || "",
+    shortIntro: props.groupPostData.shortIntro,
     buttons: [
       { label: "이메일", clicked: true },
       { label: "지원직군", clicked: true },
       { label: "지원사유", clicked: true },
-      { label: "다를 수 있는 언어", clicked: false },
-      { label: "참여가능 요일", clicked: false },
-      { label: "자기소개", clicked: false },
-      { label: "포트폴리오 링크", clicked: false },
-      { label: "자유기재", clicked: false },
+      { label: "다룰 수 있는 언어", clicked: optionalRequirements.includes('다룰 수 있는 언어')},
+      { label: "참여가능 요일", clicked: optionalRequirements.includes('참여가능 요일') },
+      { label: "자기소개", clicked: optionalRequirements.includes('자기소개') },
+      { label: "포트폴리오 링크", clicked: optionalRequirements.includes('포트폴리오 링크') },
+      { label: "자유기재", clicked: optionalRequirements.includes('자유기재') },
     ],
-    totalMemberCount: 0,
-    recruitmentList: [],
-    selectedJob: "",
-    selectedCount: "",
-    editIndex: null,
-    editJob: "",
-    editCount: "",
-    memberData: [
-      { id: 1, name: "강민철", role: "프론트엔드개발자", position: "모집장" },
-      { id: 2, name: "김영희", role: "백엔드개발자", position: "모집원" },
-      { id: 3, name: "이철수", role: "기획자", position: "모집장" },
-      { id: 4, name: "박민지", role: "프론트엔드개발자", position: "모집원" },
-    ],
-  });
+    totalMemberCount: props.groupPostData.targetMembers,
+    challengeStatus: props.groupPostData.chaalengeStatus || "N",
+    recruitmentList: props.groupPostData.recruitments.map(({recruitRole, recruitRoleCnt}) => ({job: recruitRole.toLowerCase(), count: recruitRoleCnt})) || [],
+    memberData: props.groupPostData.memberData || []
+  };
 
   const applicantData = [
     {
@@ -136,16 +132,56 @@ const GroupManageContent = (props) => {
   const deleteGroupHandler = () => {
     // eslint-disable-next-line no-restricted-globals
     if (confirm("모임을 삭제하시겠습니까?")) {
-      alert("모임이 삭제되었습니다");
-      Navigate("/");
+      deleteGroupPost(props.groupPostId)
+      .then(function(response){
+        if(response.status < 200 && response.status > 300){
+          alert(response.message);
+          return;
+        }
+        alert("모임이 삭제되었습니다");
+        navigate("/");
+      })
     } else {
+      return;
     }
   };
+
+  const updateGroup = (data) =>{
+    const groupPost = {
+      name: data.title,
+      type: data.groupType,
+      startDate: data.startDate,
+      endDate: data.endDate,
+      beginDate: data.beginData,
+      deadLineDate: data.deadLineDate,
+      techStack: data.techStack,
+      optionalRequirements: data.buttons.filter(btn => btn.clicked).map(btn => btn.label).toString(),
+      recruitments: data.recruitmentList.map(({job, count}) => ({recruitRole: job.toUpperCase(), recruitRoleCnt: count})),
+      targetMembers: data.totalMemberCount,
+      thumbnail: data.fileName,
+      topic: data.subject,
+      description: data.introduction,
+      warning: data.guidelines,
+      shortIntro: data.shortIntro,
+      challengeStatus: data.challengeStatus
+  }
+    updateGroupPost(groupPost, props.groupPostId)
+    .then(function(response){
+      if(response.status >= 400){
+          console.log(response);
+          alert("에러 발생 : " + response.message);
+          return;
+      }
+      alert("모집글 수정이 완료되었습니다.");
+    })
+
+    window.location.reload();
+  }
 
   return (
     <Container5>
       <Section>
-        <GroupInfoContent contentsType={"viewing"} groupData={groupData} />
+        <GroupInfoContent contentsType={"viewing"} updateGroup={updateGroup} groupData={groupData} />
         {/* 모집직군 : 프로젝트시에만 보여짐
                       스터디는 총 모집 인원만 수정 가능
                       이미 모집이 완료된 인원 수는 줄일 수 없음. */}
@@ -166,7 +202,7 @@ const GroupManageContent = (props) => {
           </svg>
           지원자 관리
         </FormTitle>
-        {applicantData.map((user, index) => (
+        {applicantData.map((user) => (
           <>
             <MemberInfo key={user.id}>
               <ProfileIcon /*src="" alt=""*/>{user.name}</ProfileIcon>
