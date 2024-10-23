@@ -1,8 +1,8 @@
-import axios from "axios";
 import { BASE_URL } from "./Common";
+import axiosInstance from "./axiosConfig";
 
 export function getFaqByCategory(category, page = 0, size = 10, sort = "asc") {
-    return axios.get(`${BASE_URL}/faqs/${category}`, {
+    return axiosInstance.get(`${BASE_URL}/faqs/${category}`, {
         params: {
             page,
             size,

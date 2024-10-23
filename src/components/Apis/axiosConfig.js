@@ -1,7 +1,7 @@
 // src/api/axiosConfig.js
 
 import axios from 'axios';
-import { getAccessToken, refreshAccessToken, removeAccessToken, removeRefreshToken } from './Common';
+import { refreshAccessToken, removeAccessToken, removeRefreshToken } from './Common';
 
 export const BASE_URL = "http://localhost:8080/api/v1";
 //export const BASE_URL = "http://18.223.187.130:8080/api/v1";

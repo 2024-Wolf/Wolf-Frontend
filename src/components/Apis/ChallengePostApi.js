@@ -1,9 +1,9 @@
-import axios from "axios";
 import { BASE_URL, Token } from "./Common";
+import axiosInstance from "./axiosConfig";
 
 // 챌린지 단일 조회
 export async function getChallenge(challengePostId){
-    return await axios.get(`${BASE_URL}/challenge/${challengePostId}`,{
+    return await axiosInstance.get(`${BASE_URL}/challenge/${challengePostId}`,{
         headers:{
             Authorization: Token.getAccessToken()
         }
@@ -19,7 +19,7 @@ export async function getChallenge(challengePostId){
 
 // 그룹내 챌린지 조회
 export async function getChallenges(groupPostId, status, page = 0, size = 10, sort = "asc"){
-    return await axios.get(`${BASE_URL}/challenges/${groupPostId}/${status}`,{
+    return await axiosInstance.get(`${BASE_URL}/challenges/${groupPostId}/${status}`,{
         headers:{
             Authorization: Token.getAccessToken()
         },
@@ -40,7 +40,7 @@ export async function getChallenges(groupPostId, status, page = 0, size = 10, so
 
 // 챌린지 신청(그룹장)
 export async function registerChallenge(challengePostId, groupPostId, challengeAmount){
-    return await axios.post(`${BASE_URL}/registration`,{
+    return await axiosInstance.post(`${BASE_URL}/registration`,{
         challengePostId: challengePostId,
         groupPostId: groupPostId,
         challengeAmount: challengeAmount
@@ -59,7 +59,7 @@ export async function registerChallenge(challengePostId, groupPostId, challengeA
 
 // 챌린지 참여(그룹원)
 export async function participateChallenge(challengePostId, groupPostId, challengeAmount){
-    return await axios.post(`${BASE_URL}/registrations`,{
+    return await axiosInstance.post(`${BASE_URL}/registrations`,{
         challengePostId: challengePostId,
         groupPostId: groupPostId,
         challengeAmount: challengeAmount
@@ -79,7 +79,7 @@ export async function participateChallenge(challengePostId, groupPostId, challen
 
 // 챌린지 결제
 export async function payChallenge(challengePostId, groupPostId, amount, status){
-    return await axios.post(`${BASE_URL}/payment`,{
+    return await axiosInstance.post(`${BASE_URL}/payment`,{
         challengePostId: challengePostId,
         groupPostId: groupPostId,
         amount: amount,
@@ -100,7 +100,7 @@ export async function payChallenge(challengePostId, groupPostId, amount, status)
 
 // 챌린지 인증
 export async function verifyChallenge(challengePostId, groupPostId, name, status, certificatonNo, institutionCode, content){
-    return await axios.post(`${BASE_URL}/challenge/verification`,{
+    return await axiosInstance.post(`${BASE_URL}/challenge/verification`,{
         challengePostId: challengePostId,
         groupPostId: groupPostId,
         nickname: name,
@@ -119,26 +119,4 @@ export async function verifyChallenge(challengePostId, groupPostId, name, status
     .catch(function(error){
         console.log(error);
     })
-}
-
-// 정부24 자격증 진위확인 api(작업 중)
-export async function certificatonCheck(inst, name, code){
-
-    const requestData = new URLSearchParams();
-    requestData.append('reqtInstCode', inst);
-    requestData.append('reqtUserName', name);
-    requestData.append('ctftNo', code);
-
-    return await axios.post("https://cors-anywhere.herokuapp.com/https://www.gov.kr/mw/NisCertificateConfirmExecute.do", requestData,{
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-            }
-        })
-        .then(function(response){
-            console.log(response)
-            return response;
-        })
-        .catch(function(error){
-            console.log(error);
-        })
 }
