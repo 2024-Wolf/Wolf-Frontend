@@ -17,10 +17,6 @@ const MeetingContent = ({ isMeetingStarted, groupPostId, userId }) => {
     setIsMeetingOpen(false);
   };
 
-  console.log(isMeetingStarted, groupPostId, userId)
-
-
-
   return (
     <MeetingContainer2>
       {/*미팅 버튼 */}

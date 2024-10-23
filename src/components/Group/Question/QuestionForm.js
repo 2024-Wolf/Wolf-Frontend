@@ -112,7 +112,7 @@ const Question = ({
   const [commentEditText, setCommentEditText] = useState("");
 
   const [questionEditFile, setQuestionEditFile] = useState(
-    '' || questionData.user.userProfileImg
+    '' || questionData.questionImageUrl
   );
   const [questionFileURL, setQuestionFileURL] = useState("");
   const [questionEditFileURL, setQuestionEditFileURL] = useState("");
@@ -298,21 +298,37 @@ const Question = ({
                   required
                 />
                 {/* [질문[수정중O]]-이미지 프리뷰 */}
-                {(questionFileURL || questionEditFileURL) && (
+                {(questionData?.questionImageUrl || questionEditFileURL) && (
                   <ImagePreview
-                    src={
-                      questionEditFile
+                    imageFile={
+                      questionData?.questionImageUrl
                         ? questionEditFileURL
                         : isEditFile
                           ? ""
-                          : questionFileURL
+                          : questionData?.questionImageUrl}
+                    src={
+                      questionData?.questionImageUrl
+                        ? questionEditFileURL
+                        : isEditFile
+                          ? ""
+                          : questionData?.questionImageUrl
                     }
                     alt={questionEditFileURL ? "" : ""}
-                    imageFile={questionData.questionImageUrl}
                     isEditing={true}
                     onClick={deleteQuestionEditFile}
                   />
                 )}
+                <>
+                  <ImagePreview
+                    imageFile={questionData?.questionImageUrl}
+                    src={questionData?.questionImageUrl}
+                    alt={
+                      questionData?.questionImageUrl
+                        ? `preview-${questionData?.questionImageUrl}`
+                        : "preview"
+                    }
+                  />
+                </>
               </ItemCol>
               <ItemRow>
                 {/* [질문[수정중O]]-댓글 열기/닫기 버튼 */}
@@ -353,11 +369,11 @@ const Question = ({
                 {/* [질문[수정중X]]-텍스트 입력란 */}
                 <TextAreaNoCss value={questionData?.questionDetails} readOnly />
                 {/* [질문[수정중X]]-이미지 미리보기 */}
-                {questionFileURL ? (
+                {questionData?.questionImageUrl ? (
                   <>
                     <ImagePreview
                       imageFile={questionData?.questionImageUrl}
-                      src={questionFileURL}
+                      src={questionData?.questionImageUrl}
                       alt={
                         questionData?.questionImageUrl
                           ? `preview-${questionData?.questionImageUrl}`
@@ -597,6 +613,25 @@ const QuestionForm = ({ showFileOption, groupPostId, userId }) => {
   const [pageData, setPageData] = useState([]);
   const [option, setOption] = useState(showFileOption === false ? 'QUESTION' : 'COMMUNICATION');// question은 정보탭, communication은 회의탭
 
+  // 질문&댓글 조회
+  const fetchQuestions = async () => {
+    try {
+      // setLoading(true);  // 로딩 상태 시작
+      // setError(null);    // 에러 초기화
+
+      const dataQuestions = await getQuestionsWithComments(groupPostId, option);
+
+      setQuestionData(dataQuestions.data.questionResponses); // 질문 데이터 설정
+      setPageData(dataQuestions.data.page) // 질문 페이지 데이터 설정
+
+    } catch (err) {
+      // setError('데이터를 불러오는 데 실패했습니다.');
+      console.error(err);
+    } finally {
+      // setLoading(false);  // 로딩 상태 종료
+    }
+  };
+
   // 질문 등록 - 완료
   const addQuestion = async (e) => {
     e.preventDefault();
@@ -616,6 +651,7 @@ const QuestionForm = ({ showFileOption, groupPostId, userId }) => {
         alert("질문이 등록되었습니다");
         setNewQuestion("");
         setNewQuestionFile("");
+        fetchQuestions();
 
       } catch (error) {
         // setError('질문 등록 실패');
@@ -641,6 +677,8 @@ const QuestionForm = ({ showFileOption, groupPostId, userId }) => {
       }
 
       alert("질문이 수정되었습니다");
+      fetchQuestions();
+
 
     } catch (error) {
       // setError('질문 수정 실패');
@@ -662,6 +700,7 @@ const QuestionForm = ({ showFileOption, groupPostId, userId }) => {
       }
 
       alert("질문이 삭제되었습니다");
+      fetchQuestions();
 
     } catch (error) {
       // setError('질문 삭제 실패');
@@ -692,6 +731,8 @@ const QuestionForm = ({ showFileOption, groupPostId, userId }) => {
       setNewComments((prev) => ({ ...prev, [questionId]: '' }));
       setNewCommentFile((prev) => ({ ...prev, [questionId]: '' }));
       setCommentFileURL(''); // 파일 URL 초기화
+      fetchQuestions();
+
 
     } catch (error) {
       // setError('댓글 등록 실패');
@@ -717,6 +758,8 @@ const QuestionForm = ({ showFileOption, groupPostId, userId }) => {
       }
 
       alert("댓글이 수정되었습니다");
+      fetchQuestions();
+
 
     } catch (error) {
       // setError('댓글 수정 실패');
@@ -738,6 +781,8 @@ const QuestionForm = ({ showFileOption, groupPostId, userId }) => {
       }
 
       alert("댓글이 삭제되었습니다");
+      fetchQuestions();
+
 
     } catch (error) {
       // setError('댓글 삭제 실패');
@@ -765,6 +810,8 @@ const QuestionForm = ({ showFileOption, groupPostId, userId }) => {
       }
 
       alert("댓글이 삭제되었습니다");
+      fetchQuestions();
+
 
     } catch (error) {
       // setError('댓글 삭제 실패');
@@ -776,33 +823,10 @@ const QuestionForm = ({ showFileOption, groupPostId, userId }) => {
 
   // 질문 목록 조회 - 완료
   // getQuestions(groupId, option, pageable)
-
-
   useEffect(() => {
-    const fetchQuestions = async () => {
-      try {
-        // setLoading(true);  // 로딩 상태 시작
-        // setError(null);    // 에러 초기화
-
-        const dataQuestions = await getQuestionsWithComments(groupPostId, option);
-
-        setQuestionData(dataQuestions.data.questionResponses); // 질문 데이터 설정
-        setPageData(dataQuestions.data.page) // 질문 페이지 데이터 설정
-
-        // setQuestionData(data); // 질문 데이터 설정
-
-        // setAlarmData(dataAlarm.data); // 댓글 데이터 설정
-
-      } catch (err) {
-        // setError('데이터를 불러오는 데 실패했습니다.');
-        console.error(err);
-      } finally {
-        // setLoading(false);  // 로딩 상태 종료
-      }
-    };
 
     fetchQuestions(); // 질문 가져오기
-  }, []); // groupId가 변경될 때마다 목록을 재조회
+  }, [setQuestionData]); // groupId가 변경될 때마다 목록을 재조회
 
 
   const handleCommentChange = (questionId, commentValue) => {

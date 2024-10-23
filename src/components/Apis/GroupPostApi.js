@@ -164,9 +164,9 @@ export function applyGroup(groupId, applyment) {
         });
 }
 // 일정 조회
-export async function getSchedule(groupId){
+export async function getSchedule(groupId) {
     return await axios.get(`${BASE_URL}/post/${groupId}/schedule`, {
-        headers:{
+        headers: {
             Authorization: Token.getAccessToken()
         }
     })
