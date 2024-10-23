@@ -20,11 +20,11 @@ export const CategoryContainer = styled.div`
     text-decoration: none;
 
     background-color: ${({ $category }) =>
-        $category === "study"
+        $category === "스터디"
             ? 'var(--violet100)'
             : 'var(--violet200)'};
     color: ${({ $category }) =>
-        $category === "study"
+        $category === "스터디"
             ? 'var(--black600)'
             : 'var(--black600)'};
 `;
