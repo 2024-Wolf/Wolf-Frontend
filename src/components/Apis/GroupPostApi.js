@@ -215,7 +215,7 @@ export async function changeApplyStatus(recruitApplyId, status){
 
 // 일정 조회
 export async function getSchedule(groupId) {
-    return await axios.get(`${BASE_URL}/post/${groupId}/schedule`, {
+    return await axiosInstance.get(`${BASE_URL}/post/${groupId}/schedule`, {
         headers: {
             Authorization: Token.getAccessToken()
         }
@@ -229,7 +229,7 @@ export async function getSchedule(groupId) {
 }
 //일정 등록
 export async function registerSchedule(groupId, content) {
-    return await axios.post(`${BASE_URL}/post/${groupId}/schedule`, {
+    return await axiosInstance.post(`${BASE_URL}/post/${groupId}/schedule`, {
         details: content.details,
         startDate: content.startDate,
         endDate: content.endDate
@@ -249,7 +249,7 @@ export async function registerSchedule(groupId, content) {
 
 //일정 수정
 export async function updateSchedule(schedule) {
-    return await axios.put(`${BASE_URL}/post/schedule/${schedule.id}`, {
+    return await axiosInstance.put(`${BASE_URL}/post/schedule/${schedule.id}`, {
         details: schedule.details,
         startDate: schedule.startDate,
         endDate: schedule.endDate
@@ -268,7 +268,7 @@ export async function updateSchedule(schedule) {
 
 //일정 삭제
 export async function deleteSchedule(id) {
-    return await axios.delete(`${BASE_URL}/post/schedule/${id}`, {
+    return await axiosInstance.delete(`${BASE_URL}/post/schedule/${id}`, {
         headers: {
             Authorization: Token.getAccessToken()
         }
@@ -361,6 +361,71 @@ export async function deleteTask(id) {
         });
 }
 
+// 공유 링크 조회
+export async function getLinks(groupId) {
+    return await axiosInstance.get(`${BASE_URL}/post/${groupId}/links`, {
+        headers: {
+            Authorization: Token.getAccessToken()
+        }
+    })
+        .then(function (response) {
+            return response.data;
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
+//공유 링크 등록
+export async function registerLinks(groupId,type, link) {
+    return await axiosInstance.post(`${BASE_URL}/post/${groupId}/links`, {
+        linkType : type,
+        linkUrl : link
+    }, {
+        headers: {
+            Authorization: Token.getAccessToken()
+        }
+    })
+        .then(function (response) {
+            return response.data;
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
+//공유 링크 수정
+export async function updateLinks(groupId, link) {
+    return await axiosInstance.put(`${BASE_URL}/post/${groupId}/links/${link.linkId}`, {
+        linkType : link.linkType,
+        linkUrl : link.linkUrl
+    }, {
+        headers: {
+            Authorization: Token.getAccessToken()
+        }
+    })
+        .then(function (response) {
+            return response.data;
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
+//공유 링크 삭제
+export async function deleteLinks(groupId, id) {
+    return await axiosInstance.delete(`${BASE_URL}/post/${groupId}/links/${id}`, {
+        headers: {
+            Authorization: Token.getAccessToken()
+        }
+    })
+        .then(function (response) {
+            return response.data;
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
 // 질문 목록 조회
 // option = ('QUESTION', 'COMMUNICATION')
 export async function getQuestionsWithComments(groupId, option, page = 0, size = 10, sort = "asc") {
@@ -384,7 +449,6 @@ export async function getQuestionsWithComments(groupId, option, page = 0, size =
         throw error; // 오류를 다시 던져서 호출한 곳에서 처리할 수 있게 함
     }
 }
-
 
 // 질문 등록
 // option = ('QUESTION', 'COMMUNICATION')

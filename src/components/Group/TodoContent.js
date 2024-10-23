@@ -25,12 +25,13 @@ import DeleteIcon from '../Icon/DeleteIcon'
 import ALinkText from '../Input/ALinkText'
 import RefreshIcon from '../Icon/RefreshIcon'
 import {
+  deleteLinks,
   deleteSchedule,
-  deleteTask,
+  deleteTask, getLinks,
   getSchedule,
-  getTasks,
+  getTasks, registerLinks,
   registerSchedule,
-  registerTask,
+  registerTask, updateLinks,
   updateSchedule,
   updateTask
 } from '../Apis/GroupPostApi';
@@ -127,28 +128,28 @@ const DummyCalenderData = [
 const DummyLinkData = [
   {
     imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Font_Awesome_5_brands_github.svg/800px-Font_Awesome_5_brands_github.svg.png',
-    name: 'GitHub',
-    url: 'https://github.com/2024-Wolf'
+    linkType: 'GitHub',
+    linkUrl: 'https://github.com/2024-Wolf'
   },
   {
     imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg',
-    name: 'Figma',
-    url: 'https://www.figma.com/design/rM1Gynrm58vcLKV0TnLQeB/Final-Project?node-id=0-1&node-type=canvas&t=BDG3dMm1HoLkkbv8-0'
+    linkType: 'Figma',
+    linkUrl: 'https://www.figma.com/design/rM1Gynrm58vcLKV0TnLQeB/Final-Project?node-id=0-1&node-type=canvas&t=BDG3dMm1HoLkkbv8-0'
   }
 ];
 
 const TodoContent = ({ groupPostId, github, figma }) => {
   const [tasks, setTasks] = useState([]);
   const [scheduleList, setScheduleList] = useState([]);
-  const [links, setLinks] = useState(DummyLinkData || []);
+  const [links, setLinks] = useState({github: '', figma: '', notion: '', velog: ''});
 
   const [newTask, setNewTask] = useState('');
-  const [newSchedule, setNewSchedule] = useState([{id:-1, details: '', startDate: null, endDate: null }]);
-  const [newLink, setNewLink] = useState({ imgSrc: '', name: '', url: '' });
+  const [newSchedule, setNewSchedule] = useState([{id:0, details: '', startDate: null, endDate: null }]);
+  const [newLink, setNewLink] = useState('');
 
   const [editingTaskIndex, setEditingTaskIndex] = useState(null);
   const [editingScheduleIndex, setEditingScheduleIndex] = useState(null);
-  const [editingLinkIndex, setEditingLinkIndex] = useState(null);
+  const [editingLinkType, setEditingLinkType] = useState(null);
 
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -156,11 +157,12 @@ const TodoContent = ({ groupPostId, github, figma }) => {
   const [isEditingTask, setIsEditingTask] = useState(false);
   const [isEditingSchedule, setIsEditingSchedule] = useState(false);
 
+
   const inputRefs = useRef([]); // 여러 개의 ref를 저장할 배열
 
 
-  const [githubLink, setGithubLink] = useState((DummyLinkData.find(link => link.name === 'GitHub').url) || '');
-  const [figmaLink, setFigmaLink] = useState((DummyLinkData.find(link => link.name === 'Figma').url) || '');
+  // const [githubLink, setGithubLink] = useState((DummyLinkData.find(link => link.linkType === 'GitHub').linkUrl) || '');
+  // const [figmaLink, setFigmaLink] = useState((DummyLinkData.find(link => link.linkType === 'Figma').linkUrl) || '');
 
   // 할 일 목록 조회
   async function saveTasks(groupId) {
@@ -178,15 +180,37 @@ const TodoContent = ({ groupPostId, github, figma }) => {
           if (response?.data.length > 0) setScheduleList(response?.data);
         })
   }
+  // 공유 링크 조회
+  async function saveLinks(groupId) {
+    await new Promise((resolve) => setTimeout(resolve, 300));
+    await getLinks(groupId)
+        .then(function (response) {
+          // if (response?.data.length > 0) {
+            setLinks(prevLinks => {
+              const updatedLinks = { ...prevLinks };
+
+              Object.keys(updatedLinks).forEach(key => {
+                const matchingItem = response.data.find(item => item.linkType === key);
+
+                updatedLinks[key] = matchingItem ? matchingItem : '';
+              });
+
+              return updatedLinks;
+            });
+          // }
+        })
+  }
 
 
   useEffect(() => {
     saveTasks(groupPostId);
-    saveSchedule(groupPostId)
-  }, [isTaskModalOpen, modalIsOpen]);
+    saveSchedule(groupPostId);
+    saveLinks(groupPostId);
+    console.log(links);
+  }, [isTaskModalOpen, modalIsOpen, editingLinkType]);
 
   useEffect(() => {
-  }, [scheduleList, tasks]);
+  }, [scheduleList, tasks, links]);
 
   const openModal = () => setModalIsOpen(true);
   const openTaskModal = () => setIsTaskModalOpen(true);
@@ -201,7 +225,7 @@ const TodoContent = ({ groupPostId, github, figma }) => {
   const closeModal = () => {
     setIsEditingSchedule(false);
     setEditingScheduleIndex(null);
-    setNewSchedule([{id:-1, details: '', startDate: null, endDate: null }]);
+    setNewSchedule([{id:0, details: '', startDate: null, endDate: null }]);
     setModalIsOpen(false);
   }
 
@@ -247,7 +271,7 @@ const TodoContent = ({ groupPostId, github, figma }) => {
         }
       }
       // 상태 초기화
-      setNewSchedule([{ details: '', startDate: null, endDate: null }]); // 초기값 변경
+      setNewSchedule([{id:0, details: '', startDate: null, endDate: null }]); // 초기값 변경
       closeModal(); // 모달 닫기
       setEditingScheduleIndex(null); // 일정 수정 모드 초기화
       setIsEditingSchedule(false); // 스케줄 수정 모드 초기화
@@ -334,55 +358,65 @@ const TodoContent = ({ groupPostId, github, figma }) => {
   };
 
   // 링크 수정 시작
-  const editLinkStart = (index) => {
-    setEditingLinkIndex(index);
-    setNewLink(links[index]); // 수정할 링크 데이터를 newLink로 설정
+  const editLinkStart = (key) => {
+    const linkToEdit = links[key];
+    setEditingLinkType(key);
+    setNewLink(linkToEdit.linkUrl); // 수정할 링크 데이터를 newLink로 설정
   };
 
   // 링크 수정 완료
-  const editLinkFinish = (event) => {
+  const handelLinkEdit = (event, key) => {
     event.preventDefault();
-    const updatedLinks = links.map((link, index) =>
-      index === editingLinkIndex ? newLink : link
-    );
-    setLinks(updatedLinks);
-    setEditingLinkIndex(null);
-    setNewLink({ name: '', url: '' }); // 입력 필드 초기화
+    const linkToEdit = links[key];
+    console.log(links)
+    console.log(linkToEdit)
+    if (linkToEdit === ''){
+      if (newLink.trim()) {
+        registerLinks(groupPostId, key, newLink)
+            .then(function (response) {
+            });
+      }
+    }
+    else{
+      console.log("수정으로 판단" + newLink)
+      linkToEdit.linkUrl = newLink;
+      console.log(linkToEdit.linkType)
+      updateLinks(groupPostId, linkToEdit)
+          .then(function (response) {
+            setEditingLinkType(null);
+            setNewLink(''); // 입력 필드 초기화
+          });
+    }
+
   };
 
   // 링크 수정 취소
   const editLinkCancel = (event) => {
     event.preventDefault();
-    setEditingLinkIndex(null);
-    setNewLink({ name: '', url: '' }); // 입력 필드 초기화
+    setEditingLinkType(null);
+    setNewLink(''); // 입력 필드 초기화
   };
 
   // 링크 수정 초기화
-  const editLinkRefresh = (event) => {
+  const editLinkRefresh = (event, key) => {
     event.preventDefault();
-
     if (window.confirm("내용을 초기화 하시겠습니까?")) {
       // 초기화 한다고 하면
-      const updatedLinks = links.map((link, index) => {
-        if (index === editingLinkIndex) {
-          return { ...link, url: '' };
-        }
-        return link;
-      });
-
-      setLinks(updatedLinks);
-      setEditingLinkIndex(null);
-      setNewLink({ name: '', url: '' });
-    } else {
-      return; // 초기화하지 않으면 함수 종료
+      async function deleteFunc(id) {
+        await deleteLinks(groupPostId, id);
+        saveLinks(groupPostId);
+      }
+      deleteFunc(links[key].linkId);
+      setLinks({github: '', figma: '', notion: '', velog: ''});
+      setEditingLinkType(null);
+      setNewLink('');
     }
-
   };
 
   // URL 유효성 검사
-  const isValidURL = (urlString) => {
+  const isValidURL = (linkUrlString) => {
     try {
-      new URL(urlString);
+      new URL(linkUrlString);
       return true;
     } catch (_) {
       return false;
@@ -596,20 +630,23 @@ const TodoContent = ({ groupPostId, github, figma }) => {
 
       <ListGroup>
         {/* Link Input */}
-        <H3Title>공유 링크</H3Title>
+        <TodoHeader>
+          <H3Title>공유 링크</H3Title>
+        </TodoHeader>
+
         <div style={{ display: 'flex', width: '100%', gap: '10px', flexDirection: 'column' }}>
-          {links.map((link, index) => (
-            <LinkInputForm onSubmit={editLinkFinish} key={index}>
+          {Object.entries(links).map(([key, value], index) => (
+            <LinkInputForm onSubmit={(e) => handelLinkEdit(e, key)} key={key}>
               <span style={{
                 width: '30px', textAlign: 'center', marginTop: '4px'
               }}>
                 <img
-                  src={link.imgSrc}
-                  alt={`${link.name}-img`}
+                  // src={link.imgSrc}
+                  alt={`${key}-img`}
                   width="25"
                   height="25" />
               </span>
-              {editingLinkIndex === index ? (
+              {editingLinkType === key ? (
                 <LinkInputDirection>
                   <div
                     style={{
@@ -629,10 +666,10 @@ const TodoContent = ({ groupPostId, github, figma }) => {
                       }}
                       type="text"
                       placeholder="링크를 입력하세요"
-                      value={newLink.url}
-                      onChange={(e) => setNewLink({ ...newLink, url: e.target.value })}
+                      value={newLink}
+                      onChange={(e) => setNewLink(e.target.value)}
                     />
-                    {!isValidURL(newLink.url) &&
+                    {!isValidURL(newLink) &&
                       <span
                         style={{
                           fontSize: '12px', color: '#ED4E51', marginLeft: '5px'
@@ -641,11 +678,11 @@ const TodoContent = ({ groupPostId, github, figma }) => {
                       </span>}
                   </div>
                   <LinkButtonGroup>
-                    <RefreshIcon type="button" onClick={editLinkRefresh} />
+                    <RefreshIcon type="button" onClick={(e) => editLinkRefresh(e, key)} />
                     <Violet500LineButton type="button" onClick={editLinkCancel} >
                       취소
                     </Violet500LineButton>
-                    <Violet400BackgroundButton onClick={editLinkFinish} disabled={!isValidURL(newLink.url)}>
+                    <Violet400BackgroundButton disabled={!isValidURL(newLink)}>
                       완료
                     </Violet400BackgroundButton>
                   </LinkButtonGroup>
@@ -654,13 +691,13 @@ const TodoContent = ({ groupPostId, github, figma }) => {
                 <>
                   <ALinkText
                     style={{ border: '2px solid rgba(255, 255, 255, 0)' }}
-                    href={link.url}
+                    href={value.linkUrl}
                     target="_blank"
                     rel="noopener noreferrer">
-                    {link.url}
+                    {value.linkUrl}
                   </ALinkText>
-                  <Violet500LineButton onClick={() => editLinkStart(index)}>
-                    수정
+                  <Violet500LineButton onClick={() => editLinkStart(key)}>
+                    {value === '' ? '등록' : '수정'}
                   </Violet500LineButton>
                 </>
               )}
