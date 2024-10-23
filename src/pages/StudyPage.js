@@ -14,7 +14,7 @@ import ProfileIcon from "../components/Icon/ProfileIcon";
 import FAQTab from "../components/Tab/FAQTab";
 import ReportButton from "../components/Button/ReportButton";
 import { useParams } from "react-router-dom";
-import {getGroupNews, getGroupPost} from "../components/Apis/GroupPostApi"
+import {getGroupNews, getGroupPost, getGroupMember} from "../components/Apis/GroupPostApi"
 
 
 
@@ -89,6 +89,17 @@ const StudyPage = ({ profileData }) => {
           throw new Error('네트워크 오류');
         }
 
+      } catch (error) {
+        // 에러 처리: 콘솔에 에러 메시지 출력
+        console.error('데이터 등록 실패:', error);
+      } finally {
+        // 로딩 상태 종료
+        // setLoading(false);
+      }
+      try {
+        await getGroupMember(postId).then(function(response){
+          setGroupPostData((prev)=>({...prev, memberData: response.data}));
+        })
       } catch (error) {
         // 에러 처리: 콘솔에 에러 메시지 출력
         console.error('데이터 등록 실패:', error);

@@ -24,7 +24,7 @@ import InputText from "../Input/InputText";
 import ApplicantModal from "./GroupInfoModal/ApplicantModal";
 import { Navigate, useNavigate } from "react-router-dom";
 import WithdrawalButton from "../Button/WithdrawalButton";
-import { deleteGroupPost, updateGroupPost } from "../Apis/GroupPostApi";
+import { deleteGroupPost, updateGroupPost, getGroupMember } from "../Apis/GroupPostApi";
 
 // 전체 div
 // components/Group/GroupManageContent.js
@@ -43,22 +43,20 @@ export const Container5 = styled(ContentsWrapper)`
   }
 `;
 
-const dummyData = {
-  name: "강태현",
-  email: "example1@example.com",
-  role: "프론트엔드개발자",
-  reason: "열심히 할게요~",
-  portfolioLink: "https://github.com/2024-Wolf/Wolf-Frontend",
-};
-
 const GroupManageContent = (props) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedApplicant, setSelectedApplicant] = useState(null); // 선택된 지원자 데이터 상태 추가
   const optionalRequirements = props.groupPostData.optionalRequirements.split(',');
+  const [memberData, setMemberData] = useState([]);
 
   const navigate = useNavigate();
 
-  console.log(props);
+  // const memberData = [
+  //   { userId: 1, name: "강민철", role: "FRONTEND", position: "LEADER" },
+  //   { userId: 2, name: "김영희", role: "BACKEND", position: "MEMBER" },
+  //   { userId: 3, name: "이철수", role: "PLANNER", position: "MEMBER" },
+  //   { userId: 4, name: "박민지", role: "DESIGNER", position: "MEMBER" }
+  // ];
 
   const groupData = {
     groupType: props.groupPostData.type,
@@ -87,6 +85,7 @@ const GroupManageContent = (props) => {
     challengeStatus: props.groupPostData.chaalengeStatus || "N",
     recruitmentList: props.groupPostData.recruitments.map(({ recruitRole, recruitRoleCnt }) => ({ job: recruitRole.toLowerCase(), count: recruitRoleCnt })) || [],
     memberData: props.groupPostData.memberData || []
+
   };
 
   const applicantData = [
@@ -134,7 +133,7 @@ const GroupManageContent = (props) => {
     if (confirm("모임을 삭제하시겠습니까?")) {
       deleteGroupPost(props.groupPostId)
         .then(function (response) {
-          if (response.status < 200 && response.status > 300) {
+          if (response.status < 200 || response.status > 300) {
             alert(response.message);
             return;
           }

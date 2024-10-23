@@ -1,6 +1,4 @@
-import axios from 'axios';
-
-import { BASE_URL, accessToken, getAccessToken, removeAccessToken, removeRefreshToken } from './Common';
+import { BASE_URL, getAccessToken, removeAccessToken, removeRefreshToken } from './Common';
 import axiosInstance from "./axiosConfig"; // Common.js에서 BASE_URL과 accessToken 가져오기
 
 // 로그인 함수
