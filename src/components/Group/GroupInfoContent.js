@@ -11,7 +11,7 @@ import {
 
 import React, { useState } from "react";
 import ApplicantModal from "./GroupInfoModal/ApplicantModal";
-
+import EvaluationModal from "./GroupInfoModal/EvaluationModal";
 import FormFieldSingle from "./GroupComponent/FormFieldSingle";
 import TextAreaNoCss from "../Input/TextAreaNoCss";
 import InputTextNoCss from "../Input/InputTextNoCss";
@@ -36,7 +36,6 @@ const GroupInfoContent = ({ mode, groupPostId, userId, groupPostData, groupNewsD
   return (
     <>
       <InfoContainer>
-
         {/* 이미지가 있으면 여기에 넣으면 됨! */}
         <ImagePreview
           src={groupPostData?.thumbnail ? groupPostData?.thumbnail : "기본이미지"}
