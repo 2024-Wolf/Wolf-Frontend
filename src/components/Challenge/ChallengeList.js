@@ -28,10 +28,10 @@ function ChallengeList(props) {
             <CategoryTitle style={{ background: background }}>{category}</CategoryTitle>
             <MainCardParentContainer>
                 <MainCardListContainer>
-                    {props.list.map((item) => (
-                        <CardMapingContainer key={item.challenge_post_id}>
+                    {props.list.map((item, index) => (
+                        <CardMapingContainer key={`${item.challenge_post_id}-${index}`}>
                             <ChallengeListItem
-                                groupPostId={props.groupPostId} 
+                                groupPostId={props.groupPostId}
                                 item={item}
                                 fetchChallenges={props.fetchChallenges}
                                 setDetail={props.setDetail}

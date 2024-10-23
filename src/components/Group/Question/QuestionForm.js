@@ -238,7 +238,7 @@ const Question = ({
     }
 
     if (questionEditFile) {
-      questionEditURL =questionEditFile;
+      questionEditURL = questionEditFile;
       setQuestionEditFileURL(questionEditURL);
     } else {
       setQuestionEditFileURL("");
@@ -413,7 +413,7 @@ const Question = ({
             ) : (
               <CommentListWrapper>
                 {questionData.comments.map((comment, index) => (
-                  <React.Fragment key={comment.id}>
+                  <React.Fragment key={comment.commentId}>
                     <CommentSectionWrapper>
                       <ItemRow>
                         {/* [댓글] 프로필 */}
@@ -427,7 +427,7 @@ const Question = ({
                           {comment.authorId.userNickname}
                         </ProfileIcon>
                         {/* [댓글] 날짜 */}
-                        <QuestionDate>{formatDate(comment.commentTime)}</QuestionDate>
+                        <QuestionDate>{formatDate(comment.createTime)}</QuestionDate>
                       </ItemRow>
 
                       {editingComments[questionData.questionId] === index ? (
@@ -586,14 +586,11 @@ const Reply = ({ comment, children }) => {
 
 const QuestionForm = ({ showFileOption, groupPostId, userId }) => {
 
-  const [questions, setQuestions] = useState(null);
   const [newQuestion, setNewQuestion] = useState("");
   const [newComments, setNewComments] = useState({});
   const [newQuestionFile, setNewQuestionFile] = useState("");
   const [newCommentFile, setNewCommentFile] = useState({}); // 각 댓글의 파일 상태
   const [commentFileURL, setCommentFileURL] = useState("");
-
-  const currentUser = '사용자';
 
   // -------------------------------
   const [questionData, setQuestionData] = useState([]);

@@ -57,7 +57,7 @@ export const FAQQuestion = styled.div`
     min-height: 80px;
 
     border-radius: 7px;
-    background-color: ${(props) => (props.active === 'true' ? 'var(--violet200)' : 'none')};
+    background-color: ${($active) => ($active === 'true' ? 'var(--violet200)' : 'none')};
 
 
     span {
@@ -128,12 +128,12 @@ const FAQ = () => {
   const renderItems = (items) => (
     items?.map((faq, index) => (
       <FAQItem key={index}>
-        <FAQQuestion active={(openQuestion === index).toString()} onClick={() => toggleQuestion(index)}>
+        <FAQQuestion $active={(openQuestion === index).toString()} onClick={() => toggleQuestion(index)}>
           <span>{faq.question}</span>
           {openQuestion === index ? (
-            <ArrowUpIcon isOpen={openQuestion === index} />
+            <ArrowUpIcon $isOpen={openQuestion === index} />
           ) : (
-            <ArrowDownIcon isOpen={openQuestion === index} />
+            <ArrowDownIcon $isOpen={openQuestion === index} />
           )}
         </FAQQuestion>
         {openQuestion === index && <FAQAnswer>{faq.answer}</FAQAnswer>}

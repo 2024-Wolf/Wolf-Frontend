@@ -18,8 +18,8 @@ const TextAreaNoCssWrapper = styled.textarea`
   color: var(--black700);
   transition: border 0.3s ease, color 0.3s ease; /* transition 추가 */
 
-  ${({ editing }) =>
-    editing
+  ${({ $editing }) =>
+    $editing
       ? `
     border: 2px solid var(--violet500);
     color: var(--black700);
@@ -83,7 +83,7 @@ const TextAreaNoCss = ({ value, editing, style, ...props }) => {
       onChange={handleInputChange} // 입력 변화 시 상태 업데이트
       wrap="soft" // 줄바꿈 설정 (HTML 속성으로 전달)
       {...props}
-      editing={editing}
+      $editing={editing}
       required
     />
   );

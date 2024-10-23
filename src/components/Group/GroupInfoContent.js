@@ -6,22 +6,18 @@ import {
   FormFieldRow,
   DoubleDateContainer,
   InfoContainer,
-  PostContent,
-  QuestionHeader,
 
 } from "../GlobalStyledComponents";
 
 import React, { useState } from "react";
 import ApplicantModal from "./GroupInfoModal/ApplicantModal";
 
-import CommentSection from "./Question/CommentSection";
 import FormFieldSingle from "./GroupComponent/FormFieldSingle";
 import TextAreaNoCss from "../Input/TextAreaNoCss";
 import InputTextNoCss from "../Input/InputTextNoCss";
 import InputDateNoCss from "../Input/InputDateNoCss";
 import RecentNewsSlider from "../Slider/RecentNewsSlider";
 import QuestionForm from "./Question/QuestionForm";
-import { matchRoutes } from 'react-router-dom';
 import ImagePreview from "../Img/ImagePreview"
 
 const GroupInfoContent = ({ mode, groupPostId, userId, groupPostData }) => {

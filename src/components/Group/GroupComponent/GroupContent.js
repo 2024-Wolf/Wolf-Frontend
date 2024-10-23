@@ -243,7 +243,7 @@ const GroupContent = ({ contentType = "viewing", groupData, createGroup, updateG
       idx === index ? { ...button, clicked: !button.clicked } : button
     );
 
-    setNewGroupData((prevState) =>({ ...prevState, buttons: newButtons }));
+    setNewGroupData((prevState) => ({ ...prevState, buttons: newButtons }));
   };
 
   const handleEditClick = () => {
@@ -515,7 +515,7 @@ const GroupContent = ({ contentType = "viewing", groupData, createGroup, updateG
               name="thumbnail"
               value={newGroupData.thumbnail}
               disabled={contentsType === "viewing"}
-              onChange={(e)=>handleInputChange("fileName", e.name)}
+              onChange={(e) => handleInputChange("fileName", e.name)}
               isUploadButtonAppear={true}
               style={{
                 flexDirection: "column-reverse",
@@ -668,10 +668,10 @@ const GroupContent = ({ contentType = "viewing", groupData, createGroup, updateG
                     <option value="8">8</option>
                   </SelectButton>
                 </FormFieldSingle>
-                {contentsType !== "viewing" && 
-                <Violet500LineButton onClick={addRecruitment}>
-                  추가하기
-                </Violet500LineButton>
+                {contentsType !== "viewing" &&
+                  <Violet500LineButton onClick={addRecruitment}>
+                    추가하기
+                  </Violet500LineButton>
                 }
               </FormFieldRow>
             </>
@@ -716,7 +716,7 @@ const GroupContent = ({ contentType = "viewing", groupData, createGroup, updateG
                 ) : (
                   <JobCountInfo>
                     {jobTitleMapping[item.job] || item.job} | {item.count}명
-                    <Violet500LineButton style={{marginLeft:"40px"}} onClick={() => startEdit(index)}>
+                    <Violet500LineButton style={{ marginLeft: "40px" }} onClick={() => startEdit(index)}>
                       수정
                     </Violet500LineButton>
                     <Violet500LineButton onClick={() => deleteRecruitment(index)}>

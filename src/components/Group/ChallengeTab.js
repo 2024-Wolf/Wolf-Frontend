@@ -27,9 +27,9 @@ const ChallengeTab = (props) => {
 
       // 각 응답에서 챌린지 배열을 추출하고, 빈 배열은 제외
       const validChallenges = responses
-        .map(response => response?.data?.challenges)
-        .filter(challenges => challenges?.length > 0)
-        .flat();
+        .map(response => response?.data?.challenges || []) // 챌린지가 없으면 빈 배열로 대체
+        .filter(challenges => Array.isArray(challenges) && challenges.length > 0) // 유효한 배열인지 확인
+        .flat(); // 중첩된 배열을 평탄화
 
       if (validChallenges?.length > 0) {
         setBefore(validChallenges);
