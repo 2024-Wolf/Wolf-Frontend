@@ -2343,6 +2343,26 @@ export const Row = styled.div`
   justify-content: start;
 `;
 
+export const ChangeColumn320px = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: start;
+  justify-content: start;
+
+  @media (max-width: 768px) {
+
+  }
+
+  @media (max-width: 320px) {
+      flex-direction: column;
+      div:nth-child(2) {
+        width: 100%;
+      }
+  }
+`;
+
 export const ChangeColumn480px = styled.div`
   width: 100%;
   display: flex;
