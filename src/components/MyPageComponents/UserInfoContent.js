@@ -2,7 +2,8 @@ import styled, { css } from "styled-components";
 import {
     ModalContentWrapper, Div, WrapperForm, Row, ContentsRow, Column, SubContentsWrapper, EtcContentsWrapper,
     SubTitle, Label, LinkInputDiv, Violet400BackgroundButton, ButtonGroupRight, ButtonGroupLeft,
-    Hr
+    Hr,
+    Violet500BackgroundButton
 } from "../GlobalStyledComponents";
 
 import React, { useEffect, useState } from "react";
@@ -21,7 +22,7 @@ import CopyButton from "../Button/CopyButton";
 import InputNumber from "../Input/InputNumber"
 import GlobalSvg from "../Icon/GlobalSvg";
 import { postMyProfile } from "../Apis/UserApi";
-import { deleteUser } from "../Apis/AuthApi";
+import { checkNickname, deleteUser } from "../Apis/AuthApi";
 import { useNavigate } from 'react-router-dom';
 
 
@@ -70,9 +71,10 @@ const UserInfoContent = ({
 
     const [isEditing, setIsEditing] = useState(false); // 편집중인지의 상태
 
+    const [isEditingNickName, setIsEditingNickName] = useState(false); // 편집중인지의 상태
     const [isNickNamePossible, setIsNickNamePossible] = useState(false);
     const [isNickNameImpossible, setIsNickNameImpossible] = useState(false);
-
+    const [isNickNameEqual, setIsNickNameEqual] = useState(false);
 
 
     const handleEditClick = () => {
@@ -85,16 +87,19 @@ const UserInfoContent = ({
         // 링크를 수정했는데, 저장하려고 할 경우 : 모든 배열이 true가 아님
         // 링크를 수정했고, 저장도 되었을 경우 : 모든 배열이 true임
         const boolArray = linkTypes.map(linkType => {
-            const isSaved = Boolean(newProfileData?.links?.find(data => data.linkType == linkType).linkUrl) ==
-                Boolean(newUserLinks?.find(data => data.linkType == linkType).linkUrl)
+            const isSaved = Boolean(newProfileData?.links?.find(data => data.linkType === linkType).linkUrl) ===
+                Boolean(newUserLinks?.find(data => data.linkType === linkType).linkUrl)
             return isSaved;
         })
 
 
-        // 모든 요소가 true인지 확인
-        if (boolArray.every(value => value === true)) {
+        // 모든 요소가 true인지 확인 & 
+        // 닉네임이 사용 가능한지 확인
+        if ((boolArray.every(value => value === true)) &&
+            (isEditingNickName === true && isNickNamePossible === true)) {
             setIsEditing(false); // 편집 종료
             setContentsType('myselfViewing');
+            setIsEditingNickName(false);
 
             // 최종적인 폼 제출 진행
             try {
@@ -108,13 +113,14 @@ const UserInfoContent = ({
                 alert("회원 정보가 수정되었습니다");
                 window.location.reload(); // 페이지 새로 고침
 
+
             } catch (error) {
                 // setError('회원 정보 삭제 실패');
                 console.error(error);
             } finally {
                 // setIsLoading(false);
             }
-        } else {
+        } else if (!(boolArray.every(value => value === true))) {
             // false 인덱스 찾기
             const falseIndexes = boolArray
                 .map((value, index) => (value === false ? index : -1)) // false일 때 인덱스 저장
@@ -124,6 +130,11 @@ const UserInfoContent = ({
             const linkNames = falseIndexes.map(index => linkTypes[index]); // false 인덱스에 해당하는 이름 가져오기
             alert(`수정한 ${linkNames.join(", ")} 링크를 등록해주세요!`);
         }
+        else if ((isEditingNickName === true || (isNickNamePossible === false && isNickNameEqual === false))) {
+            alert(`닉네임을 중복 검사해주세요!`);
+        } else {
+            alert(`수정 사항을 다시 확인해주세요!`);
+        }
 
 
 
@@ -132,6 +143,7 @@ const UserInfoContent = ({
     const handleCancelClick = () => {
         const resetProfileData = () => {
             setNewProfileData(profileData); // 수정 전의 DB 정보로 초기화
+            setIsEditingNickName(false);
             setNewUserLinks( // 링크 정보도 초기화
                 linkTypes.map(linkType => {
                     const linkData = profileData?.links?.find(data => data.linkType === linkType) || {};
@@ -153,11 +165,14 @@ const UserInfoContent = ({
         };
 
         // eslint-disable-next-line no-restricted-globals
-        if (isEditing && !confirm("변경 사항이 있습니다. 취소하시겠습니까?")) {
+        if ((isEditing && !isNickNameEqual) && !confirm("변경 사항이 있습니다. 취소하시겠습니까?")) {
             return; // 사용자가 취소를 선택하면 함수 종료
         }
 
         setIsEditing(false); // 편집 종료
+        setIsNickNamePossible(false);
+        setIsNickNameImpossible(false);
+        setIsNickNameEqual(false);
         setContentsType('myselfViewing');
         resetProfileData();
     };
@@ -185,7 +200,12 @@ const UserInfoContent = ({
 
 
     const handleInputChange = (field, value) => {
+        setIsNickNamePossible(false);
+        setIsNickNameImpossible(false);
+        setIsNickNameEqual(false);
+
         setIsEditing(true); // 수정 시작
+        setIsEditingNickName(true);
 
         setNewProfileData((prev) => ({
             ...prev,
@@ -194,25 +214,6 @@ const UserInfoContent = ({
     };
 
 
-
-
-    const handleNickName = (e) => {
-        e.preventDefault();
-
-        // 중복된 닉네임인지 검증하는 로직 구현이 필요함
-        if (true) {
-            // 닉네임 사용 가능
-            alert('사용 가능한 닉네임입니다')
-            setIsNickNamePossible(true);
-            setIsNickNameImpossible(false);
-
-        } else {
-            // 닉네임 사용 불가
-            alert('중복된 닉네임입니다')
-            setIsNickNameImpossible(true);
-            setIsNickNamePossible(false);
-        }
-    };
 
     const handleInputLinkChange = (targetLinkType, value) => {
         setIsEditing(true); // 수정 시작
@@ -274,28 +275,60 @@ const UserInfoContent = ({
         alert('링크를 등록했습니다');
     };
 
+    // 닉네임 중복 검사
+    const handleNickNameCheck = async () => {
+        try {
+
+            // 닉네임 중복 검사
+
+            const isAvailable = newProfileData?.nickname ? await checkNickname(newProfileData?.nickname) : "";  // 서버에서 중복 여부 확인
+
+            if (isAvailable === "true") {
+                // 닉네임 사용 가능
+                setIsNickNamePossible(true);
+            } else if(isAvailable === "equal"){
+                setIsNickNameEqual(true);
+            }else {
+                // 닉네임 사용 불가
+                setIsNickNameImpossible(true);
+                // handleInputChange('nickname', profileData?.nickname);  // 실패 시 값 초기화
+            }
+        } catch (error) {
+            console.error('닉네임 중복 확인 중 오류 발생:', error);
+            // 필요에 따라 에러 처리 로직 추가
+        }
+    };
+
     const renderNicknameNotice = () => {
         return (
             <>
-                {(isNickNamePossible || isNickNameImpossible) && <div style={{ height: '16px' }}>
-                    {/* {!isButtonDisable && } */}
-                    {isNickNamePossible &&
+
+                <div style={{ height: '16px' }}>
+                    {isNickNamePossible && (
                         <span
                             style={{
                                 fontSize: '13px', color: 'var(--blueViolet700)'
                             }}>
-                            사용 가능한 닉네임입니다
+                            사용 가능한 닉네임입니다.
                         </span>
-                    }
-                    {isNickNameImpossible &&
+                    )}
+                    {isNickNameImpossible && (
                         <span
                             style={{
                                 fontSize: '13px', color: '#ED4E51'
                             }}>
-                            사용 불가능한 닉네임입니다
+                            사용 불가능한 닉네임입니다.
                         </span>
-                    }
-                </div>}
+                    )}
+                    {isNickNameEqual && (
+                        <span
+                            style={{
+                                fontSize: '13px', color: '#32CD32' // 밝은 초록색
+                            }}>
+                            현재 닉네임입니다.
+                        </span>
+                    )}
+                </div>
             </>
 
         )
@@ -344,7 +377,6 @@ const UserInfoContent = ({
                         <SubTitle>기본 정보</SubTitle>
                         <Hr />
                     </div>
-
                     <ModalContentWrapper style={{ gap: '5px' }}>
                         <Div style={{ gap: '2px' }}>
                             <Row>
@@ -356,9 +388,11 @@ const UserInfoContent = ({
                                             placeholder="닉네임을 입력해주세요"
                                             readOnly={!(contentsType === 'myselfEditing')}
                                             value={isEditing ?
-                                                (newProfileData["nickname"] ? newProfileData["nickname"] : "") :
-                                                (profileData["nickname"] ? profileData["nickname"] : "")}
-                                            onChange={(e) => handleInputChange('nickname', e.target.value)}
+                                                (newProfileData?.nickname ? newProfileData?.nickname : "") :
+                                                (profileData?.nickname ? profileData?.nickname : "")}
+                                            onChange={(e) => {
+                                                handleInputChange('nickname', e.target.value);
+                                            }}
                                             required
                                         />
                                     </Row>
@@ -367,7 +401,7 @@ const UserInfoContent = ({
                                     {/* myselfEditing */}
                                     <Violet400BackgroundButton
                                         type="button"
-                                        onClick={handleNickName}
+                                        onClick={handleNickNameCheck}
                                     >
                                         중복 검사
                                     </Violet400BackgroundButton>
@@ -414,8 +448,8 @@ const UserInfoContent = ({
                                         placeholder="환불 계좌를 입력해주세요"
                                         readOnly={!(contentsType === 'myselfEditing')}
                                         value={isEditing ?
-                                            (newProfileData["refundAccount"] ? newProfileData["refundAccount"] : "") :
-                                            (profileData["refundAccount"] ? profileData["refundAccount"] : "")}
+                                            (newProfileData?.refundAccount ? newProfileData?.refundAccount : "") :
+                                            (profileData?.refundAccount ? profileData?.refundAccount : "")}
                                         onChange={(e) => handleInputChange('refundAccount', e.target.value)}
                                     />
                                 </Row>
@@ -434,8 +468,8 @@ const UserInfoContent = ({
                                             readOnly={true}
                                             placeholder="이메일은 필수값입니다"
                                             value={isEditing ?
-                                                (newProfileData["email"] ? newProfileData["email"] : "") :
-                                                (profileData["email"] ? profileData["email"] : "")}
+                                                (newProfileData?.email ? newProfileData?.email : "") :
+                                                (profileData?.email ? profileData?.email : "")}
                                             onChange={(e) => handleInputChange('email', e.target.value)}
                                         />
                                     </Row>
@@ -450,8 +484,8 @@ const UserInfoContent = ({
                                         placeholder="이름을 입력해주세요"
                                         readOnly={!(contentsType === 'myselfEditing')}
                                         value={isEditing ?
-                                            (newProfileData["name"] ? newProfileData["name"] : "") :
-                                            (profileData["name"] ? profileData["name"] : "")}
+                                            (newProfileData?.name ? newProfileData?.name : "") :
+                                            (profileData?.name ? profileData?.name : "")}
                                         onChange={(e) => handleInputChange('name', e.target.value)}
                                         required
                                     />
@@ -462,7 +496,7 @@ const UserInfoContent = ({
                             <Div>
                                 <Label>활동 점수</Label>
                                 <Row>
-                                    <ActivityScoreBar activityMetricData={profileData.activityMetric} />
+                                    <ActivityScoreBar activityMetricData={profileData?.activityMetric} />
                                 </Row>
                             </Div>
                         </Column>
@@ -482,8 +516,8 @@ const UserInfoContent = ({
                                 type="text"
                                 readOnly={!(contentsType === 'myselfEditing')}
                                 value={isEditing ?
-                                    (newProfileData["jobTitle"] ? newProfileData["jobTitle"] : "") :
-                                    (profileData["jobTitle"] ? profileData["jobTitle"] : "")}
+                                    (newProfileData?.jobTitle ? newProfileData?.jobTitle : "") :
+                                    (profileData?.jobTitle ? profileData?.jobTitle : "")}
                                 onChange={(e) => handleInputChange('jobTitle', e.target.value)}
                             />
                         </Row>
@@ -496,8 +530,8 @@ const UserInfoContent = ({
                                 placeholder="소속을 입력하세요"
                                 readOnly={!(contentsType === 'myselfEditing')}
                                 value={isEditing ?
-                                    (newProfileData["organization"] ? newProfileData["organization"] : "") :
-                                    (profileData["organization"] ? profileData["organization"] : "")}
+                                    (newProfileData?.organization ? newProfileData?.organization : "") :
+                                    (profileData?.organization ? profileData?.organization : "")}
                                 onChange={(e) => handleInputChange('organization', e.target.value)}
                             />
                         </Row>
@@ -511,8 +545,8 @@ const UserInfoContent = ({
                                 style={{ textAlign: 'start', }}
                                 readOnly={!(contentsType === 'myselfEditing')}
                                 value={isEditing ?
-                                    (newProfileData["experience"] ? newProfileData["experience"] : "") :
-                                    (profileData["experience"] ? profileData["experience"] : "")}
+                                    (newProfileData?.experience ? newProfileData?.experience : "") :
+                                    (profileData?.experience ? profileData?.experience : "")}
                                 onChange={(e) => handleInputChange('experience', e.target.value)}
                                 min={0}
                                 max={100}
@@ -535,8 +569,8 @@ const UserInfoContent = ({
                         <TextArea
                             placeholder="자기 소개를 입력해주세요"
                             value={isEditing ?
-                                (newProfileData["introduction"] ? newProfileData["introduction"] : "WOLF에서 함께 성장하고 새로운 도전에 나서고 싶습니다!") :
-                                (profileData["introduction"] ? profileData["introduction"]
+                                (newProfileData?.introduction ? newProfileData?.introduction : "WOLF에서 함께 성장하고 새로운 도전에 나서고 싶습니다!") :
+                                (profileData?.introduction ? profileData?.introduction
                                     : 'WOLF에서 함께 성장하고 새로운 도전에 나서고 싶습니다!')}
                             onChange={(e) => handleInputChange("introduction", e.target.value)}
                             disabled={!(contentsType === 'myselfEditing')}

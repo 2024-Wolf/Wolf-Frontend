@@ -1359,6 +1359,8 @@ export const DropdownItem = styled.a`
   text-decoration: none;
   text-align: center;
   border-radius: 10px;
+  text-wrap: nowrap;
+  cursor: pointer;
   &:hover {
     background-color: var(--black100);
   }
@@ -2800,7 +2802,7 @@ export const SectionContent = styled.div`
 export const SectionTitle = styled.h2`
   font-size: 24px;
   font-weight: 600;
-  color: var(--black800);
+  color: var(--violet600);
   margin: 15px 0;
 `;
 

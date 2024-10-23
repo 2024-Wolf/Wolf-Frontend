@@ -4,7 +4,7 @@ import { PageContainer, SectionContent, SectionTitle } from "../GlobalStyledComp
 import React, { useEffect, useState } from "react";
 import MainCategory from "../Category/MainCategory";
 import ActivityCardList from "./ActivityCardList";
-import { getGroupPosts } from '../Apis/GroupPostApi';
+import { getGroupPosts, getUserGroupsByTypeAndStatus } from '../Apis/GroupPostApi';
 
 const activitiesData = {
     applyCards: [{
@@ -46,43 +46,50 @@ const activitiesData = {
 };
 
 const ActivitiesContent = () => {
-    const categories = ["프로젝트", "스터디"];
+    const categories = ["스터디", "프로젝트"];
     const [activeCategory, setActiveCategory] = useState(categories[0]);
 
-    const { applyCards, ongoingCards, completedCards } = activitiesData;
+    // const { applyCards, ongoingCards, completedCards } = activitiesData;
 
-    const [groupPostsData, setGroupPostsData] = useState({});
-    const [groupAllPostsData, setGroupAllPostsData] = useState({});
-    const [groupStudyPostsData, setGroupStudyPostsData] = useState({});
-    const [groupProjectPostsData, setGroupProjectPostsData] = useState({});
-    const [groupTypePostsData, setGroupTypePostsData] = useState({});
-    const [type, setType] = useState('all');
+    const [applyCards, setApplyCards] = useState({});
+    const [ongoingCards, setOngoingCards] = useState({});
+    const [completedCards, setCompletedCards] = useState({});
+
+    const [type, setType] = useState('STUDY');
+
+    useEffect(() => {
+        switch (activeCategory) {
+            case "프로젝트":
+                setType('PROJECT');
+                break;
+            default:
+                setType('STUDY');
+                break;
+        }
+    }, [activeCategory, applyCards, ongoingCards, completedCards]);
 
     // "all", "study", "project"
 
     useEffect(() => {
         const fetchPostData = async () => {
             try {
-                const AllPost = await getGroupPosts("all"); // 모든 데이터 저장
-                AllPost.data ? setGroupAllPostsData(AllPost.data) : <></>;
 
-                const StudyPost = await getGroupPosts("study"); // 스터디 데이터 저장
-                StudyPost.data ? setGroupStudyPostsData(StudyPost.data) : <></>;
+                const applyPost = await getUserGroupsByTypeAndStatus(type, 'APPLYING'); // 모든 데이터 저장
+                applyPost.data ? setApplyCards(applyPost.data) : <></>;
 
-                const ProjectPost = await getGroupPosts("project"); // 프로젝트 데이터 저장
-                ProjectPost.data ? setGroupProjectPostsData(ProjectPost.data) : <></>;
+                const ongoingPost = await getUserGroupsByTypeAndStatus(type, 'ONGOING'); // 모든 데이터 저장
+                ongoingPost.data ? setOngoingCards(ongoingPost.data) : <></>;
 
-                const TypePost = await getGroupPosts(type); // 타입별 데이터 저장
-                TypePost.data ? setGroupTypePostsData(TypePost.data) : <></>;
+                const completedPost = await getUserGroupsByTypeAndStatus(type, 'COMPLETED'); // 모든 데이터 저장
+                completedPost.data ? setCompletedCards(completedPost.data) : <></>;
 
 
-                // 상태 코드가 200-299 범위인지 확인
-                if ((AllPost.status < 200 || AllPost.status >= 300) ||
-                    (StudyPost.status < 200 || AllPost.status >= 300)
-                        (ProjectPost.status < 200 || AllPost.status >= 300)
-                        (TypePost.status < 200 || AllPost.status >= 300)) {
-                    throw new Error('네트워크 오류');
-                }
+                // // 상태 코드가 200-299 범위인지 확인
+                // if ((applyPost.status < 200 || applyPost.status >= 300) ||
+                //     (ongoingPost.status < 200 || ongoingPost.status >= 300) ||
+                //     (completedPost.status < 200 || completedPost.status >= 300)) {
+                //     throw new Error('네트워크 오류');
+                // }
 
             } catch (error) {
                 // 에러 처리: 콘솔에 에러 메시지 출력
@@ -94,7 +101,13 @@ const ActivitiesContent = () => {
         };
 
         fetchPostData(); // 데이터 가져오기 호출
-    }, []); // postId가 변경될 때마다 실행
+    }, [type, setType]); // postId가 변경될 때마다 실행
+
+    // console.log('groupPostsData : ', groupPostsData);
+    // console.log('groupAllPostsData : ', groupAllPostsData);
+    // console.log('groupStudyPostsData : ', groupStudyPostsData);
+    // console.log('groupProjectPostsData : ', groupProjectPostsData);
+    // console.log('groupTypePostsData : ', groupTypePostsData);
 
 
     return (
@@ -104,20 +117,32 @@ const ActivitiesContent = () => {
                 activeCategory={activeCategory}
                 setActiveCategory={setActiveCategory}
             />
-
             <SectionContent>
                 <SectionTitle>모임 지원 현황</SectionTitle>
-                <ActivityCardList cards={applyCards} buttonText={"신청 취소"} />
+                <ActivityCardList
+                    cards={activitiesData.applyCards}
+                    buttonText={"신청 취소"}
+                    category={activeCategory}
+                    data={applyCards.groupPostResponseList}
+                />
             </SectionContent>
-
             <SectionContent>
                 <SectionTitle>진행중인 모임</SectionTitle>
-                <ActivityCardList cards={ongoingCards} buttonText={"탈퇴하기"} />
+                <ActivityCardList
+                    cards={activitiesData.ongoingCards}
+                    buttonText={"탈퇴하기"}
+                    category={activeCategory}
+                    data={ongoingCards.groupPostResponseList}
+                />
             </SectionContent>
 
             <SectionContent>
                 <SectionTitle>완료한 모임</SectionTitle>
-                <ActivityCardList cards={completedCards} />
+                <ActivityCardList
+                    cards={activitiesData.completedCards}
+                    category={activeCategory}
+                    data={completedCards.groupPostResponseList}
+                />
             </SectionContent>
         </PageContainer>
     );

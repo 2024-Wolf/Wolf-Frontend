@@ -60,7 +60,6 @@ const App = () => {
           <Route path="/faq" element={renderWithLoading(FAQ)} />
           <Route path="/write" element={renderWithLoading(CreateGroupPage)} />
           <Route path="/tos" element={renderWithLoading(Tos)} />
-          <Route path="/user" element={renderWithLoading(MyPage)} />
           <Route path="/user/my" element={renderWithLoading(MyPage, { profileData })} />
           <Route path="/user/:userId" element={renderWithLoading(MyPage)} />
           <Route path="/google/callback" element={renderWithLoading(RedirectPage)} />

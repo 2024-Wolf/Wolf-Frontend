@@ -79,7 +79,7 @@ export const checkNickname = async (nickname) => {
                 Authorization: getAccessToken()
             }
         });
-        return response.data; // 중복 닉네임 체크 성공 시 데이터 반환
+        return response.data.data; // 중복 닉네임 체크 성공 시 데이터 반환
     } catch (error) {
         console.error('중복 닉네임 체크 실패:', error);
         throw error; // 오류 발생 시 예외를 발생시킴
