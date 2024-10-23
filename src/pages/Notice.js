@@ -1,16 +1,14 @@
 import styled from 'styled-components';
 import { PageTitle } from "../components/GlobalStyledComponents";
-
-import ArrowDownIcon from '../components/Icon/ArrowDownIcon';
-import ArrowUpIcon from '../components/Icon/ArrowUpIcon';
 import PaginatedList from '../components/Pagination/PaginatedList';
-
 import React, { useEffect, useState } from 'react';
-import FAQTab from "../components/Tab/FAQTab";
-import { getFaqByCategory } from "../components/Apis/FaqApi";
 import ErrorUI from "../components/Error/ErrorUI";
 
-const FAQContainer = styled.div`
+import NoticeDetail from "../components/Notice/NoticeDetail";
+import { getFaqByCategory } from "../components/Apis/FaqApi";
+
+
+const NoticeContainer = styled.div`
     display: flex;
     width: 100%;
     flex-direction: column;
@@ -24,14 +22,14 @@ const FAQContainer = styled.div`
     }
 `;
 
-const FAQContent = styled.div`
+const NoticeContent = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: 5px;
 `;
 
-export const FAQList = styled.div`
+export const NoticeList = styled.div`
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -39,13 +37,13 @@ export const FAQList = styled.div`
     width: 100%;
 `;
 
-export const FAQItem = styled.div`
+export const NoticeItem = styled.div`
     padding-bottom: 5px;
     border-bottom: 1px solid #ccc;
     width: 100%;
 `;
 
-export const FAQQuestion = styled.div`
+export const NoticeTitle = styled.div`
     display: flex;
     justify-content: space-between;
     cursor: pointer;
@@ -57,8 +55,6 @@ export const FAQQuestion = styled.div`
     min-height: 80px;
 
     border-radius: 7px;
-    background-color: ${($active) => ($active === 'true' ? 'var(--violet200)' : 'none')};
-
 
     span {
         overflow: hidden;
@@ -67,7 +63,7 @@ export const FAQQuestion = styled.div`
     }
 `;
 
-export const FAQAnswer = styled.div`
+export const NoticeAnswer = styled.div`
     padding: 15px 30px;
     line-height: 1.6;
     border-radius: 7px;
@@ -77,7 +73,8 @@ export const FAQAnswer = styled.div`
     color: var(--black600);
 `;
 
-const FaqCategories = [
+
+const NoticeCategories = [
   { label: '계정', value: 'ACCOUNT' },
   { label: '스터디', value: 'STUDY' },
   { label: '프로젝트', value: 'PROJECT' },
@@ -85,59 +82,40 @@ const FaqCategories = [
   { label: 'Etc', value: 'ETC' }
 ];
 
-const FAQ = () => {
-  const [activeTab, setActiveTab] = useState(FaqCategories[0].value); // 현재 선택된 탭
-  const [openQuestion, setOpenQuestion] = useState(null); // 하나의 질문만 열리도록 설정
+const Notice = () => {
+  const [activeTab, setActiveTab] = useState(NoticeCategories[0].value); // 현재 선택된 탭
   const [currentPage, setCurrentPage] = useState(1); // 최근 페이지 번호
-  const [faqData, setFaqData] = useState([]);
+  const [noticeData, setNoticeData] = useState([]);
   const [error, setError] = useState(null);
+  const [noticeId, setNoticeId] = useState(0);
+  const [detailModalOn, setDetailModalOn] = useState(false);
+  const [item, setItem] = useState();
 
 
-  const toggleQuestion = (index) => {
-    setOpenQuestion(openQuestion === index ? null : index); // 현재 열려있는 질문이면 닫고, 아니면 해당 질문을 열도록 설정
-  };
-
-  const fetchFaqData = (category, page) => {
+  const fetchNoticeData = (category, page) => {
     getFaqByCategory(category, page, 10)
       .then((data) => {
-        setFaqData(data.data.faqItems); // 받아온 FAQ 데이터를 상태로 설정
+        setNoticeData(data.data.faqItems); // 받아온 Notice 데이터를 설정
       })
       .catch(() => {
-        setError("FAQ 데이터를 불러올 수 없습니다.");
+        setError("Notice 데이터를 불러올 수 없습니다.");
       })
   };
+
   useEffect(() => {
     console.log("Current activeTab:", activeTab);
     if (activeTab) {
-      fetchFaqData(activeTab, currentPage);
+      fetchNoticeData(activeTab, currentPage);
     }
   }, [activeTab, currentPage]);
 
-  const changeTab = (tabLabel) => {
-    const selectedTab = FaqCategories.find(category => category.label === tabLabel);
-
-    if (selectedTab) {
-      setActiveTab(selectedTab.value); // 백엔드와 주고받을 때는 value 사용
-      setOpenQuestion(null); // 탭 변경 시 열려 있는 질문 해제
-      setCurrentPage(1); // 탭 변경 시 페이지 초기화
-    } else {
-      console.error(`Invalid tab label: ${tabLabel}`);
-    }
-  };
-
   const renderItems = (items) => (
-    items?.map((faq, index) => (
-      <FAQItem key={index}>
-        <FAQQuestion $active={(openQuestion === index).toString()} onClick={() => toggleQuestion(index)}>
-          <span>{faq.question}</span>
-          {openQuestion === index ? (
-            <ArrowUpIcon $isOpen={openQuestion === index} />
-          ) : (
-            <ArrowDownIcon $isOpen={openQuestion === index} />
-          )}
-        </FAQQuestion>
-        {openQuestion === index && <FAQAnswer>{faq.answer}</FAQAnswer>}
-      </FAQItem>
+    items?.map((Notice, index) => (
+      <NoticeItem key={index} onClick={() => setDetailItem(1)}>
+        <NoticeTitle>
+          <span>{Notice.question}</span>
+        </NoticeTitle>
+      </NoticeItem>
     ))
   );
 
@@ -146,21 +124,33 @@ const FAQ = () => {
     return <ErrorUI error={error} />;
   }
 
+
+  // 공지사항 상세
+  function setDetailItem(item) {
+    setDetailModalOn(true);
+    setItem(item);
+  }
+
   return (
-    <FAQContainer>
+    <NoticeContainer>
       <PageTitle>공지사항</PageTitle>
-      <FAQContent>
-        <FAQList>
-          <PaginatedList
-            data={faqData}
-            renderItems={renderItems}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-          />
-        </FAQList>
-      </FAQContent>
-    </FAQContainer>
+      <NoticeContent>
+        {detailModalOn ? <NoticeDetail challengePostId={item.challengePostId} prevClick={() => setDetailModalOn(false)} /> :
+          <>
+            <NoticeList>
+              <PaginatedList
+                setDetail={setDetailItem}
+                data={noticeData}
+                renderItems={renderItems}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+              />
+            </NoticeList>
+          </>
+        }
+      </NoticeContent>
+    </NoticeContainer>
   );
 };
 
-export default FAQ;
+export default Notice;

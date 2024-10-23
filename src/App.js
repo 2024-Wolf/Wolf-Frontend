@@ -66,6 +66,7 @@ const App = () => {
           <Route path="/user/:userId" element={renderWithLoading(MyPage)} />
           <Route path="/google/callback" element={renderWithLoading(RedirectPage)} />
           <Route path="/notice" element={renderWithLoading(Notice)} />
+          <Route path="/notice/:noticeId" element={renderWithLoading(StudyPage)} />
         </Routes>
       </MainContents>
       <Footer />

@@ -57,8 +57,7 @@ export const FAQQuestion = styled.div`
     min-height: 80px;
 
     border-radius: 7px;
-    background-color: ${($active) => ($active === 'true' ? 'var(--violet200)' : 'none')};
-
+    background-color: ${(props) => (props.$active === 'true' ? 'var(--violet200)' : 'none')};
 
     span {
         overflow: hidden;
