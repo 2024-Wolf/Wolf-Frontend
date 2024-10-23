@@ -14,7 +14,7 @@ import ProfileIcon from "../components/Icon/ProfileIcon";
 import FAQTab from "../components/Tab/FAQTab";
 import ReportButton from "../components/Button/ReportButton";
 import { useParams } from "react-router-dom";
-import {getGroupNews, getGroupPost, getGroupMember} from "../components/Apis/GroupPostApi"
+import { getGroupNews, getGroupPost, getGroupMember } from "../components/Apis/GroupPostApi"
 
 
 
@@ -97,8 +97,8 @@ const StudyPage = ({ profileData }) => {
         // setLoading(false);
       }
       try {
-        await getGroupMember(postId).then(function(response){
-          setGroupPostData((prev)=>({...prev, memberData: response.data}));
+        await getGroupMember(postId).then(function (response) {
+          setGroupPostData((prev) => ({ ...prev, memberData: response.data }));
         })
       } catch (error) {
         // 에러 처리: 콘솔에 에러 메시지 출력
@@ -112,7 +112,6 @@ const StudyPage = ({ profileData }) => {
       try {
         const result = await getGroupNews(postId); // 그룹 뉴스 데이터 저장
         setGroupNewsData(result.data);
-        console.log(result.data);
 
         // 상태 코드가 200-299 범위인지 확인
         if (result.status < 200 || result.status >= 300) {
