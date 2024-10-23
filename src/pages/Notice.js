@@ -6,6 +6,7 @@ import ErrorUI from "../components/Error/ErrorUI";
 
 import NoticeDetail from "../components/Notice/NoticeDetail";
 import { getFaqByCategory } from "../components/Apis/FaqApi";
+import {getNotices} from "../components/Apis/NoticeApi";
 
 
 const NoticeContainer = styled.div`
@@ -63,39 +64,19 @@ export const NoticeTitle = styled.div`
     }
 `;
 
-export const NoticeAnswer = styled.div`
-    padding: 15px 30px;
-    line-height: 1.6;
-    border-radius: 7px;
-    background-color: var(--black100);
-    margin-left: 20px;
-    font-size: 16px;
-    color: var(--black600);
-`;
-
-
-const NoticeCategories = [
-  { label: '계정', value: 'ACCOUNT' },
-  { label: '스터디', value: 'STUDY' },
-  { label: '프로젝트', value: 'PROJECT' },
-  { label: '챌린지', value: 'CHALLENGE' },
-  { label: 'Etc', value: 'ETC' }
-];
-
 const Notice = () => {
-  const [activeTab, setActiveTab] = useState(NoticeCategories[0].value); // 현재 선택된 탭
-  const [currentPage, setCurrentPage] = useState(1); // 최근 페이지 번호
+  const [currentPage, setCurrentPage] = useState(0); // 최근 페이지 번호
   const [noticeData, setNoticeData] = useState([]);
   const [error, setError] = useState(null);
-  const [noticeId, setNoticeId] = useState(0);
+  const [noticeId, setNoticeId] = useState(null);
   const [detailModalOn, setDetailModalOn] = useState(false);
   const [item, setItem] = useState();
 
 
-  const fetchNoticeData = (category, page) => {
-    getFaqByCategory(category, page, 10)
+  const fetchNoticeData = (page) => {
+    getNotices(page)
       .then((data) => {
-        setNoticeData(data.data.faqItems); // 받아온 Notice 데이터를 설정
+        setNoticeData(data.data.notices); // 받아온 Notice 데이터를 설정
       })
       .catch(() => {
         setError("Notice 데이터를 불러올 수 없습니다.");
@@ -103,21 +84,23 @@ const Notice = () => {
   };
 
   useEffect(() => {
-    console.log("Current activeTab:", activeTab);
-    if (activeTab) {
-      fetchNoticeData(activeTab, currentPage);
-    }
-  }, [activeTab, currentPage]);
+      fetchNoticeData(currentPage);
+  }, [currentPage]);
 
-  const renderItems = (items) => (
-    items?.map((Notice, index) => (
-      <NoticeItem key={index} onClick={() => setDetailItem(1)}>
-        <NoticeTitle>
-          <span>{Notice.question}</span>
-        </NoticeTitle>
-      </NoticeItem>
-    ))
-  );
+  const renderItems = (items) => {
+    console.log("Rendering items:", items); // 아이템이 무엇인지 확인
+    return (
+      items?.map((notice, index) => (
+        <NoticeItem key={index} onClick={() => setDetailItem(notice.noticeId)}>
+          <NoticeTitle>
+            <span>{notice.title}</span>
+          </NoticeTitle>
+        </NoticeItem>
+      ))
+    );
+  };
+
+  console.log("NoticeData 상태:", noticeData);
 
   // 에러 발생 UI
   if (error) {
@@ -127,7 +110,7 @@ const Notice = () => {
 
   // 공지사항 상세
   function setDetailItem(item) {
-    setDetailModalOn(true);
+    setDetailModalOn(1);
     setItem(item);
   }
 
@@ -135,7 +118,7 @@ const Notice = () => {
     <NoticeContainer>
       <PageTitle>공지사항</PageTitle>
       <NoticeContent>
-        {detailModalOn ? <NoticeDetail challengePostId={item.challengePostId} prevClick={() => setDetailModalOn(false)} /> :
+        {detailModalOn ? <NoticeDetail challengePostId={item.noticeId} prevClick={() => setDetailModalOn(true)} /> :
           <>
             <NoticeList>
               <PaginatedList

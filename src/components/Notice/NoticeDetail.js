@@ -67,7 +67,7 @@ function NoticeDetail(props) {
     const [item, setItem] = useState({});
 
     useEffect(() => {
-        getChallenge(props.NoticePostId)
+        getChallenge(props.noticeId)
             .then(function (response) {
                 // setItem(response.data);
             })
