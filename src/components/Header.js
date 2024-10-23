@@ -173,7 +173,7 @@ function Header({ isLoggedIn, onLogin, offLogin, profileData, alarmsPreviewData 
           팀원 모집하기
         </HeaderCreateGroupButton>
       ) : (
-        <HeaderCreateGroupButton onClick={openModal}> // 로그인 모달 열기
+        <HeaderCreateGroupButton onClick={openModal}>
           팀원 모집하기
         </HeaderCreateGroupButton>
       )}
