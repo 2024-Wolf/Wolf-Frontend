@@ -39,12 +39,6 @@ export const MainButtonContainer = styled.div`
 
 
 const Main = () => {
-    const banners = [
-        { id: 1, imgUrl: "/banner/banner1.png", link: "/"},
-        { id: 2, imgUrl: "/banner/banner2.png" },
-        { id: 3, imgUrl: "/banner/banner3.png" },
-        { id: 4, imgUrl: "/banner/banner4.png", link: "/" },
-    ];
 
     const categories = ["전체", "프로젝트", "스터디"];
     const [activeCategory, setActiveCategory] = useState();
@@ -136,7 +130,7 @@ const Main = () => {
 
     return (
         <>
-            <BannerSlider images={banners} />
+            <BannerSlider />
             <main style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '40px' }}>
                 <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '20px', padding: '0px 15px' }}>
                     <MainCategory

@@ -98,21 +98,22 @@ function NoticeDetail(props) {
         return `${year}.${month}.${day}`; // 원하는 형식으로 반환
     }
 
+
     return (
         <NoticeDetailContainer>
             <NoticeDetailHeaderTop>
                 <span className="hiddenSpan" />
-                <NoticeDetailTitle>{props.item?.noticeId}</NoticeDetailTitle>
+                <NoticeDetailTitle>{props.item?.noticeId || ''}</NoticeDetailTitle>
                 <PreviousButton prevClick={prevClick} />
             </NoticeDetailHeaderTop>
 
             <ImagePreview
-                imageFile={props.item?.thumbnail}
-                src={props.item?.thumbnail} alt='공지사항 썸네일'
+                imageFile={props.item?.thumbnail || ''}
+                src={props.item?.thumbnail || ''} alt='공지사항 썸네일'
             />
             <span>
-                <div>작성자 : {props.item?.author}</div>
-                <div>작성일 : {formatDate(props.item?.createdAt)}</div>
+                <div>작성자 : {props.item?.author || ''}</div>
+                <div>작성일 : {formatDate(props.item?.createdAt || '')}</div>
             </span>
             {/* 공지사항 제목 */}
             <Violet500LineDiv>
@@ -121,7 +122,7 @@ function NoticeDetail(props) {
                         <InputTextNoCss
                             name="title"
                             placeholder="제목이 없습니다"
-                            value={props.item?.title}
+                            value={props.item?.title || ''}
                         />
                     </FormFieldSingle>
                 </FormFieldColumn>
@@ -131,7 +132,7 @@ function NoticeDetail(props) {
                 <TextAreaNoCss
                     name="introduction"
                     placeholder="내용이 없습니다"
-                    value={props.item?.content}
+                    value={props.item?.content || ''}
                 />
             </Violet500LineDiv>
         </NoticeDetailContainer >

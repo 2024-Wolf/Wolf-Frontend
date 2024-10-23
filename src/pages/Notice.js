@@ -7,6 +7,7 @@ import ErrorUI from "../components/Error/ErrorUI";
 import NoticeDetail from "../components/Notice/NoticeDetail";
 import { getFaqByCategory } from "../components/Apis/FaqApi";
 import { getNotices, getNoticeById } from "../components/Apis/NoticeApi";
+import { useLocation, useNavigate } from 'react-router-dom';
 
 
 const NoticeContainer = styled.div`
@@ -64,7 +65,11 @@ export const NoticeTitle = styled.div`
     }
 `;
 
-const Notice = () => {
+const Notice = (props) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [noticeIdFromState, setNoticeIdFromState] = useState(location.state?.sendNoticeId || null); // BannerSlider에서  navigate('/notice', { state: { sendNoticeId: 1 } })} 형태로 객체 전송중
+
   const [currentPage, setCurrentPage] = useState(1); // 최근 페이지 번호
   const [noticeData, setNoticeData] = useState([]);
   const [error, setError] = useState(null);
@@ -73,6 +78,17 @@ const Notice = () => {
   const [item, setItem] = useState();
   const [detailNotice, setDetailNotice] = useState();
 
+
+  const fetchNoticeDetailData = (noticeId) => {
+    getNoticeById(noticeId)
+      .then((data) => {
+        setDetailNotice(data?.data); // 받아온 Notice 데이터를 설정
+        // 받아온 Notice 데이터를 설정
+      })
+      .catch(() => {
+        setError("Notice 데이터를 불러올 수 없습니다.");
+      })
+  };
 
   const fetchNoticeData = (page) => {
     getNotices(page)
@@ -90,17 +106,33 @@ const Notice = () => {
   }, [currentPage]);
 
 
+  // 공지사항 상세
+  function setDetailItem(item) {
+    setDetailModalOn(true);
+    setItem(item);
+    fetchNoticeDetailData(item.noticeId);
+  }
+
+  useEffect(() => {
+    if (noticeIdFromState) {
+      fetchNoticeDetailData(noticeIdFromState);
+      setDetailModalOn(true);
+      setNoticeIdFromState(null); // 초기화
+      console.log(noticeIdFromState);
+      navigate('/notice');
+    }
+  }, [noticeIdFromState]); // noticeIdFromState가 변경될 때마다 호출
+
+
   const renderItems = (items) => {
     return (
       <>
         {items?.map((notice) => (
-          <>
-            <NoticeItem onClick={() => setDetailItem(notice)} key={notice.noticeId}>
-              <NoticeTitle>
-                <span>{notice.title}</span>
-              </NoticeTitle>
-            </NoticeItem>
-          </>
+          <NoticeItem onClick={() => setDetailItem(notice)} key={notice.noticeId}>
+            <NoticeTitle>
+              <span>{notice.title}</span>
+            </NoticeTitle>
+          </NoticeItem>
         ))}
       </>
     );
@@ -111,26 +143,6 @@ const Notice = () => {
     return <ErrorUI error={error} />;
   }
 
-  const fetchNoticeDetailData = (noticeId) => {
-
-    getNoticeById(noticeId)
-      .then((data) => {
-        setDetailNotice(data.data); // 받아온 Notice 데이터를 설정
-        // 받아온 Notice 데이터를 설정
-      })
-      .catch(() => {
-        setError("Notice 데이터를 불러올 수 없습니다.");
-      })
-  };
-
-
-  // 공지사항 상세
-  function setDetailItem(item) {
-    setDetailModalOn(1);
-    setItem(item);
-    fetchNoticeDetailData(item.noticeId);
-  }
-
   return (
     <NoticeContainer>
       <PageTitle>공지사항</PageTitle>
@@ -138,7 +150,6 @@ const Notice = () => {
         {detailModalOn ?
           <NoticeDetail
             item={detailNotice}
-            noticePostId={item.noticeId}
             prevClick={() => setDetailModalOn(false)} /> :
           <>
             <NoticeList>

@@ -20,6 +20,7 @@ export function getNotices(page = 0, size = 20, sort = "asc") {
 }
 
 export function getNoticeById(noticeId) {
+
   return axiosInstance.get(`${BASE_URL}/notices/${noticeId}`)
     .then(response => {
       return response.data;

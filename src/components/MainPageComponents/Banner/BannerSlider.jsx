@@ -2,6 +2,8 @@ import styled from "styled-components";
 
 import React, { useState, useEffect } from "react";
 import Dots from "./Dots";
+import { getNotices, getNoticeById } from "../../Apis/NoticeApi";
+import { useNavigate } from "react-router-dom";
 
 
 // components/MainPageComponents/Banner/BannerSlider.jsx
@@ -41,8 +43,7 @@ export const Slide = styled.img`
     width: 100%;
     height: 100%;
     max-height: 100%;
-    // cursor: pointer;
-    cursor: ${({ clickable }) => (clickable ? 'pointer' : 'not-allowed')}; /* 커서 모양 변경 */
+    cursor: pointer;
     object-fit: contain;
     max-width: 1360px;
     max-height: 300px;
@@ -50,10 +51,43 @@ export const Slide = styled.img`
 
 `;
 
-const BannerSlider = ({ images }) => {
+const BannerSlider = ({ }) => {
+    const banners = [
+        { id: 1, imgUrl: "/banner/banner1.png" },
+        { id: 2, imgUrl: "/banner/banner2.png" },
+        { id: 3, imgUrl: "/banner/banner3.png" },
+        { id: 4, imgUrl: "/banner/banner4.png" },
+    ];
     const [currentPosition, setCurrentPosition] = useState(0);
     const [startX, setStartX] = useState(0);
     const [isDragging, setIsDragging] = useState(false);
+    const navigate = useNavigate();
+    const [images, setImages] = useState(banners);
+
+
+    // 공지사항 목록 데이터
+    const fetchNoticeData = (page) => {
+        getNotices(page)
+            .then((data) => {
+                console.log(data.data.notices); // 받아온 Notice 데이터를 설정
+                // 받아온 Notice 데이터를 설정
+            })
+            .catch(() => {
+                // setError("Notice 데이터를 불러올 수 없습니다.");
+            })
+    };
+
+    // 공지사항 상세 데이터
+    const fetchNoticeDetailData = (noticeId) => {
+        getNoticeById(noticeId)
+            .then((data) => {
+                console.log(data.data); // 받아온 Notice 데이터를 설정
+                // 받아온 Notice 데이터를 설정
+            })
+            .catch(() => {
+                // setError("Notice 데이터를 불러올 수 없습니다.");
+            })
+    };
 
     useEffect(() => {
         const sliderLoop = setInterval(() => {
@@ -111,12 +145,10 @@ const BannerSlider = ({ images }) => {
             <SliderInner $position={currentPosition}>
                 {images.map((image, index) => (
                     <Slide
-                    key={`Slide-${index}`}
-                    src={image.imgUrl}
-                    clickable={!!image.link} /* 링크가 있으면 true, 없으면 false */
-                    onClick={() => image.link && window.open(image.link, '_blank')}
-                />
-                    // <Slide key={`Slide-${index}`} src={image.imgUrl} />
+                        key={`Slide-${index}`}
+                        src={image.imgUrl}
+                        onClick={() => navigate('/notice', { state: { sendNoticeId: image.id } })} // 수정된 부분
+                    />
                 ))
                 }
             </SliderInner >
