@@ -526,3 +526,12 @@ export const getUserGroupsByTypeAndStatus = async (type, status, page = 0, size 
         throw error; // 오류를 다시 던져서 호출한 곳에서 처리할 수 있게 함
     }
 }
+export const getGroupNews = async (groupId) => {
+    try {
+        const response = await axios.get(`${BASE_URL}/post/${groupId}/news`);
+        return response.data;
+    } catch (error) {
+        console.error('최신 소식 조회 실패:', error);
+        throw error;
+    }
+};
