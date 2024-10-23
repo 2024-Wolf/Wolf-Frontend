@@ -14,7 +14,7 @@ import ProfileIcon from "../components/Icon/ProfileIcon";
 import FAQTab from "../components/Tab/FAQTab";
 import ReportButton from "../components/Button/ReportButton";
 import { useParams } from "react-router-dom";
-import { getGroupPost } from "../components/Apis/GroupPostApi"
+import {getGroupNews, getGroupPost} from "../components/Apis/GroupPostApi"
 
 
 
@@ -68,6 +68,7 @@ const StudyPage = ({ profileData }) => {
   const [isMeetingStarted, setIsMeetingStarted] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
   const [groupPostData, setGroupPostData] = useState({});  // 그룹 데이터
+  const [groupNewsData, setGroupNewsData] = useState([]);  // 그룹 뉴스 데이터
   const modeRef = useRef("project"); // "study" 또는 "project" (useEffect에서 설정함)
 
   const { postId } = useParams();
@@ -96,8 +97,28 @@ const StudyPage = ({ profileData }) => {
         // setLoading(false);
       }
     };
+    const fetchGroupNewsData = async () => {
+      try {
+        const result = await getGroupNews(postId); // 그룹 뉴스 데이터 저장
+        setGroupNewsData(result.data);
+        console.log(result.data);
+
+        // 상태 코드가 200-299 범위인지 확인
+        if (result.status < 200 || result.status >= 300) {
+          throw new Error('네트워크 오류');
+        }
+
+      } catch (error) {
+        // 에러 처리: 콘솔에 에러 메시지 출력
+        console.error('데이터 등록 실패:', error);
+      } finally {
+        // 로딩 상태 종료
+        // setLoading(false);
+      }
+    }
 
     fetchGroupPostData(); // 데이터 가져오기 호출
+    fetchGroupNewsData(); // 데이터 가져오기 호출
   }, [postId]); // postId가 변경될 때마다 실행
 
   const componentsMap = {
@@ -171,7 +192,9 @@ const StudyPage = ({ profileData }) => {
               mode={modeRef.current}
               groupPostId={postId}
               userId={profileData?.id}
-              groupPostData={groupPostData} />
+              groupPostData={groupPostData}
+              groupNewsData={groupNewsData}
+            />
           )
         }
         {/*</div>*/}
