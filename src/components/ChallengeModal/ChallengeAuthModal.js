@@ -13,16 +13,11 @@ import TextAreaNoCss from "../Input/TextAreaNoCss";
 import { verifyChallenge } from "../Apis/ChallengePostApi";
 
 function ChallengeAuthModal(props) {
-    const [inst, setInst] = useState("B490007");
-    const [name, setName] = useState("김한수");
-    const [code, setCode] = useState("23202110166Y");
-
-
+    // 테스트
+    // inst : 한국산업인력공단, name: 김한수, code: 23202110166Y
     const [reqtInstCode, setReqtInstCode] = useState('');
     const [reqtUserName, setReqtUserName] = useState('');
     const [ctftNo, setCtftNo] = useState('');
-    const [responseData, setResponseData] = useState(null);
-    const [error, setError] = useState(null);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -46,44 +41,22 @@ function ChallengeAuthModal(props) {
             }
 
             const data = await response.text();
-            setResponseData(data);
-            setError(null);
+            const status = JSON.parse(data).trfsYn;
+            const content = `[인증성공]\n${reqtUserName} : ${ctftNo}`
+            verifyChallenge(props.item.challengePostId, props.groupPostId, reqtUserName, status, ctftNo, reqtInstCode, content)
+            .then(function(response){
+                if(status !== 'Y' || response.status > 300 || response.status < 200){
+                    alert("인증 실패");
+                    return;
+                }
+                alert("인증 성공");
+                props.cancel();
+            })
+            
         } catch (err) {
-            setError(err.message);
-            setResponseData(null);
+            console.log(err);
         }
     };
-
-
-    let groupPostId = 1;
-
-    let status = "Y";
-
-    // useEffect(() => {
-    //     certificatonCheck(inst, name, code);
-    // })
-
-    const handleInst = (e) => {
-        setInst(e.target.value);
-    }
-
-    const handleName = (e) => {
-        setName(e.target.value);
-    }
-
-    const handleCode = (e) => {
-        setCode(e.target.value);
-    }
-
-    const handleCertification = (e) => {
-        e.preventDefault();
-
-        verifyChallenge(props.item.challengePostId, props.groupPostId, status, inst, name, code);
-
-        props.cancel();
-    }
-
-
 
     // // 리액트(포트번호 3000) 및 서버(포트번호 8000)가 실행된 채로 새로운 터미널을 열어서,
     // // cors-anywhere 서버를 실행 시킨채로 인증을 시도해야 성공함!
@@ -168,13 +141,6 @@ function ChallengeAuthModal(props) {
                     인증하기
                 </Violet500LineButton>
             </ModalContentWrapper>
-            {error && <p style={{ color: 'red' }}>Error: {error}</p>}
-            {responseData && (
-                <div>
-                    <h2>응답 결과:</h2>
-                    <pre>{responseData}</pre>
-                </div>
-            )}
         </ModalForm>
     )
 }

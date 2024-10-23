@@ -99,14 +99,15 @@ export async function payChallenge(challengePostId, groupPostId, amount, status)
 }
 
 // 챌린지 인증
-export async function verifyChallenge(challengePostId, groupPostId, status, certificatonNo, institutionCode, content){
+export async function verifyChallenge(challengePostId, groupPostId, name, status, certificatonNo, institutionCode, content){
     return await axios.post(`${BASE_URL}/challenge/verification`,{
         challengePostId: challengePostId,
         groupPostId: groupPostId,
+        nickname: name,
         status: status,
         certificationNo: certificatonNo,
         institutionName: institutionCode,
-        verificationContent : content
+        content : content
     },{
         headers: {
             Authorization: Token.getAccessToken()

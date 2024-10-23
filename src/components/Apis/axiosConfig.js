@@ -3,9 +3,12 @@
 import axios from 'axios';
 import { getAccessToken, refreshAccessToken, removeAccessToken, removeRefreshToken } from './Common';
 
+export const BASE_URL = "http://localhost:8080/api/v1";
+//export const BASE_URL = "http://18.223.187.130:8080/api/v1";
+
 // Axios 인스턴스 생성
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:8080/api/v1',
+  baseURL: BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },

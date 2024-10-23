@@ -48,7 +48,7 @@ function Header({ isLoggedIn, onLogin, offLogin, profileData, alarmsPreviewData 
   });
 
   useEffect(() => {
-    console.log(signupInfo);  // signupInfo가 변경될 때마다 호출
+     // signupInfo가 변경될 때마다 호출
   }, [signupInfo]);
 
 

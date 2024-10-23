@@ -136,19 +136,6 @@ const Main = () => {
         setSearchTerm(term);
     };
 
-    const handleTestLogin = async () => {
-        try {
-            const data = await testLogin(); // testLogin 호출
-
-            Token.setAccessToken(data.data.tokenResponse.accessToken);
-            Token.setRefreshToken(data.data.tokenResponse.refreshToken);
-            window.location.reload();
-            alert('테스트 로그인 성공')
-        } catch (error) {
-            console.error('테스트 로그인 실패:', error);
-        }
-    };
-
     return (
         <>
             <BannerSlider images={banners} />
@@ -178,18 +165,6 @@ const Main = () => {
                     category={activeCategory}
                     data={filteredCards}
                 />
-                <div>
-                    <button onClick={handleTestLogin}
-                        style={{ marginBottom: '10px' }}>
-                        테스트 로그인하기
-                    </button>
-                    <div style={{ border: "1px solid #000", wordWrap: 'break-word', marginBottom: '10px' }}>
-                        엑세스 토큰 : {Token.getAccessToken()}
-                    </div>
-                    <div style={{ border: "1px solid #000", wordWrap: 'break-word' }}>
-                        리프레쉬 토큰 : {Token.getRefreshToken()}
-                    </div>
-                </div>
             </main >
         </>
     );
