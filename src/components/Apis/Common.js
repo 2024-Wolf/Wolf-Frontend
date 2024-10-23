@@ -1,5 +1,4 @@
 import Cookies from 'js-cookie';
-import axios from "axios";
 import axiosInstance from "./axiosConfig";
 
 export const BASE_URL = "http://localhost:8080/api/v1";

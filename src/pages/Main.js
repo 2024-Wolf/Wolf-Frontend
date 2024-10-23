@@ -7,8 +7,6 @@ import SearchBar from "../components/MainPageComponents/SearchBar/SearchBar";
 import DateButton from "../components/Button/DateButton";
 import MainOptionButton from "../components/Button/MainOptionButton";
 import { getGroupPosts } from "../components/Apis/GroupPostApi";
-import { Token } from "../components/Apis/Common";
-import { testLogin } from "../components/Apis/AuthApi";
 
 // pages/Main.js
 export const SearchContainer = styled.div`
@@ -67,7 +65,7 @@ const Main = () => {
                         return;
                     }
                     if (response.status === 401 || response.status === 403) {
-                        alert("토큰이 유효하지 않습니다!\n하단의 테스트 로그인하기를 진행하세요!");
+                        alert("토큰이 유효하지 않습니다!");
                         return;
                     }
                     if (response.data.groupPostResponseList.length > 0) setCards(response.data.groupPostResponseList);

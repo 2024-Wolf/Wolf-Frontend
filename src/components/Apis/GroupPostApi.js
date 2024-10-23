@@ -1,10 +1,11 @@
-import axios from "axios";
 import { BASE_URL, Token } from "./Common";
+import axiosInstance from "./axiosConfig";
+import axios from "axios";
 
 // 그룹 생성
 export async function registerGroupPost(groupPost) {
 
-    return await axios.post(`${BASE_URL}/post`, {
+    return await axiosInstance.post(`${BASE_URL}/post`, {
         name: groupPost.name,
         type: groupPost.type,
         startDate: groupPost.startDate,
@@ -37,7 +38,7 @@ export async function registerGroupPost(groupPost) {
 
 // 그룹 수정
 export async function updateGroupPost(groupPost, postId) {
-    return await axios.put(`${BASE_URL}/post/${postId}`, {
+    return await axiosInstance.put(`${BASE_URL}/post/${postId}`, {
         name: groupPost.name,
         type: groupPost.type,
         startDate: groupPost.startDate,
@@ -73,7 +74,7 @@ export async function updateGroupPost(groupPost, postId) {
 // pageable = { page: 0, size: 1, sort: ["string"] }
 export async function getGroupPosts(type, page = 0, size = 20, sort = "desc") {
     try {
-        const response = await axios.get(`${BASE_URL}/post/view/${type}`, {
+        const response = await axiosInstance.get(`${BASE_URL}/post/view/${type}`, {
             headers: {
                 Authorization: Token.getAccessToken()
             },
@@ -95,7 +96,7 @@ export async function getGroupPosts(type, page = 0, size = 20, sort = "desc") {
 // 그룹 단일 조회
 export async function getGroupPost(postId) {
     try {
-        const response = await axios.get(`${BASE_URL}/post/${postId}`, {
+        const response = await axiosInstance.get(`${BASE_URL}/post/${postId}`, {
             headers: {
                 Authorization: Token.getAccessToken(),
             },
@@ -116,7 +117,6 @@ export async function deleteGroupPost(groupPostId) {
                 Authorization: Token.getAccessToken()
             }
         });
-        // 받은 데이터로 수행할 작업
         return response.data;
     } catch (error) {
         // 에러 처리
@@ -126,23 +126,23 @@ export async function deleteGroupPost(groupPostId) {
 }
 
 // 그룹원 조회
-export function getGroupMember(groupId) {
-    axios.get(`${BASE_URL}/post/${groupId}/members`, {
+export async function getGroupMember(groupId) {
+    return await axiosInstance.get(`${BASE_URL}/post/${groupId}/members`, {
         headers: {
             Authorization: Token.getAccessToken()
         }
     })
         .then(function (response) {
-            console.log(response);
+            return response.data;
         })
         .catch(function (error) {
-            console.log(error);
+            return error;
         });
 }
 
 // 그룹 지원
 export function applyGroup(groupId, applyment) {
-    axios.post(`${BASE_URL}/post/${groupId}/apply`, {
+    axiosInstance.post(`${BASE_URL}/post/${groupId}/apply`, {
         position: applyment.position,
         email: applyment.email,
         applicationReason: applyment.application_reason,
@@ -166,7 +166,7 @@ export function applyGroup(groupId, applyment) {
 
 // 할 일 조회
 export async function getTasks(groupId) {
-    return await axios.get(`${BASE_URL}/post/${groupId}/task`, {
+    return await axiosInstance.get(`${BASE_URL}/post/${groupId}/task`, {
         headers: {
             Authorization: Token.getAccessToken()
         }
@@ -182,7 +182,7 @@ export async function getTasks(groupId) {
 // 할 일 등록
 // status = ("not_started", "in_progress", "completed")
 export async function registerTask(groupId, content) {
-    return await axios.post(`${BASE_URL}/post/${groupId}/task`, {
+    return await axiosInstance.post(`${BASE_URL}/post/${groupId}/task`, {
         details: content,
         status: "not_started"
     }, {
@@ -212,7 +212,7 @@ export async function updateTask(task) {
             break;
     }
 
-    return await axios.put(`${BASE_URL}/post/task/${task.id}`, {
+    return await axiosInstance.put(`${BASE_URL}/post/task/${task.id}`, {
         details: task.details,
         status
     }, {
@@ -230,7 +230,7 @@ export async function updateTask(task) {
 
 // 할 일 삭제
 export async function deleteTask(id) {
-    return await axios.delete(`${BASE_URL}/post/task/${id}`, {
+    return await axiosInstance.delete(`${BASE_URL}/post/task/${id}`, {
         headers: {
             Authorization: Token.getAccessToken()
         }
@@ -252,7 +252,7 @@ export async function getQuestionsWithComments(groupId, option, page = 0, size =
         sort
     };
     try {
-        const response = await axios.get(`${BASE_URL}/post/${groupId}/question/${option}`,
+        const response = await axiosInstance.get(`${BASE_URL}/post/${groupId}/question/${option}`,
             {
                 params: params, // params를 설정 객체의 일부로 포함
                 headers: {
@@ -278,7 +278,7 @@ export async function registerQuestion(groupId, option, question) {
     };
 
     try {
-        const response = await axios.post(
+        const response = await axiosInstance.post(
             `${BASE_URL}/post/${groupId}/question/${option}`,
             data, // 본문 데이터
             {
@@ -304,7 +304,7 @@ export async function updateQuestion(groupId, questionId, question) {
     };
 
     try {
-        const response = await axios.put(`${BASE_URL}/post/${groupId}/question/${questionId}`,
+        const response = await axiosInstance.put(`${BASE_URL}/post/${groupId}/question/${questionId}`,
             data,
             {
                 headers: {
@@ -322,7 +322,7 @@ export async function updateQuestion(groupId, questionId, question) {
 // option = ("question", "communication")
 export async function deleteQuestion(groupId, questionId) {
     try {
-        const response = await axios.delete(`${BASE_URL}/post/${groupId}/question/${questionId}`, {
+        const response = await axiosInstance.delete(`${BASE_URL}/post/${groupId}/question/${questionId}`, {
             headers: {
                 Authorization: Token.getAccessToken()
             }
@@ -343,7 +343,7 @@ export async function registerComment(groupId, questionId, comment) {
     };
 
     try {
-        const response = await axios.post(`${BASE_URL}/post/${groupId}/question/${questionId}/comment`,
+        const response = await axiosInstance.post(`${BASE_URL}/post/${groupId}/question/${questionId}/comment`,
             data,
             {
                 headers: {
@@ -366,7 +366,7 @@ export async function updateComment(groupId, questionId, commentId, comment) {
     };
 
     try {
-        const response = await axios.put(`${BASE_URL}/post/${groupId}/question/${questionId}/comment/${commentId}`,
+        const response = await axiosInstance.put(`${BASE_URL}/post/${groupId}/question/${questionId}/comment/${commentId}`,
             data,
             {
                 headers: {
@@ -383,7 +383,7 @@ export async function updateComment(groupId, questionId, commentId, comment) {
 // 댓글 삭제
 export async function deleteComment(groupId, questionId, commentId) {
     try {
-        const response = await axios.delete(`${BASE_URL}/post/${groupId}/question/${questionId}/comment/${commentId}`, {
+        const response = await axiosInstance.delete(`${BASE_URL}/post/${groupId}/question/${questionId}/comment/${commentId}`, {
             headers: {
                 Authorization: Token.getAccessToken()
             }
@@ -404,7 +404,7 @@ export async function registerReply(groupId, questionId, parentCommentId, reply)
     };
 
     try {
-        const response = await axios.post(`${BASE_URL}/post/${groupId}/question/${questionId}/comment/${parentCommentId}`,
+        const response = await axiosInstance.post(`${BASE_URL}/post/${groupId}/question/${questionId}/comment/${parentCommentId}`,
             data,
             {
                 headers: {
@@ -420,7 +420,7 @@ export async function registerReply(groupId, questionId, parentCommentId, reply)
 
 async function getFAQByCategory(category, page = 0, size = 10, sort = "asc") {
     try {
-        const response = await axios.get(`${BASE_URL}/faqs/${category}`, {
+        const response = await axiosInstance.get(`${BASE_URL}/faqs/${category}`, {
             params: {
                 page,
                 size,
@@ -440,7 +440,7 @@ async function getFAQByCategory(category, page = 0, size = 10, sort = "asc") {
 export const getUserGroupsByTypeAndStatus = async (type, status, page = 0, size = 10, sort = "asc") => {
 
     try {
-        const response = await axios.get(`${BASE_URL}/post/${type}/${status}`,
+        const response = await axiosInstance.get(`${BASE_URL}/post/${type}/${status}`,
             {
                 headers: {
                     Authorization: Token.getAccessToken() // 토큰을 헤더에 추가

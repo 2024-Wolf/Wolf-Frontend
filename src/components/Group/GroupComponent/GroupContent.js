@@ -373,28 +373,28 @@ const GroupContent = ({ contentType = "viewing", groupData, createGroup, updateG
   };
 
   // 사용자 권한 변경 함수
-  const handlePositionChange = (userId, newPosition) => {
-    //현재 모집장 확인
-    const currentMasterId = newGroupData.find(
-      (user) => user.position === "master"
-    )?.id;
+  const handlePositionChange = (userId, newRole) => {
+    // //현재 모집장 확인
+    // const currentMasterId = newGroupData.find(
+    //   (user) => user.role === "LEADER"
+    // )?.id;
 
-    if (newPosition === "master" && currentMasterId) {
-      alert("이미 다른 사용자가 모집장입니다.");
-      return false; // 새로운 모집장이 설정되지 않음
-    }
+    // if (newRole === "LEADER" && currentMasterId) {
+    //   alert("이미 다른 사용자가 모집장입니다.");
+    //   return false; // 새로운 모집장이 설정되지 않음
+    // }
 
-    // 권한을 수정
-    const updatedMembers = newGroupData.map((user) =>
-      user.id === userId ? { ...user, position: newPosition } : user
-    );
+    // // 권한을 수정
+    // const updatedMembers = newGroupData.map((user) =>
+    //   user.id === userId ? { ...user, role: newRole } : user
+    // );
 
-    setNewGroupData(updatedMembers); // 상태 업데이트
+    // setNewGroupData(updatedMembers); // 상태 업데이트
 
-    // 성공적으로 권한이 변경되었음을 알림
-    alert(
-      `권한이 성공적으로 변경되었습니다! ${newPosition}로 변경된 사용자 ID: ${userId}`
-    );
+    // // 성공적으로 권한이 변경되었음을 알림
+    // alert(
+    //   `권한이 성공적으로 변경되었습니다! ${newPosition}로 변경된 사용자 ID: ${userId}`
+    // );
   };
 
   return (
@@ -798,9 +798,9 @@ const GroupContent = ({ contentType = "viewing", groupData, createGroup, updateG
             </FormTitle>
             <div>
               {newGroupData.memberData.map((user) => (
-                <MemberInfo key={user.id}>
+                <MemberInfo key={user.groupUser.userId}>
                   <ProfileIcon /*src="" alt=""*/ className="UserDetails">
-                    {user.name}
+                    {user.groupUser.userNickname}
                   </ProfileIcon>
                   <FormFieldRow>
                     <FormFieldMultiple
@@ -808,25 +808,25 @@ const GroupContent = ({ contentType = "viewing", groupData, createGroup, updateG
                       className="roleSelect"
                     >
                       <SelectButton
-                        defaultValue={user.role}
+                        defaultValue={user.position}
                         disabled={contentsType === "viewing"}
                       >
-                        <option value="frontEnd">프론트엔드개발자</option>
-                        <option value="backEnd">백엔드개발자</option>
-                        <option value="planner">기획자</option>
-                        <option value="designer">디자이너</option>
+                        <option value="FRONTEND">프론트엔드개발자</option>
+                        <option value="BACKEND">백엔드개발자</option>
+                        <option value="PLANNER">기획자</option>
+                        <option value="DESIGNER">디자이너</option>
                       </SelectButton>
                     </FormFieldMultiple>
                     <FormFieldMultiple label={"권한"} className="roleSelect">
                       <SelectButton
-                        defaultValue={user.position}
+                        defaultValue={user.role}
                         disabled={contentsType === "viewing"}
                         onChange={(e) =>
-                          handlePositionChange(user.id, e.target.value)
+                          handlePositionChange(user.groupUser.userId, e.target.value)
                         }
                       >
-                        <option value="master">모집장</option>
-                        <option value="member">모집원</option>
+                        <option value="LEADER">모집장</option>
+                        <option value="MEMBER">모집원</option>
                       </SelectButton>
                     </FormFieldMultiple>
                   </FormFieldRow>
