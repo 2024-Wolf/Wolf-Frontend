@@ -102,9 +102,9 @@ function Footer(props) {
           Copyright
         </FooterText>
         <FooterLinks>
-          {/* <FooterButton onClick={() => alert("공지사항")}>
+          <FooterButton onClick={() => navigate("notice")}>
             공지사항
-          </FooterButton> */}
+          </FooterButton>
           <FooterButton onClick={() => navigate("faq")}>
             FAQ 게시판
           </FooterButton>
