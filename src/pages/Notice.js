@@ -6,6 +6,8 @@ import ErrorUI from "../components/Error/ErrorUI";
 
 import NoticeDetail from "../components/Notice/NoticeDetail";
 import { getFaqByCategory } from "../components/Apis/FaqApi";
+import { getNotices, getNoticeById } from "../components/Apis/NoticeApi";
+import { useLocation, useNavigate } from 'react-router-dom';
 
 
 const NoticeContainer = styled.div`
@@ -63,39 +65,36 @@ export const NoticeTitle = styled.div`
     }
 `;
 
-export const NoticeAnswer = styled.div`
-    padding: 15px 30px;
-    line-height: 1.6;
-    border-radius: 7px;
-    background-color: var(--black100);
-    margin-left: 20px;
-    font-size: 16px;
-    color: var(--black600);
-`;
+const Notice = (props) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [noticeIdFromState, setNoticeIdFromState] = useState(location.state?.sendNoticeId || null); // BannerSlider에서  navigate('/notice', { state: { sendNoticeId: 1 } })} 형태로 객체 전송중
 
-
-const NoticeCategories = [
-  { label: '계정', value: 'ACCOUNT' },
-  { label: '스터디', value: 'STUDY' },
-  { label: '프로젝트', value: 'PROJECT' },
-  { label: '챌린지', value: 'CHALLENGE' },
-  { label: 'Etc', value: 'ETC' }
-];
-
-const Notice = () => {
-  const [activeTab, setActiveTab] = useState(NoticeCategories[0].value); // 현재 선택된 탭
   const [currentPage, setCurrentPage] = useState(1); // 최근 페이지 번호
-  const [noticeData, setNoticeData] = useState([]);
   const [error, setError] = useState(null);
-  const [noticeId, setNoticeId] = useState(0);
+  const [noticeId, setNoticeId] = useState(null);
   const [detailModalOn, setDetailModalOn] = useState(false);
   const [item, setItem] = useState();
+  const [noticeData, setNoticeData] = useState([]);
+  const [detailNotice, setDetailNotice] = useState([]);
 
 
-  const fetchNoticeData = (category, page) => {
-    getFaqByCategory(category, page, 10)
+  const fetchNoticeDetailData = (noticeId) => {
+    getNoticeById(noticeId)
       .then((data) => {
-        setNoticeData(data.data.faqItems); // 받아온 Notice 데이터를 설정
+        setDetailNotice(data?.data); // 받아온 Notice 데이터를 설정
+        // 받아온 Notice 데이터를 설정
+      })
+      .catch(() => {
+        setError("Notice 데이터를 불러올 수 없습니다.");
+      })
+  };
+
+  const fetchNoticeData = (page) => {
+    getNotices(page)
+      .then((data) => {
+        setNoticeData(data.data.notices); // 받아온 Notice 데이터를 설정
+        // 받아온 Notice 데이터를 설정
       })
       .catch(() => {
         setError("Notice 데이터를 불러올 수 없습니다.");
@@ -103,39 +102,54 @@ const Notice = () => {
   };
 
   useEffect(() => {
-    console.log("Current activeTab:", activeTab);
-    if (activeTab) {
-      fetchNoticeData(activeTab, currentPage);
-    }
-  }, [activeTab, currentPage]);
-
-  const renderItems = (items) => (
-    items?.map((Notice, index) => (
-      <NoticeItem key={index} onClick={() => setDetailItem(1)}>
-        <NoticeTitle>
-          <span>{Notice.question}</span>
-        </NoticeTitle>
-      </NoticeItem>
-    ))
-  );
-
-  // 에러 발생 UI
-  if (error) {
-    return <ErrorUI error={error} />;
-  }
+    fetchNoticeData(currentPage - 1);
+  }, [currentPage]);
 
 
   // 공지사항 상세
   function setDetailItem(item) {
     setDetailModalOn(true);
     setItem(item);
+    fetchNoticeDetailData(item.noticeId);
+  }
+
+  useEffect(() => {
+    if (noticeIdFromState) {
+      fetchNoticeDetailData(noticeIdFromState);
+      setDetailModalOn(true);
+      setNoticeIdFromState(null); // 초기화
+      navigate('/notice');
+    }
+  }, [noticeIdFromState]); // noticeIdFromState가 변경될 때마다 호출
+
+
+  const renderItems = (items) => {
+    return (
+      <>
+        {items?.map((notice) => (
+          <NoticeItem onClick={() => setDetailItem(notice)} key={notice.noticeId}>
+            <NoticeTitle>
+              <span>{notice.title}</span>
+            </NoticeTitle>
+          </NoticeItem>
+        ))}
+      </>
+    );
+  };
+
+  // 에러 발생 UI
+  if (error) {
+    return <ErrorUI error={error} />;
   }
 
   return (
     <NoticeContainer>
       <PageTitle>공지사항</PageTitle>
       <NoticeContent>
-        {detailModalOn ? <NoticeDetail challengePostId={item.challengePostId} prevClick={() => setDetailModalOn(false)} /> :
+        {detailModalOn ?
+          <NoticeDetail
+            item={detailNotice}
+            prevClick={() => setDetailModalOn(false)} /> :
           <>
             <NoticeList>
               <PaginatedList
