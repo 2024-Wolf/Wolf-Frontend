@@ -101,9 +101,10 @@ function NoticeDetail(props) {
 
     return (
         <NoticeDetailContainer>
+            {/* 공지사항 제목 */}
             <NoticeDetailHeaderTop>
                 <span className="hiddenSpan" />
-                <NoticeDetailTitle>{props.item?.noticeId || ''}</NoticeDetailTitle>
+                <NoticeDetailTitle>{props.item?.title || ''}</NoticeDetailTitle>
                 <PreviousButton prevClick={prevClick} />
             </NoticeDetailHeaderTop>
 
@@ -115,18 +116,7 @@ function NoticeDetail(props) {
                 <div>작성자 : {props.item?.author || ''}</div>
                 <div>작성일 : {formatDate(props.item?.createdAt || '')}</div>
             </span>
-            {/* 공지사항 제목 */}
-            <Violet500LineDiv>
-                <FormFieldColumn>
-                    <FormFieldSingle label={"제목"}>
-                        <InputTextNoCss
-                            name="title"
-                            placeholder="제목이 없습니다"
-                            value={props.item?.title || ''}
-                        />
-                    </FormFieldSingle>
-                </FormFieldColumn>
-            </Violet500LineDiv>
+
             {/* 공지사항 내용 */}
             <Violet500LineDiv>
                 <TextAreaNoCss
