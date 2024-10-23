@@ -16,7 +16,7 @@ const MainCardList = (props) => {
         navigate(`/post/${id}`); // 카드 ID에 따라 그룹 페이지로 이동 -> navigate(`/post/${id}`)
     };
 
-    
+
 
     const renderItems = (items) => {
         return items.map((card) => (

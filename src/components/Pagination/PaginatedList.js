@@ -46,6 +46,7 @@ const NoCurrentItem = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    color: var(--black500);
 `;
 
 const PaginatedList = ({ data, renderItems, currentPage, setCurrentPage }) => {

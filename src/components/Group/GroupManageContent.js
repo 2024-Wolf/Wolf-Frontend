@@ -46,7 +46,7 @@ export const Container5 = styled(ContentsWrapper)`
 const GroupManageContent = (props) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedApplicant, setSelectedApplicant] = useState(null); // 선택된 지원자 데이터 상태 추가
-  const optionalRequirements = props.groupPostData.optionalRequirements.split(',');
+  const optionalRequirements = props.groupPostData?.optionalRequirements?.split(',');
   const [memberData, setMemberData] = useState([]);
 
   const navigate = useNavigate();
@@ -75,15 +75,15 @@ const GroupManageContent = (props) => {
       { label: "이메일", clicked: true },
       { label: "지원직군", clicked: true },
       { label: "지원사유", clicked: true },
-      { label: "다룰 수 있는 언어", clicked: optionalRequirements.includes('다룰 수 있는 언어') },
-      { label: "참여가능 요일", clicked: optionalRequirements.includes('참여가능 요일') },
-      { label: "자기소개", clicked: optionalRequirements.includes('자기소개') },
-      { label: "포트폴리오 링크", clicked: optionalRequirements.includes('포트폴리오 링크') },
-      { label: "자유기재", clicked: optionalRequirements.includes('자유기재') },
+      { label: "다룰 수 있는 언어", clicked: optionalRequirements?.includes('다룰 수 있는 언어') },
+      { label: "참여가능 요일", clicked: optionalRequirements?.includes('참여가능 요일') },
+      { label: "자기소개", clicked: optionalRequirements?.includes('자기소개') },
+      { label: "포트폴리오 링크", clicked: optionalRequirements?.includes('포트폴리오 링크') },
+      { label: "자유기재", clicked: optionalRequirements?.includes('자유기재') },
     ],
     totalMemberCount: props.groupPostData.targetMembers,
     challengeStatus: props.groupPostData.chaalengeStatus || "N",
-    recruitmentList: props.groupPostData.recruitments.map(({ recruitRole, recruitRoleCnt }) => ({ job: recruitRole.toLowerCase(), count: recruitRoleCnt })) || [],
+    recruitmentList: props.groupPostData.recruitments?.map(({ recruitRole, recruitRoleCnt }) => ({ job: recruitRole.toLowerCase(), count: recruitRoleCnt })) || [],
     memberData: props.groupPostData.memberData || []
 
   };
@@ -154,8 +154,8 @@ const GroupManageContent = (props) => {
       beginDate: data.beginData,
       deadLineDate: data.deadLineDate,
       techStack: data.techStack,
-      optionalRequirements: data.buttons.filter(btn => btn.clicked).map(btn => btn.label).toString(),
-      recruitments: data.recruitmentList.map(({ job, count }) => ({ recruitRole: job.toUpperCase(), recruitRoleCnt: count })),
+      optionalRequirements: data.buttons.filter(btn => btn.clicked)?.map(btn => btn.label).toString(),
+      recruitments: data.recruitmentList?.map(({ job, count }) => ({ recruitRole: job.toUpperCase(), recruitRoleCnt: count })),
       targetMembers: data.totalMemberCount,
       thumbnail: data.fileName,
       topic: data.subject,
@@ -201,7 +201,7 @@ const GroupManageContent = (props) => {
           </svg>
           지원자 관리
         </FormTitle>
-        {applicantData.map((user, index) => (
+        {applicantData?.map((user, index) => (
           <>
             <MemberInfo key={`${user.id}-${index}`}>
               <ProfileIcon /*src="" alt=""*/>{user.name}</ProfileIcon>
