@@ -134,8 +134,8 @@ const RecentNewsSlider = ({ news }) => {
             <SliderInner $position={currentPosition}>
                 {news.map((item, index) => (
                     <Slide key={index}>
-                        <SlideContent>{item.content}</SlideContent>
-                        <div style={{ color: "var(--black400)" }}>{item.date}</div>
+                        <SlideContent>{item.newsContent}</SlideContent>
+                        <div style={{ color: "var(--black400)" , whiteSpace: "nowrap"}}>{item.createDate}</div>
                     </Slide>
                 ))}
             </SliderInner>

@@ -107,3 +107,19 @@ export const readAlarm = async (alertId) => {
         throw error;
     }
 }
+
+// 프로필 사진 변경 함수
+export const changeProfileImage = async (formData) => {
+    try {
+        const response = await axiosInstance.post(`${BASE_URL}/user/my/profile-image`, formData, {
+            headers: {
+                Authorization: Token.getAccessToken(), // 토큰을 Authorization 헤더에 추가
+                'Content-Type': 'multipart/form-data' // 파일 업로드에 필요한 헤더
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('프로필 사진 변경 실패:', error);
+        throw error;
+    }
+};

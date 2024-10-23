@@ -24,22 +24,7 @@ import QuestionForm from "./Question/QuestionForm";
 import { matchRoutes } from 'react-router-dom';
 import ImagePreview from "../Img/ImagePreview"
 
-const GroupInfoContent = ({ mode, groupPostId, userId, groupPostData }) => {
-
-  const recentNews = [
-    {
-      content: "‘파이널 프로젝트- 지금2조’에 ‘손흥민’ 님이 지원하셨습니다.",
-      date: "2024.09.02",
-    },
-    {
-      content: "프로젝트 회의는 다음 주 월요일 오후 3시입니다.",
-      date: "2024.09.03",
-    },
-    {
-      content: "스터디원 모집 중 프론트엔드 스터디에 참여하세요!",
-      date: "2024.09.04",
-    },
-  ];
+const GroupInfoContent = ({ mode, groupPostId, userId, groupPostData, groupNewsData }) => {
 
   const [isModalOpen, setModalOpen] = useState(false);
 
@@ -127,7 +112,7 @@ const GroupInfoContent = ({ mode, groupPostId, userId, groupPostData }) => {
         </Violet500LineDiv>
 
         {/* 최근 소식 */}
-        <RecentNewsSlider news={recentNews} />
+        <RecentNewsSlider news={groupNewsData} />
 
         {/* 질문 작성 영역 */}
         <Violet500LineDiv>

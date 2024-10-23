@@ -24,7 +24,16 @@ import ModalForm from '../Modal/ModalForm'
 import DeleteIcon from '../Icon/DeleteIcon'
 import ALinkText from '../Input/ALinkText'
 import RefreshIcon from '../Icon/RefreshIcon'
-import { deleteTask, getTasks, registerTask, updateTask } from '../Apis/GroupPostApi';
+import {
+  deleteSchedule,
+  deleteTask,
+  getSchedule,
+  getTasks,
+  registerSchedule,
+  registerTask,
+  updateSchedule,
+  updateTask
+} from '../Apis/GroupPostApi';
 
 
 // components/Group/TodoContent.js
@@ -130,14 +139,15 @@ const DummyLinkData = [
 
 const TodoContent = ({ groupPostId, github, figma }) => {
   const [tasks, setTasks] = useState([]);
-  const [scheduleList, setScheduleList] = useState(DummyCalenderData || []);
+  const [scheduleList, setScheduleList] = useState([]);
   const [links, setLinks] = useState(DummyLinkData || []);
 
   const [newTask, setNewTask] = useState('');
-  const [newSchedule, setNewSchedule] = useState([{ date: null, task: '' }]);
+  const [newSchedule, setNewSchedule] = useState([{id:-1, details: '', startDate: null, endDate: null }]);
   const [newLink, setNewLink] = useState({ imgSrc: '', name: '', url: '' });
 
   const [editingTaskIndex, setEditingTaskIndex] = useState(null);
+  const [editingScheduleIndex, setEditingScheduleIndex] = useState(null);
   const [editingLinkIndex, setEditingLinkIndex] = useState(null);
 
 
@@ -154,18 +164,31 @@ const TodoContent = ({ groupPostId, github, figma }) => {
 
   // 할 일 목록 조회
   async function saveTasks(groupId) {
+    await new Promise((resolve) => setTimeout(resolve, 300));
     await getTasks(groupId)
       .then(function (response) {
         if (response?.data.length > 0) setTasks(response?.data);
       })
   }
+  // 일정 목록 조회
+  async function saveSchedule(groupId) {
+    await new Promise((resolve) => setTimeout(resolve, 300));
+    await getSchedule(groupId)
+        .then(function (response) {
+          if (response?.data.length > 0) setScheduleList(response?.data);
+        })
+  }
+
 
   useEffect(() => {
     saveTasks(groupPostId);
-  }, [isTaskModalOpen]);
+    saveSchedule(groupPostId)
+  }, [isTaskModalOpen, modalIsOpen]);
+
+  useEffect(() => {
+  }, [scheduleList, tasks]);
 
   const openModal = () => setModalIsOpen(true);
-  const closeModal = () => setModalIsOpen(false);
   const openTaskModal = () => setIsTaskModalOpen(true);
 
   const closeTaskModal = () => {
@@ -175,16 +198,24 @@ const TodoContent = ({ groupPostId, github, figma }) => {
     setIsTaskModalOpen(false);
   };
 
-  const addScheduleField = () => {
-    setNewSchedule(prevSchedule => [
-      ...prevSchedule,
-      { date: null, task: '' }
-    ]);
-  };
+  const closeModal = () => {
+    setIsEditingSchedule(false);
+    setEditingScheduleIndex(null);
+    setNewSchedule([{id:-1, details: '', startDate: null, endDate: null }]);
+    setModalIsOpen(false);
+  }
 
-  const delScheduleField = (index) => {
-    setNewSchedule(newSchedule.filter((_, i) => i !== index));
-  };
+  // const addScheduleField = () => {
+  //
+  //   setNewSchedule(prevSchedule => [
+  //     ...prevSchedule,
+  //     { id:0, details: null, startDate: null, endDate: null }
+  //   ]);
+  // };
+  //
+  // const delScheduleField = (index) => {
+  //   setNewSchedule(newSchedule.filter((_, i) => i !== index));
+  // };
 
 
   const handleScheduleSubmit = (event) => {
@@ -192,29 +223,33 @@ const TodoContent = ({ groupPostId, github, figma }) => {
     event.preventDefault();
 
     const nonEmptySchedules = newSchedule.filter(
-      (schedule) => schedule.task.trim() !== '' && schedule.startDate && schedule.endDate
+        (schedule) => schedule.details.trim() !== '' && schedule.startDate && schedule.endDate
     );
     if (nonEmptySchedules.length > 0) {
 
-      if (editingTaskIndex !== null) {
-        // 일정 수정 모드일 때
-        const updatedList = [...scheduleList];
-        updatedList[editingTaskIndex] = {
-          ...updatedList[editingTaskIndex], // 기존 데이터 유지
-          ...nonEmptySchedules[0], // 새 데이터로 업데이트
-        };
-        setScheduleList(updatedList);
-      } else if (isEditingSchedule) {
+      if (isEditingSchedule) {
         // 스케줄 수정 모드일 때
-        setScheduleList([...scheduleList]);
+        let scheduleToEdit = scheduleList.filter(schedule => schedule.id === editingScheduleIndex)[0];
+        scheduleToEdit.details = newSchedule[0].details;
+        scheduleToEdit.startDate = newSchedule[0].startDate;
+        scheduleToEdit.endDate = newSchedule[0].endDate;
+        updateSchedule(scheduleToEdit)
+            .then(function (response) {
+              closeModal();
+            });
       } else {
         // 새로운 일정 추가
-        setScheduleList([...scheduleList, ...nonEmptySchedules]);
+        if (newSchedule[0].details.trim()) {
+          registerSchedule(groupPostId, newSchedule[0])
+              .then(function (response) {
+                closeModal();
+              });
+        }
       }
       // 상태 초기화
-      setNewSchedule([{ task: '', startDate: null, endDate: null }]); // 초기값 변경
+      setNewSchedule([{ details: '', startDate: null, endDate: null }]); // 초기값 변경
       closeModal(); // 모달 닫기
-      setEditingTaskIndex(null); // 일정 수정 모드 초기화
+      setEditingScheduleIndex(null); // 일정 수정 모드 초기화
       setIsEditingSchedule(false); // 스케줄 수정 모드 초기화
     } else {
       alert("일정 정보를 입력하세요.");
@@ -222,15 +257,20 @@ const TodoContent = ({ groupPostId, github, figma }) => {
   };
 
 
-  const handleDeleteSchedule = (index) => {
-    const updatedList = scheduleList.filter((_, i) => i !== index);
-    setScheduleList(updatedList);
+  const handleDeleteSchedule = (id) => {
+    async function deleteFunc(id) {
+      await deleteSchedule(id);
+      saveSchedule(groupPostId);
+    }
+    deleteFunc(id);
+    setScheduleList([])
   };
 
-  const handleEditSchedule = (index) => {
-    setIsEditingSchedule(true);
-    const scheduleToEdit = scheduleList[index];
+  const handleEditSchedule = (id) => {
+    const scheduleToEdit = scheduleList.filter(schedule => schedule.id === id)[0];
     setNewSchedule([scheduleToEdit]);
+    setIsEditingSchedule(true);
+    setEditingScheduleIndex(id);
     openModal();
   };
 
@@ -282,6 +322,7 @@ const TodoContent = ({ groupPostId, github, figma }) => {
       saveTasks(groupPostId);
     }
     deleteFunc(id);
+    setTasks([]);
   };
 
   const handleEditTask = (id) => {
@@ -384,8 +425,8 @@ const TodoContent = ({ groupPostId, github, figma }) => {
                 <InputText
                   ref={inputRefs}
                   type="text"
-                  value={newSchedule[0].task}
-                  onChange={(e) => handleNewScheduleChange(0, 'task', e.target.value)}
+                  value={newSchedule[0].details}
+                  onChange={(e) => handleNewScheduleChange(0, 'details', e.target.value)}
                   placeholder="일정을 입력하세요"
                   style={{
                     fontSize: '14px',
@@ -407,27 +448,27 @@ const TodoContent = ({ groupPostId, github, figma }) => {
                   placeholderText="시작 일자 - 종료 일자"
                   style={{ width: '100%', padding: '10px', fontSize: '16px' }}
                 />
-                {newSchedule.length > 1 && (
-                  <DeleteIcon
-                    style={{
-                      width: '16px', height: '16px', color: 'var(--violet500)'
-                    }}
-                    type='button'
-                    onClick={() => {
-                      if (window.confirm("일정을 삭제하시겠습니까?")) {
-                        delScheduleField(index);
-                      }
-                    }}
-                  />
-                )}
+                {/*{newSchedule.length > 1 && (*/}
+                {/*  <DeleteIcon*/}
+                {/*    style={{*/}
+                {/*      width: '16px', height: '16px', color: 'var(--violet500)'*/}
+                {/*    }}*/}
+                {/*    type='button'*/}
+                {/*    onClick={() => {*/}
+                {/*      if (window.confirm("일정을 삭제하시겠습니까?")) {*/}
+                {/*        delScheduleField(index);*/}
+                {/*      }*/}
+                {/*    }}*/}
+                {/*  />*/}
+                {/*)}*/}
               </ScheduleItem>
             ))}
           </ModalContent>
-          <TodoPlus onClick={addScheduleField}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-plus-lg" viewBox="0 0 16 16">
-              <path fillRule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
-            </svg>
-          </TodoPlus>
+          {/*<TodoPlus onClick={addScheduleField}>*/}
+          {/*  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-plus-lg" viewBox="0 0 16 16">*/}
+          {/*    <path fillRule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />*/}
+          {/*  </svg>*/}
+          {/*</TodoPlus>*/}
           <ButtonGroupRight>
             <Violet500LineButton type='submit'>
               {isEditingSchedule ? '수정' : '등록'}
