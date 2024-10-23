@@ -174,6 +174,7 @@ export async function getSchedule(groupId){
             return response.data
         })
         .catch(function (error) {
+            console.log("조회 에러")
             console.log(error);
         });
 }
@@ -303,6 +304,7 @@ export async function deleteTask(id) {
         }
     })
         .then(function (response) {
+            console.log(id)
             return response.data;
         })
         .catch(function (error) {
