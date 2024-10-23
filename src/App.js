@@ -40,9 +40,10 @@ const App = () => {
     fetchProfile();
   }, [isLoggedIn]);
 
-  const renderWithLoading = (Component, props) => (
-    loading ? <LoadingSpinner /> : <Component {...props} />
-  );
+  const renderWithLoading = (Component, props) => {
+    return loading ? <LoadingSpinner /> : <Component {...props} />;
+  };
+
 
   return (
     <Router>
@@ -60,7 +61,7 @@ const App = () => {
           <Route path="/faq" element={renderWithLoading(FAQ)} />
           <Route path="/write" element={renderWithLoading(CreateGroupPage)} />
           <Route path="/tos" element={renderWithLoading(Tos)} />
-          <Route path="/user/my" element={renderWithLoading(MyPage, { profileData })} />
+          <Route path="/user/my" element={renderWithLoading(MyPage, { profileData, offLogin: () => setIsLoggedIn(false) })} />
           <Route path="/user/:userId" element={renderWithLoading(MyPage)} />
           <Route path="/google/callback" element={renderWithLoading(RedirectPage)} />
         </Routes>
