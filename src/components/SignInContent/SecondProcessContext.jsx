@@ -59,7 +59,7 @@ const SecondProcessContent = ({ onNext, onPrev, handleInputChange, handleInputRe
                     onClick={() => {
                         if (window.confirm('이전으로 이동하면 입력 정보가 초기화 됩니다.\n진행하시겠습니까?')) {
                             onPrev();
-                            handleInputReset('interests');
+                            handleInputReset('currentStatus');
                         }
                     }}>
                     이전

@@ -6,6 +6,7 @@ import StatusButton from "./Components/StatusButton";
 import SubTitle from "./Components/SubTitle";
 import PreviousIcon from "../Icon/PreviousIcon";
 import InputText from "../Input/InputText";
+import InputNumber from "../Input/InputNumber";
 
 function FirstProcessContent({ onNext, onPrev, handleInputChange, handleInputReset }) {
 
@@ -23,10 +24,20 @@ function FirstProcessContent({ onNext, onPrev, handleInputChange, handleInputRes
                             onChange={(e) => handleInputChange('jobTitle', e.target.value)} />
                     </Div>
                     <Div>
-                        <Label>경력이 몇 년인지 입력해주세요</Label>
-                        <InputText
-                            placeholder="경력이 몇 년인지 입력해주세요"
-                            onChange={(e) => handleInputChange('experience', e.target.value)} />
+                        <Label>경력을 입력해주세요</Label>
+
+                        <Row>
+                            <InputNumber
+                                placeholder="경력"
+                                style={{ textAlign: 'start' }}
+
+                                onChange={(e) => handleInputChange('experience', e.target.value)}
+                                min={0}
+                                max={100}
+                                step={1} // 1단위로 증가/감소
+                            />
+                            <span style={{ height: '100%', lineHeight: '35px' }}>년</span>
+                        </Row>
                     </Div>
                 </ChangeColumn480px>
                 <Div>
