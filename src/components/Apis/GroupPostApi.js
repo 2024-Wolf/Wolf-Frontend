@@ -141,28 +141,78 @@ export async function getGroupMember(groupId) {
 }
 
 // 그룹 지원
-export function applyGroup(groupId, applyment) {
-    axiosInstance.post(`${BASE_URL}/post/${groupId}/apply`, {
+export async function applyGroup(groupId, applyment) {
+    return await axiosInstance.post(`${BASE_URL}/post/apply/${groupId}`, {
         position: applyment.position,
         email: applyment.email,
-        applicationReason: applyment.application_reason,
-        introduction: applyment.introduction,
-        techStack: applyment.tech_stack,
-        portfolioLink: applyment.portfolio_link,
-        availableDays: applyment.available_days,
-        additionalNotes: applyment.additional_notes
+        applicationReason: applyment.reason,
+        introduction: applyment.introduce,
+        techStack: applyment.techStack,
+        portfolioLink: applyment.portfolioLink,
+        availableDays: applyment.day.toString(),
+        additionalNotes: applyment.freeEntry
     }, {
         headers: {
             Authorization: Token.getAccessToken()
         }
     })
         .then(function (response) {
-            console.log(response);
+            return response.data;
         })
         .catch(function (error) {
-            console.log(error);
+            return error;
         });
 }
+
+// 그룹 지원자 조회
+export async function getApplicants(groupId){
+    try {
+        const response = await axiosInstance.get(`${BASE_URL}/post/apply/${groupId}`,
+            {
+                headers: {
+                    Authorization: Token.getAccessToken() // 토큰을 헤더에 추가
+                }
+            });
+        return response.data; 
+    } catch (error) {
+        console.error('그룹 지원자 오류 발생:', error);
+        throw error; // 오류를 다시 던져서 호출한 곳에서 처리할 수 있게 함
+    }
+}
+
+// 지원자 정보 조회
+export async function getApplicantDetail(recruitApplyId){
+    try {
+        const response = await axiosInstance.get(`${BASE_URL}/post/apply/detail/${recruitApplyId}`,
+            {
+                headers: {
+                    Authorization: Token.getAccessToken() // 토큰을 헤더에 추가
+                }
+            });
+        return response.data; 
+    } catch (error) {
+        console.error('그룹 지원자 오류 발생:', error);
+        throw error; // 오류를 다시 던져서 호출한 곳에서 처리할 수 있게 함
+    }
+}
+
+// 지원 상태 변경
+// status = (PENDING, ACCEPTED, REJECTED)
+export async function changeApplyStatus(recruitApplyId, status){
+    try {
+        const response = await axiosInstance.get(`${BASE_URL}/post/apply/${recruitApplyId}/${status}`,
+            {
+                headers: {
+                    Authorization: Token.getAccessToken() // 토큰을 헤더에 추가
+                }
+            });
+        return response.data; 
+    } catch (error) {
+        console.error('그룹 지원 상태 변경 오류 발생:', error);
+        throw error; // 오류를 다시 던져서 호출한 곳에서 처리할 수 있게 함
+    }
+}
+
 // 일정 조회
 export async function getSchedule(groupId) {
     return await axios.get(`${BASE_URL}/post/${groupId}/schedule`, {
@@ -174,7 +224,6 @@ export async function getSchedule(groupId) {
             return response.data
         })
         .catch(function (error) {
-            console.log("조회 에러")
             console.log(error);
         });
 }

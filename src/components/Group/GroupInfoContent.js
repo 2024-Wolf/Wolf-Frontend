@@ -61,7 +61,7 @@ const GroupInfoContent = ({ mode, groupPostId, userId, groupPostData, groupNewsD
           </FormFieldColumn>
 
           {isModalOpen && (
-            <ApplicantModal onClose={closeModal} isView={false} optionalRequirements={groupPostData?.optionalRequirements} />
+            <ApplicantModal onClose={closeModal} isView={false} groupPostId={groupPostId} optionalRequirements={groupPostData?.optionalRequirements} />
           )}
 
           <FormFieldRow>

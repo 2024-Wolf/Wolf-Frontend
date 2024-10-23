@@ -24,7 +24,7 @@ import InputText from "../Input/InputText";
 import ApplicantModal from "./GroupInfoModal/ApplicantModal";
 import { Navigate, useNavigate } from "react-router-dom";
 import WithdrawalButton from "../Button/WithdrawalButton";
-import { deleteGroupPost, updateGroupPost, getGroupMember } from "../Apis/GroupPostApi";
+import { deleteGroupPost, updateGroupPost, getGroupMember, getApplicants } from "../Apis/GroupPostApi";
 
 // 전체 div
 // components/Group/GroupManageContent.js
@@ -45,18 +45,11 @@ export const Container5 = styled(ContentsWrapper)`
 
 const GroupManageContent = (props) => {
   const [isModalOpen, setModalOpen] = useState(false);
+  const [applicants, setApplicants] = useState([]);
   const [selectedApplicant, setSelectedApplicant] = useState(null); // 선택된 지원자 데이터 상태 추가
-  const optionalRequirements = props.groupPostData?.optionalRequirements?.split(',');
-  const [memberData, setMemberData] = useState([]);
+  const optionalRequirements = props.groupPostData.optionalRequirements.split(',');
 
   const navigate = useNavigate();
-
-  // const memberData = [
-  //   { userId: 1, name: "강민철", role: "FRONTEND", position: "LEADER" },
-  //   { userId: 2, name: "김영희", role: "BACKEND", position: "MEMBER" },
-  //   { userId: 3, name: "이철수", role: "PLANNER", position: "MEMBER" },
-  //   { userId: 4, name: "박민지", role: "DESIGNER", position: "MEMBER" }
-  // ];
 
   const groupData = {
     groupType: props.groupPostData.type,
@@ -83,43 +76,35 @@ const GroupManageContent = (props) => {
     ],
     totalMemberCount: props.groupPostData.targetMembers,
     challengeStatus: props.groupPostData.chaalengeStatus || "N",
-    recruitmentList: props.groupPostData.recruitments?.map(({ recruitRole, recruitRoleCnt }) => ({ job: recruitRole.toLowerCase(), count: recruitRoleCnt })) || [],
+    recruitmentList: props.groupPostData.recruitments?.map(({recruitRole, recruitRoleCnt}) => ({job: recruitRole.toLowerCase(), count: recruitRoleCnt})) || [],
     memberData: props.groupPostData.memberData || []
-
   };
 
-  const applicantData = [
-    {
-      id: 1,
-      name: "박가현",
-      email: "example1@example.com",
-      role: "프론트엔드개발자",
-      reason: "열심히할게요~",
-      portfolioLink: "https://github.com/2024-Wolf/Wolf-Frontend",
-      date: "2024-09-10",
-    },
-    {
-      id: 2,
-      name: "강감찬",
-      email: "example2@example.com",
-      role: "기획자",
-      reason: "군사목적 홈페이지를 만들고 싶어요.",
-      portfolioLink: "https://github.com/2024-Wolf/Wolf-Frontend",
-      date: "2024-09-11",
-    },
-    {
-      id: 3,
-      name: "김가네",
-      email: "example3@example.com",
-      role: "백엔드개발자",
-      reason: "김밥집 홈페이지를 만들고싶어요.",
-      portfolioLink: "https://github.com/2024-Wolf/Wolf-Frontend",
-      date: "2024-09-12",
-    },
-  ];
+  async function fetchGroupApplicantData(){
+    try {
+      const result = await getApplicants(props.groupPostId); // 그룹 뉴스 데이터 저장
+      setApplicants(result.data);
 
-  const openModal = (applicant) => {
-    setSelectedApplicant(applicant); // 선택된 지원자 데이터를 상태에 저장
+      // 상태 코드가 200-299 범위인지 확인
+      if (result.status < 200 || result.status >= 300) {
+        throw new Error('네트워크 오류');
+      }
+
+    } catch (error) {
+      // 에러 처리: 콘솔에 에러 메시지 출력
+      console.error('데이터 등록 실패:', error);
+    } finally {
+      // 로딩 상태 종료
+      // setLoading(false);
+    }
+  }
+
+  useEffect(()=>{
+    fetchGroupApplicantData()
+  }, []);
+
+  const openModal = (recruitApplyId) => {
+    setSelectedApplicant(recruitApplyId); // 선택된 지원자 데이터를 상태에 저장
     setModalOpen(true);
   };
 
@@ -201,19 +186,19 @@ const GroupManageContent = (props) => {
           </svg>
           지원자 관리
         </FormTitle>
-        {applicantData?.map((user, index) => (
+        {applicants.map((user) => (
           <>
-            <MemberInfo key={`${user.id}-${index}`}>
-              <ProfileIcon /*src="" alt=""*/>{user.name}</ProfileIcon>
+            <MemberInfo key={user.recruitApplyId}>
+              <ProfileIcon src={user.profileImage} alt="프로필">{user.name}</ProfileIcon>
               <FormFieldRow>
                 <FormFieldMultiple label={"모집 직군"}>
-                  <InputText value={user.role} readOnly />
+                  <InputText value={user.position} readOnly />
                 </FormFieldMultiple>
                 <FormFieldMultiple label={"지원일자"}>
-                  <InputText value={user.date} readOnly />
+                  <InputText value={user.applyDate} readOnly />
                 </FormFieldMultiple>
               </FormFieldRow>
-              <Violet500BackgroundButton onClick={() => openModal(user)}>
+              <Violet500BackgroundButton onClick={() => openModal(user.recruitApplyId)}>
                 지원글 확인하기
               </Violet500BackgroundButton>
             </MemberInfo>
@@ -223,7 +208,9 @@ const GroupManageContent = (props) => {
         {isModalOpen && selectedApplicant && (
           <ApplicantModal
             onClose={closeModal}
-            applicant={selectedApplicant}
+            applicantId={selectedApplicant}
+            optionalRequirements={optionalRequirements}
+            fetchGroupApplicantData={fetchGroupApplicantData}
             isView={true}
           />
         )}
