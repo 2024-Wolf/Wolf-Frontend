@@ -15,7 +15,7 @@ import {
   BlueViolet600BackgroundButton, ChangeColumn768px, Row, Div
 } from "../../GlobalStyledComponents";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CancelIcon from "../../Icon/CancelIcon";
 import InputTextBlackLine from "../../Input/InputTextBlackLine";
 import TextAreaBlackLine from "../../Input/TextAreaBlackLine";
@@ -25,59 +25,49 @@ import ModalForm from "../../Modal/ModalForm";
 import FormFieldSingle from "../GroupComponent/FormFieldSingle";
 import FormCheckBoxButton from "../../Button/FormCheckBoxButtonBlackLine";
 import CopyButton from "../../Button/CopyButton";
+import { applyGroup, changeApplyStatus, getApplicantDetail } from "../../Apis/GroupPostApi";
 
-const initialGroupData = {
-  groupType: "study",
-  startDate: new Date(),
-  endDate: new Date(),
-  deadLineDate: new Date(),
-  title: "",
-  techStack: "",
-  buttons: [
-    { label: "이메일", clicked: true },
-    { label: "지원직군", clicked: true },
-    { label: "지원사유", clicked: true },
-    { label: "다룰 수 있는 언어", clicked: false },
-    { label: "참여가능 요일", clicked: false },
-    { label: "자기소개", clicked: false },
-    { label: "포트폴리오 링크", clicked: false },
-    { label: "자유기재", clicked: false }
-  ],
-  totalMemberCount: 0,
-  subject: "",
-  introduction: "",
-  guidelines: "",
-  fileName: ""
-};
-
-const ApplicantModal = ({ onClose, onSubmit, applicant, isView, optionalRequirements }) => {
+const ApplicantModal = ({ onClose, onSubmit, applicantId, groupPostId, isView, optionalRequirements, fetchGroupApplicantData }) => {
   const [isPortfolioValid, setIsPortfolioValid] = useState(true); // 포트폴리오 링크 입력했는지 검증하는 상태
   const [isDayValid, setIsDayValid] = useState(true); // 요일 입력했는지 검증하는 상태
-  const [isSelectRoldValid, setIsSelectRoldValid] = useState(true); // 지원직군 선택했는지 검증하는 상태
+  const [isSelectRoleValid, setIsSelectRoleValid] = useState(true); // 지원직군 선택했는지 검증하는 상태
   const [isPortfolioTextValid, setIsPortfolioTextValid] = useState(true); // 지원직군 선택했는지 검증하는 상태
 
   const [buttonStatus, setButtonStatus] = useState("");
   const [linkButtonDisable, setLinkButtonDisable] = useState(false);
 
-  const [errorMessage, setErrorMessage] = useState(""); // 에러 메시지상태 추가
-  const [checkedDays, setCheckedDays] = useState([]);
-  const [showError, setShowError] = useState(false);
+  const [modalData, setModalData] = useState({
+    name: "",
+    email: "",
+    position: "",
+    reason: "",
+    portfolioLink: "",
+    introduce: "",
+    freeEntry: "",
+    day: [],
+    techStack: "",
+  });
 
-  const [modalData, setModalData] = useState(
-    applicant || {
-      name: "",
-      email: "",
-      role: "",
-      reason: "",
-      portfolioLink: "",
-      date: "",
-      introduce: "",
-      freeEntry: "",
-      day: [],
-      language: "",
+  useEffect(()=>{
+    async function fetchApplicant(){
+      const response = await getApplicantDetail(applicantId);
+      setModalData({
+        name: response.data.name,
+        email: response.data.email,
+        position: response.data.position.toLowerCase(),
+        reason: response.data.applicationReason,
+        portfolioLink: response.data.portfolioLink,
+        introduce: response.data.introduction,
+        day: response.data.availableDays.split(","),
+        techStack: response.data.techStack,
+        freeEntry: response.data.additionalNotes
+      });
     }
-  );
 
+    if(isView){
+      fetchApplicant();
+    }
+  }, []);
 
   //전송 api
   ///post/{postId}/apply
@@ -85,17 +75,17 @@ const ApplicantModal = ({ onClose, onSubmit, applicant, isView, optionalRequirem
     e.preventDefault();
     switch (buttonStatus) {
       case "지원하기":
-        if (modalData.day.length === 0 || modalData.role === '' || !linkButtonDisable) {
+        if (modalData.position === '' || !linkButtonDisable) {
           alert('모든 양식을 입력하세요');
-          if (modalData.day.length === 0) {
+          if (optionalRequirements.includes("참여 가능 요일") && modalData.day.length === 0) {
             setIsDayValid(false); // 요일 체크박스 안내멘트 출력
           } else {
             setIsDayValid(true); // 요일 체크박스 안내멘트 출력
           }
-          if (modalData.role === '') {
-            setIsSelectRoldValid(false); // 직군 선택 항목 안내멘트 출력
+          if (modalData.position === '') {
+            setIsSelectRoleValid(false); // 직군 선택 항목 안내멘트 출력
           } else {
-            setIsSelectRoldValid(true); // 직군 선택 항목 안내멘트 출력
+            setIsSelectRoleValid(true); // 직군 선택 항목 안내멘트 출력
           }
           if (!linkButtonDisable) {
             setIsPortfolioTextValid(false);  // 포트폴리오 링크를 등록하라는 멘트 출력
@@ -103,51 +93,36 @@ const ApplicantModal = ({ onClose, onSubmit, applicant, isView, optionalRequirem
             setIsPortfolioTextValid(true);  // 포트폴리오 링크를 등록하라는 멘트 출력
           }
         } else {
-          alert('지원하기 폼이 제출되었습니다');
-          setIsDayValid(true);  // 유효성 검사 초기화
-          setIsSelectRoldValid(true); // 유효성 검사 초기화
-
-          try {
-            const formData = new FormData();
-            formData.append("name", modalData.name);
-            formData.append("email", modalData.email);
-            formData.append("role", modalData.role);
-            formData.append("reason", modalData.reason);
-            formData.append("portfolioLink", modalData.portfolioLink);
-            formData.append("date", modalData.date);
-            formData.append("introduce", modalData.introduce);
-            formData.append("freeEntry", modalData.freeEntry);
-            formData.append("day", modalData.day);
-            formData.append("language", modalData.language);
-
-            const response = await axios.post(
-              `http://localhost:3000/post/{postId}/apply`,
-              formData
-            );
-            // 성공 시 처리
-            alert("지원하기 완료");
-            // 모달창 닫기
+          applyGroup(groupPostId, modalData)
+          .then(function(response){
+            if(response.status < 200 || response.status > 300){
+              alert(response.message);
+              return;
+            }
+            alert('지원하기 폼이 제출되었습니다');
+            setIsDayValid(true);  // 유효성 검사 초기화
+            setIsSelectRoleValid(true); // 유효성 검사 초기화
             onClose();
-          } catch (error) {
-            // 에러 발생 시 처리
-            console.error(
-              "요청 실패:",
-              error.response ? error.response.data : error.message
-            );
-            alert("지원하기에 실패했습니다. 다시 시도해주세요.");
-
-          }
+          });  
         }
         break;
       case "지원승인":
-        alert("지원승인");
-        // 모달창 닫기
-        onClose();
+        changeApplyStatus(applicantId, "ACCEPTED")
+        .then(function(response){
+          window.location.reload();
+          alert("지원승인");
+          // 모달창 닫기
+          onClose();
+        });
         break;
       case "지원거절":
-        alert("지원거절");
-        // 모달창 닫기
-        onClose();
+        changeApplyStatus(applicantId, "REJECTED")
+        .then(function(response){
+          fetchGroupApplicantData();
+          alert("지원거절");
+          // 모달창 닫기
+          onClose();
+        });
         break;
     }
   };
@@ -176,34 +151,6 @@ const ApplicantModal = ({ onClose, onSubmit, applicant, isView, optionalRequirem
       alert("유효한 링크를 입력하세요");
     }
   };
-
-
-
-  // const toggleButtonClick = (index) => {
-  //   setNewFormData(prevState => {
-  //     const newButtons = prevState.buttons.map((button, idx) =>
-  //       idx === index ? { ...button, clicked: !button.clicked } : button
-  //     );
-  //     return { ...prevState, buttons: newButtons };
-  //   });
-  // };
-
-  // const handleButtonClick = (e) => {
-  //   if (
-  //     !modalData.name ||
-  //     !modalData.email ||
-  //     !modalData.role ||
-  //     !modalData.reason ||
-  //     !modalData.portfolioLink
-  //   ) {
-  //     e.preventDefault(); // form 제출 막기
-  //     setErrorMessage("빈칸을 모두 작성해주세요.");
-  //   } else {
-  //     setErrorMessage(""); // 조건이 충족되면 에러 메시지 초기화
-  //   }
-  // };
-
-  //input, 포트폴리오 링크등록버튼, 지원하기
   return (
 
 
@@ -265,7 +212,7 @@ const ApplicantModal = ({ onClose, onSubmit, applicant, isView, optionalRequirem
 
           <Div>
             <Label>지원직군</Label>
-            {!isSelectRoldValid &&
+            {!isSelectRoleValid &&
               <span
                 style={{
                   fontSize: '13px', color: '#ED4E51'
@@ -275,9 +222,9 @@ const ApplicantModal = ({ onClose, onSubmit, applicant, isView, optionalRequirem
             }
             <SelectButtonBlackLine
               disabled={isView}
-              value={modalData.role}
+              value={modalData.position}
               onChange={(e) =>
-                setModalData((prev) => ({ ...prev, role: e.target.value }))
+                setModalData((prev) => ({ ...prev, position: e.target.value }))
               }
               required
               style={{ width: '100%' }}
@@ -285,8 +232,8 @@ const ApplicantModal = ({ onClose, onSubmit, applicant, isView, optionalRequirem
               <option value="" disabled>
                 선택하세요
               </option>
-              <option value="frontEnd">프론트엔드개발자</option>
-              <option value="backEnd">백엔드개발자</option>
+              <option value="frontend">프론트엔드개발자</option>
+              <option value="backend">백엔드개발자</option>
               <option value="planner">기획자</option>
               <option value="designer">디자이너</option>
             </SelectButtonBlackLine>
@@ -307,7 +254,7 @@ const ApplicantModal = ({ onClose, onSubmit, applicant, isView, optionalRequirem
                 introduce: e.target.value,
               }))
             }
-            required
+            required={optionalRequirements.includes("자기소개")}
           />
         </Div>
         <Div>
@@ -324,7 +271,7 @@ const ApplicantModal = ({ onClose, onSubmit, applicant, isView, optionalRequirem
                 freeEntry: e.target.value,
               }))
             }
-            required
+            required={optionalRequirements.includes("자유기재")}
           />
         </Div>
         <Div>
@@ -343,6 +290,7 @@ const ApplicantModal = ({ onClose, onSubmit, applicant, isView, optionalRequirem
                 key={"day-" + index}
                 name="day"
                 value={day}
+                checked={modalData.day.includes(day)}
                 disabled={isView}
                 onChange={(e) => {
                   setModalData((prev) => ({
@@ -364,15 +312,15 @@ const ApplicantModal = ({ onClose, onSubmit, applicant, isView, optionalRequirem
           <InputTextBlackLine
             readOnly={isView}
             type="text"
-            value={modalData.language}
+            value={modalData.techStack}
             onChange={(e) =>
               setModalData((prev) => ({
                 ...prev,
-                language: e.target.value,
+                techStack: e.target.value,
               }))
             }
             placeholder="다룰 수 있는 언어를 입력하세요"
-            required
+            required={optionalRequirements.includes("다룰 수 있는 언어")}
           />
         </Div>
 
@@ -422,7 +370,7 @@ const ApplicantModal = ({ onClose, onSubmit, applicant, isView, optionalRequirem
                 }))
               }
               disabled={linkButtonDisable}
-              required
+              required={optionalRequirements.includes("포트폴리오 링크")}
             />
           </Div>
           {isView ? (

@@ -83,7 +83,7 @@ const StudyPage = ({ profileData }) => {
         const result = await getGroupPost(postId); // 그룹 데이터 저장
         result.data ? setGroupPostData(result.data) : <></>;
         modeRef.current = result.data.type; // "study" 또는 "project"
-
+        
         // 상태 코드가 200-299 범위인지 확인
         if (result.status < 200 || result.status >= 300) {
           throw new Error('네트워크 오류');
@@ -95,24 +95,15 @@ const StudyPage = ({ profileData }) => {
       } finally {
         // 로딩 상태 종료
         // setLoading(false);
-      }
-      try {
-        await getGroupMember(postId).then(function(response){
-          setGroupPostData((prev)=>({...prev, memberData: response.data}));
-        })
-      } catch (error) {
-        // 에러 처리: 콘솔에 에러 메시지 출력
-        console.error('데이터 등록 실패:', error);
-      } finally {
-        // 로딩 상태 종료
-        // setLoading(false);
+          getGroupMember(postId).then(function(response){
+            setGroupPostData((prev)=>({...prev, memberData: response.data}));
+          })
       }
     };
     const fetchGroupNewsData = async () => {
       try {
         const result = await getGroupNews(postId); // 그룹 뉴스 데이터 저장
         setGroupNewsData(result.data);
-        console.log(result.data);
 
         // 상태 코드가 200-299 범위인지 확인
         if (result.status < 200 || result.status >= 300) {

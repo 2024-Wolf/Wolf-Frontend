@@ -31,8 +31,8 @@ const FormCheckBoxButtonBlackLineWrapper = styled.button`
     }
 `;
 
-const FormCheckBoxButtonBlackLine = ({ onChange, children, name, key, value, disabled }) => {
-    const [isChecked, setIsChecked] = useState(false);
+const FormCheckBoxButtonBlackLine = ({ onChange, children, name, key, value, disabled, checked }) => {
+    const [isChecked, setIsChecked] = useState(checked || false);
 
     const handleButtonClick = (e) => {
         if (!disabled) {
