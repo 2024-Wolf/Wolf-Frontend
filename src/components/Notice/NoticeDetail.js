@@ -29,6 +29,23 @@ export const NoticeDetailContainer = styled.div`
   @media (max-width: 480px) {
     padding: 10px;
   }
+    span {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        font-size: 14px;
+        align-items: start;
+        width: 100%;
+        color: var(--black500);
+
+        @media (max-width: 768px) {
+            font-size: 13px;
+        }
+
+        @media (max-width: 480px) {
+            font-size: 12px;
+        }
+    }
 `;
 
 // components/Notice/NoticeDetail.js
@@ -40,6 +57,7 @@ export const NoticeDetailTitle = styled.div`
   margin: 0 auto 0 auto;
   font-size: 25px;
   font-weight: bold;
+  text-align: center;
 `;
 
 const NoticeDetailHeaderTop = styled.div`
@@ -53,7 +71,7 @@ const NoticeDetailHeaderTop = styled.div`
   .hiddenSpan {
     width: 88.99px;
     @media (max-width: 768px) {
-        width: 113.2px;
+        width: 87.27px;
     }
 
     @media (max-width: 480px) {
@@ -64,41 +82,46 @@ const NoticeDetailHeaderTop = styled.div`
 
 
 function NoticeDetail(props) {
-    const [item, setItem] = useState({});
-
-    useEffect(() => {
-        getChallenge(props.noticeId)
-            .then(function (response) {
-                // setItem(response.data);
-            })
-    }, []);
 
     const prevClick = (e) => {
         e.stopPropagation();
         props.prevClick();
     }
 
+    function formatDate(isoString) {
+        const date = new Date(isoString);
+
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+        const day = String(date.getDate()).padStart(2, '0');
+
+        return `${year}.${month}.${day}`; // 원하는 형식으로 반환
+    }
+
     return (
         <NoticeDetailContainer>
             <NoticeDetailHeaderTop>
                 <span className="hiddenSpan" />
-                <NoticeDetailTitle>{item.title}</NoticeDetailTitle>
+                <NoticeDetailTitle>{props.item?.noticeId}</NoticeDetailTitle>
                 <PreviousButton prevClick={prevClick} />
             </NoticeDetailHeaderTop>
+
             <ImagePreview
-                imageFile={'ChallengeThumbnail/ChallengeThumbnail.png'}
-                src={'ChallengeThumbnail/ChallengeThumbnail.png'} alt='공지사항 썸네일'
+                imageFile={props.item?.thumbnail}
+                src={props.item?.thumbnail} alt='공지사항 썸네일'
             />
+            <span>
+                <div>작성자 : {props.item?.author}</div>
+                <div>작성일 : {formatDate(props.item?.createdAt)}</div>
+            </span>
             {/* 공지사항 제목 */}
             <Violet500LineDiv>
                 <FormFieldColumn>
                     <FormFieldSingle label={"제목"}>
                         <InputTextNoCss
                             name="title"
-                            placeholder="제목을 작성해주세요."
-                            value={
-                                item.content
-                            }
+                            placeholder="제목이 없습니다"
+                            value={props.item?.title}
                         />
                     </FormFieldSingle>
                 </FormFieldColumn>
@@ -107,10 +130,8 @@ function NoticeDetail(props) {
             <Violet500LineDiv>
                 <TextAreaNoCss
                     name="introduction"
-                    placeholder="내용을 작성해주세요."
-                    value={
-                        item.content
-                    }
+                    placeholder="내용이 없습니다"
+                    value={props.item?.content}
                 />
             </Violet500LineDiv>
         </NoticeDetailContainer >
