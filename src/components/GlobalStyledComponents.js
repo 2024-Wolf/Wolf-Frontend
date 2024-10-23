@@ -354,8 +354,8 @@ export const Violet500Line = css`
 
   /* components/DateInputButton/OptionButton.js */
   /* 선택 됐을 때 보라색 */
-  ${({ isOptionActive }) =>
-    isOptionActive &&
+  ${({ $isOptionActive }) =>
+    $isOptionActive &&
     `
         background-color: var(--violet500);
         color: var(--violet100);

@@ -14,8 +14,8 @@ const FormCheckBoxButtonWrapper = styled.button`
     }
 
     /* 선택 됐을 때 검은색 */
-    ${({ checked }) =>
-        checked &&
+    ${({ $checked }) =>
+        $checked &&
         `
         background-color: var(--black700);
         border: 1px solid var(--black700);
@@ -23,12 +23,12 @@ const FormCheckBoxButtonWrapper = styled.button`
     `}
 
     &:disabled {
-        background-color: ${({ checked }) => (checked ? "var(--black600)" : "var(--violet200)")};
-        color: ${({ checked }) => (checked ? "var(--violet000)" : "")};
+        background-color: ${({ $checked }) => ($checked ? "var(--black600)" : "var(--violet200)")};
+        color: ${({ $checked }) => ($checked ? "var(--violet000)" : "")};
     }
 `;
 
-const FormCheckBoxButton = ({ style, onChange, children, checked, name, key, value, disabled }) => {
+const FormCheckBoxButton = ({ style, onChange, children, checked, name, value, disabled }) => {
     const [isChecked, setIsChecked] = useState(checked || false);
 
     const handleButtonClick = (e) => {
@@ -48,8 +48,10 @@ const FormCheckBoxButton = ({ style, onChange, children, checked, name, key, val
     return (
         <FormCheckBoxButtonWrapper
             style={style}
-            type="button" key={key} checked={isChecked}
-            onClick={handleButtonClick} disabled={disabled} >
+            type="button"
+            $checked={isChecked}
+            onClick={handleButtonClick} disabled={disabled}
+        >
             {children}
             <input
                 type="checkbox"
@@ -57,6 +59,7 @@ const FormCheckBoxButton = ({ style, onChange, children, checked, name, key, val
                 value={value}
                 checked={isChecked}
                 style={{ display: 'none' }}
+                readOnly
             />
         </FormCheckBoxButtonWrapper >
     );

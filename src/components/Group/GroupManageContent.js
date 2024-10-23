@@ -75,7 +75,7 @@ const GroupManageContent = (props) => {
       { label: "이메일", clicked: true },
       { label: "지원직군", clicked: true },
       { label: "지원사유", clicked: true },
-      { label: "다룰 수 있는 언어", clicked: optionalRequirements.includes('다룰 수 있는 언어')},
+      { label: "다룰 수 있는 언어", clicked: optionalRequirements.includes('다룰 수 있는 언어') },
       { label: "참여가능 요일", clicked: optionalRequirements.includes('참여가능 요일') },
       { label: "자기소개", clicked: optionalRequirements.includes('자기소개') },
       { label: "포트폴리오 링크", clicked: optionalRequirements.includes('포트폴리오 링크') },
@@ -83,8 +83,9 @@ const GroupManageContent = (props) => {
     ],
     totalMemberCount: props.groupPostData.targetMembers,
     challengeStatus: props.groupPostData.chaalengeStatus || "N",
-    recruitmentList: props.groupPostData.recruitments.map(({recruitRole, recruitRoleCnt}) => ({job: recruitRole.toLowerCase(), count: recruitRoleCnt})) || [],
-    memberData: props.groupPostData.memberData
+    recruitmentList: props.groupPostData.recruitments.map(({ recruitRole, recruitRoleCnt }) => ({ job: recruitRole.toLowerCase(), count: recruitRoleCnt })) || [],
+    memberData: props.groupPostData.memberData || []
+
   };
 
   const applicantData = [
@@ -131,20 +132,20 @@ const GroupManageContent = (props) => {
     // eslint-disable-next-line no-restricted-globals
     if (confirm("모임을 삭제하시겠습니까?")) {
       deleteGroupPost(props.groupPostId)
-      .then(function(response){
-        if(response.status < 200 || response.status > 300){
-          alert(response.message);
-          return;
-        }
-        alert("모임이 삭제되었습니다");
-        navigate("/");
-      })
+        .then(function (response) {
+          if (response.status < 200 || response.status > 300) {
+            alert(response.message);
+            return;
+          }
+          alert("모임이 삭제되었습니다");
+          navigate("/");
+        })
     } else {
       return;
     }
   };
 
-  const updateGroup = (data) =>{
+  const updateGroup = (data) => {
     const groupPost = {
       name: data.title,
       type: data.groupType,
@@ -154,7 +155,7 @@ const GroupManageContent = (props) => {
       deadLineDate: data.deadLineDate,
       techStack: data.techStack,
       optionalRequirements: data.buttons.filter(btn => btn.clicked).map(btn => btn.label).toString(),
-      recruitments: data.recruitmentList.map(({job, count}) => ({recruitRole: job.toUpperCase(), recruitRoleCnt: count})),
+      recruitments: data.recruitmentList.map(({ job, count }) => ({ recruitRole: job.toUpperCase(), recruitRoleCnt: count })),
       targetMembers: data.totalMemberCount,
       thumbnail: data.fileName,
       topic: data.subject,
@@ -162,16 +163,16 @@ const GroupManageContent = (props) => {
       warning: data.guidelines,
       shortIntro: data.shortIntro,
       challengeStatus: data.challengeStatus
-  }
+    }
     updateGroupPost(groupPost, props.groupPostId)
-    .then(function(response){
-      if(response.status >= 400){
+      .then(function (response) {
+        if (response.status >= 400) {
           console.log(response);
           alert("에러 발생 : " + response.message);
           return;
-      }
-      alert("모집글 수정이 완료되었습니다.");
-    })
+        }
+        alert("모집글 수정이 완료되었습니다.");
+      })
 
     window.location.reload();
   }
@@ -200,9 +201,9 @@ const GroupManageContent = (props) => {
           </svg>
           지원자 관리
         </FormTitle>
-        {applicantData.map((user) => (
+        {applicantData.map((user, index) => (
           <>
-            <MemberInfo key={user.id}>
+            <MemberInfo key={`${user.id}-${index}`}>
               <ProfileIcon /*src="" alt=""*/>{user.name}</ProfileIcon>
               <FormFieldRow>
                 <FormFieldMultiple label={"모집 직군"}>

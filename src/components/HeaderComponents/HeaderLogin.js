@@ -129,12 +129,14 @@ function HeaderLogin({ isLoggedIn, openModal, offLogin, profileData, alarmsPrevi
             removeAccessToken();
             removeRefreshToken();
             offLogin();
+            navigate("/");
         } catch (error) {
             console.error("로그아웃 중 오류 발생:", error);
             // 오류가 발생해도 토큰을 제거할지 여부는 결정에 따라 처리 가능
             removeAccessToken();
             removeRefreshToken();
             offLogin();
+            navigate("/");
         }
     };
 

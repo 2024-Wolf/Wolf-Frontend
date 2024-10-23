@@ -60,7 +60,7 @@ const Main = () => {
         async function getPosts() {
             await getGroupPosts("all")
                 .then(function (response) {
-                    if(response === undefined){
+                    if (response === undefined) {
                         alert("토큰을 확인해주세요.");
                         return;
                     }
@@ -68,7 +68,7 @@ const Main = () => {
                         alert("토큰이 유효하지 않습니다!");
                         return;
                     }
-                    if (response.data.groupPostResponseList.length > 0) setCards(response.data.groupPostResponseList);
+                    if (response.data.groupPostResponseList && response.data.groupPostResponseList.length > 0) setCards(response.data.groupPostResponseList);
                 })
             setActiveCategory("전체");
         }
@@ -103,9 +103,9 @@ const Main = () => {
         }
 
         const searchedCards = filteredByCategory.filter(card =>
-          card.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
-          card.tag.includes(debouncedSearchTerm.toLowerCase()) ||
-          card.leaderUser.userNickname.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
+            card.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
+            card.tag.includes(debouncedSearchTerm.toLowerCase()) ||
+            card.leaderUser.userNickname.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
         );
 
         const dateFilteredCards = searchedCards.filter(card => {

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Square, Violet500Line, Violet500BackgroundHover } from "../GlobalStyledComponents";
-import {useEffect, useRef, useState} from 'react';
+import { useEffect, useRef, useState } from 'react';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -57,7 +57,7 @@ export const DateButtonWrapper = styled.div`
         }
     `}
 
-    ${({ isChanged }) => isChanged && `
+    ${({ $isChanged }) => $isChanged && `
         background-color: var(--violet500);
         svg {
             color: var(--violet100);
@@ -118,14 +118,14 @@ const DateButton = ({ value, onChange, setIsChanged, isChanged, disabled }) => {
 
     return (
         <div ref={wrapperRef}>
-            <DateButtonWrapper disabled={disabled} onClick={handleWrapperClick} isChanged={isChanged}>
+            <DateButtonWrapper disabled={disabled} onClick={handleWrapperClick} $isChanged={isChanged}>
                 <DatePickerCustom
                     selected={date}
                     open={open} // 상태로 열림 여부 관리
                     onChange={handleChange}
                     dateFormat="yyyy/MM/dd"
                     onClick={(e) => e.stopPropagation()} // 날짜 선택기 내부 클릭 시 닫히지 않게 함
-                    isChanged={isChanged}
+                    $isChanged={isChanged}
                     disabled={disabled}
                     onCalendarClose={() => setOpen(false)} // 날짜 고르면 선택기 닫음
                 />

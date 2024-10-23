@@ -35,7 +35,7 @@ export const HeaderLogo = styled.a`
 function Header({ isLoggedIn, onLogin, offLogin, profileData, alarmsPreviewData }) {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentStep, setCurrentStep] = useState(2);
+  const [currentStep, setCurrentStep] = useState(1);
   const [redirectUrl, setRedirectUrl] = useState(null);
 
   // 회원가입 정보를 저장하는 useState
@@ -48,7 +48,7 @@ function Header({ isLoggedIn, onLogin, offLogin, profileData, alarmsPreviewData 
   });
 
   useEffect(() => {
-     // signupInfo가 변경될 때마다 호출
+    // signupInfo가 변경될 때마다 호출
   }, [signupInfo]);
 
 
@@ -168,15 +168,15 @@ function Header({ isLoggedIn, onLogin, offLogin, profileData, alarmsPreviewData 
     <HeaderContainer>
       <HeaderLogo href="/">WOLF</HeaderLogo>
       <div style={{ display: 'flex', gap: '10px' }}>
-      {isLoggedIn ? ( // 로그인 상태 확인
-        <HeaderCreateGroupButton onClick={() => navigate('/write')}>
-          팀원 모집하기
-        </HeaderCreateGroupButton>
-      ) : (
-        <HeaderCreateGroupButton onClick={openModal}>
-          팀원 모집하기
-        </HeaderCreateGroupButton>
-      )}
+        {isLoggedIn ? ( // 로그인 상태 확인
+          <HeaderCreateGroupButton onClick={() => navigate('/write')}>
+            팀원 모집하기
+          </HeaderCreateGroupButton>
+        ) : (
+          <HeaderCreateGroupButton onClick={openModal}>
+            팀원 모집하기
+          </HeaderCreateGroupButton>
+        )}
         <HeaderFaqButton onClick={() => navigate('/faq')}>FAQ</HeaderFaqButton>
         <HeaderLogin
           isLoggedIn={isLoggedIn}

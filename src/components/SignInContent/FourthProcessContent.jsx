@@ -8,8 +8,12 @@ import { checkNickname } from "../Apis/AuthApi";
 import { signUpUser } from "../Apis/UserApi";
 
 const FourthProcessContent = ({ onPrev, onClose, onLogin, signupInfo, handleInputChange, handleInputReset }) => {
-    const [isNickNamePossible, setIsNickNamePossible] = useState(false);
-    const [isNickNameImpossible, setIsNickNameImpossible] = useState(false);
+    const [isNickNamePossible, setIsNickNamePossible] = useState(false); // 사용가능한 닉네임
+    const [isNickNameImpossible, setIsNickNameImpossible] = useState(false); // 중복된 닉네임
+    const [isNickNameEffectiveness, setIsNickNameEffectiveness] = useState(false); // 유효성 검사
+    const [isNickNameEmpty, setIsNickNameEmpty] = useState(false); // 공백 검사
+
+    const [nickname, setNickname] = useState('');  // 닉네임 상태 추가
 
     const handleNext = async () => {
         try {
@@ -24,33 +28,59 @@ const FourthProcessContent = ({ onPrev, onClose, onLogin, signupInfo, handleInpu
             // 실패 시 에러 처리 (필요 시 사용자에게 메시지 출력 등 추가)
         }
     };
-    const [nickname, setNickname] = useState('');  // 닉네임 상태 추가
 
     // 닉네임 실시간 업데이트
     const handleNicknameChange = (e) => {
         const { value } = e.target;
         setNickname(value);
+        setIsNickNamePossible(false);
+    };
+
+    // 닉네임 유효성 검사
+    const validateNickname = (nickname) => {
+        const nicknameRegex = /^(?=.{2,20}$)(?!.*\s)[A-Za-z0-9_.-ㄱ-ㅎ가-힣]+$/;
+        return nicknameRegex.test(nickname);
     };
 
     // 닉네임 중복 검사
     const handleNickNameCheck = async () => {
-        try {
-            // 닉네임 중복 검사
-            const isAvailable = await checkNickname(nickname);  // 서버에서 중복 여부 확인
+        if (nickname.trim() !== "") {
+            if (validateNickname(nickname)) {
 
-            if (isAvailable) {
-                // 닉네임 사용 가능
-                setIsNickNamePossible(true);
-                setIsNickNameImpossible(false);
-                handleInputChange('nickname', nickname);  // 성공 시 상태 업데이트
+                try {
+                    // 닉네임 중복 검사
+                    const isAvailable = await checkNickname(nickname);  // 서버에서 중복 여부 확인
+
+                    if (isAvailable) {
+                        // 닉네임 사용 가능
+                        setIsNickNamePossible(true);
+                        setIsNickNameImpossible(false);
+                        setIsNickNameEffectiveness(false);
+                        setIsNickNameEmpty(false);
+                        handleInputChange('nickname', nickname);  // 성공 시 상태 업데이트
+                    } else {
+                        // 닉네임 사용 불가
+                        setIsNickNameImpossible(true);
+                        setIsNickNamePossible(false);
+                        setIsNickNameEffectiveness(false);
+                        setIsNickNameEmpty(false);
+                    }
+                } catch (error) {
+                    console.error('닉네임 중복 확인 중 오류 발생:', error);
+                    // 필요에 따라 에러 처리 로직 추가
+                }
+
             } else {
-                // 닉네임 사용 불가
-                setIsNickNameImpossible(true);
+                setIsNickNameImpossible(false);
                 setIsNickNamePossible(false);
+                setIsNickNameEffectiveness(true);
+                setIsNickNameEmpty(false);
             }
-        } catch (error) {
-            console.error('닉네임 중복 확인 중 오류 발생:', error);
-            // 필요에 따라 에러 처리 로직 추가
+        } else {
+            setIsNickNameImpossible(false);
+            setIsNickNamePossible(false);
+            setIsNickNameEffectiveness(false);
+            setIsNickNameEmpty(true);
         }
     };
 
@@ -73,7 +103,7 @@ const FourthProcessContent = ({ onPrev, onClose, onLogin, signupInfo, handleInpu
                             중복 검사
                         </Violet500BackgroundButton>
                     </Row>
-                    <div style={{ height: '16px' }}>
+                    <div style={{ minHeight: '16px' }}>
                         {/* {!isButtonDisable && } */}
                         {isNickNamePossible &&
                             <span
@@ -91,6 +121,23 @@ const FourthProcessContent = ({ onPrev, onClose, onLogin, signupInfo, handleInpu
                                 사용 불가능한 닉네임입니다
                             </span>
                         }
+                        {isNickNameEffectiveness &&
+                            <span
+                                style={{
+                                    fontSize: '13px', color: '#ED4E51'
+                                }}>
+                                허용 문자: 2자 이상 20자 이하, 대소문자 구분, 공백 불가, 숫자, 밑줄(_), 하이픈(-), 점(.)
+                            </span>
+                        }
+                        {isNickNameEmpty &&
+                            <span
+                                style={{
+                                    fontSize: '13px', color: '#ED4E51'
+                                }}>
+                                닉네임을 입력해주세요!
+                            </span>
+                        }
+
                     </div>
                 </Div>
 
