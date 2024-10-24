@@ -332,32 +332,39 @@ const GroupContent = ({ contentType = "viewing", groupData, createGroup, updateG
     }));
   };
 
-  //수정후 저장
-  const saveEdit = () => {
-    if (
-      newGroupData.editJob &&
-      Number.isInteger(newGroupData.editCount) &&
-      newGroupData.editCount > 0
-    ) {
-      const updatedRecruitmentList = newGroupData.recruitmentList.map(
-        (item, index) =>
-          index === newGroupData.editIndex
-            ? { job: newGroupData.editJob, count: newGroupData.editCount }
-            : item
-      );
+  // 수정 후 저장
+const saveEdit = () => {
+  if (
+    newGroupData.editJob &&
+    Number.isInteger(newGroupData.editCount) &&
+    newGroupData.editCount > 0
+  ) {
+    
+    const updatedRecruitmentList = newGroupData.recruitmentList.map(
+      (item, index) =>
+        index === newGroupData.editIndex
+          ? { job: newGroupData.editJob, count: newGroupData.editCount }
+          : item
+    );
+    const totalMemberCount = calculateTotalMemberCount(updatedRecruitmentList);
 
-      setNewGroupData((prevData) => ({
-        ...prevData,
-        recruitmentList: updatedRecruitmentList,
-        totalMemberCount: calculateTotalMemberCount(updatedRecruitmentList),
-        editIndex: null,
-        editJob: "",
-        editCount: 0,
-      }));
-    } else {
-      alert("직군과 모집 인원을 올바르게 입력해주세요.");
+    if (totalMemberCount > 9) {
+      alert("총 인원이 9명을 넘을 수 없습니다.");
+      return;
     }
-  };
+
+    setNewGroupData((prevData) => ({
+      ...prevData,
+      recruitmentList: updatedRecruitmentList,
+      totalMemberCount: totalMemberCount,
+      editIndex: null,
+      editJob: "",
+      editCount: 0,
+    }));
+  } else {
+    alert("직군과 모집 인원을 올바르게 입력해주세요.");
+  }
+};
 
   //삭제
   const deleteRecruitment = (index) => {
