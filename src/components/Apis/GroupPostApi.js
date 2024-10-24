@@ -165,7 +165,7 @@ export async function applyGroup(groupId, applyment) {
 }
 
 // 그룹 지원자 조회
-export async function getApplicants(groupId){
+export async function getApplicants(groupId) {
     try {
         const response = await axiosInstance.get(`${BASE_URL}/post/apply/${groupId}`,
             {
@@ -173,7 +173,7 @@ export async function getApplicants(groupId){
                     Authorization: Token.getAccessToken() // 토큰을 헤더에 추가
                 }
             });
-        return response.data; 
+        return response.data;
     } catch (error) {
         console.error('그룹 지원자 오류 발생:', error);
         throw error; // 오류를 다시 던져서 호출한 곳에서 처리할 수 있게 함
@@ -181,7 +181,7 @@ export async function getApplicants(groupId){
 }
 
 // 지원자 정보 조회
-export async function getApplicantDetail(recruitApplyId){
+export async function getApplicantDetail(recruitApplyId) {
     try {
         const response = await axiosInstance.get(`${BASE_URL}/post/apply/detail/${recruitApplyId}`,
             {
@@ -189,7 +189,7 @@ export async function getApplicantDetail(recruitApplyId){
                     Authorization: Token.getAccessToken() // 토큰을 헤더에 추가
                 }
             });
-        return response.data; 
+        return response.data;
     } catch (error) {
         console.error('그룹 지원자 오류 발생:', error);
         throw error; // 오류를 다시 던져서 호출한 곳에서 처리할 수 있게 함
@@ -198,7 +198,7 @@ export async function getApplicantDetail(recruitApplyId){
 
 // 지원 상태 변경
 // status = (PENDING, ACCEPTED, REJECTED)
-export async function changeApplyStatus(recruitApplyId, status){
+export async function changeApplyStatus(recruitApplyId, status) {
     try {
         const response = await axiosInstance.get(`${BASE_URL}/post/apply/${recruitApplyId}/${status}`,
             {
@@ -206,7 +206,7 @@ export async function changeApplyStatus(recruitApplyId, status){
                     Authorization: Token.getAccessToken() // 토큰을 헤더에 추가
                 }
             });
-        return response.data; 
+        return response.data;
     } catch (error) {
         console.error('그룹 지원 상태 변경 오류 발생:', error);
         throw error; // 오류를 다시 던져서 호출한 곳에서 처리할 수 있게 함
@@ -377,10 +377,10 @@ export async function getLinks(groupId) {
 }
 
 //공유 링크 등록
-export async function registerLinks(groupId,type, link) {
+export async function registerLinks(groupId, type, link) {
     return await axiosInstance.post(`${BASE_URL}/post/${groupId}/links`, {
-        linkType : type,
-        linkUrl : link
+        linkType: type,
+        linkUrl: link
     }, {
         headers: {
             Authorization: Token.getAccessToken()
@@ -397,8 +397,8 @@ export async function registerLinks(groupId,type, link) {
 //공유 링크 수정
 export async function updateLinks(groupId, link) {
     return await axiosInstance.put(`${BASE_URL}/post/${groupId}/links/${link.linkId}`, {
-        linkType : link.linkType,
-        linkUrl : link.linkUrl
+        linkType: link.linkType,
+        linkUrl: link.linkUrl
     }, {
         headers: {
             Authorization: Token.getAccessToken()

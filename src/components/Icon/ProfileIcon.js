@@ -47,7 +47,7 @@ const ProfileIcon = ({
 
     if (userId && (userId === targetUserId)) {
       // user/my
-      navigate('/user/my');
+      // navigate('/user/my');
     } else if (targetUserId && (userId !== targetUserId)) {
       // user/userId
       setIsDropdownOpen(!isDropdownOpen);

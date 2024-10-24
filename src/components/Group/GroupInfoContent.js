@@ -23,7 +23,7 @@ import ImagePreview from "../Img/ImagePreview"
 const GroupInfoContent = ({ mode, groupPostId, userId, groupPostData, groupNewsData }) => {
 
   const [isModalOpen, setModalOpen] = useState(false);
-
+  const [isEvaluationModalOpen, setIsEvaluationModalOpen] = useState(false);
 
   const openModal = () => {
     setModalOpen(true);
@@ -33,11 +33,10 @@ const GroupInfoContent = ({ mode, groupPostId, userId, groupPostData, groupNewsD
     setModalOpen(false);
   };
 
+
+
   return (
     <>
-      {/* 평가하기 모달 테스트중 */}
-      {/* <EvaluationModal onClose={closeModal} isView={false} optionalRequirements={groupPostData?.optionalRequirements} /> */}
-
       <InfoContainer>
         {/* 이미지가 있으면 여기에 넣으면 됨! */}
         <ImagePreview
@@ -61,7 +60,12 @@ const GroupInfoContent = ({ mode, groupPostId, userId, groupPostData, groupNewsD
           </FormFieldColumn>
 
           {isModalOpen && (
-            <ApplicantModal onClose={closeModal} isView={false} groupPostId={groupPostId} optionalRequirements={groupPostData?.optionalRequirements} />
+            <ApplicantModal
+              onClose={closeModal}
+              isView={false}
+              groupPostId={groupPostId}
+              optionalRequirements={groupPostData?.optionalRequirements} />
+
           )}
 
           <FormFieldRow>
@@ -129,6 +133,18 @@ const GroupInfoContent = ({ mode, groupPostId, userId, groupPostData, groupNewsD
           />
         </Violet500LineDiv>
       </InfoContainer >
+      {/* 평가하기 모달 테스트 */}
+      <button type="button" onClick={() => setIsEvaluationModalOpen(true)}>
+        평가하기 모달 열기
+      </button>
+      {
+        isEvaluationModalOpen && <EvaluationModal
+          userId={userId}
+          onClose={() => setIsEvaluationModalOpen(false)}
+          isView={false}
+          optionalRequirements={groupPostData?.optionalRequirements}
+          groupId={groupPostId} />
+      }
     </>
   );
 };

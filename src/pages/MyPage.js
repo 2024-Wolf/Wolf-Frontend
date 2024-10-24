@@ -84,7 +84,7 @@ const MyPage = ({ contentType, whatTab = "계정", profileData, offLogin }) => {
             // user/my 페이지일 때
             fetchAlarm(); // 알람 데이터 가져오기
         }
-    }, [userId]);
+    }, [userId, profileData?.id]);
 
     // 로딩 중 UI
     if (loading) {

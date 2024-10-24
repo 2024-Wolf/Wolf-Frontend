@@ -172,7 +172,6 @@ const JobCountInfo = styled.span`
   font-weight: bold; // 두껍게 텍스트 스타일링
   color: #6c63ff; // 직군에 사용할 색상
   margin-right: 5px; // 직군과 인원 수 사이의 간격
-  border: 1px solid #eee;
   margin: 0 auto;
 
   /* 인원 수 스타일 */
@@ -324,6 +323,7 @@ const GroupContent = ({ contentType = "viewing", groupData, createGroup, updateG
 
   //수정
   const startEdit = (index) => {
+    // 여기 부분 수정필요함!
     setNewGroupData((prevData) => ({
       ...prevData,
       editIndex: index,
@@ -332,32 +332,39 @@ const GroupContent = ({ contentType = "viewing", groupData, createGroup, updateG
     }));
   };
 
-  //수정후 저장
-  const saveEdit = () => {
-    if (
-      newGroupData.editJob &&
-      Number.isInteger(newGroupData.editCount) &&
-      newGroupData.editCount > 0
-    ) {
-      const updatedRecruitmentList = newGroupData.recruitmentList.map(
-        (item, index) =>
-          index === newGroupData.editIndex
-            ? { job: newGroupData.editJob, count: newGroupData.editCount }
-            : item
-      );
+  // 수정 후 저장
+const saveEdit = () => {
+  if (
+    newGroupData.editJob &&
+    Number.isInteger(newGroupData.editCount) &&
+    newGroupData.editCount > 0
+  ) {
+    
+    const updatedRecruitmentList = newGroupData.recruitmentList.map(
+      (item, index) =>
+        index === newGroupData.editIndex
+          ? { job: newGroupData.editJob, count: newGroupData.editCount }
+          : item
+    );
+    const totalMemberCount = calculateTotalMemberCount(updatedRecruitmentList);
 
-      setNewGroupData((prevData) => ({
-        ...prevData,
-        recruitmentList: updatedRecruitmentList,
-        totalMemberCount: calculateTotalMemberCount(updatedRecruitmentList),
-        editIndex: null,
-        editJob: "",
-        editCount: 0,
-      }));
-    } else {
-      alert("직군과 모집 인원을 올바르게 입력해주세요.");
+    if (totalMemberCount > 9) {
+      alert("총 인원이 9명을 넘을 수 없습니다.");
+      return;
     }
-  };
+
+    setNewGroupData((prevData) => ({
+      ...prevData,
+      recruitmentList: updatedRecruitmentList,
+      totalMemberCount: totalMemberCount,
+      editIndex: null,
+      editJob: "",
+      editCount: 0,
+    }));
+  } else {
+    alert("직군과 모집 인원을 올바르게 입력해주세요.");
+  }
+};
 
   //삭제
   const deleteRecruitment = (index) => {
@@ -685,45 +692,47 @@ const GroupContent = ({ contentType = "viewing", groupData, createGroup, updateG
             <RecruitmentHeader>모집 직군 목록</RecruitmentHeader>
             {newGroupData.recruitmentList.map((item, index) => (
               <RecruitmentItemWrapper key={index}>
-                {newGroupData.editIndex === index ? (
-                  <div>
-                    <input
-                      type="number"
-                      value={newGroupData.editCount}
-                      onChange={(e) =>
-                        setNewGroupData((prevData) => ({
-                          ...prevData,
-                          editCount: Number(e.target.value),
-                        }))
-                      }
-                    />
-                    <Violet500LineButton onClick={saveEdit}>
-                      저장
-                    </Violet500LineButton>
-                    <Violet500LineButton
-                      onClick={() =>
-                        setNewGroupData((prevData) => ({
-                          ...prevData,
-                          editIndex: null,
-                          editJob: "",
-                          editCount: 0,
-                        }))
-                      }
-                    >
-                      취소
-                    </Violet500LineButton>
-                  </div>
-                ) : (
-                  <JobCountInfo>
-                    {jobTitleMapping[item.job] || item.job} | {item.count}명
-                    <Violet500LineButton style={{ marginLeft: "40px" }} onClick={() => startEdit(index)}>
-                      수정
-                    </Violet500LineButton>
-                    <Violet500LineButton onClick={() => deleteRecruitment(index)}>
-                      삭제
-                    </Violet500LineButton>
-                  </JobCountInfo>
-                )}
+                <JobCountInfo>
+                  {newGroupData.editIndex === index ? (
+                    <div>
+                      <input
+                        type="number"
+                        value={newGroupData.editCount}
+                        onChange={(e) =>
+                          setNewGroupData((prevData) => ({
+                            ...prevData,
+                            editCount: Number(e.target.value),
+                          }))
+                        }
+                      />
+                      <Violet500LineButton onClick={saveEdit}>
+                        저장
+                      </Violet500LineButton>
+                      <Violet500LineButton
+                        onClick={() =>
+                          setNewGroupData((prevData) => ({
+                            ...prevData,
+                            editIndex: null,
+                            editJob: "",
+                            editCount: 0,
+                          }))
+                        }
+                      >
+                        취소
+                      </Violet500LineButton>
+                    </div>
+                  ) : (
+                    <>
+                      {jobTitleMapping[item.job] || item.job} | {item.count}명
+                      <Violet500LineButton type='button' style={{ marginLeft: "40px" }} onClick={() => startEdit(index)}>
+                        수정
+                      </Violet500LineButton>
+                      <Violet500LineButton type='button' onClick={() => deleteRecruitment(index)}>
+                        삭제
+                      </Violet500LineButton>
+                    </>
+                  )}
+                </JobCountInfo>
               </RecruitmentItemWrapper>
             ))}
           </RecruitmentContainer>
