@@ -28,6 +28,7 @@ import CopyButton from "../../Button/CopyButton";
 import { applyGroup, changeApplyStatus, getApplicantDetail } from "../../Apis/GroupPostApi";
 
 const ApplicantModal = ({ onClose, onSubmit, applicantId, groupPostId, isView, optionalRequirements, fetchGroupApplicantData }) => {
+
   const [isPortfolioValid, setIsPortfolioValid] = useState(true); // 포트폴리오 링크 입력했는지 검증하는 상태
   const [isDayValid, setIsDayValid] = useState(true); // 요일 입력했는지 검증하는 상태
   const [isSelectRoleValid, setIsSelectRoleValid] = useState(true); // 지원직군 선택했는지 검증하는 상태
@@ -48,8 +49,8 @@ const ApplicantModal = ({ onClose, onSubmit, applicantId, groupPostId, isView, o
     techStack: "",
   });
 
-  useEffect(()=>{
-    async function fetchApplicant(){
+  useEffect(() => {
+    async function fetchApplicant() {
       const response = await getApplicantDetail(applicantId);
       setModalData({
         name: response.data.name,
@@ -64,7 +65,7 @@ const ApplicantModal = ({ onClose, onSubmit, applicantId, groupPostId, isView, o
       });
     }
 
-    if(isView){
+    if (isView) {
       fetchApplicant();
     }
   }, []);
@@ -72,7 +73,11 @@ const ApplicantModal = ({ onClose, onSubmit, applicantId, groupPostId, isView, o
   //전송 api
   ///post/{postId}/apply
   const handleSubmit = async (e) => {
+
     e.preventDefault();
+
+    console.log(modalData);
+
     switch (buttonStatus) {
       case "지원하기":
         if (modalData.position === '' || !linkButtonDisable) {
@@ -94,35 +99,35 @@ const ApplicantModal = ({ onClose, onSubmit, applicantId, groupPostId, isView, o
           }
         } else {
           applyGroup(groupPostId, modalData)
-          .then(function(response){
-            if(response.status < 200 || response.status > 300){
-              alert(response.message);
-              return;
-            }
-            alert('지원하기 폼이 제출되었습니다');
-            setIsDayValid(true);  // 유효성 검사 초기화
-            setIsSelectRoleValid(true); // 유효성 검사 초기화
-            onClose();
-          });  
+            .then(function (response) {
+              if (response.status < 200 || response.status > 300) {
+                alert(response.message);
+                return;
+              }
+              alert('지원하기 폼이 제출되었습니다');
+              setIsDayValid(true);  // 유효성 검사 초기화
+              setIsSelectRoleValid(true); // 유효성 검사 초기화
+              onClose();
+            });
         }
         break;
       case "지원승인":
         changeApplyStatus(applicantId, "ACCEPTED")
-        .then(function(response){
-          window.location.reload();
-          alert("지원승인");
-          // 모달창 닫기
-          onClose();
-        });
+          .then(function (response) {
+            window.location.reload();
+            alert("지원승인");
+            // 모달창 닫기
+            onClose();
+          });
         break;
       case "지원거절":
         changeApplyStatus(applicantId, "REJECTED")
-        .then(function(response){
-          fetchGroupApplicantData();
-          alert("지원거절");
-          // 모달창 닫기
-          onClose();
-        });
+          .then(function (response) {
+            fetchGroupApplicantData();
+            alert("지원거절");
+            // 모달창 닫기
+            onClose();
+          });
         break;
     }
   };
@@ -264,11 +269,11 @@ const ApplicantModal = ({ onClose, onSubmit, applicantId, groupPostId, isView, o
             rows="5"
             cols="30"
             placeholder="자유롭게 내용을 입력하세요"
-            value={modalData.freeEntry}
+            value={modalData.additionalNotes}
             onChange={(e) =>
               setModalData((prev) => ({
                 ...prev,
-                freeEntry: e.target.value,
+                additionalNotes: e.target.value,
               }))
             }
             required={optionalRequirements.includes("자유기재")}
