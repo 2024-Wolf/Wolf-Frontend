@@ -23,33 +23,26 @@ import CopyButton from "../../Button/CopyButton";
 import ProfileIcon from "../../Icon/ProfileIcon";
 import TripleButton from "../../Button/TripleButton";
 import { getGroupMember, postEvaluate } from "../../Apis/GroupPostApi";
+import InputTextNoCss from "../../Input/InputTextNoCss";
 
 
-const initialGroupData = {
-  groupType: "study",
-  startDate: new Date(),
-  endDate: new Date(),
-  deadLineDate: new Date(),
-  title: "",
-  techStack: "",
-  buttons: [
-    { label: "이메일", clicked: true },
-    { label: "지원직군", clicked: true },
-    { label: "지원사유", clicked: true },
-    { label: "다룰 수 있는 언어", clicked: false },
-    { label: "참여가능 요일", clicked: false },
-    { label: "자기소개", clicked: false },
-    { label: "포트폴리오 링크", clicked: false },
-    { label: "자유기재", clicked: false }
-  ],
-  totalMemberCount: 0,
-  subject: "",
-  introduction: "",
-  guidelines: "",
-  fileName: ""
-};
+const ProfileWrapper = styled.div`
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  span {
+    color: var(--black700);
+  }
+  p {
+    color: var(--black300);
+    font-size: 12px;
+  }
+`;
 
-const EvaluationModal = ({ onClose, onSubmit, applicant, isView, optionalRequirements, groupId }) => {
+const EvaluationModal = ({ onClose, onSubmit, applicant, isView, optionalRequirements, userId, groupId }) => {
   const [isPortfolioValid, setIsPortfolioValid] = useState(true); // 포트폴리오 링크 입력했는지 검증하는 상태
   const [isDayValid, setIsDayValid] = useState(true); // 요일 입력했는지 검증하는 상태
   const [isSelectRoldValid, setIsSelectRoldValid] = useState(true); // 지원직군 선택했는지 검증하는 상태
@@ -114,23 +107,33 @@ const EvaluationModal = ({ onClose, onSubmit, applicant, isView, optionalRequire
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const filteredMembers = groupMemberData.filter(groupMember =>
+      groupMember?.groupUser?.userId !== userId
+    );
+
+    if (modalData?.length !== filteredMembers?.length) {
+      alert('모든 그룹원에 대해 평가를 선택해주세요')
+      return
+    }
+
     try {
       await postEvaluate(groupId, modalData);
+
+      alert('그릅원 평가가 제출되었습니다');
     } catch (error) {
       // 에러 처리: 콘솔에 에러 메시지 출력
-      console.error('그룹원 데이터 불러오기 실패:', error);
+      console.error('그룹원 평가하기 제출 실패:', error);
     } finally {
       // 로딩 상태 종료
       // setLoading(false);
     }
-
   };
 
   useEffect(() => {
     const fetchGroupMemberList = async () => {
       try {
         // groupId
-        const dataUserProfile = await getGroupMember(2);
+        const dataUserProfile = await getGroupMember(groupId);
         setGroupMemberData(dataUserProfile.data);
       } catch (error) {
         // 에러 처리: 콘솔에 에러 메시지 출력
@@ -170,35 +173,41 @@ const EvaluationModal = ({ onClose, onSubmit, applicant, isView, optionalRequire
 
           return (
             <ChangeColumn320px style={{ alignItems: 'center', justifyContent: 'center' }}>
-              <ProfileIcon
-                key={groupMember?.groupUser?.userId} // 여기서 key를 설정합니다.
-                userId={groupMember?.groupUser?.userId}
-                reportTopicText={"USER"}
-                targetUserId={groupMember?.groupUser?.userId}
-                src={groupMember?.groupUser?.userProfileImg}
-                alt="Profile"
-                DropdownContainerStyle={{ width: '150px' }}
-                wrapperStyle={{ overflow: 'hidden' }}
-                userNameStyle={{
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  padding: '5px 0'
-                }}
-              >
-                {groupMember.groupUser.userNickname}
-              </ProfileIcon>
-
-              {/* 그룹원 평가 버튼 */}
-              <TripleButton
-                leftButtonType={"button"}
-                leftButtonOnClick={() => handleClickGood(groupMember?.groupUser?.userId)} // 함수 참조
-                centerButtonType={"button"}
-                centerButtonOnClick={() => handleClickSoso(groupMember?.groupUser?.userId)} // 함수 참조
-                rightButtonType={"button"}
-                rightButtonOnClick={() => handleClickBad(groupMember?.groupUser?.userId)} // 함수 참조
-                selecting={modalData?.find((member) => member.memberId === groupMember.groupUser.userId)?.rate || ''} // 수정된 부분
-              />
+              <ProfileWrapper>
+                <ProfileIcon
+                  key={groupMember?.groupUser?.userId}
+                  userId={userId}
+                  reportTopicText={"USER"}
+                  targetUserId={groupMember?.groupUser?.userId}
+                  src={groupMember?.groupUser?.userProfileImg}
+                  alt="Profile"
+                  DropdownContainerStyle={{ width: '150px' }}
+                  wrapperStyle={{ overflow: 'hidden' }}
+                  userNameStyle={{
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    padding: '5px 0'
+                  }}
+                >
+                  {groupMember.groupUser.userNickname}
+                </ProfileIcon>
+                <p>{groupMember.role}</p>
+              </ProfileWrapper>
+              {(groupMember?.groupUser?.userId == userId) ? <>
+                <InputTextNoCss value="본인" />
+              </> : <>
+                {/* 그룹원 평가 버튼 */}
+                <TripleButton
+                  leftButtonType={"button"}
+                  leftButtonOnClick={() => handleClickGood(groupMember?.id)} // 함수 참조
+                  centerButtonType={"button"}
+                  centerButtonOnClick={() => handleClickSoso(groupMember?.id)} // 함수 참조
+                  rightButtonType={"button"}
+                  rightButtonOnClick={() => handleClickBad(groupMember?.id)} // 함수 참조
+                  selecting={modalData?.find((member) => member.memberId === groupMember?.id)?.rate || ''} // 수정된 부분
+                />
+              </>}
             </ChangeColumn320px>
           );
         })}
