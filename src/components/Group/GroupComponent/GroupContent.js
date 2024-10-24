@@ -15,6 +15,9 @@ import {
   ButtonGroupWrap,
   DoubleDateContainer,
   Violet500LineButton,
+  ChangeColumn480px,
+  Violet400BackgroundButton,
+  ChangeColumn768px2
 } from "../../GlobalStyledComponents";
 import InputText from "../../Input/InputText";
 import InputNumber from "../../Input/InputNumber";
@@ -145,9 +148,13 @@ const RecruitmentContainer = styled.div`
 `;
 
 const RecruitmentHeader = styled.h1`
-  font-size: 24px;
-  color: #333;
+    font-size: 17px;
+    color: var(--black600);
   margin-bottom: 15px;
+
+  text-wrap: nowrap;
+
+    font-weight: 600;
 `;
 
 const RecruitmentItemWrapper = styled.div`
@@ -161,9 +168,7 @@ const RecruitmentItemWrapper = styled.div`
   background-color: #fff;
   transition: background-color 0.3s;
 
-  &:hover {
-    background-color: #f1f1f1;
-  }
+
 `;
 
 const JobCountInfo = styled.span`
@@ -173,11 +178,26 @@ const JobCountInfo = styled.span`
   color: #6c63ff; // 직군에 사용할 색상
   margin-right: 5px; // 직군과 인원 수 사이의 간격
   margin: 0 auto;
+  gap: 40px;
+  flex-direction: row;
 
   /* 인원 수 스타일 */
   span {
     font-size: 14px; // 인원 수의 글자 크기
     color: #555; // 색상
+  }
+
+
+  div {
+    display: flex;
+    align-items: center; // 중앙 정렬
+    gap: 5px;
+    justify-content: center;
+  }
+
+  @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 10px;
   }
 `;
 
@@ -231,8 +251,8 @@ const GroupContent = ({ contentType = "viewing", groupData, createGroup, updateG
 
   const jobTitleMapping = {
     //직군별 이름
-    frontEnd: "프론트엔드개발자",
-    backEnd: "백엔드개발자",
+    frontend: "프론트엔드개발자",
+    backend: "백엔드개발자",
     planner: "기획자",
     designer: "디자이너",
   };
@@ -252,11 +272,16 @@ const GroupContent = ({ contentType = "viewing", groupData, createGroup, updateG
   const handleSaveClick = (e) => {
     updateGroup(newGroupData);
     setContentsType("viewing");
+
   };
 
   const handleCreateGroup = (e) => {
     e.preventDefault();
-    createGroup(newGroupData)
+    if (newGroupData.totalMemberCount === 0) {
+      alert('총 모집 인원은 최소 1명 이상 입력해야 합니다');
+    } else {
+      createGroup(newGroupData);
+    }
   }
 
   // 인원 총 합계
@@ -321,9 +346,9 @@ const GroupContent = ({ contentType = "viewing", groupData, createGroup, updateG
     }
   };
 
+
   //수정
   const startEdit = (index) => {
-    // 여기 부분 수정필요함!
     setNewGroupData((prevData) => ({
       ...prevData,
       editIndex: index,
@@ -333,38 +358,38 @@ const GroupContent = ({ contentType = "viewing", groupData, createGroup, updateG
   };
 
   // 수정 후 저장
-const saveEdit = () => {
-  if (
-    newGroupData.editJob &&
-    Number.isInteger(newGroupData.editCount) &&
-    newGroupData.editCount > 0
-  ) {
-    
-    const updatedRecruitmentList = newGroupData.recruitmentList.map(
-      (item, index) =>
-        index === newGroupData.editIndex
-          ? { job: newGroupData.editJob, count: newGroupData.editCount }
-          : item
-    );
-    const totalMemberCount = calculateTotalMemberCount(updatedRecruitmentList);
+  const saveEdit = () => {
+    if (
+      newGroupData.editJob &&
+      Number.isInteger(newGroupData.editCount) &&
+      newGroupData.editCount > 0
+    ) {
 
-    if (totalMemberCount > 9) {
-      alert("총 인원이 9명을 넘을 수 없습니다.");
-      return;
+      const updatedRecruitmentList = newGroupData.recruitmentList.map(
+        (item, index) =>
+          index === newGroupData.editIndex
+            ? { job: newGroupData.editJob, count: newGroupData.editCount }
+            : item
+      );
+      const totalMemberCount = calculateTotalMemberCount(updatedRecruitmentList);
+
+      if (totalMemberCount > 9) {
+        alert("총 인원이 9명을 넘을 수 없습니다.");
+        return;
+      }
+
+      setNewGroupData((prevData) => ({
+        ...prevData,
+        recruitmentList: updatedRecruitmentList,
+        totalMemberCount: totalMemberCount,
+        editIndex: null,
+        editJob: "",
+        editCount: 0,
+      }));
+    } else {
+      alert("직군과 모집 인원을 올바르게 입력해주세요.");
     }
-
-    setNewGroupData((prevData) => ({
-      ...prevData,
-      recruitmentList: updatedRecruitmentList,
-      totalMemberCount: totalMemberCount,
-      editIndex: null,
-      editJob: "",
-      editCount: 0,
-    }));
-  } else {
-    alert("직군과 모집 인원을 올바르게 입력해주세요.");
-  }
-};
+  };
 
   //삭제
   const deleteRecruitment = (index) => {
@@ -558,6 +583,7 @@ const saveEdit = () => {
           >
             <ButtonGroupWrap>
               {newGroupData.buttons.map((button, index) => (
+                !(groupData?.groupType === 'study' && button.label === "지원직군") &&
                 <FormCheckBoxButton
                   key={"button-" + index}
                   name="button"
@@ -635,7 +661,7 @@ const saveEdit = () => {
         </FormFieldRow>
         <FormFieldRow>
           {newGroupData.groupType === "project" ? (
-            <>
+            <ChangeColumn480px>
               <FormFieldRow>
                 <FormFieldSingle label={"모집 직군"} label2={"분류"}>
                   <SelectButton
@@ -648,8 +674,8 @@ const saveEdit = () => {
                     disabled={contentsType === "viewing"}
                   >
                     <option value="">직군선택</option>
-                    <option value="frontEnd">프론트엔드개발자</option>
-                    <option value="backEnd">백엔드개발자</option>
+                    <option value="frontend">프론트엔드개발자</option>
+                    <option value="backend">백엔드개발자</option>
                     <option value="planner">기획자</option>
                     <option value="designer">디자이너</option>
                   </SelectButton>
@@ -675,17 +701,22 @@ const saveEdit = () => {
                     <option value="8">8</option>
                   </SelectButton>
                 </FormFieldSingle>
-                {contentsType !== "viewing" &&
-                  <Violet500LineButton onClick={addRecruitment}>
-                    추가하기
-                  </Violet500LineButton>
-                }
               </FormFieldRow>
-            </>
+              {contentsType !== "viewing" &&
+                <div style={{ height: '100%', display: 'flex', alignItems: 'end', width: '100%' }}>
+                  <Violet400BackgroundButton
+                    type='button'
+                    onClick={addRecruitment}>
+                    추가하기
+                  </Violet400BackgroundButton>
+                </div>
+              }
+            </ChangeColumn480px>
           ) : (
             <></>
           )}
         </FormFieldRow>
+
         {newGroupData.groupType === "project" &&
           newGroupData.recruitmentList?.length > 0 ? (
           <RecruitmentContainer>
@@ -694,8 +725,9 @@ const saveEdit = () => {
               <RecruitmentItemWrapper key={index}>
                 <JobCountInfo>
                   {newGroupData.editIndex === index ? (
-                    <div>
+                    <>
                       <input
+                        style={{ width: '40px' }}
                         type="number"
                         value={newGroupData.editCount}
                         onChange={(e) =>
@@ -705,31 +737,43 @@ const saveEdit = () => {
                           }))
                         }
                       />
-                      <Violet500LineButton onClick={saveEdit}>
-                        저장
-                      </Violet500LineButton>
-                      <Violet500LineButton
-                        onClick={() =>
-                          setNewGroupData((prevData) => ({
-                            ...prevData,
-                            editIndex: null,
-                            editJob: "",
-                            editCount: 0,
-                          }))
-                        }
-                      >
-                        취소
-                      </Violet500LineButton>
-                    </div>
+                      <div>
+                        <Violet500LineButton onClick={saveEdit}>
+                          저장
+                        </Violet500LineButton>
+                        <Violet500LineButton
+                          onClick={() =>
+                            setNewGroupData((prevData) => ({
+                              ...prevData,
+                              editIndex: null,
+                              editJob: "",
+                              editCount: 0,
+                            }))
+                          }
+                        >
+                          취소
+                        </Violet500LineButton>
+                      </div>
+                    </>
                   ) : (
                     <>
                       {jobTitleMapping[item.job] || item.job} | {item.count}명
-                      <Violet500LineButton type='button' style={{ marginLeft: "40px" }} onClick={() => startEdit(index)}>
-                        수정
-                      </Violet500LineButton>
-                      <Violet500LineButton type='button' onClick={() => deleteRecruitment(index)}>
-                        삭제
-                      </Violet500LineButton>
+
+                      <div>
+                        <Violet500LineButton type='button'
+                          onClick={() => startEdit(index)}
+                          disabled={contentsType === "viewing"}
+                        >
+                          수정
+                        </Violet500LineButton>
+                        <Violet500LineButton
+                          type='button'
+                          onClick={() => deleteRecruitment(index)}
+                          disabled={contentsType === "viewing"}
+                        >
+                          삭제
+                        </Violet500LineButton>
+                      </div>
                     </>
                   )}
                 </JobCountInfo>
@@ -784,69 +828,71 @@ const saveEdit = () => {
           required
         />
       </GroupInfoContainer>
-      {contentType === "writing" ? (
-        <>{/* writing */}</>
-      ) : (
-        <>
-          {/* viewing */}
-          {/* editing */}
-          <hr style={{ border: "1px solid var(--black200)" }} />
-          <GroupInfoContainer>
-            <FormTitle>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                className="bi bi-people-fill"
-                viewBox="0 0 16 16"
-              >
-                <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5" />
-              </svg>
-              모임원 관리
-            </FormTitle>
-            <div>
-              {newGroupData.memberData.map((user) => (
-                <MemberInfo key={user.groupUser.userId}>
-                  <ProfileIcon /*src="" alt=""*/ className="UserDetails">
-                    {user.groupUser.userNickname}
-                  </ProfileIcon>
-                  <FormFieldRow>
-                    <FormFieldMultiple
-                      label={"모집 직군"}
-                      className="roleSelect"
-                    >
-                      <SelectButton
-                        defaultValue={user.position}
-                        disabled={contentsType === "viewing"}
+      {
+        contentType === "writing" ? (
+          <>{/* writing */}</>
+        ) : (
+          <>
+            {/* viewing */}
+            {/* editing */}
+            <hr style={{ border: "1px solid var(--black200)" }} />
+            <GroupInfoContainer>
+              <FormTitle>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  className="bi bi-people-fill"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5" />
+                </svg>
+                모임원 관리
+              </FormTitle>
+              <div>
+                {newGroupData.memberData.map((user) => (
+                  <MemberInfo key={user.groupUser.userId}>
+                    <ProfileIcon /*src="" alt=""*/ className="UserDetails">
+                      {user.groupUser.userNickname}
+                    </ProfileIcon>
+                    <FormFieldRow>
+                      <FormFieldMultiple
+                        label={"모집 직군"}
+                        className="roleSelect"
                       >
-                        <option value="FRONTEND">프론트엔드개발자</option>
-                        <option value="BACKEND">백엔드개발자</option>
-                        <option value="PLANNER">기획자</option>
-                        <option value="DESIGNER">디자이너</option>
-                      </SelectButton>
-                    </FormFieldMultiple>
-                    <FormFieldMultiple label={"권한"} className="roleSelect">
-                      <SelectButton
-                        defaultValue={user.role}
-                        disabled={contentsType === "viewing"}
-                        onChange={(e) =>
-                          handlePositionChange(user.groupUser.userId, e.target.value)
-                        }
-                      >
-                        <option value="LEADER">모집장</option>
-                        <option value="MEMBER">모집원</option>
-                      </SelectButton>
-                    </FormFieldMultiple>
-                  </FormFieldRow>
-                </MemberInfo>
-              ))}
-              {/* recruitmentList가 정의되어 있는지와 배열인지 확인 */}
-              {Array.isArray(newGroupData.recruitmentList) ? <></> : <></>}
-            </div>
-          </GroupInfoContainer>
-        </>
-      )}
+                        <SelectButton
+                          defaultValue={user.position}
+                          disabled={contentsType === "viewing"}
+                        >
+                          <option value="FRONTEND">프론트엔드개발자</option>
+                          <option value="BACKEND">백엔드개발자</option>
+                          <option value="PLANNER">기획자</option>
+                          <option value="DESIGNER">디자이너</option>
+                        </SelectButton>
+                      </FormFieldMultiple>
+                      <FormFieldMultiple label={"권한"} className="roleSelect">
+                        <SelectButton
+                          defaultValue={user.role}
+                          disabled={contentsType === "viewing"}
+                          onChange={(e) =>
+                            handlePositionChange(user.groupUser.userId, e.target.value)
+                          }
+                        >
+                          <option value="LEADER">모집장</option>
+                          <option value="MEMBER">모집원</option>
+                        </SelectButton>
+                      </FormFieldMultiple>
+                    </FormFieldRow>
+                  </MemberInfo>
+                ))}
+                {/* recruitmentList가 정의되어 있는지와 배열인지 확인 */}
+                {Array.isArray(newGroupData.recruitmentList) ? <></> : <></>}
+              </div>
+            </GroupInfoContainer>
+          </>
+        )
+      }
 
       <ButtonGroupCenter>
         {contentsType === "editing" ? (
@@ -865,7 +911,7 @@ const saveEdit = () => {
           <>{/* viewing */}</>
         )}
       </ButtonGroupCenter>
-    </GroupInfoContentsWrapper>
+    </GroupInfoContentsWrapper >
   );
 };
 

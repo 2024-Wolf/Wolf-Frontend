@@ -1,7 +1,7 @@
 
 import styled from "styled-components";
 import { Round, Black500Line, Black600BackgroundHover } from "../GlobalStyledComponents";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 const FormCheckBoxButtonBlackLineWrapper = styled.button`
@@ -32,7 +32,13 @@ const FormCheckBoxButtonBlackLineWrapper = styled.button`
 `;
 
 const FormCheckBoxButtonBlackLine = ({ onChange, children, name, key, value, disabled, checked }) => {
-    const [isChecked, setIsChecked] = useState(checked || false);
+    const [isChecked, setIsChecked] = useState(false);
+
+
+
+    useEffect(() => {
+        setIsChecked(checked);
+    }, [checked])
 
     const handleButtonClick = (e) => {
         if (!disabled) {
@@ -47,6 +53,7 @@ const FormCheckBoxButtonBlackLine = ({ onChange, children, name, key, value, dis
             });
         }
     };
+
 
     return (
         <FormCheckBoxButtonBlackLineWrapper

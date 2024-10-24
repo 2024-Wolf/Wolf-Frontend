@@ -8,6 +8,7 @@ import {
   CategoryMainTitle,
   Violet500LineButton,
   Modaldescription,
+  Hr,
 } from "../../GlobalStyledComponents";
 
 import React, { useEffect, useState } from "react";
@@ -176,43 +177,46 @@ const EvaluationModal = ({ onClose, onSubmit, applicant, isView, optionalRequire
         {/*  */}
         {groupMemberData?.map((groupMember) => {
           return (
-            <ChangeColumn320px style={{ alignItems: 'center', justifyContent: 'center' }}>
-              <ProfileWrapper>
-                <ProfileIcon
-                  key={groupMember?.groupUser?.userId}
-                  userId={userId}
-                  reportTopicText={"USER"}
-                  targetUserId={groupMember?.groupUser?.userId}
-                  src={groupMember?.groupUser?.userProfileImg}
-                  alt="Profile"
-                  DropdownContainerStyle={{ width: '150px' }}
-                  wrapperStyle={{ overflow: 'hidden' }}
-                  userNameStyle={{
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    padding: '5px 0'
-                  }}
-                >
-                  {groupMember.groupUser.userNickname}
-                </ProfileIcon>
-                <p>{groupMember.role}</p>
-              </ProfileWrapper>
-              {(groupMember?.groupUser?.userId == userId) ? <>
-                <InputTextNoCss value="본인" />
-              </> : <>
-                {/* 그룹원 평가 버튼 */}
-                <TripleButton
-                  leftButtonType={"button"}
-                  leftButtonOnClick={() => handleClickGood(groupMember?.id)} // 함수 참조
-                  centerButtonType={"button"}
-                  centerButtonOnClick={() => handleClickSoso(groupMember?.id)} // 함수 참조
-                  rightButtonType={"button"}
-                  rightButtonOnClick={() => handleClickBad(groupMember?.id)} // 함수 참조
-                  selecting={modalData?.find((member) => member.memberId === groupMember?.id)?.rate || ''} // 수정된 부분
-                />
-              </>}
-            </ChangeColumn320px>
+            <>
+              <ChangeColumn320px style={{ alignItems: 'center', justifyContent: 'center' }}>
+                <ProfileWrapper>
+                  <ProfileIcon
+                    key={groupMember?.groupUser?.userId}
+                    userId={userId}
+                    reportTopicText={"USER"}
+                    targetUserId={groupMember?.groupUser?.userId}
+                    src={groupMember?.groupUser?.userProfileImg}
+                    alt="Profile"
+                    DropdownContainerStyle={{ width: '150px' }}
+                    wrapperStyle={{ overflow: 'hidden' }}
+                    userNameStyle={{
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      padding: '5px 0'
+                    }}
+                  >
+                    {groupMember.groupUser.userNickname}
+                  </ProfileIcon>
+                  <p>{groupMember.role}</p>
+                </ProfileWrapper>
+                {(groupMember?.groupUser?.userId == userId) ? <>
+                  <InputTextNoCss value="본인" style={{ textAlign: 'center' }} />
+                </> : <>
+                  {/* 그룹원 평가 버튼 */}
+                  <TripleButton
+                    leftButtonType={"button"}
+                    leftButtonOnClick={() => handleClickGood(groupMember?.id)} // 함수 참조
+                    centerButtonType={"button"}
+                    centerButtonOnClick={() => handleClickSoso(groupMember?.id)} // 함수 참조
+                    rightButtonType={"button"}
+                    rightButtonOnClick={() => handleClickBad(groupMember?.id)} // 함수 참조
+                    selecting={modalData?.find((member) => member.memberId === groupMember?.id)?.rate || ''} // 수정된 부분
+                  />
+                </>}
+              </ChangeColumn320px>
+              <Hr />
+            </>
           );
         })}
 

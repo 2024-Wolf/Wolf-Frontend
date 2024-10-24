@@ -2373,12 +2373,17 @@ export const ChangeColumn480px = styled.div`
   align-items: start;
   justify-content: start;
 
+
+
   @media (max-width: 768px) {
 
   }
 
   @media (max-width: 480px) {
       flex-direction: column;
+      button {
+      width: 100%;
+      }
   }
 `;
 
@@ -2398,6 +2403,7 @@ export const ChangeColumn768px = styled.div`
 
   }
 `;
+
 
 export const Label = styled.label`
     width: 100%;
