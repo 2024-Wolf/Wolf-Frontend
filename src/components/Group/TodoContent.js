@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import {
   Violet500LineButton,
   TodoHeader, ButtonGroupRight,
-  ColumnContainer, Column, TodoItem, ModalTitle, Modaldescription, TodoPlus,
+  ColumnContainer, Column, TodoItem, ModalTitle, Modaldescription,
   LinkInputForm, TaskStatus, Violet400BackgroundButton,
   ContentsWrapper
 } from "../GlobalStyledComponents";
@@ -119,24 +119,10 @@ export const LinkInputDirection = styled.div`
   }
 `;
 
-const DummyCalenderData = [
-  { date: null, startDate: new Date('2024-10-15'), endDate: new Date('2024-10-16'), task: "회의" },
-  { date: null, startDate: new Date('2024-10-15'), endDate: new Date('2024-10-15'), task: "프로젝트 마감" },
-  { date: null, startDate: new Date('2024-10-20'), endDate: new Date('2024-10-20'), task: "출장" },
-]
-
-const DummyLinkData = [
-  {
-    imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Font_Awesome_5_brands_github.svg/800px-Font_Awesome_5_brands_github.svg.png',
-    linkType: 'GitHub',
-    linkUrl: 'https://github.com/2024-Wolf'
-  },
-  {
-    imgSrc: 'https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg',
-    linkType: 'Figma',
-    linkUrl: 'https://www.figma.com/design/rM1Gynrm58vcLKV0TnLQeB/Final-Project?node-id=0-1&node-type=canvas&t=BDG3dMm1HoLkkbv8-0'
-  }
-];
+const imgSrc = {github:'https://upload.wikimedia.org/wikipedia/commons/4/4a/GitHub_Mark.png'
+                    , figma:'https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg'
+                    , notion:'https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png'
+                    , velog:'https://wolfbucket2024.s3.ap-northeast-2.amazonaws.com/icon/Velog.png'}
 
 const TodoContent = ({ groupPostId, github, figma }) => {
   const [tasks, setTasks] = useState([]);
@@ -159,10 +145,6 @@ const TodoContent = ({ groupPostId, github, figma }) => {
 
 
   const inputRefs = useRef([]); // 여러 개의 ref를 저장할 배열
-
-
-  // const [githubLink, setGithubLink] = useState((DummyLinkData.find(link => link.linkType === 'GitHub').linkUrl) || '');
-  // const [figmaLink, setFigmaLink] = useState((DummyLinkData.find(link => link.linkType === 'Figma').linkUrl) || '');
 
   // 할 일 목록 조회
   async function saveTasks(groupId) {
@@ -190,9 +172,11 @@ const TodoContent = ({ groupPostId, github, figma }) => {
               const updatedLinks = { ...prevLinks };
 
               Object.keys(updatedLinks).forEach(key => {
-                const matchingItem = response.data.find(item => item.linkType === key);
+                const matchingItem = response?.data.find(item => item.linkType === key);
 
                 updatedLinks[key] = matchingItem ? matchingItem : '';
+
+
               });
 
               return updatedLinks;
@@ -206,7 +190,6 @@ const TodoContent = ({ groupPostId, github, figma }) => {
     saveTasks(groupPostId);
     saveSchedule(groupPostId);
     saveLinks(groupPostId);
-    console.log(links);
   }, [isTaskModalOpen, modalIsOpen, editingLinkType]);
 
   useEffect(() => {
@@ -228,19 +211,6 @@ const TodoContent = ({ groupPostId, github, figma }) => {
     setNewSchedule([{id:0, details: '', startDate: null, endDate: null }]);
     setModalIsOpen(false);
   }
-
-  // const addScheduleField = () => {
-  //
-  //   setNewSchedule(prevSchedule => [
-  //     ...prevSchedule,
-  //     { id:0, details: null, startDate: null, endDate: null }
-  //   ]);
-  // };
-  //
-  // const delScheduleField = (index) => {
-  //   setNewSchedule(newSchedule.filter((_, i) => i !== index));
-  // };
-
 
   const handleScheduleSubmit = (event) => {
     // 비어 있지 않은 일정만 필터링
@@ -368,19 +338,17 @@ const TodoContent = ({ groupPostId, github, figma }) => {
   const handelLinkEdit = (event, key) => {
     event.preventDefault();
     const linkToEdit = links[key];
-    console.log(links)
-    console.log(linkToEdit)
     if (linkToEdit === ''){
       if (newLink.trim()) {
         registerLinks(groupPostId, key, newLink)
             .then(function (response) {
+              setEditingLinkType(null);
+              setNewLink(''); // 입력 필드 초기화
             });
       }
     }
     else{
-      console.log("수정으로 판단" + newLink)
       linkToEdit.linkUrl = newLink;
-      console.log(linkToEdit.linkType)
       updateLinks(groupPostId, linkToEdit)
           .then(function (response) {
             setEditingLinkType(null);
@@ -407,7 +375,6 @@ const TodoContent = ({ groupPostId, github, figma }) => {
         saveLinks(groupPostId);
       }
       deleteFunc(links[key].linkId);
-      setLinks({github: '', figma: '', notion: '', velog: ''});
       setEditingLinkType(null);
       setNewLink('');
     }
@@ -482,27 +449,9 @@ const TodoContent = ({ groupPostId, github, figma }) => {
                   placeholderText="시작 일자 - 종료 일자"
                   style={{ width: '100%', padding: '10px', fontSize: '16px' }}
                 />
-                {/*{newSchedule.length > 1 && (*/}
-                {/*  <DeleteIcon*/}
-                {/*    style={{*/}
-                {/*      width: '16px', height: '16px', color: 'var(--violet500)'*/}
-                {/*    }}*/}
-                {/*    type='button'*/}
-                {/*    onClick={() => {*/}
-                {/*      if (window.confirm("일정을 삭제하시겠습니까?")) {*/}
-                {/*        delScheduleField(index);*/}
-                {/*      }*/}
-                {/*    }}*/}
-                {/*  />*/}
-                {/*)}*/}
               </ScheduleItem>
             ))}
           </ModalContent>
-          {/*<TodoPlus onClick={addScheduleField}>*/}
-          {/*  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-plus-lg" viewBox="0 0 16 16">*/}
-          {/*    <path fillRule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />*/}
-          {/*  </svg>*/}
-          {/*</TodoPlus>*/}
           <ButtonGroupRight>
             <Violet500LineButton type='submit'>
               {isEditingSchedule ? '수정' : '등록'}
@@ -641,7 +590,7 @@ const TodoContent = ({ groupPostId, github, figma }) => {
                 width: '30px', textAlign: 'center', marginTop: '4px'
               }}>
                 <img
-                  // src={link.imgSrc}
+                  src={imgSrc[key]}
                   alt={`${key}-img`}
                   width="25"
                   height="25" />
