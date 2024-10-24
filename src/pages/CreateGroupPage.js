@@ -37,7 +37,7 @@ const CreateGroupPage = () => {
             deadLineDate: data.deadLineDate,
             techStack: data.techStack,
             optionalRequirements: data.buttons.filter(btn => btn.clicked).map(btn => btn.label).toString(),
-            recruitments: data.recruitmentList.map(({job, count}) => ({recruitRole: job.toUpperCase(), recruitRoleCnt: count})),
+            recruitments: data.recruitmentList.map(({ job, count }) => ({ recruitRole: job.toUpperCase(), recruitRoleCnt: count })),
             targetMembers: data.totalMemberCount,
             thumbnail: data.fileName,
             topic: data.subject,
@@ -46,15 +46,15 @@ const CreateGroupPage = () => {
         }
 
         registerGroupPost(groupPost)
-        .then(function(response){
-            if(response.status >= 400){
-                console.log(response);
-                alert("에러 발생 : " + response.message);
-                return;
-            }
-            alert("모집글 작성이 완료되었습니다.");
-            navigate('/');
-        })
+            .then(function (response) {
+                if (response.status >= 400) {
+                    console.log(response);
+                    alert("에러 발생 : " + response.message);
+                    return;
+                }
+                alert("모집글 작성이 완료되었습니다.");
+                navigate('/');
+            })
 
     }
 
