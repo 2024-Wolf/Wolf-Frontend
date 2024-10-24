@@ -24,6 +24,7 @@ import ProfileIcon from "../../Icon/ProfileIcon";
 import TripleButton from "../../Button/TripleButton";
 import { getGroupMember, postEvaluate } from "../../Apis/GroupPostApi";
 import InputTextNoCss from "../../Input/InputTextNoCss";
+import { useNavigate } from "react-router-dom";
 
 
 const ProfileWrapper = styled.div`
@@ -54,6 +55,8 @@ const EvaluationModal = ({ onClose, onSubmit, applicant, isView, optionalRequire
 
   const [modalData, setModalData] = useState([]);
   const [groupMemberData, setGroupMemberData] = useState([]);
+
+  const navigate = useNavigate();
 
   const handleClickGood = (memberId) => {
     setActivityRating('good');
@@ -120,6 +123,7 @@ const EvaluationModal = ({ onClose, onSubmit, applicant, isView, optionalRequire
       await postEvaluate(groupId, modalData);
 
       alert('그릅원 평가가 제출되었습니다');
+      navigate('/');
     } catch (error) {
       // 에러 처리: 콘솔에 에러 메시지 출력
       console.error('그룹원 평가하기 제출 실패:', error);
@@ -135,6 +139,7 @@ const EvaluationModal = ({ onClose, onSubmit, applicant, isView, optionalRequire
         // groupId
         const dataUserProfile = await getGroupMember(groupId);
         setGroupMemberData(dataUserProfile.data);
+        { console.log(groupId, dataUserProfile.data) }
       } catch (error) {
         // 에러 처리: 콘솔에 에러 메시지 출력
         console.error('그룹원 데이터 불러오기 실패:', error);
@@ -170,7 +175,6 @@ const EvaluationModal = ({ onClose, onSubmit, applicant, isView, optionalRequire
 
         {/*  */}
         {groupMemberData?.map((groupMember) => {
-
           return (
             <ChangeColumn320px style={{ alignItems: 'center', justifyContent: 'center' }}>
               <ProfileWrapper>
