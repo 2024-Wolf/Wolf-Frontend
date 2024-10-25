@@ -233,7 +233,7 @@ const GroupContent = ({ contentType = "viewing", groupData, createGroup, updateG
     subject: "",
     introduction: "",
     guidelines: "",
-    fileName: "",
+    fileName: null,
     totalMemberCount: 0,
     memberData: [],
   };
@@ -547,7 +547,7 @@ const GroupContent = ({ contentType = "viewing", groupData, createGroup, updateG
               name="thumbnail"
               value={newGroupData.thumbnail}
               disabled={contentsType === "viewing"}
-              onChange={(e) => handleInputChange("fileName", e.name)}
+              onChange={(e) => handleInputChange("fileName", e)}
               isUploadButtonAppear={true}
               style={{
                 flexDirection: "column-reverse",

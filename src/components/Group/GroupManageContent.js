@@ -24,7 +24,7 @@ import InputText from "../Input/InputText";
 import ApplicantModal from "./GroupInfoModal/ApplicantModal";
 import { Navigate, useNavigate } from "react-router-dom";
 import WithdrawalButton from "../Button/WithdrawalButton";
-import { deleteGroupPost, updateGroupPost, getGroupMember, getApplicants } from "../Apis/GroupPostApi";
+import { deleteGroupPost, updateGroupPost, getGroupMember, getApplicants, postThumbnailImg } from "../Apis/GroupPostApi";
 
 // 전체 div
 // components/Group/GroupManageContent.js
@@ -130,7 +130,7 @@ const GroupManageContent = (props) => {
     }
   };
 
-  const updateGroup = (data) => {
+  const updateGroup = async (data) => {
     const groupPost = {
       name: data.title,
       type: data.groupType,
@@ -142,7 +142,7 @@ const GroupManageContent = (props) => {
       optionalRequirements: data.buttons.filter(btn => btn.clicked)?.map(btn => btn.label).toString(),
       recruitments: data.recruitmentList?.map(({ job, count }) => ({ recruitRole: job.toUpperCase(), recruitRoleCnt: count })),
       targetMembers: data.totalMemberCount,
-      thumbnail: data.fileName,
+      thumbnail: data.fileName.name,
       topic: data.subject,
       description: data.introduction,
       warning: data.guidelines,
@@ -150,16 +150,28 @@ const GroupManageContent = (props) => {
       challengeStatus: data.challengeStatus
     }
 
+    try {
+      const result = updateGroupPost(groupPost, props.groupPostId)
 
-    updateGroupPost(groupPost, props.groupPostId)
-      .then(function (response) {
-        if (response.status >= 400) {
-          console.log(response);
-          alert("에러 발생 : " + response.message);
-          return;
-        }
-        alert("모집글 수정이 완료되었습니다.");
-      })
+      console.log(data.fileName);
+
+      if (data.fileName) {
+        const ImgResult = await postThumbnailImg(props.groupPostId, data.fileName);
+      }
+
+      // 상태 코드가 200-299 범위인지 확인
+      if (result.status < 200 || result.status >= 300) {
+        throw new Error('네트워크 오류');
+      }
+
+      alert("모집글 수정이 완료되었습니다.");
+      window.location.reload();
+
+    } catch (error) {
+      console.error("예기치 않은 오류 발생:", error);
+      alert("예기치 않은 오류 발생: " + error.message);
+    }
+
   }
 
   return (

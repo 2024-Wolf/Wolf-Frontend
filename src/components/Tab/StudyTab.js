@@ -48,14 +48,16 @@ const StudyTab = ({ tab, activeTab, changeTab, isLeader, isMember }) => {
       {tab.map((tabItem) => {
         // 각 탭의 disabled 조건 설정
         let isDisabled = false;
-        console.log('isLeader', isLeader)
-        console.log('isMember', isMember)
+
         if (!isLeader && !isMember && tabItem !== tab[0]) {
           // 리더도 모임원도 아닌 경우, 'INFO' 탭만 활성화
           isDisabled = true;
-        } else if (isMember && tabItem === tab[4]) {
+        } else if (!isLeader && isMember && tabItem === tab[4]) {
           // 모임원은 'MANAGE' 탭만 비활성화
           isDisabled = true;
+        } else if (isLeader) {
+          // 리더는 모든 탭 활성화
+          isDisabled = false;
         }
 
         return (
