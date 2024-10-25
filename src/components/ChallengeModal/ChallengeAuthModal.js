@@ -44,15 +44,15 @@ function ChallengeAuthModal(props) {
             const status = JSON.parse(data).trfsYn;
             const content = `[인증성공]\n${reqtUserName} : ${ctftNo}`
             verifyChallenge(props.item.challengePostId, props.groupPostId, reqtUserName, status, ctftNo, reqtInstCode, content)
-            .then(function(response){
-                if(status !== 'Y' || response.status > 300 || response.status < 200){
-                    alert("인증 실패");
-                    return;
-                }
-                alert("인증 성공");
-                props.cancel();
-            })
-            
+                .then(function (response) {
+                    if (status !== 'Y' || response.status > 300 || response.status < 200) {
+                        alert("인증에 실패하였습니다");
+                        return;
+                    }
+                    alert("인증 성공");
+                    props.cancel();
+                })
+
         } catch (err) {
             console.log(err);
         }
@@ -60,6 +60,8 @@ function ChallengeAuthModal(props) {
 
     // // 리액트(포트번호 3000) 및 서버(포트번호 8000)가 실행된 채로 새로운 터미널을 열어서,
     // // cors-anywhere 서버를 실행 시킨채로 인증을 시도해야 성공함!
+    // git clone https://github.com/Rob--W/cors-anywhere.git
+
     // // 다운받은 파일 경로로 이동
     // cd cors-anywhere
 
