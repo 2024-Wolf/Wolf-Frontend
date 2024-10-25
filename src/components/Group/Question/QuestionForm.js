@@ -23,7 +23,8 @@ import {
   registerComment,
   updateComment,
   deleteComment,
-  registerReply
+  registerReply,
+  postQuestionImg
 } from '../../Apis/GroupPostApi'; // 위에서 정의한 API 함수가 있는 파일 경로
 
 const CommentSectionWrapper = styled.div`
@@ -639,9 +640,14 @@ const QuestionForm = ({ showFileOption, groupPostId, userId }) => {
       try {
         const result = await registerQuestion(groupPostId, option, {
           questionDetails: newQuestion,
-          questionImageUrl: newQuestionFile,
+          questionImageUrl: newQuestionFile.name,
           questionTime: new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString()
         });
+
+
+        const ImgResult = await postQuestionImg(groupPostId, result.data, newQuestionFile);
+
+        console.log(ImgResult);
 
         // 상태 코드가 200-299 범위인지 확인
         if (result.status < 200 || result.status >= 300) {

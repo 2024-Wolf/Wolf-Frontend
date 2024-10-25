@@ -48,6 +48,7 @@ const GroupInfoContent = ({ mode, groupPostId, userId, groupPostData, groupNewsD
           src={groupPostData?.thumbnail ? groupPostData?.thumbnail : "기본이미지"}
           imageFile={groupPostData?.thumbnail ? groupPostData?.thumbnail : "기본이미지"}
         />
+        {console.log(groupPostData.thumbnail)}
 
         {/* 정보 묶음 */}
         <Violet500LineDiv>
