@@ -178,8 +178,12 @@ const StudyPage = ({ profileData }) => {
         < StudyTab
           tab={[TAB.INFO, TAB.TODO, TAB.CHALLENGE, TAB.MEETING, TAB.MANAGE]}
           activeTab={activeTab}
-          changeTab={changeTab} />
-        {/* */}
+          changeTab={changeTab}
+          isLeader={groupPostData?.leaderUser?.userId === profileData?.id}
+          isMember={groupPostData?.memberData?.some(member => member?.groupUser?.userId === profileData?.id)}
+        />
+
+
 
         {/*<div className="study-content">*/}
         {
