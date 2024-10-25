@@ -50,13 +50,13 @@ function FirstProcessContent({ onNext, onPrev, handleInputChange, handleInputRes
                         placeholder="소속을 입력해주세요"
                         onChange={(e) => handleInputChange('organization', e.target.value)} />
                 </Div>
-                <ButtonWrapper>
+                {/* <ButtonWrapper>
                     <RadioButton checked id="public" name="visibility" />
                     <RadioButtonLabel htmlFor="public">정보 공개</RadioButtonLabel>
 
                     <RadioButton id="private" name="visibility" />
                     <RadioButtonLabel htmlFor="private">정보 비공개</RadioButtonLabel>
-                </ButtonWrapper>
+                </ButtonWrapper> */}
             </ModalContentWrapper>
             <Row style={{ gap: "5px" }}>
                 <Violet500LineButton

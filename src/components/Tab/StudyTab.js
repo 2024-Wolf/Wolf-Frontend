@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import React from "react";
 
-const FAQTabWrapper = styled.div`
+const StudyTabWrapper = styled.div`
   display: flex;
   justify-content: space-around;
   margin: 0;
@@ -11,7 +11,7 @@ const FAQTabWrapper = styled.div`
   width: 100%;
 `;
 
-const FAQTabButton = styled.button.withConfig({
+const StudyTabButton = styled.button.withConfig({
   shouldForwardProp: (prop) => prop !== 'active'
 })`
   white-space: nowrap;
@@ -42,21 +42,20 @@ const FAQTabButton = styled.button.withConfig({
 `;
 
 
-const FAQTab = ({ tab, activeTab, changeTab, disabled }) => {
+const StudyTab = ({ tab, activeTab, changeTab }) => {
   return (
-    <FAQTabWrapper>
+    <StudyTabWrapper>
       {tab.map((tab) => (
-        <FAQTabButton
+        <StudyTabButton
           key={tab}
           active={(activeTab === tab).toString()}
           onClick={() => changeTab(tab)}
-          disabled={disabled}
         >
           {tab}
-        </FAQTabButton>
+        </StudyTabButton>
       ))}
-    </FAQTabWrapper>
+    </StudyTabWrapper>
   );
 }
 
-export default FAQTab;
+export default StudyTab;
