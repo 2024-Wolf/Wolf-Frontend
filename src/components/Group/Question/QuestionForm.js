@@ -761,12 +761,12 @@ const QuestionForm = ({ showFileOption, groupPostId, userId }) => {
     try {
       const result = await updateComment(groupPostId, questionId, commentId, {
         commentDetails: updatedComment.commentDetails,
-        commentImageUrl: updatedComment.commentImageUrl,
+        commentImageUrl: updatedComment.commentImageUrl.name,
         commentTime: new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString()
       })
 
       if (updatedComment.commentImageUrl) {
-        const ImgResult = await postCommentImg(groupPostId, questionId, result.data, updatedComment.commentImageUrl);
+        const ImgResult = await postCommentImg(groupPostId, questionId, commentId, updatedComment.commentImageUrl);
       }
 
       // 상태 코드가 200-299 범위인지 확인
