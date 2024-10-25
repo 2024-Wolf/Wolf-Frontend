@@ -725,9 +725,11 @@ const QuestionForm = ({ showFileOption, groupPostId, userId }) => {
     try {
       const result = await registerComment(groupPostId, questionId, {
         commentDetails: commentText,
-        commentImageUrl: commentFile || '',
+        commentImageUrl: commentFile.name || '',
         commentTime: new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString()
       })
+
+      console.log(result);
 
       if (commentFile) {
         const ImgResult = await postCommentImg(groupPostId, questionId, result.data, commentFile);
