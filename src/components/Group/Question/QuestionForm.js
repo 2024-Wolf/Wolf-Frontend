@@ -137,7 +137,7 @@ const Question = ({
       questionDetails: questionValue || questionData.questionDetails,
       questionImageUrl: isEditFile ? questionEditFile : questionData.questionImageUrl, // 수정했다면 새로운 파일을 사용하고, 그렇지 않으면 기존의 파일을 사용함
       questionTime: questionData.questionTime, // 기존 시간을 그대로 사용함
-    });
+    }, isEditFile ? true : false);
 
     setIsEditingQuestion(false);
     setQuestionEditFile('');
@@ -157,7 +157,8 @@ const Question = ({
         commentTime: questionData.comments[index].commentTime,
       };
 
-      onCommentEdit(questionData.questionId, commentId, updatedComment);
+      onCommentEdit(questionData.questionId, commentId, updatedComment, isEditFileComment[index] ? true : false);
+
     } else {
     }
 
@@ -301,18 +302,16 @@ const Question = ({
                   required
                 />
                 {/* [질문[수정중O]]-이미지 프리뷰 */}
-                {(questionData?.questionImageUrl || questionEditFileURL) && (
+                {(questionEditFile || questionData?.questionImageUrl) && (
                   <>
+                    {console.log(isEditFile)}
                     <ImagePreview
-                      imageFile={isEditFile ? questionEditFile : questionData.questionImageUrl}
-                      src={isEditFile ? questionEditFile : questionData.questionImageUrl}
+                      imageFile={isEditFile ? (questionEditFile instanceof File ? URL.createObjectURL(questionEditFile) : questionEditFile) : questionData?.questionImageUrl}
+                      src={isEditFile ? (questionEditFile instanceof File ? URL.createObjectURL(questionEditFile) : questionEditFile) : questionData?.questionImageUrl}
                       alt={questionEditFileURL ? "" : ""}
                       isEditing={true}
                       onClick={deleteQuestionEditFile}
                     />
-                    {console.log(questionData?.questionImageUrl
-                      ? 'true'
-                      : 'false')}
                   </>
 
                 )}
@@ -610,8 +609,8 @@ const QuestionForm = ({ showFileOption, groupPostId, userId }) => {
 
       const dataQuestions = await getQuestionsWithComments(groupPostId, option);
 
-      setQuestionData(dataQuestions.data.questionResponses); // 질문 데이터 설정
-      setPageData(dataQuestions.data.page) // 질문 페이지 데이터 설정
+      setQuestionData(dataQuestions?.data?.questionResponses); // 질문 데이터 설정
+      setPageData(dataQuestions?.data?.page) // 질문 페이지 데이터 설정
 
     } catch (err) {
       // setError('데이터를 불러오는 데 실패했습니다.');
@@ -628,13 +627,14 @@ const QuestionForm = ({ showFileOption, groupPostId, userId }) => {
       try {
         const result = await registerQuestion(groupPostId, option, {
           questionDetails: newQuestion,
-          questionImageUrl: newQuestionFile?.name,
+          questionImageUrl: newQuestionFile?.name ? newQuestionFile?.name : newQuestionFile,
           questionTime: new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString()
         });
 
 
+
         if (newQuestionFile) {
-          const ImgResult = await postQuestionImg(groupPostId, result.data, newQuestionFile);
+          const ImgResult = await postQuestionImg(groupPostId, result?.data, newQuestionFile);
         }
 
         // 상태 코드가 200-299 범위인지 확인
@@ -657,16 +657,16 @@ const QuestionForm = ({ showFileOption, groupPostId, userId }) => {
   };
 
   // 질문 수정 - 완료
-  const editQuestion = async (questionId, updatedQuestion) => {
+  const editQuestion = async (questionId, updatedQuestion, isEditImgFile) => {
     try {
       const result = await updateQuestion(groupPostId, questionId, {
-        questionDetails: updatedQuestion.questionDetails,
-        questionImageUrl: updatedQuestion.questionImageUrl.name,
+        questionDetails: updatedQuestion?.questionDetails,
+        questionImageUrl: updatedQuestion?.questionImageUrl?.name ? updatedQuestion?.questionImageUrl?.name : updatedQuestion?.questionImageUrl,
         questionTime: new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString()
       });
 
-      if (updatedQuestion.questionImageUrl) {
-        const ImgResult = await postQuestionImg(groupPostId, questionId, updatedQuestion.questionImageUrl);
+      if (isEditImgFile && updatedQuestion?.questionImageUrl) {
+        const ImgResult = await postQuestionImg(groupPostId, questionId, updatedQuestion?.questionImageUrl);
       }
 
       // 상태 코드가 200-299 범위인지 확인
@@ -713,17 +713,19 @@ const QuestionForm = ({ showFileOption, groupPostId, userId }) => {
     const commentText = newComments[questionId];
     const commentFile = newCommentFile[questionId];
 
+    console.log(commentFile);
+
     try {
       const result = await registerComment(groupPostId, questionId, {
         commentDetails: commentText,
-        commentImageUrl: commentFile.name || '',
+        commentImageUrl: commentFile?.name ? commentFile?.name : (commentFile || ''),
         commentTime: new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString()
       })
 
       console.log(result);
 
       if (commentFile) {
-        const ImgResult = await postCommentImg(groupPostId, questionId, result.data, commentFile);
+        const ImgResult = await postCommentImg(groupPostId, questionId, result?.data, commentFile);
       }
 
 
@@ -749,16 +751,18 @@ const QuestionForm = ({ showFileOption, groupPostId, userId }) => {
   };
 
   // 댓글 수정 - 완료
-  const editComment = async (questionId, commentId, updatedComment) => {
+  const editComment = async (questionId, commentId, updatedComment, isEditImgFile) => {
     try {
       const result = await updateComment(groupPostId, questionId, commentId, {
-        commentDetails: updatedComment.commentDetails,
-        commentImageUrl: updatedComment.commentImageUrl.name,
+        commentDetails: updatedComment?.commentDetails,
+        commentImageUrl: updatedComment?.commentImageUrl?.name ? updatedComment?.commentImageUrl?.name : updatedComment?.commentImageUrl,
         commentTime: new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString()
       })
 
-      if (updatedComment.commentImageUrl) {
-        const ImgResult = await postCommentImg(groupPostId, questionId, commentId, updatedComment.commentImageUrl);
+      console.log(updatedComment?.commentImageUrl);
+
+      if (isEditImgFile && updatedComment?.commentImageUrl) {
+        const ImgResult = await postCommentImg(groupPostId, questionId, commentId, updatedComment?.commentImageUrl);
       }
 
       // 상태 코드가 200-299 범위인지 확인
