@@ -181,6 +181,7 @@ const StudyPage = ({ profileData }) => {
           changeTab={changeTab}
           isLeader={groupPostData?.leaderUser?.userId === profileData?.id}
           isMember={groupPostData?.memberData?.some(member => member?.groupUser?.userId === profileData?.id)}
+          type={groupPostData.type}
         />
 
 
