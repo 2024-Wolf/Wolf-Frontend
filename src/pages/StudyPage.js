@@ -184,7 +184,6 @@ const StudyPage = ({ profileData }) => {
         />
 
 
-
         {/*<div className="study-content">*/}
         {
           activeTab === TAB.MEETING ? (
