@@ -38,7 +38,7 @@ export const MainButtonContainer = styled.div`
 `;
 
 
-const Main = () => {
+const Main = ({ isLoggedIn }) => {
 
     const categories = ["전체", "프로젝트", "스터디"];
     const [activeCategory, setActiveCategory] = useState();
@@ -154,6 +154,7 @@ const Main = () => {
                     </SearchContainer>
                 </div>
                 <MainCardList
+                    isLoggedIn={isLoggedIn}
                     category={activeCategory}
                     data={filteredCards}
                 />

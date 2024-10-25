@@ -13,9 +13,13 @@ const MainCardList = (props) => {
     const navigate = useNavigate();
 
     const handleCardClick = (id) => {
-        navigate(`/post/${id}`); // 카드 ID에 따라 그룹 페이지로 이동 -> navigate(`/post/${id}`)
+        if (props.isLoggedIn) {
+            navigate(`/post/${id}`); // 카드 ID에 따라 그룹 페이지로 이동 -> navigate(`/post/${id}`)
+        } else {
+            alert('로그인 후 이용 가능한 서비스입니다');
+            navigate(`/`); // 카드 ID에 따라 그룹 페이지로 이동 -> navigate(`/post/${id}`)
+        }
     };
-
 
 
     const renderItems = (items) => {

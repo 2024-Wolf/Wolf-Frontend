@@ -57,7 +57,7 @@ const App = () => {
       />
       <MainContents>
         <Routes>
-          <Route path="/" element={renderWithLoading(Main)} />
+          <Route path="/" element={renderWithLoading(Main, { isLoggedIn })} />
           <Route path="/post/:postId" element={renderWithLoading(StudyPage, { profileData })} />
           <Route path="/faq" element={renderWithLoading(FAQ)} />
           <Route path="/write" element={renderWithLoading(CreateGroupPage)} />
