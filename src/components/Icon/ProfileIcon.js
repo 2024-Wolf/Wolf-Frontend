@@ -48,6 +48,7 @@ const ProfileIcon = ({
     if (userId && (userId === targetUserId)) {
       // user/my
       // navigate('/user/my');
+      setIsDropdownOpen(!isDropdownOpen);
     } else if (targetUserId && (userId !== targetUserId)) {
       // user/userId
       setIsDropdownOpen(!isDropdownOpen);
@@ -104,8 +105,15 @@ const ProfileIcon = ({
             top: 'calc(100%)',
             width: '100px'
           }}>
-          <DropdownItem onClick={() => handleItemClick(`/user/${targetUserId}`)}>정보보기</DropdownItem>
-          <DropdownItem onClick={openModal}>신고하기</DropdownItem>
+          {userId && (userId === targetUserId) ? <>
+            <DropdownItem onClick={() => handleItemClick(`/user/my`)}>내 정보</DropdownItem>
+          </> :
+            <>
+              <DropdownItem onClick={() => handleItemClick(`/user/${targetUserId}`)}>정보보기</DropdownItem>
+              <DropdownItem onClick={openModal}>신고하기</DropdownItem>
+            </>
+          }
+
         </DropdownContent>
         {/* 프로필 아이콘 */}
         <ProfileIconWrapper style={wrapperStyle}>

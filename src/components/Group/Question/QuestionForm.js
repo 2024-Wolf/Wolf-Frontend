@@ -764,6 +764,10 @@ const QuestionForm = ({ showFileOption, groupPostId, userId }) => {
         commentTime: new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString()
       })
 
+      if (updatedComment.commentImageUrl) {
+        const ImgResult = await postCommentImg(groupPostId, questionId, result.data, updatedComment.commentImageUrl);
+      }
+
       // 상태 코드가 200-299 범위인지 확인
       if (result.status < 200 || result.status >= 300) {
         throw new Error('네트워크 오류');
