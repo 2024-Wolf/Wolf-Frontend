@@ -75,7 +75,7 @@ const GroupInfoContent = ({ mode, groupPostId, userId, groupPostData, groupNewsD
               type={groupPostData?.type}
             />
           )}
-
+          {console.log(groupPostData?.memberData?.length)}
           <FormFieldRow>
             <FormFieldSingle
               label={mode === "study" ? "모집 현황" : "지원 현황"}
@@ -83,7 +83,7 @@ const GroupInfoContent = ({ mode, groupPostId, userId, groupPostData, groupNewsD
             >
               {mode === "study" ? <>
                 <InputTextNoCss
-                  value={`${groupPostData.leaderUser?.length ? groupPostData.leaderUser?.length + 1 : 1}/${groupPostData.targetMembers}`}
+                  value={`${groupPostData?.leaderUser ? groupPostData?.memberData?.length : 0}/${groupPostData?.targetMembers}`}
                 />
               </> : <>
                 {groupPostData?.recruitments?.map((role, index) => {
