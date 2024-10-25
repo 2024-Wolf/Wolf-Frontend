@@ -21,10 +21,10 @@ const MeetingContent = ({ isMeetingStarted, groupPostId, userId }) => {
     <MeetingContainer2>
       {/*미팅 버튼 */}
       <MeetingDiv>
-        <StartMeetingButton onClick={openMeetingWindow}>
+        {/* <StartMeetingButton onClick={openMeetingWindow}>
           화상회의 하기
         </StartMeetingButton>
-        {isMeetingOpen && <MeetingPortal onClose={closeMeetingWindow} />}
+        {isMeetingOpen && <MeetingPortal onClose={closeMeetingWindow} />} */}
       </MeetingDiv>
 
       <FormFieldSingle
