@@ -172,7 +172,7 @@ const Question = ({
   const cancelEditQuestion = () => {
     setIsEditingQuestion(false);
     setQuestionEditText("");
-    setQuestionEditFile('');
+    setQuestionEditFile(questionData.questionImageUrl);
     setIsEditFile(false);
   };
 
@@ -301,36 +301,31 @@ const Question = ({
                 />
                 {/* [질문[수정중O]]-이미지 프리뷰 */}
                 {(questionData?.questionImageUrl || questionEditFileURL) && (
-                  <ImagePreview
-                    imageFile={
-                      questionData?.questionImageUrl
-                        ? questionEditFileURL
-                        : isEditFile
-                          ? ""
-                          : questionData?.questionImageUrl}
-                    src={
-                      questionData?.questionImageUrl
-                        ? questionEditFileURL
-                        : isEditFile
-                          ? ""
-                          : questionData?.questionImageUrl
-                    }
-                    alt={questionEditFileURL ? "" : ""}
-                    isEditing={true}
-                    onClick={deleteQuestionEditFile}
-                  />
+                  <>
+                    <ImagePreview
+                      imageFile={
+                        questionData?.questionImageUrl
+                          ? questionEditFileURL
+                          : isEditFile
+                            ? ""
+                            : questionData?.questionImageUrl}
+                      src={
+                        questionData?.questionImageUrl
+                          ? questionEditFileURL
+                          : isEditFile
+                            ? ""
+                            : questionData?.questionImageUrl
+                      }
+                      alt={questionEditFileURL ? "" : ""}
+                      isEditing={true}
+                      onClick={deleteQuestionEditFile}
+                    />
+                    {console.log(questionData?.questionImageUrl
+                      ? 'true'
+                      : 'false')}
+                  </>
+
                 )}
-                <>
-                  <ImagePreview
-                    imageFile={questionData?.questionImageUrl}
-                    src={questionData?.questionImageUrl}
-                    alt={
-                      questionData?.questionImageUrl
-                        ? `preview-${questionData?.questionImageUrl}`
-                        : "preview"
-                    }
-                  />
-                </>
               </ItemCol>
               <ItemRow>
                 {/* [질문[수정중O]]-댓글 열기/닫기 버튼 */}
@@ -674,9 +669,13 @@ const QuestionForm = ({ showFileOption, groupPostId, userId }) => {
     try {
       const result = await updateQuestion(groupPostId, questionId, {
         questionDetails: updatedQuestion.questionDetails,
-        questionImageUrl: updatedQuestion.questionImageUrl,
+        questionImageUrl: updatedQuestion.questionImageUrl.name,
         questionTime: new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString()
       });
+
+      if (updatedQuestion.questionImageUrl) {
+        const ImgResult = await postQuestionImg(groupPostId, questionId, updatedQuestion.questionImageUrl);
+      }
 
       // 상태 코드가 200-299 범위인지 확인
       if (result.status < 200 || result.status >= 300) {
