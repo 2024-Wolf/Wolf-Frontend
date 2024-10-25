@@ -1,15 +1,30 @@
-/* 
-웹소켓 서버 설치 
- 1) node.js 설치 확인
- 2) websocket-server 디렉토리 생성 (react 상위 디렉토리에 따로 생성)
- 3) npm init -y  이후 npm install ws (websocket-server 해당 경로에서 웹소켓 라이브러리 설치)
- 4) server.js 작성 or pull
-*/
 import styled from 'styled-components';
 import { MeetingContainer3, VideoContainer, VideoWrapper, ParticipantList, ParticipantItem, ControlBar, ControlButton } from "../../GlobalStyledComponents";
 
 import React, { useState, useEffect, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+
+const MeetingWindowView = styled.div`
+  width: 100%;
+  max-height: 400px;
+  video {
+    border-radius: 10px;
+  }
+`;
+
+const ChatContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+`;
+
+const MessageList = styled.div`
+  border: 1px solid #ccc;
+  padding: 5px;
+  height: 100px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+`;
 
 const MeetingWindow = () => {
   const localVideoRef = useRef(null);
@@ -20,7 +35,7 @@ const MeetingWindow = () => {
   const [participants, setParticipants] = useState([]);
   const [chatMessages, setChatMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
-  const userId = useRef(uuidv4());  // 사용자 고유ID
+  const userId = useRef(uuidv4());
 
   // WebSocket 연결
   useEffect(() => {
@@ -62,7 +77,7 @@ const MeetingWindow = () => {
           localVideoRef.current.srcObject = localStream;
         }
 
-        // 서버에 참가자 추가 메시지 보내기
+        // 참가자 추가 메시지 전송
         const joinMessage = {
           type: 'participant-update',
           participants: [{ id: userId.current, isMicOn, isCameraOn }]
@@ -75,14 +90,14 @@ const MeetingWindow = () => {
     startVideoCall();
 
     return () => {
-      // 스트림을 명확히 종료
+      // 스트림 종료
       if (stream) {
         stream.getTracks().forEach((track) => track.stop());
       }
     };
   }, [isMicOn, isCameraOn]);
 
-  // 카메라 켜기/끄기
+  // 카메라 전환
   const toggleCamera = () => {
     if (stream) {
       const videoTrack = stream.getVideoTracks()[0];
@@ -97,17 +112,16 @@ const MeetingWindow = () => {
     }
   };
 
-  // 마이크 켜기/끄기
+  // 마이크 전환
   const toggleMic = () => {
     if (stream) {
       const audioTracks = stream.getAudioTracks();
 
-      if (audioTracks.length > 0) {  // 오디오 트랙이 존재하는지 확인
-        const audioTrack = audioTracks[0];  // 첫 번째 오디오 트랙 선택
-        audioTrack.enabled = !audioTrack.enabled;  // 오디오 트랙 활성화/비활성화
-        setIsMicOn(audioTrack.enabled);  // 마이크 상태 업데이트
+      if (audioTracks.length > 0) {
+        const audioTrack = audioTracks[0];
+        audioTrack.enabled = !audioTrack.enabled;
+        setIsMicOn(audioTrack.enabled);
 
-        // WebSocket을 통해 변경 사항 서버로 전송
         const updateMessage = {
           type: 'participant-update',
           participants: [{ id: userId.current, isMicOn: audioTrack.enabled, isCameraOn }]
@@ -119,62 +133,93 @@ const MeetingWindow = () => {
     }
   };
 
-  // 채팅 메시지 보내기
+  // 채팅 메시지 전송
   const handleSendMessage = () => {
     if (newMessage.trim()) {
       const chatMessage = {
         type: 'chat',
-        author: '나',
-        message: newMessage.trim()  // 메시지 앞뒤 공백 제거 후 전송
+        author: userId.current, // 사용자 ID로 전송
+        message: newMessage.trim()
       };
       socket.current.send(JSON.stringify(chatMessage));
-      setNewMessage('');  // 메시지 전송 후 입력란 초기화
+      setChatMessages((prevMessages) => [...prevMessages, chatMessage]); // 메시지 목록에 추가
+      setNewMessage(''); // 입력란 초기화
     }
   };
 
   return (
     <div>
       {/* 화상회의 화면 */}
-      <div>
+      <MeetingWindowView>
         <video ref={localVideoRef} autoPlay playsInline style={{ width: '100%', height: 'auto' }} />
-      </div>
+      </MeetingWindowView>
 
       {/* 카메라 및 마이크 컨트롤 */}
       <div>
-        <button onClick={toggleCamera}>{isCameraOn ? '카메라 끄기' : '카메라 켜기'}</button>
-        <button onClick={toggleMic}>{isMicOn ? '마이크 끄기' : '마이크 켜기'}</button>
+        <button onClick={toggleCamera}>
+          {isCameraOn ? (
+            <>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-camera-video-fill" viewBox="0 0 16 16">
+                <path fillRule="evenodd" d="M0 5a2 2 0 0 1 2-2h7.5a2 2 0 0 1 1.983 1.738l3.11-1.382A1 1 0 0 1 16 4.269v7.462a1 1 0 0 1-1.406.913l-3.111-1.382A2 2 0 0 1 9.5 13H2a2 2 0 0 1-2-2z" />
+              </svg>
+              카메라 켜기
+            </>
+          ) : (
+            <>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-camera-video-off-fill" viewBox="0 0 16 16">
+                <path fillRule="evenodd" d="M10.961 12.365a2 2 0 0 0 .522-1.103l3.11 1.382A1 1 0 0 0 16 11.731V4.269a1 1 0 0 0-1.406-.913l-3.111 1.382A2 2 0 0 0 9.5 3H4.272zm-10.114-9A2 2 0 0 0 0 5v6a2 2 0 0 0 2 2h5.728zm9.746 11.925-10-14 .814-.58 10 14z" />
+              </svg>
+              카메라 끄기
+            </>
+          )}
+        </button>
+        <button onClick={toggleMic}>
+          {isMicOn ? (
+            <>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-mic-fill" viewBox="0 0 16 16">
+                <path d="M5 3a3 3 0 0 1 6 0v5a3 3 0 0 1-6 0z" />
+                <path d="M3.5 6.5A.5.5 0 0 1 4 7v1a4 4 0 0 0 8 0V7a.5.5 0 0 1 1 0v1a5 5 0 0 1-4.5 4.975V15h3a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1h3v-2.025A5 5 0 0 1 3 8V7a.5.5 0 0 1 .5-.5" />
+              </svg>
+              마이크 켜기
+            </>
+          ) : (
+            <>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-mic-mute-fill" viewBox="0 0 16 16">
+                <path d="M13 8c0 .564-.094 1.107-.266 1.613l-.814-.814A4 4 0 0 0 12 8V7a.5.5 0 0 1 1 0zm-5 4c.818 0 1.578-.245 2.212-.667l.718.719a5 5 0 0 1-2.43.923V15h3a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1h3v-2.025A5 5 0 0 1 3 8V7a.5.5 0 0 1 1 0v1a4 4 0 0 0 4 4m3-9v4.879L5.158 2.037A3.001 3.001 0 0 1 11 3" />
+                <path d="M9.486 10.607 5 6.12V8a3 3 0 0 0 4.486 2.607m-7.84-9.253 12 12 .708-.708-12-12z" />
+              </svg>
+              마이크 끄기
+            </>
+          )}
+        </button>
       </div>
 
       {/* 참가자 목록 */}
-      <div>
-        <h3>참가자 목록</h3>
+      <ParticipantList>
         {participants.map((participant) => (
-          <div key={participant.id}>
-            <span>{participant.id}</span>
-            <span>{participant.isMicOn ? '🔊' : '🔇'}</span>
-            <span>{participant.isCameraOn ? '🎥' : '📷'}</span>
-          </div>
+          <ParticipantItem key={participant.id}>
+            {participant.id} {participant.isCameraOn ? '(카메라 켜짐)' : '(카메라 꺼짐)'} {participant.isMicOn ? '(마이크 켜짐)' : '(마이크 꺼짐)'}
+          </ParticipantItem>
         ))}
-      </div>
+      </ParticipantList>
 
-      {/* 채팅 영역 */}
-      <div>
-        <h3>채팅</h3>
-        <div style={{ maxHeight: '300px', overflowY: 'auto', border: '1px solid #ccc', padding: '10px' }}>
-          {chatMessages.map((msg, index) => (
+      {/* 채팅 기능 */}
+      <ChatContainer>
+        <MessageList>
+          {chatMessages.map((chatMessage, index) => (
             <div key={index}>
-              <strong>{msg.author}</strong>: {msg.message}
+              <strong>{chatMessage.author}: </strong>{chatMessage.message}
             </div>
           ))}
-        </div>
+        </MessageList>
         <input
           type="text"
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
-          placeholder="메시지를 입력하세요"
+          placeholder="메시지 입력..."
         />
         <button onClick={handleSendMessage}>전송</button>
-      </div>
+      </ChatContainer>
     </div>
   );
 };
