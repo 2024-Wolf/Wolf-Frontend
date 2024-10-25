@@ -45,19 +45,37 @@ const MyPageProfile = ({ contentsType, profileData }) => {
     };
 
     // 프로필을 기본 이미지로 초기화
-    const handleProfilePictureDelete = () => {
-        const defaultImage = "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png";
+    const handleProfilePictureDelete = async () => {
+        const defaultImageUrl = "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png";
+        const defaultImageBlob = await fetch(defaultImageUrl).then(res => res.blob());
 
-        setNewProfilePicture(defaultImage);
+        setNewProfilePicture(defaultImageUrl);
 
         setNewProfileData((prev) => ({
             ...prev,
-            profilePicture: defaultImage
+            profilePicture: defaultImageUrl
         }));
 
-        handleFormSubmit();
-        alert("프로필 이미지가 초기화되었습니다");
+        try {
+            // 기본 이미지를 FormData에 담아서 서버에 전송
+            const formData = new FormData();
+            formData.append('profileImage', defaultImageBlob, 'default-profile-image.png'); // Blob 객체를 추가
+
+            const result = await changeProfileImage(formData);
+
+            // 상태 코드가 200-299 범위인지 확인
+            if (result.status < 200 || result.status >= 300) {
+                throw new Error('네트워크 오류');
+            }
+
+            alert("프로필 이미지가 수정되었습니다");
+            window.location.reload(); // 페이지 새로 고침
+
+        } catch (error) {
+            console.error('프로필 이미지 수정 실패:', error);
+        }
     };
+
 
     const handleFormSubmit = async (file) => {
 
