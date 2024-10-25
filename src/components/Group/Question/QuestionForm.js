@@ -138,6 +138,7 @@ const Question = ({
       questionImageUrl: isEditFile ? questionEditFile : questionData.questionImageUrl, // 수정했다면 새로운 파일을 사용하고, 그렇지 않으면 기존의 파일을 사용함
       questionTime: questionData.questionTime, // 기존 시간을 그대로 사용함
     });
+
     setIsEditingQuestion(false);
     setQuestionEditFile('');
     setIsEditFile(false);
@@ -303,19 +304,8 @@ const Question = ({
                 {(questionData?.questionImageUrl || questionEditFileURL) && (
                   <>
                     <ImagePreview
-                      imageFile={
-                        questionData?.questionImageUrl
-                          ? questionEditFileURL
-                          : isEditFile
-                            ? ""
-                            : questionData?.questionImageUrl}
-                      src={
-                        questionData?.questionImageUrl
-                          ? questionEditFileURL
-                          : isEditFile
-                            ? ""
-                            : questionData?.questionImageUrl
-                      }
+                      imageFile={isEditFile ? questionEditFile : questionData.questionImageUrl}
+                      src={isEditFile ? questionEditFile : questionData.questionImageUrl}
                       alt={questionEditFileURL ? "" : ""}
                       isEditing={true}
                       onClick={deleteQuestionEditFile}
@@ -459,21 +449,23 @@ const Question = ({
                               />
                               {(comment.commentImageUrl || commentEditFile) && (
                                 <>
+                                  {console.log('file', commentEditFile)}
                                   {/* [댓글[수정중O]]-이미지 프리뷰 & 삭제 버튼 */}
                                   <ImagePreview
-                                    src={
-                                      commentEditFile
-                                        ? commentEditFile
-                                        : isEditFileComment[index]
-                                          ? ""
-                                          : comment.commentImageUrl
+                                    src={isEditFileComment[index] ?
+                                      (commentEditFile instanceof File ? URL.createObjectURL(commentEditFile) : commentEditFile)
+                                      : questionData.comments[index].commentImageUrl
                                     }
-                                    alt={comment.commentImageUrl ? comment.commentImageUrl : ""}
-                                    imageFile={comment.commentImageUrl}
+                                    alt={isEditFileComment[index] ? comment.commentImageUrl : ""}
+                                    imageFile={isEditFileComment[index] ?
+                                      (commentEditFile instanceof File ? URL.createObjectURL(commentEditFile) : commentEditFile)
+                                      : questionData.comments[index].commentImageUrl
+                                    }
                                     isEditing={true}
                                     questionId={questionData.questionId}
                                     onClick={() => deleteCommentEditFile(index)} // questionId 전달
                                   />
+
                                 </>
                               )}
                             </ItemCol>
