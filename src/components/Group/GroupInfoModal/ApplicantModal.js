@@ -27,7 +27,7 @@ import FormCheckBoxButton from "../../Button/FormCheckBoxButtonBlackLine";
 import CopyButton from "../../Button/CopyButton";
 import { applyGroup, changeApplyStatus, getApplicantDetail } from "../../Apis/GroupPostApi";
 
-const ApplicantModal = ({ onClose, onSubmit, applicantId, groupPostId, isView, optionalRequirements, fetchGroupApplicantData }) => {
+const ApplicantModal = ({ onClose, onSubmit, applicantId, groupPostId, isView, optionalRequirements, fetchGroupApplicantData, type, profileData, groupPostData }) => {
 
   const [isPortfolioValid, setIsPortfolioValid] = useState(true); // 포트폴리오 링크 입력했는지 검증하는 상태
   const [isDayValid, setIsDayValid] = useState(true); // 요일 입력했는지 검증하는 상태
@@ -37,10 +37,17 @@ const ApplicantModal = ({ onClose, onSubmit, applicantId, groupPostId, isView, o
   const [buttonStatus, setButtonStatus] = useState("");
   const [linkButtonDisable, setLinkButtonDisable] = useState(false);
 
+
+  const transOption = {
+    "frontend": "프론트엔드개발자",
+    "backend": "백엔드개발자",
+    "planner": "기획자",
+    "designer": "디자이너"
+  }
+
   const [modalData, setModalData] = useState({
-    name: "",
-    email: "",
-    position: "",
+    email: profileData ? profileData.email : "",
+    position: type === 'study' ? "backend" : "",
     reason: "",
     portfolioLink: "",
     introduce: "",
@@ -53,13 +60,12 @@ const ApplicantModal = ({ onClose, onSubmit, applicantId, groupPostId, isView, o
     async function fetchApplicant() {
       const response = await getApplicantDetail(applicantId);
       setModalData({
-        name: response.data.name,
         email: response.data.email,
         position: response.data.position.toLowerCase(),
         reason: response.data.applicationReason,
         portfolioLink: response.data.portfolioLink,
         introduce: response.data.introduction,
-        day: response.data.availableDays.split(","),
+        day: response.data.availableDays?.split(","),
         techStack: response.data.techStack,
         freeEntry: response.data.additionalNotes
       });
@@ -73,16 +79,16 @@ const ApplicantModal = ({ onClose, onSubmit, applicantId, groupPostId, isView, o
   //전송 api
   ///post/{postId}/apply
   const handleSubmit = async (e) => {
+    { console.log(modalData) }
 
     e.preventDefault();
-
-    console.log(modalData);
-
     switch (buttonStatus) {
       case "지원하기":
-        if (modalData.position === '' || !linkButtonDisable) {
+        if ((optionalRequirements?.includes("포트폴리오 링크") && modalData.position === '') || (optionalRequirements?.includes("포트폴리오 링크") && !linkButtonDisable)) {
           alert('모든 양식을 입력하세요');
-          if (optionalRequirements.includes("참여 가능 요일") && modalData.day.length === 0) {
+
+          console.log(modalData.position, !linkButtonDisable)
+          if (optionalRequirements?.includes("참여가능 요일") && modalData.day.length === 0) {
             setIsDayValid(false); // 요일 체크박스 안내멘트 출력
           } else {
             setIsDayValid(true); // 요일 체크박스 안내멘트 출력
@@ -185,37 +191,19 @@ const ApplicantModal = ({ onClose, onSubmit, applicantId, groupPostId, isView, o
           )}
         </ModalHeader>
 
-        {/* 이름 */}
-        <Div>
-          <Label>이름</Label>
-          <InputTextBlackLine
-            readOnly={isView}
-            type="text"
-            placeholder="이름을 입력하세요"
-            value={modalData.name}
-            onChange={(e) =>
-              setModalData((prev) => ({ ...prev, name: e.target.value }))
-            }
-            required
-          />
-        </Div>
-
         <ChangeColumn768px>
           <Div>
             <Label>이메일</Label>
             <InputTextBlackLine
-              readOnly={isView}
+              readOnly={profileData ? profileData.email : isView}
               type="email"
-              value={modalData.email}
-              onChange={(e) =>
-                setModalData((prev) => ({ ...prev, email: e.target.value }))
-              }
+              value={profileData ? profileData.email : modalData.email}
               placeholder="이메일을 입력하세요"
               required
             />
           </Div>
 
-          <Div>
+          {(optionalRequirements?.includes("지원직군") && type === 'project') && <Div>
             <Label>지원직군</Label>
             {!isSelectRoleValid &&
               <span
@@ -225,6 +213,7 @@ const ApplicantModal = ({ onClose, onSubmit, applicantId, groupPostId, isView, o
                 지원직군을 선택하세요
               </span>
             }
+            {console.log(modalData.position)}
             <SelectButtonBlackLine
               disabled={isView}
               value={modalData.position}
@@ -237,15 +226,22 @@ const ApplicantModal = ({ onClose, onSubmit, applicantId, groupPostId, isView, o
               <option value="" disabled>
                 선택하세요
               </option>
-              <option value="frontend">프론트엔드개발자</option>
-              <option value="backend">백엔드개발자</option>
-              <option value="planner">기획자</option>
-              <option value="designer">디자이너</option>
+              {isView && <option value={modalData.position} disabled>
+                {modalData.position}
+              </option>}
+
+              {groupPostData?.recruitments.map((role, index) => (
+                <>
+                  <option value={role.recruitRole?.toLowerCase()}>{transOption[role.recruitRole.toLowerCase()]}</option>
+                </>
+              ))}
             </SelectButtonBlackLine>
-          </Div>
+          </Div>}
+
+
         </ChangeColumn768px>
 
-        <Div>
+        {optionalRequirements?.includes("자기소개") && <Div>
           <Label>자기소개</Label>
           <TextAreaBlackLine
             readOnly={isView}
@@ -259,10 +255,10 @@ const ApplicantModal = ({ onClose, onSubmit, applicantId, groupPostId, isView, o
                 introduce: e.target.value,
               }))
             }
-            required={optionalRequirements.includes("자기소개")}
+            required
           />
-        </Div>
-        <Div>
+        </Div>}
+        {optionalRequirements?.includes("자유기재") && <Div>
           <Label>자유기재</Label>
           <TextAreaBlackLine
             readOnly={isView}
@@ -276,10 +272,12 @@ const ApplicantModal = ({ onClose, onSubmit, applicantId, groupPostId, isView, o
                 additionalNotes: e.target.value,
               }))
             }
-            required={optionalRequirements.includes("자유기재")}
+            required
           />
         </Div>
-        <Div>
+        }
+
+        {optionalRequirements?.includes("참여가능 요일") && <Div>
           <Label>참여 가능 요일</Label>
           {!isDayValid &&
             <span
@@ -291,28 +289,32 @@ const ApplicantModal = ({ onClose, onSubmit, applicantId, groupPostId, isView, o
           }
           <ButtonGroupWrap>
             {['월', '화', '수', '목', '금', '토', '일'].map((day, index) => (
-              <FormCheckBoxButton
-                key={"day-" + index}
-                name="day"
-                value={day}
-                checked={modalData.day.includes(day)}
-                disabled={isView}
-                onChange={(e) => {
-                  setModalData((prev) => ({
-                    ...prev,
-                    day: e.target.checked
-                      ? [...prev.day, e.target.value] // 체크 시 배열에 추가
-                      : prev.day.filter((day) => day !== e.target.value), // 체크 해제시 배열에서 제거
-                  }));
-                }
-                }
-              >
-                {day}
-              </FormCheckBoxButton>
+              <>
+                <FormCheckBoxButton
+                  key={"day-" + index}
+                  name="day"
+                  value={day}
+                  checked={modalData.day?.includes(day)}
+                  disabled={isView}
+                  onChange={(e) => {
+                    setModalData((prev) => ({
+                      ...prev,
+                      day: e.target.checked
+                        ? [...prev.day, e.target.value] // 체크 시 배열에 추가
+                        : prev.day.filter((day) => day !== e.target.value), // 체크 해제시 배열에서 제거
+                    }));
+                  }
+                  }
+                >
+                  {day}
+                </FormCheckBoxButton>
+              </>
             ))}
           </ButtonGroupWrap>
         </Div>
-        <Div>
+        }
+
+        {optionalRequirements?.includes("다룰 수 있는 언어") && <Div>
           <Label>다룰 수 있는 언어</Label>
           <InputTextBlackLine
             readOnly={isView}
@@ -325,9 +327,10 @@ const ApplicantModal = ({ onClose, onSubmit, applicantId, groupPostId, isView, o
               }))
             }
             placeholder="다룰 수 있는 언어를 입력하세요"
-            required={optionalRequirements.includes("다룰 수 있는 언어")}
+            required={optionalRequirements?.includes("다룰 수 있는 언어")}
           />
-        </Div>
+        </Div>}
+
 
         <Div>
           <Label>지원사유</Label>
@@ -345,72 +348,77 @@ const ApplicantModal = ({ onClose, onSubmit, applicantId, groupPostId, isView, o
         </Div>
 
         <Row>
-          <Div>
-            <Label>포트폴리오 링크</Label>
-            {!isPortfolioTextValid &&
-              <span
-                style={{
-                  fontSize: '13px', color: '#ED4E51'
-                }}>
-                포트폴리오 링크를 등록하세요
-              </span>
-            }
-            {!isPortfolioValid &&
-              <span
-                style={{
-                  fontSize: '13px', color: '#ED4E51'
-                }}>
-                유효한 포트폴리오 링크를 입력하세요
-              </span>
-            }
-            <InputTextBlackLine
-              readOnly={isView}
-              type="url"
-              placeholder="링크를 등록하세요"
-              value={modalData.portfolioLink}
-              onChange={(e) =>
-                setModalData((prev) => ({
-                  ...prev,
-                  portfolioLink: e.target.value,
-                }))
+          {optionalRequirements?.includes("포트폴리오 링크") && <>
+            <Div>
+              <Label>포트폴리오 링크</Label>
+              {!isPortfolioTextValid &&
+                <span
+                  style={{
+                    fontSize: '13px', color: '#ED4E51'
+                  }}>
+                  포트폴리오 링크를 등록하세요
+                </span>
               }
-              disabled={linkButtonDisable}
-              required={optionalRequirements.includes("포트폴리오 링크")}
-            />
-          </Div>
-          {isView ? (
-            <>
-              <CopyButton copyTarget={modalData.portfolioLink}>
-              </CopyButton>
-            </>
-          ) : (
-            linkButtonDisable ? (
+              {!isPortfolioValid &&
+                <span
+                  style={{
+                    fontSize: '13px', color: '#ED4E51'
+                  }}>
+                  유효한 포트폴리오 링크를 입력하세요
+                </span>
+              }
+              <InputTextBlackLine
+                readOnly={isView}
+                type="url"
+                placeholder="링크를 등록하세요"
+                value={modalData.portfolioLink}
+                onChange={(e) =>
+                  setModalData((prev) => ({
+                    ...prev,
+                    portfolioLink: e.target.value,
+                  }))
+                }
+                disabled={linkButtonDisable}
+                required={optionalRequirements?.includes("포트폴리오 링크")}
+              />
+            </Div>
+
+            {isView ? (
               <>
-                <Black200BackgroundButton
-                  type="button"
-                  onClick={(e) => {
-                    setLinkButtonDisable(false)
-                    setModalData((prev) => ({
-                      ...prev,
-                      portfolioLink: "",
-                    }))
-                  }}
-                >
-                  취소
-                </Black200BackgroundButton>
+                <CopyButton copyTarget={modalData.portfolioLink}>
+                </CopyButton>
               </>
             ) : (
-              <>
-                <Violet500BackgroundButton
-                  type="button"
-                  onClick={handlePortfolio}
-                  disabled={linkButtonDisable}
-                >
-                  등록
-                </Violet500BackgroundButton>
-              </>
-            )
-          )}
+              linkButtonDisable ? (
+                <>
+                  <Black200BackgroundButton
+                    type="button"
+                    onClick={(e) => {
+                      setLinkButtonDisable(false)
+                      setModalData((prev) => ({
+                        ...prev,
+                        portfolioLink: "",
+                      }))
+                    }}
+                  >
+                    취소
+                  </Black200BackgroundButton>
+                </>
+              ) : (
+                <>
+                  <Violet500BackgroundButton
+                    type="button"
+                    onClick={handlePortfolio}
+                    disabled={linkButtonDisable}
+                  >
+                    등록
+                  </Violet500BackgroundButton>
+                </>
+              )
+            )}
+          </>
+          }
+
 
         </Row>
 

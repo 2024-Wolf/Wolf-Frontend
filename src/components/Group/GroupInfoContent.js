@@ -20,7 +20,7 @@ import RecentNewsSlider from "../Slider/RecentNewsSlider";
 import QuestionForm from "./Question/QuestionForm";
 import ImagePreview from "../Img/ImagePreview"
 
-const GroupInfoContent = ({ mode, groupPostId, userId, groupPostData, groupNewsData }) => {
+const GroupInfoContent = ({ mode, groupPostId, userId, groupPostData, groupNewsData, profileData }) => {
 
   const [isModalOpen, setModalOpen] = useState(false);
   const [isEvaluationModalOpen, setIsEvaluationModalOpen] = useState(false);
@@ -33,7 +33,12 @@ const GroupInfoContent = ({ mode, groupPostId, userId, groupPostData, groupNewsD
     setModalOpen(false);
   };
 
-
+  const transOption = {
+    "frontend": "프론트엔드개발자",
+    "backend": "백엔드개발자",
+    "planner": "기획자",
+    "designer": "디자이너"
+  }
 
   return (
     <>
@@ -61,31 +66,54 @@ const GroupInfoContent = ({ mode, groupPostId, userId, groupPostData, groupNewsD
 
           {isModalOpen && (
             <ApplicantModal
+              profileData={profileData}
               onClose={closeModal}
               isView={false}
               groupPostId={groupPostId}
-              optionalRequirements={groupPostData?.optionalRequirements} />
-
+              optionalRequirements={groupPostData?.optionalRequirements}
+              groupPostData={groupPostData}
+              type={groupPostData?.type}
+            />
           )}
+
+
+
+
 
           <FormFieldRow>
             <FormFieldSingle
               label={mode === "study" ? "모집 현황" : "지원 현황"}
               className="recruitPeople"
             >
-              <InputTextNoCss
+              {mode === "study" ? <>
+                <InputTextNoCss
+                  value={`${groupPostData.memberData.length}/${groupPostData.targetMembers}`}
+                />
+              </> : <>
+                {groupPostData?.recruitments?.map((role, index) => {
+                  const matchingMembers = groupPostData?.memberData?.filter((member) =>
+                    role?.recruitRole &&
+                    member?.position &&
+                    transOption[role?.recruitRole?.toLowerCase()] === transOption[member?.position?.toLowerCase()]
+                  );
+
+                  const matchingMemberCount = matchingMembers?.length || 0; // 일치하는 항목들의 개수
+
+                  return (
+                    <>
+                      {/* transOption과 필터링된 개수 출력 */}
+                      <InputTextNoCss
+                        value={`${transOption[role?.recruitRole?.toLowerCase()]}  ${matchingMemberCount}/${role.recruitRoleCnt}`}
+                      />
+                    </>
+                  );
+                })}
+              </>}
+
+              {/* <InputTextNoCss
                 value={mode === "study" ? "스터디원 2/8" : "개발자 1/8"}
                 readOnly
-              />
-            </FormFieldSingle>
-            <FormFieldSingle
-              label={mode === "study" ? "지원 가능" : "지원 가능 개발자"}
-              className="recruitSupport"
-            >
-              <InputTextNoCss
-                value={mode === "study" ? "스터디원 6/8" : "개발자 7/8"}
-                readOnly
-              />
+              /> */}
             </FormFieldSingle>
           </FormFieldRow>
         </Violet500LineDiv>

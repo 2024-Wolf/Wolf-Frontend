@@ -76,11 +76,11 @@ const GroupManageContent = (props) => {
     ],
     totalMemberCount: props.groupPostData.targetMembers,
     challengeStatus: props.groupPostData.chaalengeStatus || "N",
-    recruitmentList: props.groupPostData.recruitments?.map(({recruitRole, recruitRoleCnt}) => ({job: recruitRole.toLowerCase(), count: recruitRoleCnt})) || [],
+    recruitmentList: props.groupPostData.recruitments?.map(({ recruitRole, recruitRoleCnt }) => ({ job: recruitRole?.toLowerCase(), count: recruitRoleCnt })) || [],
     memberData: props.groupPostData.memberData || []
   };
 
-  async function fetchGroupApplicantData(){
+  async function fetchGroupApplicantData() {
     try {
       const result = await getApplicants(props.groupPostId); // 그룹 뉴스 데이터 저장
       setApplicants(result.data);
@@ -99,7 +99,7 @@ const GroupManageContent = (props) => {
     }
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchGroupApplicantData()
   }, []);
 
@@ -149,6 +149,8 @@ const GroupManageContent = (props) => {
       shortIntro: data.shortIntro,
       challengeStatus: data.challengeStatus
     }
+
+
     updateGroupPost(groupPost, props.groupPostId)
       .then(function (response) {
         if (response.status >= 400) {
@@ -158,8 +160,6 @@ const GroupManageContent = (props) => {
         }
         alert("모집글 수정이 완료되었습니다.");
       })
-
-    window.location.reload();
   }
 
   return (
@@ -212,6 +212,7 @@ const GroupManageContent = (props) => {
             optionalRequirements={optionalRequirements}
             fetchGroupApplicantData={fetchGroupApplicantData}
             isView={true}
+            type={groupData.groupType}
           />
         )}
       </ApplySection>

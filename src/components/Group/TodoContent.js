@@ -119,18 +119,20 @@ export const LinkInputDirection = styled.div`
   }
 `;
 
-const imgSrc = {github:'https://upload.wikimedia.org/wikipedia/commons/4/4a/GitHub_Mark.png'
-                    , figma:'https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg'
-                    , notion:'https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png'
-                    , velog:'https://wolfbucket2024.s3.ap-northeast-2.amazonaws.com/icon/Velog.png'}
+const imgSrc = {
+  github: 'https://upload.wikimedia.org/wikipedia/commons/4/4a/GitHub_Mark.png'
+  , figma: 'https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg'
+  , notion: 'https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png'
+  , velog: 'https://wolfbucket2024.s3.ap-northeast-2.amazonaws.com/icon/Velog.png'
+}
 
 const TodoContent = ({ groupPostId, github, figma }) => {
   const [tasks, setTasks] = useState([]);
   const [scheduleList, setScheduleList] = useState([]);
-  const [links, setLinks] = useState({github: '', figma: '', notion: '', velog: ''});
+  const [links, setLinks] = useState({ github: '', figma: '', notion: '', velog: '' });
 
   const [newTask, setNewTask] = useState('');
-  const [newSchedule, setNewSchedule] = useState([{id:0, details: '', startDate: null, endDate: null }]);
+  const [newSchedule, setNewSchedule] = useState([{ id: 0, details: '', startDate: null, endDate: null }]);
   const [newLink, setNewLink] = useState('');
 
   const [editingTaskIndex, setEditingTaskIndex] = useState(null);
@@ -154,35 +156,36 @@ const TodoContent = ({ groupPostId, github, figma }) => {
         if (response?.data.length > 0) setTasks(response?.data);
       })
   }
+
   // 일정 목록 조회
   async function saveSchedule(groupId) {
     await new Promise((resolve) => setTimeout(resolve, 300));
     await getSchedule(groupId)
-        .then(function (response) {
-          if (response?.data.length > 0) setScheduleList(response?.data);
-        })
+      .then(function (response) {
+        if (response?.data.length > 0) setScheduleList(response?.data);
+      })
   }
   // 공유 링크 조회
   async function saveLinks(groupId) {
     await new Promise((resolve) => setTimeout(resolve, 300));
     await getLinks(groupId)
-        .then(function (response) {
-          // if (response?.data.length > 0) {
-            setLinks(prevLinks => {
-              const updatedLinks = { ...prevLinks };
+      .then(function (response) {
+        // if (response?.data.length > 0) {
+        setLinks(prevLinks => {
+          const updatedLinks = { ...prevLinks };
 
-              Object.keys(updatedLinks).forEach(key => {
-                const matchingItem = response?.data.find(item => item.linkType === key);
+          Object.keys(updatedLinks).forEach(key => {
+            const matchingItem = response?.data.find(item => item.linkType === key);
 
-                updatedLinks[key] = matchingItem ? matchingItem : '';
+            updatedLinks[key] = matchingItem ? matchingItem : '';
 
 
-              });
+          });
 
-              return updatedLinks;
-            });
-          // }
-        })
+          return updatedLinks;
+        });
+        // }
+      })
   }
 
 
@@ -208,7 +211,7 @@ const TodoContent = ({ groupPostId, github, figma }) => {
   const closeModal = () => {
     setIsEditingSchedule(false);
     setEditingScheduleIndex(null);
-    setNewSchedule([{id:0, details: '', startDate: null, endDate: null }]);
+    setNewSchedule([{ id: 0, details: '', startDate: null, endDate: null }]);
     setModalIsOpen(false);
   }
 
@@ -217,7 +220,7 @@ const TodoContent = ({ groupPostId, github, figma }) => {
     event.preventDefault();
 
     const nonEmptySchedules = newSchedule.filter(
-        (schedule) => schedule.details.trim() !== '' && schedule.startDate && schedule.endDate
+      (schedule) => schedule.details.trim() !== '' && schedule.startDate && schedule.endDate
     );
     if (nonEmptySchedules.length > 0) {
 
@@ -228,20 +231,20 @@ const TodoContent = ({ groupPostId, github, figma }) => {
         scheduleToEdit.startDate = newSchedule[0].startDate;
         scheduleToEdit.endDate = newSchedule[0].endDate;
         updateSchedule(scheduleToEdit)
-            .then(function (response) {
-              closeModal();
-            });
+          .then(function (response) {
+            closeModal();
+          });
       } else {
         // 새로운 일정 추가
         if (newSchedule[0].details.trim()) {
           registerSchedule(groupPostId, newSchedule[0])
-              .then(function (response) {
-                closeModal();
-              });
+            .then(function (response) {
+              closeModal();
+            });
         }
       }
       // 상태 초기화
-      setNewSchedule([{id:0, details: '', startDate: null, endDate: null }]); // 초기값 변경
+      setNewSchedule([{ id: 0, details: '', startDate: null, endDate: null }]); // 초기값 변경
       closeModal(); // 모달 닫기
       setEditingScheduleIndex(null); // 일정 수정 모드 초기화
       setIsEditingSchedule(false); // 스케줄 수정 모드 초기화
@@ -338,22 +341,22 @@ const TodoContent = ({ groupPostId, github, figma }) => {
   const handelLinkEdit = (event, key) => {
     event.preventDefault();
     const linkToEdit = links[key];
-    if (linkToEdit === ''){
+    if (linkToEdit === '') {
       if (newLink.trim()) {
         registerLinks(groupPostId, key, newLink)
-            .then(function (response) {
-              setEditingLinkType(null);
-              setNewLink(''); // 입력 필드 초기화
-            });
-      }
-    }
-    else{
-      linkToEdit.linkUrl = newLink;
-      updateLinks(groupPostId, linkToEdit)
           .then(function (response) {
             setEditingLinkType(null);
             setNewLink(''); // 입력 필드 초기화
           });
+      }
+    }
+    else {
+      linkToEdit.linkUrl = newLink;
+      updateLinks(groupPostId, linkToEdit)
+        .then(function (response) {
+          setEditingLinkType(null);
+          setNewLink(''); // 입력 필드 초기화
+        });
     }
 
   };
