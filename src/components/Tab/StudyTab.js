@@ -42,7 +42,7 @@ const StudyTabButton = styled.button.withConfig({
 `;
 
 
-const StudyTab = ({ tab, activeTab, changeTab, isLeader, isMember }) => {
+const StudyTab = ({ tab, activeTab, changeTab, isLeader, isMember, type }) => {
   return (
     <StudyTabWrapper>
       {tab.map((tabItem) => {
@@ -54,11 +54,26 @@ const StudyTab = ({ tab, activeTab, changeTab, isLeader, isMember }) => {
           isDisabled = true;
         } else if (!isLeader && isMember && tabItem === tab[4]) {
           // 모임원은 'MANAGE' 탭만 비활성화
-          isDisabled = true;
+
+          if (type === "study" && tabItem === tab[2]) {
+            // 스터디의 경우 'CHALLENGE' 탭은 활성화
+            isDisabled = false;
+          } else if (type === "project" && tabItem === tab[2]) {
+            // 프로젝트의 경우 'CHALLENGE' 탭은 비활성화
+            isDisabled = true;
+          }
         } else if (isLeader) {
           // 리더는 모든 탭 활성화
-          isDisabled = false;
+          if (type === "study" && tabItem === tab[2]) {
+            // 스터디의 경우 'CHALLENGE' 탭은 활성화
+            isDisabled = false;
+          } else if (type === "project" && tabItem === tab[2]) {
+            // 프로젝트의 경우 'CHALLENGE' 탭은 비활성화
+            isDisabled = true;
+          }
         }
+
+        console.log(isDisabled);
 
         return (
           <StudyTabButton
