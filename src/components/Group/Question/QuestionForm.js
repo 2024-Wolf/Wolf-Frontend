@@ -23,7 +23,9 @@ import {
   registerComment,
   updateComment,
   deleteComment,
-  registerReply
+  registerReply,
+  postQuestionImg,
+  postCommentImg
 } from '../../Apis/GroupPostApi'; // 위에서 정의한 API 함수가 있는 파일 경로
 
 const CommentSectionWrapper = styled.div`
@@ -136,6 +138,7 @@ const Question = ({
       questionImageUrl: isEditFile ? questionEditFile : questionData.questionImageUrl, // 수정했다면 새로운 파일을 사용하고, 그렇지 않으면 기존의 파일을 사용함
       questionTime: questionData.questionTime, // 기존 시간을 그대로 사용함
     });
+
     setIsEditingQuestion(false);
     setQuestionEditFile('');
     setIsEditFile(false);
@@ -170,7 +173,7 @@ const Question = ({
   const cancelEditQuestion = () => {
     setIsEditingQuestion(false);
     setQuestionEditText("");
-    setQuestionEditFile('');
+    setQuestionEditFile(questionData.questionImageUrl);
     setIsEditFile(false);
   };
 
@@ -299,36 +302,20 @@ const Question = ({
                 />
                 {/* [질문[수정중O]]-이미지 프리뷰 */}
                 {(questionData?.questionImageUrl || questionEditFileURL) && (
-                  <ImagePreview
-                    imageFile={
-                      questionData?.questionImageUrl
-                        ? questionEditFileURL
-                        : isEditFile
-                          ? ""
-                          : questionData?.questionImageUrl}
-                    src={
-                      questionData?.questionImageUrl
-                        ? questionEditFileURL
-                        : isEditFile
-                          ? ""
-                          : questionData?.questionImageUrl
-                    }
-                    alt={questionEditFileURL ? "" : ""}
-                    isEditing={true}
-                    onClick={deleteQuestionEditFile}
-                  />
+                  <>
+                    <ImagePreview
+                      imageFile={isEditFile ? questionEditFile : questionData.questionImageUrl}
+                      src={isEditFile ? questionEditFile : questionData.questionImageUrl}
+                      alt={questionEditFileURL ? "" : ""}
+                      isEditing={true}
+                      onClick={deleteQuestionEditFile}
+                    />
+                    {console.log(questionData?.questionImageUrl
+                      ? 'true'
+                      : 'false')}
+                  </>
+
                 )}
-                <>
-                  <ImagePreview
-                    imageFile={questionData?.questionImageUrl}
-                    src={questionData?.questionImageUrl}
-                    alt={
-                      questionData?.questionImageUrl
-                        ? `preview-${questionData?.questionImageUrl}`
-                        : "preview"
-                    }
-                  />
-                </>
               </ItemCol>
               <ItemRow>
                 {/* [질문[수정중O]]-댓글 열기/닫기 버튼 */}
@@ -462,21 +449,23 @@ const Question = ({
                               />
                               {(comment.commentImageUrl || commentEditFile) && (
                                 <>
+                                  {console.log('file', commentEditFile)}
                                   {/* [댓글[수정중O]]-이미지 프리뷰 & 삭제 버튼 */}
                                   <ImagePreview
-                                    src={
-                                      commentEditFile
-                                        ? commentEditFile
-                                        : isEditFileComment[index]
-                                          ? ""
-                                          : comment.commentImageUrl
+                                    src={isEditFileComment[index] ?
+                                      (commentEditFile instanceof File ? URL.createObjectURL(commentEditFile) : commentEditFile)
+                                      : questionData.comments[index].commentImageUrl
                                     }
-                                    alt={comment.commentImageUrl ? comment.commentImageUrl : ""}
-                                    imageFile={comment.commentImageUrl}
+                                    alt={isEditFileComment[index] ? comment.commentImageUrl : ""}
+                                    imageFile={isEditFileComment[index] ?
+                                      (commentEditFile instanceof File ? URL.createObjectURL(commentEditFile) : commentEditFile)
+                                      : questionData.comments[index].commentImageUrl
+                                    }
                                     isEditing={true}
                                     questionId={questionData.questionId}
                                     onClick={() => deleteCommentEditFile(index)} // questionId 전달
                                   />
+
                                 </>
                               )}
                             </ItemCol>
@@ -639,9 +628,14 @@ const QuestionForm = ({ showFileOption, groupPostId, userId }) => {
       try {
         const result = await registerQuestion(groupPostId, option, {
           questionDetails: newQuestion,
-          questionImageUrl: newQuestionFile,
+          questionImageUrl: newQuestionFile?.name,
           questionTime: new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString()
         });
+
+
+        if (newQuestionFile) {
+          const ImgResult = await postQuestionImg(groupPostId, result.data, newQuestionFile);
+        }
 
         // 상태 코드가 200-299 범위인지 확인
         if (result.status < 200 || result.status >= 300) {
@@ -667,9 +661,13 @@ const QuestionForm = ({ showFileOption, groupPostId, userId }) => {
     try {
       const result = await updateQuestion(groupPostId, questionId, {
         questionDetails: updatedQuestion.questionDetails,
-        questionImageUrl: updatedQuestion.questionImageUrl,
+        questionImageUrl: updatedQuestion.questionImageUrl.name,
         questionTime: new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString()
       });
+
+      if (updatedQuestion.questionImageUrl) {
+        const ImgResult = await postQuestionImg(groupPostId, questionId, updatedQuestion.questionImageUrl);
+      }
 
       // 상태 코드가 200-299 범위인지 확인
       if (result.status < 200 || result.status >= 300) {
@@ -718,9 +716,16 @@ const QuestionForm = ({ showFileOption, groupPostId, userId }) => {
     try {
       const result = await registerComment(groupPostId, questionId, {
         commentDetails: commentText,
-        commentImageUrl: commentFile || '',
+        commentImageUrl: commentFile.name || '',
         commentTime: new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString()
       })
+
+      console.log(result);
+
+      if (commentFile) {
+        const ImgResult = await postCommentImg(groupPostId, questionId, result.data, commentFile);
+      }
+
 
       // 상태 코드가 200-299 범위인지 확인
       if (result.status < 200 || result.status >= 300) {
@@ -748,9 +753,13 @@ const QuestionForm = ({ showFileOption, groupPostId, userId }) => {
     try {
       const result = await updateComment(groupPostId, questionId, commentId, {
         commentDetails: updatedComment.commentDetails,
-        commentImageUrl: updatedComment.commentImageUrl,
+        commentImageUrl: updatedComment.commentImageUrl.name,
         commentTime: new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString()
       })
+
+      if (updatedComment.commentImageUrl) {
+        const ImgResult = await postCommentImg(groupPostId, questionId, commentId, updatedComment.commentImageUrl);
+      }
 
       // 상태 코드가 200-299 범위인지 확인
       if (result.status < 200 || result.status >= 300) {

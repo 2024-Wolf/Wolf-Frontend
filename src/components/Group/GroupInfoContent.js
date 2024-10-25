@@ -48,6 +48,7 @@ const GroupInfoContent = ({ mode, groupPostId, userId, groupPostData, groupNewsD
           src={groupPostData?.thumbnail ? groupPostData?.thumbnail : "기본이미지"}
           imageFile={groupPostData?.thumbnail ? groupPostData?.thumbnail : "기본이미지"}
         />
+        {console.log(groupPostData.thumbnail)}
 
         {/* 정보 묶음 */}
         <Violet500LineDiv>
@@ -75,11 +76,7 @@ const GroupInfoContent = ({ mode, groupPostId, userId, groupPostData, groupNewsD
               type={groupPostData?.type}
             />
           )}
-
-
-
-
-
+          {console.log(groupPostData?.memberData?.length)}
           <FormFieldRow>
             <FormFieldSingle
               label={mode === "study" ? "모집 현황" : "지원 현황"}
@@ -87,7 +84,7 @@ const GroupInfoContent = ({ mode, groupPostId, userId, groupPostData, groupNewsD
             >
               {mode === "study" ? <>
                 <InputTextNoCss
-                  value={`${groupPostData.memberData.length}/${groupPostData.targetMembers}`}
+                  value={`${groupPostData?.leaderUser ? groupPostData?.memberData?.length : 0}/${groupPostData?.targetMembers}`}
                 />
               </> : <>
                 {groupPostData?.recruitments?.map((role, index) => {

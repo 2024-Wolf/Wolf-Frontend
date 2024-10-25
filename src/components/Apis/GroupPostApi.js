@@ -668,3 +668,50 @@ export const postEvaluate = async (groupId, evaluateData) => {
         throw error; // 오류를 다시 던져서 호출한 곳에서 처리할 수 있게 함
     }
 }
+
+// 질문 사진 등록 및 수정
+export const postQuestionImg = async (groupId, questionId, questionImage) => {
+    const formData = new FormData();
+    formData.append('questionImage', questionImage); // 이미지 파일을 FormData에 추가
+
+    try {
+        const response = await axios.post(
+            `${BASE_URL}/post/${groupId}/question/${questionId}/image`,
+            formData, // formData를 요청 본문으로 사용
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data', // Content-Type 설정
+                    Authorization: Token.getAccessToken()
+                }
+            }
+        );
+        return response.data; // 필요에 따라 데이터 반환
+    } catch (error) {
+        console.error('질문 이미지 제출 중 오류 발생:', error);
+        throw error; // 오류를 다시 던져서 호출한 곳에서 처리할 수 있게 함
+    }
+}
+
+
+// 댓글 사진 등록 및 수정
+export const postCommentImg = async (groupId, questionId, commentId, commentImage) => {
+    const formData = new FormData();
+    formData.append('commentImage', commentImage); // 이미지 파일을 FormData에 추가
+
+    try {
+        const response = await axios.post(
+            `${BASE_URL}/post/${groupId}/question/${questionId}/comment/${commentId}/image`,
+            formData, // formData를 요청 본문으로 사용
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data', // Content-Type 설정
+                    Authorization: Token.getAccessToken()
+                }
+            }
+        );
+        return response.data; // 필요에 따라 데이터 반환
+    } catch (error) {
+        console.error('질문 이미지 제출 중 오류 발생:', error);
+        throw error; // 오류를 다시 던져서 호출한 곳에서 처리할 수 있게 함
+    }
+}

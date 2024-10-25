@@ -11,7 +11,7 @@ import GroupInfoContent from "../components/Group/GroupInfoContent";
 import GroupManageContent from "../components/Group/GroupManageContent";
 import Declaration from "../components/Declaration";
 import ProfileIcon from "../components/Icon/ProfileIcon";
-import FAQTab from "../components/Tab/FAQTab";
+import StudyTab from "../components/Tab/StudyTab";
 import ReportButton from "../components/Button/ReportButton";
 import { useParams } from "react-router-dom";
 import { getGroupNews, getGroupPost, getGroupMember } from "../components/Apis/GroupPostApi"
@@ -175,11 +175,15 @@ const StudyPage = ({ profileData }) => {
 
       <GroupBody>
         {/* 탭 영역 */}
-        < FAQTab
+        < StudyTab
           tab={[TAB.INFO, TAB.TODO, TAB.CHALLENGE, TAB.MEETING, TAB.MANAGE]}
           activeTab={activeTab}
-          changeTab={changeTab} />
-        {/* */}
+          changeTab={changeTab}
+          isLeader={groupPostData?.leaderUser?.userId === profileData?.id}
+          isMember={groupPostData?.memberData?.some(member => member?.groupUser?.userId === profileData?.id)}
+        />
+
+
 
         {/*<div className="study-content">*/}
         {
