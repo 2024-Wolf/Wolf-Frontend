@@ -76,32 +76,44 @@ const GroupInfoContent = ({ mode, groupPostId, userId, groupPostData, groupNewsD
             />
           )}
 
-          {console.log(groupPostData)}
+
+
+
+
           <FormFieldRow>
             <FormFieldSingle
               label={mode === "study" ? "모집 현황" : "지원 현황"}
               className="recruitPeople"
             >
-              {groupPostData?.recruitments?.map((role, index) => (
-                <>
-                  <InputTextNoCss
-                    value={`${transOption[role.recruitRole.toLowerCase()]}  ${role.recruitRoleCnt}/${groupPostData.targetMembers}`}
-                  />
-                </>
-              ))}
-              <InputTextNoCss
+              {mode === "study" ? <>
+                <InputTextNoCss
+                  value={`${groupPostData.memberData.length}/${groupPostData.targetMembers}`}
+                />
+              </> : <>
+                {groupPostData?.recruitments?.map((role, index) => {
+                  const matchingMembers = groupPostData?.memberData?.filter((member) =>
+                    role?.recruitRole &&
+                    member?.position &&
+                    transOption[role?.recruitRole?.toLowerCase()] === transOption[member?.position?.toLowerCase()]
+                  );
+
+                  const matchingMemberCount = matchingMembers?.length || 0; // 일치하는 항목들의 개수
+
+                  return (
+                    <>
+                      {/* transOption과 필터링된 개수 출력 */}
+                      <InputTextNoCss
+                        value={`${transOption[role?.recruitRole?.toLowerCase()]}  ${matchingMemberCount}/${role.recruitRoleCnt}`}
+                      />
+                    </>
+                  );
+                })}
+              </>}
+
+              {/* <InputTextNoCss
                 value={mode === "study" ? "스터디원 2/8" : "개발자 1/8"}
                 readOnly
-              />
-            </FormFieldSingle>
-            <FormFieldSingle
-              label={mode === "study" ? "지원 가능" : "지원 가능 개발자"}
-              className="recruitSupport"
-            >
-              <InputTextNoCss
-                value={mode === "study" ? "스터디원 6/8" : "개발자 7/8"}
-                readOnly
-              />
+              /> */}
             </FormFieldSingle>
           </FormFieldRow>
         </Violet500LineDiv>
